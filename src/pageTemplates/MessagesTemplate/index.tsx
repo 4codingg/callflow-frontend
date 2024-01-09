@@ -13,7 +13,7 @@ import { ListPlus } from "phosphor-react";
 export const MessagesTemplate = () => {
   const router = useRouter();
   const handleAccessItem = (id: string) => {
-    router.push("/calls/" + id);
+    router.push("/messages/" + id);
   };
   return (
     <LayoutWithSidebar hiddenInput={true}>

@@ -14,7 +14,7 @@ export const EmailsTemplate = () => {
   const router = useRouter();
 
   const handleAccessItem = (id: string) => {
-    router.push("/calls/" + id);
+    router.push("/emails/" + id);
   };
   return (
     <>
