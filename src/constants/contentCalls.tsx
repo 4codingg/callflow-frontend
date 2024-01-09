@@ -102,3 +102,27 @@ export const MOCK_CONTACTS = [
     email: 'pedro.costa@email.com',
   },
 ];
+
+export const MOCK_MEMBERS = [
+  {
+    id: '1',
+    name: 'João Silva',
+    phone: '(11) 1234-5678',
+    email: 'joao.silva@email.com',
+    role: 'Super Administrador',
+  },
+  {
+    id: '2',
+    name: 'Maria Oliveira',
+    phone: '(21) 9876-5432',
+    email: 'maria.oliveira@email.com',
+    role: 'Administrador',
+  },
+  {
+    id: '3',
+    name: 'Carlos Santos',
+    phone: '(31) 8765-4321',
+    email: 'carlos.santos@email.com',
+    role: 'Membro',
+  },
+];

@@ -40,7 +40,7 @@ export const ModalAddItemCallsList = ({
                     Adicionar contato
                   </Paragraph>
                   <Modal.Close>
-                    <Button variant={ButtonVariant.iconOnly} className="w-6">
+                    <Button variant={ButtonVariant.iconOnly} className="!w-6">
                       <XCircle size={24} />
                     </Button>
                   </Modal.Close>
