@@ -1,29 +1,27 @@
 import {
-  Heading,
-  HeadingSizeVariant,
   LayoutWithSidebar,
+  Heading,
   Paragraph,
   Table,
+  HeadingSizeVariant,
 } from "@/components";
 import { Button, ButtonSizeVariant } from "@/components/Button";
 import { CONTENT_CALLS } from "@/constants/contentCalls";
 import { useRouter } from "next/router";
 import { ListPlus } from "phosphor-react";
 
-export const CallsTemplate = () => {
+export const MessagesTemplate = () => {
   const router = useRouter();
-
   const handleAccessItem = (id: string) => {
-    router.push("/calls/" + id);
+    router.push("/messages/" + id);
   };
-
   return (
     <LayoutWithSidebar hiddenInput={true}>
       <header className="flex justify-between items-center">
         <div className="flex flex-col">
-          <Heading size={HeadingSizeVariant.Medium}>Ligações</Heading>
+          <Heading size={HeadingSizeVariant.Medium}>Mensagens</Heading>
           <Paragraph className="mt-2">
-            Desperte a eficiência em suas comunicações! Envie ligações em massa
+            Desperte a eficiência em suas comunicações! Envie mensagens em massa
             para seus contatos com facilidade e dinamicidade,
           </Paragraph>
           <Paragraph>
