@@ -5,6 +5,7 @@ import {
   PhoneIncoming,
   Users,
   UsersThree,
+  Wallet,
 } from 'phosphor-react';
 
 export const TABS_SIDEBAR = [
@@ -48,6 +49,13 @@ export const TABS_SIDEBAR = [
     route: '/contacts',
     icon: (isActive) => (
       <Users size={20} color={isActive ? '#783EFD' : '#000'} />
+    ),
+  },
+  {
+    title: 'Carteira',
+    route: '/wallet',
+    icon: (isActive) => (
+      <Wallet size={20} color={isActive ? '#783EFD' : '#000'} />
     ),
   },
 ];
