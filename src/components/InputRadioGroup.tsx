@@ -1,11 +1,11 @@
-import * as Radio from '@radix-ui/react-radio-group';
-import Image from 'next/image';
-import { Paragraph } from '@/components/Paragraph';
-import clsx from 'clsx';
+import * as Radio from "@radix-ui/react-radio-group";
+import Image from "next/image";
+import { Paragraph } from "@/components/Paragraph";
+import clsx from "clsx";
 
 export enum InputRadioGroupVariant {
-  Vertical = 'vertical',
-  Horizontal = 'horizontal',
+  Vertical = "vertical",
+  Horizontal = "horizontal",
 }
 
 interface IRadioOptionProps {
@@ -28,14 +28,14 @@ export const InputRadioGroup = ({
   defaultValue,
 }: IInputRadioGroupProps) => {
   const headingClassesSize = {
-    [InputRadioGroupVariant.Vertical]: 'flex flex-col',
-    [InputRadioGroupVariant.Horizontal]: 'flex',
+    [InputRadioGroupVariant.Vertical]: "flex flex-col",
+    [InputRadioGroupVariant.Horizontal]: "flex",
   };
 
   return (
     <Radio.Root
       onValueChange={onChange}
-      className={clsx('flex gap-5', headingClassesSize[variant])}
+      className={clsx("flex gap-5", headingClassesSize[variant])}
       defaultValue={defaultValue}
     >
       {options.map((option) => (

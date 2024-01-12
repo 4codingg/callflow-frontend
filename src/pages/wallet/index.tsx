@@ -1,4 +1,4 @@
-import { WalletTemplate } from '@/pageTemplates/WalletTemplate';
+import { WalletTemplate } from "@/pageTemplates/WalletTemplate";
 
 const Wallet = () => <WalletTemplate />;
 
