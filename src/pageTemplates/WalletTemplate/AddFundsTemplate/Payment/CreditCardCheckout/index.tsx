@@ -1,7 +1,11 @@
-import { Input } from '@/components';
-import { formatCvc } from '@/utils/formatCvc';
-import { CreditCard } from 'phosphor-react';
-import Cards from 'react-credit-cards';
+import { Input } from "@/components";
+import {
+  formatCvc,
+  formatCardNumber,
+  formatCardExpiration,
+} from "@/utils/formatCvc";
+import { CreditCard } from "phosphor-react";
+import Cards from "react-credit-cards";
 
 export const CreditCardCheckout = ({ values, handleChange, setFieldValue }) => {
   return (
@@ -14,35 +18,38 @@ export const CreditCardCheckout = ({ values, handleChange, setFieldValue }) => {
         number={values.number}
       />
       <Input
-        onChange={handleChange('name')}
+        onChange={handleChange("name")}
         label="Nome no cartão"
         placeholder="Jane Doe"
-        onFocus={handleChange('focus')}
+        onFocus={handleChange("focus")}
       />
       <Input
-        onChange={handleChange('email')}
+        onChange={handleChange("email")}
         label="Email"
         placeholder="janedoe@gmail.com"
-        onFocus={handleChange('focus')}
+        onFocus={handleChange("focus")}
       />
       <Input
-        onChange={handleChange('number')}
+        // onChange={handleChange("number")}
+        onChange={(e) => setFieldValue("v", formatCardNumber(e.target.value))}
         label="Dados do cartão"
         placeholder="0000 0000 0000 0000"
         iconRight={<CreditCard />}
-        onFocus={handleChange('focus')}
+        onFocus={handleChange("focus")}
       />
       <div className="flex gap-4">
         <Input
-          onChange={handleChange('expiry')}
+          onChange={(e) =>
+            setFieldValue("ve", formatCardExpiration(e.target.value))
+          }
           placeholder="MM / YYYY"
-          onFocus={handleChange('focus')}
+          onFocus={handleChange("focus")}
         />
         <Input
-          onChange={(e) => setFieldValue('cvc', formatCvc(e.target.value))}
+          onChange={(e) => setFieldValue("cvc", formatCvc(e.target.value))}
           placeholder="CVC"
           maxLength={3}
-          onFocus={handleChange('focus')}
+          onFocus={handleChange("focus")}
         />
       </div>
     </form>
