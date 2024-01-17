@@ -4,6 +4,7 @@ import { ButtonHTMLAttributes } from 'react';
 
 export enum ButtonVariant {
   Primary = 'primary',
+  Secondary = 'secondary',
   iconOnly = 'icon-only',
 }
 
@@ -35,6 +36,8 @@ export const Button = ({
 }: ButtonProps) => {
   const buttonClassesVariant = {
     [ButtonVariant.Primary]: 'bg-primary disabled:bg-black-50 text-white',
+    [ButtonVariant.Secondary]:
+      'border-2 border-primary disabled:bg-black-50 text-primary',
     [ButtonVariant.iconOnly]: 'disabled:opacity-40 !w-content py-0',
   };
 

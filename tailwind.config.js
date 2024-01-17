@@ -10,10 +10,12 @@ const config = {
         'dark-primary': '#14082E',
         'green': '#00DEA3',
         'red': '#E85959',
+        'orange': '#F7931A',
         'negative-dark': '#CC0000',
         'neutral': '#fafafa',
         'default-grey': '#343C44',
         'light-grey': '#EFF0F4',
+        'medium-grey': '#667483',
         'light-light-grey': "#F7F8FA",
         'modal-background': '#000000BF'
 
