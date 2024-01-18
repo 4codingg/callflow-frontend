@@ -30,8 +30,9 @@ export const CreditCardCheckout = ({ values, handleChange, setFieldValue }) => {
         onFocus={handleChange("focus")}
       />
       <Input
-        // onChange={handleChange("number")}
-        onChange={(e) => setFieldValue("v", formatCardNumber(e.target.value))}
+        onChange={(e) =>
+          setFieldValue("number", formatCardNumber(e.target.value))
+        }
         label="Dados do cartão"
         placeholder="0000 0000 0000 0000"
         iconRight={<CreditCard />}
@@ -40,7 +41,7 @@ export const CreditCardCheckout = ({ values, handleChange, setFieldValue }) => {
       <div className="flex gap-4">
         <Input
           onChange={(e) =>
-            setFieldValue("ve", formatCardExpiration(e.target.value))
+            setFieldValue("expiry", formatCardExpiration(e.target.value))
           }
           placeholder="MM / YYYY"
           onFocus={handleChange("focus")}
