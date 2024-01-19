@@ -102,7 +102,7 @@ export const DashboardTemplate = () => {
           <Card className="flex flex-col max-w-[300px] ml-auto">
             <header className="flex justify-between items-center">
               <Paragraph size={ParagraphSizeVariant.ExtraLarge}>
-                Seu saldo
+                Seu Saldo
               </Paragraph>
               <button className="flex items-center justify-center bg-primary rounded p-2 shadow-primary">
                 <Plus color="#FFF" />

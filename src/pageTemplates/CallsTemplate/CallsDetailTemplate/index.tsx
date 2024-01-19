@@ -3,16 +3,16 @@ import {
   Paragraph,
   ParagraphSizeVariant,
   Table,
-} from '@/components';
-import { Breadcrumb } from '@/components/Breadcrumb';
-import { Button } from '@/components/Button';
-import { ModalAddItemCallsList } from '@/components/layouts/ModalAddItemCallsList';
-import { ModalAddItemFromContacts } from '@/components/layouts/ModalAddItemFromContacts';
-import { ModalEditItemCallsList } from '@/components/layouts/ModalEditItemCallsList';
-import { MOCK_CONTACTS } from '@/constants/contentCalls';
-import { formatCsvToJson } from '@/utils/formatCsvToJson';
-import { toast } from '@/utils/toast';
-import { useRouter } from 'next/router';
+} from "@/components";
+import { Breadcrumb } from "@/components/Breadcrumb";
+import { Button, ButtonSizeVariant } from "@/components/Button";
+import { ModalAddItemCallsList } from "@/components/layouts/ModalAddItemCallsList";
+import { ModalAddItemFromContacts } from "@/components/layouts/ModalAddItemFromContacts";
+import { ModalEditItemCallsList } from "@/components/layouts/ModalEditItemCallsList";
+import { MOCK_CONTACTS } from "@/constants/contentCalls";
+import { formatCsvToJson } from "@/utils/formatCsvToJson";
+import { toast } from "@/utils/toast";
+import { useRouter } from "next/router";
 import {
   Check,
   Play,
@@ -20,20 +20,21 @@ import {
   UploadSimple,
   Users,
   X,
-} from 'phosphor-react';
-import { useState } from 'react';
-import { useCSVReader, formatFileSize } from 'react-papaparse';
+  CheckCircle,
+} from "phosphor-react";
+import { useState } from "react";
+import { useCSVReader, formatFileSize } from "react-papaparse";
 
 const crumbs = [
   {
-    label: 'Ligações',
-    path: '/calls',
+    label: "Ligações",
+    path: "/calls",
   },
   {
-    label: 'Editar lista de ligações',
+    label: "Editar lista de ligações",
   },
   {
-    label: 'Amplifi Calls',
+    label: "Amplifi Calls",
   },
 ];
 
@@ -63,7 +64,7 @@ export const CallsDetailTemplate = () => {
   };
 
   const handleCreateCallsList = () => {
-    console.log('Criando lista...');
+    console.log("Criando lista...");
   };
 
   const handleDeleteItem = (id: string) => {
@@ -81,7 +82,7 @@ export const CallsDetailTemplate = () => {
   const handleAddItem = () => {};
 
   const handleAccessItem = (id: string) => {
-    router.push('/' + id);
+    router.push("/" + id);
   };
 
   return (
@@ -92,7 +93,7 @@ export const CallsDetailTemplate = () => {
           <div>
             <Paragraph size={ParagraphSizeVariant.Large} className="flex mt-8">
               Aqui você pode editar sua lista para fazer chamadas com mensagens
-              personalizadas.{' '}
+              personalizadas.{" "}
             </Paragraph>
             <Paragraph size={ParagraphSizeVariant.Large}>
               Você pode editar a lista através de seus contatos e/ou fazendo
@@ -148,8 +149,8 @@ export const CallsDetailTemplate = () => {
             }}
             onUploadRejected={() =>
               toast(
-                'error',
-                'Algo deu errado. Cheque a extensão do arquivo e tente novamente.'
+                "error",
+                "Algo deu errado. Cheque a extensão do arquivo e tente novamente."
               )
             }
             noClick
@@ -172,7 +173,7 @@ export const CallsDetailTemplate = () => {
                           <div className="flex rounded-lg ">
                             <div className="bg-light-grey w-[300px] py-2 px-4 rounded-tl-full rounded-bl-full">
                               <Paragraph className="">
-                                {file.name}{' '}
+                                {file.name}{" "}
                                 <span className="text-default-grey">
                                   ({formatFileSize(file.size)})
                                 </span>
@@ -198,7 +199,7 @@ export const CallsDetailTemplate = () => {
                       <div className="gap-4 w-full items-center flex flex-col">
                         <UploadSimple size={40} color="#783EFD" />
                         <Paragraph>
-                          Arraste arquivos até aqui ou{' '}
+                          Arraste arquivos até aqui ou{" "}
                           <span className="text-primary">clique aqui</span> para
                           fazer upload de um arquivo.
                         </Paragraph>
@@ -207,13 +208,13 @@ export const CallsDetailTemplate = () => {
                       <div className="gap-4 w-full items-center flex flex-col">
                         <UploadSimple size={40} color="#783EFD" />
                         <Paragraph>
-                          Arraste arquivos com a{' '}
+                          Arraste arquivos com a{" "}
                           <span className="text-primary">extensão CSV</span> até
                           aqui ou
                           <span className="text-primary">
-                            {' '}
+                            {" "}
                             clique aqui
-                          </span>{' '}
+                          </span>{" "}
                           para fazer upload de um arquivo.
                         </Paragraph>
                       </div>
@@ -234,7 +235,12 @@ export const CallsDetailTemplate = () => {
             tableTitle="Usuários"
           />
         </div>
-        <Button className="mt-8" onClick={handleCreateCallsList}>
+        <Button
+          className=" mt-3 m-auto font-normal"
+          onClick={handleCreateCallsList}
+          leftIcon={<CheckCircle size={32} color="#FFF" />}
+          size={ButtonSizeVariant.Small}
+        >
           Salvar lista
         </Button>
       </LayoutWithSidebar>
