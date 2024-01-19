@@ -12,8 +12,10 @@ import Image from "next/image";
 import { MOCK_ACTIVITIES, SERVICES } from "@/constants";
 import MenProfile from "@/assets/men-profile.png";
 import CardCredit from "@/assets/card-credit.jpg";
+import { useRouter } from "next/router";
 
 export const DashboardTemplate = () => {
+  const router = useRouter();
   return (
     <LayoutWithSidebar>
       <div>
@@ -104,7 +106,10 @@ export const DashboardTemplate = () => {
               <Paragraph size={ParagraphSizeVariant.ExtraLarge}>
                 Seu Saldo
               </Paragraph>
-              <button className="flex items-center justify-center bg-primary rounded p-2 shadow-primary">
+              <button
+                className="flex items-center justify-center bg-primary rounded p-2 shadow-primary"
+                onClick={() => router.push("/wallet")}
+              >
                 <Plus color="#FFF" />
               </button>
             </header>
