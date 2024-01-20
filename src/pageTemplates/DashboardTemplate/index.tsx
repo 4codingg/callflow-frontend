@@ -13,6 +13,7 @@ import { MOCK_ACTIVITIES, SERVICES } from "@/constants";
 import MenProfile from "@/assets/men-profile.png";
 import CardCredit from "@/assets/card-credit.jpg";
 import { useRouter } from "next/router";
+import { MOCK_ACTIVITIES2 } from "@/constants/recentActivies";
 
 export const DashboardTemplate = () => {
   const router = useRouter();
@@ -128,6 +129,41 @@ export const DashboardTemplate = () => {
             <Image src={CardCredit} alt="" className="mt-4 mx-auto flex" />
           </Card>
         </div>
+        <Card className="flex flex-col max-w-[300px] ml-auto mt-4 p-5 ">
+          <Paragraph size={ParagraphSizeVariant.ExtraLarge}>Team</Paragraph>
+          <div className=" flex flex-col gap-5 mt-5 ">
+            {MOCK_ACTIVITIES2.map((activity) => (
+              <div
+                key={activity.title}
+                className={` flex items-center rounded-md p-4 `}
+                style={{
+                  backgroundColor: `${activity.colorIcon}35`,
+                }}
+              >
+                <div
+                  className={clsx(
+                    "flex items-center justify-center p-2 rounded mr-12",
+                    {
+                      "bg-green": activity.title === "Member",
+                      "bg-primary": activity.title === "Admin",
+                    }
+                  )}
+                >
+                  {activity.icon}
+                </div>
+                <div className={`flex flex-col -ml-3  `}>
+                  <Paragraph
+                    className="font-medium"
+                    size={ParagraphSizeVariant.Large}
+                  >
+                    Total {activity.title}
+                  </Paragraph>
+                  <Paragraph> {activity.cost}</Paragraph>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
       </div>
     </LayoutWithSidebar>
   );
