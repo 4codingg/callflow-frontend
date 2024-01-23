@@ -1,4 +1,4 @@
-import { PhoneIncoming, Chat } from 'phosphor-react';
+import { PhoneIncoming, Chat, Envelope } from 'phosphor-react';
 
 export const SERVICES = [
   {
@@ -13,6 +13,13 @@ export const SERVICES = [
     value: 'sms',
     cost: 0.25,
     icon: <Chat color="#fff" weight="bold" />,
+    colorIcon: '#FE8F66',
+  },
+  {
+    title: 'Emails',
+    value: 'emails',
+    cost: 0.01,
+    icon: <Envelope color="#fff" weight="bold" size={16} />,
     colorIcon: '#FE8F66',
   },
 ];
