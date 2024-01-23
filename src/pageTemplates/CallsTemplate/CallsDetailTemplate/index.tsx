@@ -6,7 +6,7 @@ import {
   Table,
 } from '@/components';
 import { Breadcrumb } from '@/components/Breadcrumb';
-import { Button } from '@/components/Button';
+import { Button, ButtonSizeVariant } from '@/components/Button';
 import { DropdownMenu } from '@/components/DropdownMenu';
 import { TableHeader } from '@/components/layouts/Headers/TableHeader';
 import { ModalAddItemCallsList } from '@/components/layouts/Modals/ModalAddItemCallsList';
@@ -15,15 +15,16 @@ import { ModalEditItemCallsList } from '@/components/layouts/Modals/ModalEditIte
 import { ModalUploadCsv } from '@/components/layouts/Modals/ModalUploadCsv';
 import { EStatus, MOCK_CONTACTS } from '@/constants/contentCalls';
 import { formatCsvToJson } from '@/utils/formatCsvToJson';
+import { toast } from '@/utils/toast';
 import { useRouter } from 'next/router';
 import {
   CaretUp,
+  CheckCircle,
   DotsThreeOutlineVertical,
   PlayCircle,
   PlusCircle,
   Upload,
   UsersThree,
-  X,
 } from 'phosphor-react';
 import { useState } from 'react';
 
@@ -179,7 +180,12 @@ export const CallsDetailTemplate = () => {
             }
           />
         </div>
-        <Button className="mt-8" onClick={handleCreateCallsList}>
+        <Button
+          className=" mt-3 m-auto font-normal"
+          onClick={handleCreateCallsList}
+          leftIcon={<CheckCircle size={32} color="#FFF" />}
+          size={ButtonSizeVariant.Small}
+        >
           Salvar lista
         </Button>
       </LayoutWithSidebar>

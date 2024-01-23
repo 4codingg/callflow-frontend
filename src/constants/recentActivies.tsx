@@ -1,4 +1,10 @@
-import { PhoneIncoming, Chat, Envelope } from 'phosphor-react';
+import {
+  PhoneIncoming,
+  Chat,
+  Envelope,
+  Crown,
+  UsersThree,
+} from 'phosphor-react';
 
 export const MOCK_ACTIVITIES = [
   {
@@ -32,5 +38,20 @@ export const MOCK_ACTIVITIES = [
     cost: 5,
     icon: <Envelope color="#fff" weight="bold" />,
     colorIcon: '#FE8F66',
+  },
+];
+
+export const MOCK_ACTIVITIES2 = [
+  {
+    title: 'Admin',
+    quantity: 11,
+    icon: <Crown color="#fff" size={30} weight="bold" />,
+    colorIcon: '#783EFD',
+  },
+  {
+    title: 'Member',
+    quantity: 6,
+    icon: <UsersThree color="#fff" size={30} weight="bold" />,
+    colorIcon: '#00DEA3',
   },
 ];

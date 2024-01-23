@@ -7,12 +7,15 @@ import {
   Input,
 } from '@/components';
 import clsx from 'clsx';
-import { MagnifyingGlass, Plus } from 'phosphor-react';
+import { Plus } from 'phosphor-react';
 import Image from 'next/image';
 import { MOCK_ACTIVITIES, SERVICES } from '@/constants';
 import CardCredit from '@/assets/card-credit.jpg';
+import { useRouter } from 'next/router';
+import { MOCK_ACTIVITIES2 } from '@/constants/recentActivies';
 
 export const DashboardTemplate = () => {
+  const router = useRouter();
   return (
     <LayoutWithSidebar>
       <div>
@@ -100,29 +103,69 @@ export const DashboardTemplate = () => {
               ))}
             </div>
           </Card>
-          <Card className="flex flex-col max-w-[300px] ml-auto">
-            <header className="flex justify-between items-center">
-              <Paragraph size={ParagraphSizeVariant.ExtraLarge}>
-                Seu saldo
+          <div className="flex justify-end gap-4">
+            <Card className="flex flex-col max-w-[300px]">
+              <header className="flex justify-between items-center">
+                <Paragraph size={ParagraphSizeVariant.ExtraLarge}>
+                  Seu Saldo
+                </Paragraph>
+                <button
+                  className="flex items-center justify-center bg-primary rounded p-2 shadow-primary"
+                  onClick={() => router.push('/wallet')}
+                >
+                  <Plus color="#FFF" />
+                </button>
+              </header>
+              <div className="flex items-center mt-4">
+                <Paragraph
+                  className="text-primary mr-2 font-medium"
+                  size={ParagraphSizeVariant.ExtraLarge}
+                >
+                  R$
+                </Paragraph>
+                <Paragraph>Reais</Paragraph>
+              </div>
+              <Paragraph className="text-primary !text-2xl font-bold">
+                19.203,11
               </Paragraph>
-              <button className="flex items-center justify-center bg-primary rounded p-2 shadow-primary">
-                <Plus color="#FFF" />
-              </button>
-            </header>
-            <div className="flex items-center mt-4">
-              <Paragraph
-                className="text-primary mr-2 font-medium"
-                size={ParagraphSizeVariant.ExtraLarge}
-              >
-                R$
-              </Paragraph>
-              <Paragraph>Reais</Paragraph>
-            </div>
-            <Paragraph className="text-primary !text-2xl font-bold">
-              19.203,11
-            </Paragraph>
-            <Image src={CardCredit} alt="" className="mt-4 mx-auto flex" />
-          </Card>
+              <Image src={CardCredit} alt="" className="mt-4 mx-auto flex" />
+            </Card>
+            <Card className="flex flex-col max-w-[300px] p-5 ">
+              <Paragraph size={ParagraphSizeVariant.ExtraLarge}>Time</Paragraph>
+              <div className=" flex flex-col gap-5 mt-5 ">
+                {MOCK_ACTIVITIES2.map((activity) => (
+                  <div
+                    key={activity.title}
+                    className={` flex items-center rounded-md p-4 `}
+                    style={{
+                      backgroundColor: `${activity.colorIcon}35`,
+                    }}
+                  >
+                    <div
+                      className={clsx(
+                        'flex items-center justify-center p-2 rounded mr-12',
+                        {
+                          'bg-green': activity.title === 'Member',
+                          'bg-primary': activity.title === 'Admin',
+                        }
+                      )}
+                    >
+                      {activity.icon}
+                    </div>
+                    <div className={`flex flex-col -ml-3  `}>
+                      <Paragraph
+                        className="font-medium"
+                        size={ParagraphSizeVariant.Large}
+                      >
+                        Total {activity.title}
+                      </Paragraph>
+                      <Paragraph> {activity.quantity}</Paragraph>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
         </div>
       </div>
     </LayoutWithSidebar>
