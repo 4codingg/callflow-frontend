@@ -7,10 +7,9 @@ import {
 } from '@/components';
 import { Button } from '@/components/Button';
 import { useRouter } from 'next/router';
-import { CreditCard, PlusCircle } from 'phosphor-react';
+import { PlusCircle } from 'phosphor-react';
 import { useState } from 'react';
 import 'react-credit-cards/es/styles-compiled.css';
-import { USER_CARDS_MOCK } from '@/constants/userCards';
 import Image from 'next/image';
 import CardCredit from '@/assets/card-credit.jpg';
 import { Tabs } from '@/components/Tabs';
@@ -35,9 +34,6 @@ export const WalletTemplate = () => {
             <Paragraph size={ParagraphSizeVariant.ExtraLarge}>
               Seu saldo
             </Paragraph>
-            {/* <button className="flex items-center justify-center bg-primary rounded p-2 shadow-primary">
-              <Plus color="#FFF" />
-            </button> */}
             <div className="flex items-center mt-4">
               <Paragraph
                 className="text-primary mr-2 font-medium"
