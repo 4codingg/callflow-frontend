@@ -1,14 +1,18 @@
 import { convertCamelCaseToWords } from '@/utils/convertCamelCaseToWords';
 import { CaretRight, PencilLine, Trash } from 'phosphor-react';
-import { Line } from './Line';
-import { Paragraph, ParagraphSizeVariant } from './Paragraph';
+import { Line } from '@/components/Line';
+import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
 import SearchImage from '@/assets/search.svg';
+import HiperCardIcon from '@/assets/icons/hipercard-icon.svg';
+import MasterCardIcon from '@/assets/icons/mastercard-icon.svg';
+import EloIcon from '@/assets/icons/elo-icon.svg';
+import VisaIcon from '@/assets/icons/visa-icon.svg';
 import Image from 'next/image';
-import { Heading } from './Heading';
+import { Heading } from '@/components/Heading';
 import { ReactNode } from 'react';
 
-interface ITableProps {
-  content: any[];
+interface ITablePaymentMethodsProps {
+  paymentMethods: any[];
   showIdColumn?: false;
   handleDeleteItem?: (id: string) => void;
   handleEditItem?: (id: string) => void;
@@ -21,8 +25,8 @@ interface ITableProps {
   headerComponent?: ReactNode;
 }
 
-export const Table = ({
-  content,
+export const TablePaymentMethods = ({
+  paymentMethods,
   handleAccessItem,
   handleDeleteItem,
   handleEditItem,
@@ -32,10 +36,13 @@ export const Table = ({
   emptyMessage,
   tableTitle,
   headerComponent,
-}: ITableProps) => {
-  const titles = content[0]
-    ? Object.keys(content[0]).filter((item) => item != 'id')
-    : [];
+}: ITablePaymentMethodsProps) => {
+  const titles = [
+    'Apelido',
+    'Método de pagamento',
+    'Data de expiração',
+    'Endereço de cobrança',
+  ];
 
   const calculateWidthSize = () => {
     const widthSize = Number((100 / (titles.length + 1)).toFixed(0));
@@ -73,17 +80,29 @@ export const Table = ({
               </tr>
             </thead>
             <tbody className={`flex flex-col gap-4 mt-4 w-full`}>
-              {content.map((item) => (
+              {paymentMethods.map((item) => (
                 <tr
                   key={item.name}
                   className="w-full flex hover:bg-background px-8 py-4"
                 >
-                  {titles.map((title) => (
+                  {titles.map((title, index) => (
                     <td
                       className={`flex `}
                       style={{ width: calculateWidthSize() }}
                     >
-                      <Paragraph>{item[title]}</Paragraph>
+                      {index === 0 && <Paragraph>{item.name}</Paragraph>}
+                      {index === 1 && (
+                        <div className="flex items-center gap-2">
+                          {getIconBrand(item.brand)}
+                          <Paragraph>**** **** **** {item.last4}</Paragraph>
+                        </div>
+                      )}
+                      {index === 2 && (
+                        <Paragraph>{item.cardExpiration}</Paragraph>
+                      )}
+                      {index === 3 && (
+                        <Paragraph>{item.billingAddress}</Paragraph>
+                      )}
                     </td>
                   ))}
                   <td
@@ -131,7 +150,7 @@ export const Table = ({
           <Line className="my-4 " />
           <div>
             <Paragraph size={ParagraphSizeVariant.Large}>
-              Total Items: {content.length}
+              Total Items: {paymentMethods.length}
             </Paragraph>
           </div>
         </>
@@ -144,5 +163,18 @@ export const Table = ({
         </div>
       )}
     </div>
+  );
+};
+
+const getIconBrand = (brand: string) => {
+  return (
+    <>
+      {brand === 'visa' && <Image src={VisaIcon} alt="" width={26} />}
+      {brand === 'elo' && <Image src={EloIcon} alt="" width={26} />}
+      {brand === 'mastercard' && (
+        <Image src={MasterCardIcon} alt="" width={26} />
+      )}
+      {brand === 'hipercard' && <Image src={HiperCardIcon} alt="" width={26} />}
+    </>
   );
 };

@@ -31,6 +31,7 @@ export const DashboardTemplate = () => {
                         {
                           'bg-green': service.value === 'calls',
                           'bg-primary': service.value === 'sms',
+                          'bg-orange': service.value === 'emails',
                         }
                       )}
                     >
@@ -75,6 +76,7 @@ export const DashboardTemplate = () => {
                       {
                         'bg-green': activitie.title === 'Ligações',
                         'bg-primary': activitie.title === 'SMSs',
+                        'bg-orange': activitie.title === 'Emails',
                       }
                     )}
                   >

@@ -1,40 +1,43 @@
 import {
   LayoutWithSidebar,
+  Line,
   Paragraph,
   ParagraphSizeVariant,
   Table,
-} from "@/components";
-import { Breadcrumb } from "@/components/Breadcrumb";
-import { Button, ButtonSizeVariant } from "@/components/Button";
-import { ModalAddItemCallsList } from "@/components/layouts/ModalAddItemCallsList";
-import { ModalAddItemFromContacts } from "@/components/layouts/ModalAddItemFromContacts";
-import { ModalEditItemCallsList } from "@/components/layouts/ModalEditItemCallsList";
-import { MOCK_CONTACTS } from "@/constants/contentCalls";
-import { formatCsvToJson } from "@/utils/formatCsvToJson";
-import { toast } from "@/utils/toast";
-import { useRouter } from "next/router";
+} from '@/components';
+import { Breadcrumb } from '@/components/Breadcrumb';
+import { Button, ButtonSizeVariant } from '@/components/Button';
+import { DropdownMenu } from '@/components/DropdownMenu';
+import { TableHeader } from '@/components/layouts/Headers/TableHeader';
+import { ModalAddItemCallsList } from '@/components/layouts/Modals/ModalAddItemCallsList';
+import { ModalAddItemFromContacts } from '@/components/layouts/Modals/ModalAddItemFromContacts';
+import { ModalEditItemCallsList } from '@/components/layouts/Modals/ModalEditItemCallsList';
+import { ModalUploadCsv } from '@/components/layouts/Modals/ModalUploadCsv';
+import { EStatus, MOCK_CONTACTS } from '@/constants/contentCalls';
+import { formatCsvToJson } from '@/utils/formatCsvToJson';
+import { toast } from '@/utils/toast';
+import { useRouter } from 'next/router';
 import {
-  Check,
-  Play,
-  PlusCircle,
-  UploadSimple,
-  Users,
-  X,
+  CaretUp,
   CheckCircle,
-} from "phosphor-react";
-import { useState } from "react";
-import { useCSVReader, formatFileSize } from "react-papaparse";
+  DotsThreeOutlineVertical,
+  PlayCircle,
+  PlusCircle,
+  Upload,
+  UsersThree,
+} from 'phosphor-react';
+import { useState } from 'react';
 
 const crumbs = [
   {
-    label: "Ligações",
-    path: "/calls",
+    label: 'Ligações',
+    path: '/calls',
   },
   {
-    label: "Editar lista de ligações",
+    label: 'Editar lista de ligações',
   },
   {
-    label: "Amplifi Calls",
+    label: 'Amplifi Calls',
   },
 ];
 
@@ -44,8 +47,6 @@ interface IFileProps {
 }
 
 export const CallsDetailTemplate = () => {
-  const { CSVReader } = useCSVReader();
-  const [uploadWasRejected, setUploadWasRejected] = useState(false);
   const [file, setFile] = useState<null | IFileProps>(null);
   const [results, setResults] = useState(MOCK_CONTACTS);
   const [modalEditItemCallsListIsOpen, setModalEditItemCallsListIsOpen] =
@@ -54,9 +55,18 @@ export const CallsDetailTemplate = () => {
     useState(false);
   const [modalAddItemFromContactsIsOpen, setModalAddItemFromContactsIsOpen] =
     useState(false);
+  const [modalUploadCsvIsOpen, setModalUploadCsvIsOpen] = useState(false);
   const [activeItemToEdit, setActiveItemToEdit] = useState<any | null>(null);
 
   const router = useRouter();
+
+  const actions = [
+    {
+      icon: <UsersThree color="#14082E" size={16} />,
+      label: 'Adicionar de seus contatos',
+      action: () => setModalAddItemFromContactsIsOpen(true),
+    },
+  ];
 
   const handleUploadAccepted = (resultsFromCsv) => {
     const resultsFormatted = formatCsvToJson(resultsFromCsv.data);
@@ -64,7 +74,7 @@ export const CallsDetailTemplate = () => {
   };
 
   const handleCreateCallsList = () => {
-    console.log("Criando lista...");
+    console.log('Criando lista...');
   };
 
   const handleDeleteItem = (id: string) => {
@@ -82,25 +92,21 @@ export const CallsDetailTemplate = () => {
   const handleAddItem = () => {};
 
   const handleAccessItem = (id: string) => {
-    router.push("/" + id);
+    router.push('/' + id);
   };
 
   return (
     <>
       <LayoutWithSidebar>
         <Breadcrumb crumbs={crumbs} />
-        <div className="flex items-center justify-between">
-          <div>
-            <Paragraph size={ParagraphSizeVariant.Large} className="flex mt-8">
-              Aqui você pode editar sua lista para fazer chamadas com mensagens
-              personalizadas.{" "}
-            </Paragraph>
-            <Paragraph size={ParagraphSizeVariant.Large}>
-              Você pode editar a lista através de seus contatos e/ou fazendo
-              upload de um arquivo CSV.
-            </Paragraph>
-          </div>
-          <div className="flex gap-2">
+        <div className="flex flex-col mt-4">
+          <div className="flex items-center gap-4 w-full">
+            <Button
+              leftIcon={<PlayCircle color="#FFF" size={16} />}
+              className="!w-[200px] !text-sm font-normal !bg-green"
+            >
+              Reproduzir lista
+            </Button>
             <Button
               leftIcon={<PlusCircle color="#FFF" size={16} />}
               onClick={() => setModalAddItemCallsListIsOpen(true)}
@@ -109,121 +115,53 @@ export const CallsDetailTemplate = () => {
               Adicionar contato
             </Button>
             <Button
-              leftIcon={<Users color="#FFF" size={16} />}
-              onClick={() => setModalAddItemFromContactsIsOpen(true)}
-              className="!w-[250px] !text-sm font-normal !bg-dark-primary"
+              className="!bg-dark-primary !w-[200px] !text-sm font-normal"
+              leftIcon={<Upload color="#FFF" size={16} />}
+              onClick={() => setModalUploadCsvIsOpen(true)}
             >
-              Adicionar seus contatos
+              Upload de Planilha
             </Button>
-            <Button
-              leftIcon={<Play color="#FFF" size={16} />}
-              className="!w-[200px] !text-sm font-normal !bg-green"
-            >
-              Reproduzir lista
-            </Button>
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger className="flex ml-auto !w-[150px] ">
+                <Button
+                  className="!bg-[#D9D9D9] text-[#3F3F3F]"
+                  leftIcon={
+                    <DotsThreeOutlineVertical size={16} color="#3F3F3F" />
+                  }
+                  rightIcon={<CaretUp size={16} color="#3F3F3F" />}
+                >
+                  Ações
+                </Button>
+              </DropdownMenu.Trigger>
+              <DropdownMenu.Content className="bg-white p-4 flex flex-col gap-4 mt-1">
+                {actions.map((action, index) => {
+                  const isLastItem = actions.length === index + 1;
+                  return (
+                    <>
+                      <button
+                        onClick={action.action}
+                        className="flex gap-2  items-center"
+                      >
+                        {action.icon}
+                        <Paragraph>{action.label}</Paragraph>
+                      </button>
+                      {!isLastItem && <Line direction="horizontal" />}
+                    </>
+                  );
+                })}
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
           </div>
-        </div>
-        <div className="flex items-center gap-8">
-          <div className="flex flex-1 flex-col mt-6 bg-white rounded-lg shadow px-6 py-4 gap-4">
-            <Paragraph size={ParagraphSizeVariant.Large}>
-              <span className="font-bold">Nome: </span> Amplifi Calls
+          <div>
+            <Paragraph size={ParagraphSizeVariant.Large} className="flex mt-8">
+              Aqui você pode editar sua lista para fazer chamadas com mensagens
+              personalizadas.{' '}
             </Paragraph>
             <Paragraph size={ParagraphSizeVariant.Large}>
-              <span className="font-bold">Última reprodução: </span> 15/01/2023
-              17:23
-            </Paragraph>
-            <Paragraph size={ParagraphSizeVariant.Large}>
-              <span className="font-bold">Status: </span> Pendente
+              Você pode editar a lista através de seus contatos e/ou fazendo
+              upload de um arquivo CSV.
             </Paragraph>
           </div>
-          <CSVReader
-            onUploadAccepted={(results, file) => {
-              handleUploadAccepted(results);
-              setFile(file);
-            }}
-            onDragOver={(event: DragEvent) => {
-              event.preventDefault();
-            }}
-            onDragLeave={(event: DragEvent) => {
-              event.preventDefault();
-            }}
-            onUploadRejected={() =>
-              toast(
-                "error",
-                "Algo deu errado. Cheque a extensão do arquivo e tente novamente."
-              )
-            }
-            noClick
-            multiple={false}
-          >
-            {({ getRootProps, ProgressBar }) => {
-              return (
-                <>
-                  <div
-                    {...getRootProps()}
-                    className="flex-1 bg-white mt-4 flex flex-col gap-4 items-center shadow-sm py-8 rounded-full"
-                  >
-                    {file ? (
-                      <>
-                        <div className="flex flex-col items-center gap-4">
-                          <Check color="#00DEA3" size={40} />
-                          <Paragraph size={ParagraphSizeVariant.Large}>
-                            File uploaded
-                          </Paragraph>
-                          <div className="flex rounded-lg ">
-                            <div className="bg-light-grey w-[300px] py-2 px-4 rounded-tl-full rounded-bl-full">
-                              <Paragraph className="">
-                                {file.name}{" "}
-                                <span className="text-default-grey">
-                                  ({formatFileSize(file.size)})
-                                </span>
-                              </Paragraph>
-                              <span></span>
-                            </div>
-                            <button
-                              className="bg-red bg-opacity-50 px-3 rounded-tr-full rounded-br-full"
-                              onClick={() => {
-                                setFile(null);
-                                setResults([]);
-                              }}
-                            >
-                              <X size={16} color="#E85959" />
-                            </button>
-                          </div>
-                          <div className="">
-                            <ProgressBar />
-                          </div>
-                        </div>
-                      </>
-                    ) : uploadWasRejected ? (
-                      <div className="gap-4 w-full items-center flex flex-col">
-                        <UploadSimple size={40} color="#783EFD" />
-                        <Paragraph>
-                          Arraste arquivos até aqui ou{" "}
-                          <span className="text-primary">clique aqui</span> para
-                          fazer upload de um arquivo.
-                        </Paragraph>
-                      </div>
-                    ) : (
-                      <div className="gap-4 w-full items-center flex flex-col">
-                        <UploadSimple size={40} color="#783EFD" />
-                        <Paragraph>
-                          Arraste arquivos com a{" "}
-                          <span className="text-primary">extensão CSV</span> até
-                          aqui ou
-                          <span className="text-primary">
-                            {" "}
-                            clique aqui
-                          </span>{" "}
-                          para fazer upload de um arquivo.
-                        </Paragraph>
-                      </div>
-                    )}
-                  </div>
-                </>
-              );
-            }}
-          </CSVReader>
         </div>
         <div className="mt-4">
           <Table
@@ -232,7 +170,14 @@ export const CallsDetailTemplate = () => {
             handleEditItem={handleEditItem}
             handleAccessItem={handleAccessItem}
             disableAccessItem={true}
-            tableTitle="Usuários"
+            headerComponent={
+              <TableHeader
+                title="Lista de contatos"
+                status={EStatus.Completed}
+                lastPlay={'12/03/2023 17:32'}
+                handleResetList={() => setResults([])}
+              />
+            }
           />
         </div>
         <Button
@@ -257,6 +202,13 @@ export const CallsDetailTemplate = () => {
       <ModalAddItemFromContacts
         modalIsOpen={modalAddItemFromContactsIsOpen}
         setModalIsOpen={setModalAddItemFromContactsIsOpen}
+      />
+      <ModalUploadCsv
+        modalIsOpen={modalUploadCsvIsOpen}
+        setModalIsOpen={setModalUploadCsvIsOpen}
+        file={file}
+        setFile={setFile}
+        handleUploadAccepted={handleUploadAccepted}
       />
     </>
   );
