@@ -1,4 +1,4 @@
-import { PhoneIncoming, Chat } from 'phosphor-react';
+import { PhoneIncoming, Chat, Envelope } from 'phosphor-react';
 
 export const MOCK_ACTIVITIES = [
   {
@@ -15,6 +15,22 @@ export const MOCK_ACTIVITIES = [
     status: 'pending',
     cost: 21,
     icon: <Chat color="#fff" weight="bold" />,
+    colorIcon: '#FE8F66',
+  },
+  {
+    title: 'SMSs',
+    time: '09:15:31 AM',
+    status: 'pending',
+    cost: 21,
+    icon: <Chat color="#fff" weight="bold" />,
+    colorIcon: '#FE8F66',
+  },
+  {
+    title: 'Emails',
+    time: '09:15:31 AM',
+    status: 'completed',
+    cost: 5,
+    icon: <Envelope color="#fff" weight="bold" />,
     colorIcon: '#FE8F66',
   },
 ];

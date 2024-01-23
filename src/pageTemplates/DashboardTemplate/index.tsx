@@ -5,13 +5,12 @@ import {
   ParagraphSizeVariant,
   Card,
   Input,
-} from "@/components";
-import clsx from "clsx";
-import { MagnifyingGlass, Plus } from "phosphor-react";
-import Image from "next/image";
-import { MOCK_ACTIVITIES, SERVICES } from "@/constants";
-import MenProfile from "@/assets/men-profile.png";
-import CardCredit from "@/assets/card-credit.jpg";
+} from '@/components';
+import clsx from 'clsx';
+import { MagnifyingGlass, Plus } from 'phosphor-react';
+import Image from 'next/image';
+import { MOCK_ACTIVITIES, SERVICES } from '@/constants';
+import CardCredit from '@/assets/card-credit.jpg';
 
 export const DashboardTemplate = () => {
   return (
@@ -25,10 +24,11 @@ export const DashboardTemplate = () => {
                   <header className="flex items-center justify-between">
                     <div
                       className={clsx(
-                        "flex items-center justify-center p-3 rounded mr-12",
+                        'flex items-center justify-center p-3 rounded mr-12',
                         {
-                          "bg-green": service.value === "calls",
-                          "bg-primary": service.value === "sms",
+                          'bg-green': service.value === 'calls',
+                          'bg-primary': service.value === 'sms',
+                          'bg-orange': service.value === 'emails',
                         }
                       )}
                     >
@@ -69,10 +69,11 @@ export const DashboardTemplate = () => {
                 >
                   <div
                     className={clsx(
-                      "flex items-center justify-center p-3 rounded mr-12",
+                      'flex items-center justify-center p-3 rounded mr-12',
                       {
-                        "bg-green": activitie.title === "Ligações",
-                        "bg-primary": activitie.title === "SMSs",
+                        'bg-green': activitie.title === 'Ligações',
+                        'bg-primary': activitie.title === 'SMSs',
+                        'bg-orange': activitie.title === 'Emails',
                       }
                     )}
                   >
@@ -88,9 +89,9 @@ export const DashboardTemplate = () => {
                     -R$ {activitie.cost}
                   </Paragraph>
                   <Paragraph
-                    className={clsx("w-[10%] text-right", {
-                      "text-green": activitie.status === "completed",
-                      "text-primary": activitie.status === "pending",
+                    className={clsx('w-[10%] text-right', {
+                      'text-green': activitie.status === 'completed',
+                      'text-primary': activitie.status === 'pending',
                     })}
                   >
                     {activitie.status}

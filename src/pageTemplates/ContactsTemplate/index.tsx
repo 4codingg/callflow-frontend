@@ -1,6 +1,6 @@
 import { Heading, LayoutWithSidebar, Table } from '@/components';
-import { ModalAddItemCallsList } from '@/components/layouts/ModalAddItemCallsList';
-import { ModalEditItemCallsList } from '@/components/layouts/ModalEditItemCallsList';
+import { ModalAddItemCallsList } from '@/components/layouts/Modals/ModalAddItemCallsList';
+import { ModalEditItemCallsList } from '@/components/layouts/Modals/ModalEditItemCallsList';
 import { MOCK_CONTACTS } from '@/constants/contentCalls';
 import { useState } from 'react';
 

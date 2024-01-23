@@ -1,3 +1,8 @@
+export enum EStatus {
+  Completed = 'completed',
+  Pending = 'pending',
+}
+
 export const CONTENT_CALLS = [
   {
     id: 1,

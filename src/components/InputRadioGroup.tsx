@@ -23,7 +23,7 @@ export interface IInputRadioGroupProps {
   onChange: (e: string) => void;
   variant?: InputRadioGroupVariant;
   defaultValue?: string;
-  size: InputRadioGroupSize;
+  size?: InputRadioGroupSize;
 }
 
 export const InputRadioGroup = ({
