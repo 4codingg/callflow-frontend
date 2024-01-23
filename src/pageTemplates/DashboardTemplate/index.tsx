@@ -5,15 +5,14 @@ import {
   ParagraphSizeVariant,
   Card,
   Input,
-} from "@/components";
-import clsx from "clsx";
-import { MagnifyingGlass, Plus } from "phosphor-react";
-import Image from "next/image";
-import { MOCK_ACTIVITIES, SERVICES } from "@/constants";
-import MenProfile from "@/assets/men-profile.png";
-import CardCredit from "@/assets/card-credit.jpg";
-import { useRouter } from "next/router";
-import { MOCK_ACTIVITIES2 } from "@/constants/recentActivies";
+} from '@/components';
+import clsx from 'clsx';
+import { Plus } from 'phosphor-react';
+import Image from 'next/image';
+import { MOCK_ACTIVITIES, SERVICES } from '@/constants';
+import CardCredit from '@/assets/card-credit.jpg';
+import { useRouter } from 'next/router';
+import { MOCK_ACTIVITIES2 } from '@/constants/recentActivies';
 
 export const DashboardTemplate = () => {
   const router = useRouter();
@@ -28,10 +27,10 @@ export const DashboardTemplate = () => {
                   <header className="flex items-center justify-between">
                     <div
                       className={clsx(
-                        "flex items-center justify-center p-3 rounded mr-12",
+                        'flex items-center justify-center p-3 rounded mr-12',
                         {
-                          "bg-green": service.value === "calls",
-                          "bg-primary": service.value === "sms",
+                          'bg-green': service.value === 'calls',
+                          'bg-primary': service.value === 'sms',
                         }
                       )}
                     >
@@ -72,10 +71,10 @@ export const DashboardTemplate = () => {
                 >
                   <div
                     className={clsx(
-                      "flex items-center justify-center p-3 rounded mr-12",
+                      'flex items-center justify-center p-3 rounded mr-12',
                       {
-                        "bg-green": activitie.title === "Ligações",
-                        "bg-primary": activitie.title === "SMSs",
+                        'bg-green': activitie.title === 'Ligações',
+                        'bg-primary': activitie.title === 'SMSs',
                       }
                     )}
                   >
@@ -91,9 +90,9 @@ export const DashboardTemplate = () => {
                     -R$ {activitie.cost}
                   </Paragraph>
                   <Paragraph
-                    className={clsx("w-[10%] text-right", {
-                      "text-green": activitie.status === "completed",
-                      "text-primary": activitie.status === "pending",
+                    className={clsx('w-[10%] text-right', {
+                      'text-green': activitie.status === 'completed',
+                      'text-primary': activitie.status === 'pending',
                     })}
                   >
                     {activitie.status}
@@ -102,68 +101,70 @@ export const DashboardTemplate = () => {
               ))}
             </div>
           </Card>
-          <Card className="flex flex-col max-w-[300px] ml-auto">
-            <header className="flex justify-between items-center">
-              <Paragraph size={ParagraphSizeVariant.ExtraLarge}>
-                Seu Saldo
-              </Paragraph>
-              <button
-                className="flex items-center justify-center bg-primary rounded p-2 shadow-primary"
-                onClick={() => router.push("/wallet")}
-              >
-                <Plus color="#FFF" />
-              </button>
-            </header>
-            <div className="flex items-center mt-4">
-              <Paragraph
-                className="text-primary mr-2 font-medium"
-                size={ParagraphSizeVariant.ExtraLarge}
-              >
-                R$
-              </Paragraph>
-              <Paragraph>Reais</Paragraph>
-            </div>
-            <Paragraph className="text-primary !text-2xl font-bold">
-              19.203,11
-            </Paragraph>
-            <Image src={CardCredit} alt="" className="mt-4 mx-auto flex" />
-          </Card>
-        </div>
-        <Card className="flex flex-col max-w-[300px] ml-auto mt-4 p-5 ">
-          <Paragraph size={ParagraphSizeVariant.ExtraLarge}>Team</Paragraph>
-          <div className=" flex flex-col gap-5 mt-5 ">
-            {MOCK_ACTIVITIES2.map((activity) => (
-              <div
-                key={activity.title}
-                className={` flex items-center rounded-md p-4 `}
-                style={{
-                  backgroundColor: `${activity.colorIcon}35`,
-                }}
-              >
-                <div
-                  className={clsx(
-                    "flex items-center justify-center p-2 rounded mr-12",
-                    {
-                      "bg-green": activity.title === "Member",
-                      "bg-primary": activity.title === "Admin",
-                    }
-                  )}
+          <div className="flex justify-end gap-4">
+            <Card className="flex flex-col max-w-[300px]">
+              <header className="flex justify-between items-center">
+                <Paragraph size={ParagraphSizeVariant.ExtraLarge}>
+                  Seu Saldo
+                </Paragraph>
+                <button
+                  className="flex items-center justify-center bg-primary rounded p-2 shadow-primary"
+                  onClick={() => router.push('/wallet')}
                 >
-                  {activity.icon}
-                </div>
-                <div className={`flex flex-col -ml-3  `}>
-                  <Paragraph
-                    className="font-medium"
-                    size={ParagraphSizeVariant.Large}
-                  >
-                    Total {activity.title}
-                  </Paragraph>
-                  <Paragraph> {activity.cost}</Paragraph>
-                </div>
+                  <Plus color="#FFF" />
+                </button>
+              </header>
+              <div className="flex items-center mt-4">
+                <Paragraph
+                  className="text-primary mr-2 font-medium"
+                  size={ParagraphSizeVariant.ExtraLarge}
+                >
+                  R$
+                </Paragraph>
+                <Paragraph>Reais</Paragraph>
               </div>
-            ))}
+              <Paragraph className="text-primary !text-2xl font-bold">
+                19.203,11
+              </Paragraph>
+              <Image src={CardCredit} alt="" className="mt-4 mx-auto flex" />
+            </Card>
+            <Card className="flex flex-col max-w-[300px] p-5 ">
+              <Paragraph size={ParagraphSizeVariant.ExtraLarge}>Time</Paragraph>
+              <div className=" flex flex-col gap-5 mt-5 ">
+                {MOCK_ACTIVITIES2.map((activity) => (
+                  <div
+                    key={activity.title}
+                    className={` flex items-center rounded-md p-4 `}
+                    style={{
+                      backgroundColor: `${activity.colorIcon}35`,
+                    }}
+                  >
+                    <div
+                      className={clsx(
+                        'flex items-center justify-center p-2 rounded mr-12',
+                        {
+                          'bg-green': activity.title === 'Member',
+                          'bg-primary': activity.title === 'Admin',
+                        }
+                      )}
+                    >
+                      {activity.icon}
+                    </div>
+                    <div className={`flex flex-col -ml-3  `}>
+                      <Paragraph
+                        className="font-medium"
+                        size={ParagraphSizeVariant.Large}
+                      >
+                        Total {activity.title}
+                      </Paragraph>
+                      <Paragraph> {activity.quantity}</Paragraph>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
           </div>
-        </Card>
+        </div>
       </div>
     </LayoutWithSidebar>
   );
