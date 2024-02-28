@@ -1,6 +1,6 @@
 // pages/_app.tsx
+import CallsListContextProvider from '@/hooks/useCallsList';
 import '@/styles/global.css';
-import Swal from 'sweetalert2';
 import Head from 'next/head';
 
 function MyApp({ Component, pageProps }) {
@@ -14,7 +14,9 @@ function MyApp({ Component, pageProps }) {
           rel="stylesheet"
         />
       </Head>
-      <Component {...pageProps} />
+      <CallsListContextProvider>
+        <Component {...pageProps} />
+      </CallsListContextProvider>
     </>
   );
 }

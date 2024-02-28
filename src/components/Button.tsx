@@ -54,7 +54,10 @@ export const Button = ({
         'flex items-center justify-center rounded-full font-bold text-sm font-poppins gap-4 hover:opacity-90 active:opacity-80',
         buttonClassesSizes[size],
         buttonClassesVariant[variant],
-        className
+        className,
+        {
+          '!bg-grey-80 hover:opacity-100 active:opacity-100': disabled,
+        }
       )}
       disabled={disabled}
       {...props}

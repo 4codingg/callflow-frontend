@@ -12,8 +12,10 @@ import { TableHeader } from '@/components/layouts/Headers/TableHeader';
 import { ModalAddItemCallsList } from '@/components/layouts/Modals/ModalAddItemCallsList';
 import { ModalAddItemFromContacts } from '@/components/layouts/Modals/ModalAddItemFromContacts';
 import { ModalEditItemCallsList } from '@/components/layouts/Modals/ModalEditItemCallsList';
+import { ModalPlayCallsList } from '@/components/layouts/Modals/ModalPlayCallsList';
 import { ModalUploadCsv } from '@/components/layouts/Modals/ModalUploadCsv';
 import { EStatus, MOCK_CONTACTS } from '@/constants/contentCalls';
+import { useCallsList } from '@/hooks/useCallsList';
 import { formatCsvToJson } from '@/utils/formatCsvToJson';
 import { toast } from '@/utils/toast';
 import { useRouter } from 'next/router';
@@ -48,7 +50,6 @@ interface IFileProps {
 
 export const CallsDetailTemplate = () => {
   const [file, setFile] = useState<null | IFileProps>(null);
-  const [results, setResults] = useState(MOCK_CONTACTS);
   const [modalEditItemCallsListIsOpen, setModalEditItemCallsListIsOpen] =
     useState(false);
   const [modalAddItemCallsListIsOpen, setModalAddItemCallsListIsOpen] =
@@ -56,7 +57,11 @@ export const CallsDetailTemplate = () => {
   const [modalAddItemFromContactsIsOpen, setModalAddItemFromContactsIsOpen] =
     useState(false);
   const [modalUploadCsvIsOpen, setModalUploadCsvIsOpen] = useState(false);
+  const [modalPlayCallsList, setModalPlayCallsList] = useState(false);
   const [activeItemToEdit, setActiveItemToEdit] = useState<any | null>(null);
+  const [existsPendingChange, setExistsPendingChange] = useState(false);
+
+  const { results, setResults } = useCallsList();
 
   const router = useRouter();
 
@@ -71,10 +76,6 @@ export const CallsDetailTemplate = () => {
   const handleUploadAccepted = (resultsFromCsv) => {
     const resultsFormatted = formatCsvToJson(resultsFromCsv.data);
     setResults([...results, ...resultsFormatted]);
-  };
-
-  const handleCreateCallsList = () => {
-    console.log('Criando lista...');
   };
 
   const handleDeleteItem = (id: string) => {
@@ -104,6 +105,7 @@ export const CallsDetailTemplate = () => {
             <Button
               leftIcon={<PlayCircle color="#FFF" size={16} />}
               className="!w-[200px] !text-sm font-normal !bg-green"
+              onClick={() => setModalPlayCallsList(true)}
             >
               Reproduzir lista
             </Button>
@@ -124,7 +126,7 @@ export const CallsDetailTemplate = () => {
             <DropdownMenu.Root>
               <DropdownMenu.Trigger className="flex ml-auto !w-[150px] ">
                 <Button
-                  className="!bg-[#D9D9D9] text-[#3F3F3F]"
+                  className="!bg-[#D9D9D9] !text-[#3F3F3F]"
                   leftIcon={
                     <DotsThreeOutlineVertical size={16} color="#3F3F3F" />
                   }
@@ -176,18 +178,12 @@ export const CallsDetailTemplate = () => {
                 status={EStatus.Completed}
                 lastPlay={'12/03/2023 17:32'}
                 handleResetList={() => setResults([])}
+                saveButtonIsAble={existsPendingChange}
+                showActions={!!results.length}
               />
             }
           />
         </div>
-        <Button
-          className=" mt-3 m-auto font-normal"
-          onClick={handleCreateCallsList}
-          leftIcon={<CheckCircle size={32} color="#FFF" />}
-          size={ButtonSizeVariant.Small}
-        >
-          Salvar lista
-        </Button>
       </LayoutWithSidebar>
       <ModalEditItemCallsList
         modalIsOpen={modalEditItemCallsListIsOpen}
@@ -209,6 +205,10 @@ export const CallsDetailTemplate = () => {
         file={file}
         setFile={setFile}
         handleUploadAccepted={handleUploadAccepted}
+      />
+      <ModalPlayCallsList
+        modalIsOpen={modalPlayCallsList}
+        setModalIsOpen={setModalPlayCallsList}
       />
     </>
   );

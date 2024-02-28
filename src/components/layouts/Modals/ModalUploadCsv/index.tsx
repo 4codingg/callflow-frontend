@@ -82,7 +82,6 @@ export const ModalUploadCsv = ({
                               className="bg-red bg-opacity-50 px-3 rounded-tr-full rounded-br-full"
                               onClick={() => {
                                 setFile(null);
-                                // setResults([]);
                               }}
                             >
                               <X size={16} color="#E85959" />

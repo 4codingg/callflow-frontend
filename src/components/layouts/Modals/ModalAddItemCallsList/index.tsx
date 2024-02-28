@@ -2,6 +2,7 @@ import { Button, ButtonVariant } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Modal } from '@/components/Modal';
 import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
+import { useCallsList } from '@/hooks/useCallsList';
 import { schemaCallItem } from '@/schemas/calls';
 import { Formik } from 'formik';
 import { XCircle } from 'phosphor-react';
@@ -16,19 +17,25 @@ interface IModalAddItemCallsList {
 export const ModalAddItemCallsList = ({
   setModalIsOpen,
   modalIsOpen,
-  handleAddItem,
 }: IModalAddItemCallsList) => {
+  const { handleAddContactToCallsList } = useCallsList();
+
   const initialValuesAddItem = {
     name: '',
     email: '',
     phone: '',
   };
 
+  const handleForm = (values: any) => {
+    console.log(values);
+    // handleAddContactToCallsList()
+  };
+
   return (
     <Formik
       initialValues={initialValuesAddItem}
       validationSchema={schemaCallItem}
-      onSubmit={() => {}}
+      onSubmit={handleForm}
     >
       {({ values, errors, handleChange, handleBlur, handleSubmit }) => {
         return (

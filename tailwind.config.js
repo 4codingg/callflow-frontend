@@ -17,7 +17,8 @@ const config = {
         'light-grey': '#EFF0F4',
         'medium-grey': '#667483',
         'light-light-grey': "#F7F8FA",
-        'modal-background': '#000000BF'
+        'modal-background': '#000000BF',
+        'grey-80': "#808080"
 
       },
       fontFamily: {

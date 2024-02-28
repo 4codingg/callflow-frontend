@@ -12,6 +12,7 @@ import { DropdownMenu } from '@/components/DropdownMenu';
 import { TableHeader } from '@/components/layouts/Headers/TableHeader';
 import { ModalAddItemCallsList } from '@/components/layouts/Modals/ModalAddItemCallsList';
 import { ModalAddItemFromContacts } from '@/components/layouts/Modals/ModalAddItemFromContacts';
+import { ModalConfirmCreateCallsList } from '@/components/layouts/Modals/ModalConfirmCreateCallsList';
 import { ModalEditItemCallsList } from '@/components/layouts/Modals/ModalEditItemCallsList';
 import { ModalUploadCsv } from '@/components/layouts/Modals/ModalUploadCsv';
 import { formatCsvToJson } from '@/utils/formatCsvToJson';
@@ -54,6 +55,8 @@ export const CreateCallsTemplate = () => {
   const [modalAddItemFromContactsIsOpen, setModalAddItemFromContactsIsOpen] =
     useState(false);
   const [modalUploadCsvIsOpen, setModalUploadCsvIsOpen] = useState(false);
+  const [modalConfirmCreateCallsList, setModalConfirmCreateCallsList] =
+    useState(false);
   const [activeItemToEdit, setActiveItemToEdit] = useState<any | null>(null);
 
   const actions = [
@@ -115,7 +118,7 @@ export const CreateCallsTemplate = () => {
             <DropdownMenu.Root>
               <DropdownMenu.Trigger className="flex ml-auto !w-[150px] ">
                 <Button
-                  className="!bg-[#D9D9D9] text-[#3F3F3F]"
+                  className="!bg-[#D9D9D9] !text-[#3F3F3F]"
                   leftIcon={
                     <DotsThreeOutlineVertical size={16} color="#3F3F3F" />
                   }
@@ -173,7 +176,8 @@ export const CreateCallsTemplate = () => {
         <Button
           leftIcon={<CheckCircle size={16} color="#FFF" />}
           className="mt-8 !w-[250px] mx-auto flex"
-          onClick={handleCreateCallsList}
+          onClick={() => setModalConfirmCreateCallsList(true)}
+          disabled={!results.length}
         >
           Criar lista
         </Button>
@@ -198,6 +202,12 @@ export const CreateCallsTemplate = () => {
         file={file}
         setFile={setFile}
         handleUploadAccepted={handleUploadAccepted}
+      />
+      <ModalConfirmCreateCallsList
+        modalIsOpen={modalConfirmCreateCallsList}
+        setModalIsOpen={setModalConfirmCreateCallsList}
+        variables={Object.keys(results[0] || [])}
+        handleCreateCallsList={handleCreateCallsList}
       />
     </>
   );

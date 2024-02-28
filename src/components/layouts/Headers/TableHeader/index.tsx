@@ -1,4 +1,4 @@
-import { Button, ButtonVariant } from '@/components/Button';
+import { Button, ButtonSizeVariant, ButtonVariant } from '@/components/Button';
 import { Heading } from '@/components/Heading';
 import { Paragraph } from '@/components/Paragraph';
 import { EStatus } from '@/constants/contentCalls';
@@ -10,6 +10,8 @@ interface ITableHeaderProps {
   status?: EStatus;
   lastPlay?: string;
   handleResetList?: () => void;
+  saveButtonIsAble?: boolean;
+  showActions?: boolean;
 }
 
 export const TableHeader = ({
@@ -17,11 +19,13 @@ export const TableHeader = ({
   status,
   lastPlay,
   handleResetList,
+  showActions,
+  saveButtonIsAble = false,
 }: ITableHeaderProps) => {
   return (
     <div className="flex items-center mb-4">
       <Heading>{title}</Heading>
-      <div className="flex items-center ml-auto w-1/2 justify-end gap-12">
+      <div className="flex items-center ml-auto w-2/3 justify-end gap-12">
         {status && (
           <div className="flex ">
             <Paragraph className="flex items-center gap-2">
@@ -36,12 +40,25 @@ export const TableHeader = ({
             </Paragraph>
           </div>
         )}
-        <Button
-          className="!w-8 !h-8 rounded-full py-0  "
-          onClick={handleResetList}
-        >
-          <Trash color="#FFF" size={20} />
-        </Button>
+        {showActions && (
+          <div className="items-center flex gap-2">
+            <Button
+              className="!h-8 m-auto font-normal !w-[200px] text-xs"
+              onClick={() => {}}
+              leftIcon={<CheckCircle size={16} color="#FFF" />}
+              size={ButtonSizeVariant.Small}
+              disabled={!saveButtonIsAble}
+            >
+              Salvar lista
+            </Button>
+            <Button
+              className="!w-8 !h-8 rounded-full py-0 "
+              onClick={handleResetList}
+            >
+              <Trash color="#FFF" size={20} />
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
