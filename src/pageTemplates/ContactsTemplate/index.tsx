@@ -1,8 +1,10 @@
-import { Heading, LayoutWithSidebar, Table } from '@/components';
-import { ModalAddItemCallsList } from '@/components/layouts/Modals/ModalAddItemCallsList';
-import { ModalEditItemCallsList } from '@/components/layouts/Modals/ModalEditItemCallsList';
-import { MOCK_CONTACTS } from '@/constants/contentCalls';
-import { useState } from 'react';
+import { Card, Heading, LayoutWithSidebar, Table } from "@/components";
+import { CardCallsList } from "@/components/layouts/Cards/CardCallsList";
+import { ModalAddItemCallsList } from "@/components/layouts/Modals/ModalAddItemCallsList";
+import { ModalEditItemCallsList } from "@/components/layouts/Modals/ModalEditItemCallsList";
+import { MOCK_CONTACTS } from "@/constants/contentCalls";
+import { CONTENT_CARD_CALLS_LIST } from "@/constants/contentCardCallList";
+import { useState } from "react";
 
 export const ContactsTemplate = () => {
   const [contacts, setContacts] = useState(MOCK_CONTACTS);
@@ -29,14 +31,9 @@ export const ContactsTemplate = () => {
   return (
     <>
       <LayoutWithSidebar>
-        <Heading>Contacts</Heading>
+        <Heading> Contacts</Heading>
         <div className="mt-4">
-          <Table
-            content={contacts}
-            handleEditItem={handleEditItem}
-            handleDeleteItem={handleDeleteItem}
-            disableAccessItem
-          />
+          <CardCallsList content={CONTENT_CARD_CALLS_LIST}> </CardCallsList>
         </div>
       </LayoutWithSidebar>
       <ModalEditItemCallsList
