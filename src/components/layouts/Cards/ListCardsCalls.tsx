@@ -16,7 +16,7 @@ interface ContentProps {
   lastPlay: string;
 }
 
-export const CardCallsList = ({ children, content }: ICardCallListProps) => {
+export const ListCardsCalls = ({ children, content }: ICardCallListProps) => {
   return (
     <div className="flex gap-4">
       {content.map((item) => (

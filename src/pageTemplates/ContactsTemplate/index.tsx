@@ -1,5 +1,5 @@
 import { Card, Heading, LayoutWithSidebar, Table } from "@/components";
-import { CardCallsList } from "@/components/layouts/Cards/CardCallsList";
+import { ListCardsCalls } from "@/components/layouts/Cards/CardCallsList";
 import { ModalAddItemCallsList } from "@/components/layouts/Modals/ModalAddItemCallsList";
 import { ModalEditItemCallsList } from "@/components/layouts/Modals/ModalEditItemCallsList";
 import { MOCK_CONTACTS } from "@/constants/contentCalls";
@@ -33,7 +33,7 @@ export const ContactsTemplate = () => {
       <LayoutWithSidebar>
         <Heading> Contacts</Heading>
         <div className="mt-4">
-          <CardCallsList content={CONTENT_CARD_CALLS_LIST}> </CardCallsList>
+          <ListCardsCalls content={CONTENT_CARD_CALLS_LIST}> </ListCardsCalls>
         </div>
       </LayoutWithSidebar>
       <ModalEditItemCallsList
