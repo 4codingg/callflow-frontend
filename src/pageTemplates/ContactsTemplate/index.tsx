@@ -1,9 +1,17 @@
-import { Card, Heading, LayoutWithSidebar, Table } from "@/components";
-import { ListCardsCalls } from "@/components/layouts/Cards/CardCallsList";
+import {
+  Card,
+  Heading,
+  LayoutWithSidebar,
+  Paragraph,
+  Table,
+} from "@/components";
+import { Button } from "@/components/Button";
+import { CardContactsList } from "@/components/layouts/Cards/CardContactsList";
 import { ModalAddItemCallsList } from "@/components/layouts/Modals/ModalAddItemCallsList";
 import { ModalEditItemCallsList } from "@/components/layouts/Modals/ModalEditItemCallsList";
 import { MOCK_CONTACTS } from "@/constants/contentCalls";
 import { CONTENT_CARD_CALLS_LIST } from "@/constants/contentCardCallList";
+import { PlusCircle } from "phosphor-react";
 import { useState } from "react";
 
 export const ContactsTemplate = () => {
@@ -31,9 +39,26 @@ export const ContactsTemplate = () => {
   return (
     <>
       <LayoutWithSidebar>
-        <Heading> Contacts</Heading>
+        <div className="flex justify-between">
+          <section className="flex gap-10 items-center">
+            <Heading> Lista de Contatos</Heading>
+            <Paragraph className=" text-gray-500">
+              {" "}
+              {CONTENT_CARD_CALLS_LIST.length} listas
+            </Paragraph>
+          </section>
+          <Button
+            className=" w-48 h-12 font-light"
+            leftIcon={<PlusCircle size={20} color="#FFF" />}
+            disabled={CONTENT_CARD_CALLS_LIST.length === 0}
+          >
+            Adicionar lista
+          </Button>
+        </div>
         <div className="mt-4">
-          <ListCardsCalls content={CONTENT_CARD_CALLS_LIST}> </ListCardsCalls>
+          <CardContactsList content={CONTENT_CARD_CALLS_LIST}>
+            {" "}
+          </CardContactsList>
         </div>
       </LayoutWithSidebar>
       <ModalEditItemCallsList
