@@ -1,54 +1,45 @@
-import { Heading, LayoutWithSidebar, Table } from '@/components';
-import { ModalAddItemCallsList } from '@/components/layouts/Modals/ModalAddItemCallsList';
-import { ModalEditItemCallsList } from '@/components/layouts/Modals/ModalEditItemCallsList';
-import { MOCK_CONTACTS } from '@/constants/contentCalls';
+import { Heading, LayoutWithSidebar, Paragraph } from '@/components';
+import { Button } from '@/components/Button';
+import { EmptyState } from '@/components/EmptyState';
+import { CardContactsList } from '@/components/layouts/Cards/CardContactsList';
+import { CONTENT_CARD_CALLS_LIST } from '@/constants/contentCardCallList';
+import { PlusCircle } from 'phosphor-react';
 import { useState } from 'react';
+import SearchImage from '@/assets/empty-state.png';
 
 export const ContactsTemplate = () => {
-  const [contacts, setContacts] = useState(MOCK_CONTACTS);
-  const [modalEditItemCallsListIsOpen, setModalEditItemCallsListIsOpen] =
-    useState(false);
-  const [modalAddItemCallsListIsOpen, setModalAddItemCallsListIsOpen] =
-    useState(false);
-  const [activeItemToEdit, setActiveItemToEdit] = useState<any | null>(null);
-
-  const handleEditItem = (id: string) => {
-    const itemToEdit = contacts.find((item) => item.id === id);
-
-    setActiveItemToEdit(itemToEdit);
-    setModalEditItemCallsListIsOpen(true);
-  };
-
-  const handleDeleteItem = (id: string) => {
-    const resultsFiltered = contacts.filter((item) => item.id !== id);
-    setContacts([...resultsFiltered]);
-  };
-
-  const handleAddItem = (id: string) => {};
+  const [contactsListItems, setContactsListItems] = useState(
+    CONTENT_CARD_CALLS_LIST
+  );
 
   return (
     <>
       <LayoutWithSidebar>
-        <Heading>Contacts</Heading>
-        <div className="mt-4">
-          <Table
-            content={contacts}
-            handleEditItem={handleEditItem}
-            handleDeleteItem={handleDeleteItem}
-            disableAccessItem
-          />
+        <div className="flex justify-between">
+          <section className="flex gap-10 items-center">
+            <Heading>Lista de Contatos</Heading>
+            <Paragraph className=" text-gray-500">
+              {contactsListItems.length} listas
+            </Paragraph>
+          </section>
+          {!!contactsListItems.length && (
+            <Button
+              className="w-[140px] h-[40px] font-light text-xs"
+              leftIcon={<PlusCircle size={16} color="#FFF" />}
+              disabled={CONTENT_CARD_CALLS_LIST.length === 0}
+            >
+              Adicionar lista
+            </Button>
+          )}
+        </div>
+        <div className="mt-8">
+          {contactsListItems.length ? (
+            <CardContactsList content={CONTENT_CARD_CALLS_LIST} />
+          ) : (
+            <EmptyState icon={SearchImage} />
+          )}
         </div>
       </LayoutWithSidebar>
-      <ModalEditItemCallsList
-        modalIsOpen={modalEditItemCallsListIsOpen}
-        setModalIsOpen={setModalEditItemCallsListIsOpen}
-        item={activeItemToEdit}
-      />
-      <ModalAddItemCallsList
-        modalIsOpen={modalAddItemCallsListIsOpen}
-        setModalIsOpen={setModalAddItemCallsListIsOpen}
-        handleAddItem={handleAddItem}
-      />
     </>
   );
 };
