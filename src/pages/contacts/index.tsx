@@ -1,4 +1,4 @@
-import { ContactsTemplate } from '@/pageTemplates/ContactsTemplate';
+import { ContactsTemplate } from "@/pageTemplates/ContactsTemplate";
 
 const Contacts = () => <ContactsTemplate />;
 
