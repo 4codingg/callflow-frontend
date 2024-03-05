@@ -26,7 +26,7 @@ export const ContactsTemplate = () => {
           </section>
           {!!contactsListItems.length && (
             <Button
-              className="w-[139px] h-[40px] font-light text-xs"
+              className="!w-[139px] !h-[40px] font-light text-xs"
               leftIcon={<PlusCircle size={16} color="#FFF" />}
               disabled={CONTENT_CARD_CALLS_LIST.length === 0}
               onClick={() => router.push('/contacts/create-list')}
