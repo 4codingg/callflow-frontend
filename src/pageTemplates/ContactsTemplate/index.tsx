@@ -1,12 +1,12 @@
-import { Heading, LayoutWithSidebar, Paragraph } from "@/components";
-import { Button } from "@/components/Button";
-import { EmptyState } from "@/components/EmptyState";
-import { CardContactsList } from "@/components/layouts/Cards/CardContactsList";
-import { CONTENT_CARD_CALLS_LIST } from "@/constants/contentCardCallList";
-import { PlusCircle } from "phosphor-react";
-import { useState } from "react";
-import SearchImage from "@/assets/empty-state.png";
-import { useRouter } from "next/router";
+import { Heading, LayoutWithSidebar, Paragraph } from '@/components';
+import { Button } from '@/components/Button';
+import { EmptyState } from '@/components/EmptyState';
+import { CardContactsList } from '@/components/layouts/Cards/CardContactsList';
+import { CONTENT_CARD_CALLS_LIST } from '@/constants/contentCardCallList';
+import { PlusCircle } from 'phosphor-react';
+import { useState } from 'react';
+import SearchImage from '@/assets/empty-state.png';
+import { useRouter } from 'next/router';
 
 export const ContactsTemplate = () => {
   const router = useRouter();
@@ -29,7 +29,7 @@ export const ContactsTemplate = () => {
               className="w-[139px] h-[40px] font-light text-xs"
               leftIcon={<PlusCircle size={16} color="#FFF" />}
               disabled={CONTENT_CARD_CALLS_LIST.length === 0}
-              onClick={() => router.push("/contacts/createListContacts")}
+              onClick={() => router.push('/contacts/create-list')}
             >
               Adicionar lista
             </Button>
