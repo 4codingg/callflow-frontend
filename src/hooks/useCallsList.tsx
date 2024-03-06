@@ -1,12 +1,12 @@
-import { MOCK_CONTACTS } from '@/constants/contentCalls';
-import { Contact } from '@/interfaces';
+import { MOCK_CONTACTS } from "@/constants/contentCalls";
+import { Contact } from "@/interfaces";
 import {
   createContext,
   Dispatch,
   ReactNode,
   useContext,
   useState,
-} from 'react';
+} from "react";
 
 interface CallsListContextDataProps {
   activeCallsList: any;

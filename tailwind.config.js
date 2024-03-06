@@ -17,6 +17,10 @@ const config = {
         "light-light-grey": "#F7F8FA",
         "modal-background": "#000000BF",
         "grey-80": "#808080",
+        "grey-secundary": "#DBDAF5",
+        "purple-secundary": "#5A55D2",
+        "circle-X": "#7F7F7F",
+        "color-input": "#686E72",
       },
       fontFamily: {
         poppins: "Poppins, sans-serif",
