@@ -7,7 +7,7 @@ const config = {
         primary: "#783EFD",
         "dark-primary": "#14082E",
         red: "#E85959",
-        greenTeste: "#00DEA3",
+        green: "#00DEA3",
         orange: "#F7931A",
         "negative-dark": "#CC0000",
         neutral: "#fafafa",
@@ -20,7 +20,7 @@ const config = {
         "grey-secundary": "#DBDAF5",
         "purple-secundary": "#5A55D2",
         "circle-X": "#7F7F7F",
-        "color-input": "#686E72",
+        "grey-label": "#686E72",
       },
       fontFamily: {
         poppins: "Poppins, sans-serif",

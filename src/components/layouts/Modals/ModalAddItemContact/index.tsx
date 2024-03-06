@@ -1,5 +1,6 @@
 import { Button, ButtonVariant } from "@/components/Button";
 import { Input } from "@/components/Input";
+import { Line } from "@/components/Line";
 import { Modal } from "@/components/Modal";
 import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
 import { useCallsList } from "@/hooks/useCallsList";
@@ -68,17 +69,21 @@ export const ModalAddItemContactList = ({
               <div className="bg-white p-4 min-w-[400px]">
                 <header className="flex justify-between items-center w-full flex-1">
                   <Paragraph
-                    size={ParagraphSizeVariant.ExtraLarge}
-                    className=" text-purple-secundary font-mediumm text-xl"
+                    size={ParagraphSizeVariant.Medium}
+                    className=" text-purple-secundary !font-mediumm"
                   >
                     Adicionar contato
                   </Paragraph>
                   <Modal.Close>
-                    <Button variant={ButtonVariant.iconOnly} className="!w-6">
+                    <Button
+                      variant={ButtonVariant.iconOnly}
+                      className="!w-6 !h-6"
+                    >
                       <XCircle size={24} color="#7F7F7F" />
                     </Button>
                   </Modal.Close>
                 </header>
+                <Line direction="horizontal" className="mt-4" />
                 <form className="mt-6" onSubmit={handleSubmit}>
                   <Input
                     label="Nome"
@@ -86,8 +91,8 @@ export const ModalAddItemContactList = ({
                     onChange={handleChange("name")}
                     onBlur={handleBlur("name")}
                     error={errors.name as string}
-                    labelStyle=" text-default-grey"
-                    className=" !text-color-input !tracking-widest font-light"
+                    labelStyle=" text-grey-label font-semibold"
+                    className=" !text-grey-label font-light "
                   />
                   <Input
                     label="Email"
@@ -95,8 +100,8 @@ export const ModalAddItemContactList = ({
                     onChange={handleChange("email")}
                     onBlur={handleBlur("email")}
                     error={errors.email as string}
-                    labelStyle=" text-default-grey"
-                    className=" !text-color-input !tracking-widest font-light"
+                    labelStyle=" text-grey-label font-semibold"
+                    className=" !text-grey-label  font-light"
                   />
                   <Input
                     label="Telefone"
@@ -104,10 +109,10 @@ export const ModalAddItemContactList = ({
                     onChange={handleChange("phone")}
                     onBlur={handleBlur("phone")}
                     error={errors.phone as string}
-                    labelStyle=" text-default-grey"
-                    className=" !text-color-input !tracking-widest font-light"
+                    labelStyle=" text-grey-label font-semibold"
+                    className=" !text-grey-label  font-light"
                   />
-                  <section className="flex justify-center items-center gap-4">
+                  <section className="flex justify-end items-center gap-4 mt-[16px]">
                     <Button
                       leftIcon={<X size={24} />}
                       type="button"

@@ -17,10 +17,10 @@ export const schemaContactItem = Yup.object().shape({
     .matches(ONLY_TEXT_REGEX, "Nome inválido.")
     .min(2, "Pelo menos 2 caracteres."),
   phone: Yup.string()
-    .trim()
-    .matches(VALID_PHONE_REGEX, "Número de telefone inválido.")
-    .required("Telefone é um campo obrigatório")
     .transform((value, originalValue) => {
-      return originalValue.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
-    }),
+      const numericValue = originalValue.replace(/\D/g, ""); // Remover caracteres não numéricos
+      return numericValue.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+    })
+    .matches(VALID_PHONE_REGEX, "Número de telefone inválido.")
+    .required("Telefone é um campo obrigatório"),
 });

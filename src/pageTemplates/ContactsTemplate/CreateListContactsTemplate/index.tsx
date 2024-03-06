@@ -49,7 +49,7 @@ export const CreateListContactsTemplate = () => {
               Adicionar contato
             </Button>
             <Button
-              className="!w-[200px] !text-sm font-normal !bg-greenTeste "
+              className="!w-[200px] !text-sm font-normal !bg-green"
               leftIcon={<Upload color="#FFF" size={20} />}
             >
               Upload de Planilha

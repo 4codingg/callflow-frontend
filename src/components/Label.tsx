@@ -1,6 +1,6 @@
-import clsx from 'clsx';
-import { LabelHTMLAttributes } from 'react';
-import { Paragraph, ParagraphSizeVariant } from '@/components';
+import clsx from "clsx";
+import { LabelHTMLAttributes } from "react";
+import { Paragraph, ParagraphSizeVariant } from "@/components";
 
 interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
   name?: string;
@@ -20,7 +20,7 @@ export const Label = ({
 }: LabelProps) => {
   return (
     <label
-      className={clsx('flex flex-col gap-4 w-full', className)}
+      className={clsx("flex flex-col w-full", className)}
       htmlFor={name}
       {...props}
     >

@@ -5,4 +5,4 @@ export const ONLY_TEXT_REGEX = /^[A-Za-z-záàâãéèêíïóôõöúçñ ]+$/;
 
 export const ONLY_NUMBER_REGEX = /^[0-9]+$/;
 
-export const VALID_PHONE_REGEX = /^[0-9]{10}$/;
+export const VALID_PHONE_REGEX = /^\(\d{2}\) \d{5}-\d{4}$/;
