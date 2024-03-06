@@ -7,7 +7,7 @@ const config = {
         primary: "#783EFD",
         "dark-primary": "#14082E",
         red: "#E85959",
-        greenTeste: "#00DEA3",
+        green: "#00DEA3",
         orange: "#F7931A",
         "negative-dark": "#CC0000",
         neutral: "#fafafa",

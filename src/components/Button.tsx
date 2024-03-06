@@ -42,10 +42,10 @@ export const Button = ({
   };
 
   const buttonClassesSizes = {
-    [ButtonSizeVariant.Small]: 'py-4 px-10 max-h-[55px] ',
-    [ButtonSizeVariant.Medium]: 'py-6 px-4 h-[70px] w-[343px]',
-    [ButtonSizeVariant.Large]: 'py-6 px-4 h-[72px] w-full',
-    [ButtonSizeVariant.Auto]: 'w-full py-4 ',
+    [ButtonSizeVariant.Small]: 'py-4 px-10 max-h-[40px] ',
+    [ButtonSizeVariant.Medium]: 'py-6 px-4 h-[40px] w-[343px]',
+    [ButtonSizeVariant.Large]: 'py-6 px-4 h-[40px] w-full',
+    [ButtonSizeVariant.Auto]: 'w-full h-[40px] ',
   };
 
   return (

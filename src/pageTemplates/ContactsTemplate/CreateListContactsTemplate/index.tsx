@@ -3,28 +3,28 @@ import {
   Paragraph,
   ParagraphSizeVariant,
   Table,
-} from "@/components";
-import { Breadcrumb } from "@/components/Breadcrumb";
-import { Button } from "@/components/Button";
-import { TableHeader } from "@/components/layouts/Headers/TableHeader";
-import { MOCK_CONTACTS } from "@/constants/contentCalls";
-import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
+} from '@/components';
+import { Breadcrumb } from '@/components/Breadcrumb';
+import { Button } from '@/components/Button';
+import { TableHeader } from '@/components/layouts/Headers/TableHeader';
+import { MOCK_CONTACTS } from '@/constants/contentCalls';
+import { DropdownMenu } from '@radix-ui/react-dropdown-menu';
 import {
   CaretUp,
   CheckCircle,
   DotsThreeOutlineVertical,
   PlusCircle,
   Upload,
-} from "phosphor-react";
-import { Input } from "postcss";
+} from 'phosphor-react';
+import { Input } from 'postcss';
 
 const crumbs = [
   {
-    label: "Contatos",
-    path: "/contacts",
+    label: 'Contatos',
+    path: '/contacts',
   },
   {
-    label: "Criar lista de Contatos",
+    label: 'Criar lista de Contatos',
   },
 ];
 
@@ -41,7 +41,7 @@ export const CreateListContactsTemplate = () => {
             Adicionar contato
           </Button>
           <Button
-            className="!w-[200px] !text-sm font-normal bg-greenTeste "
+            className="!w-[200px] !text-sm font-normal !bg-green "
             leftIcon={<Upload color="#FFF" size={20} />}
           >
             Upload de Planilha
