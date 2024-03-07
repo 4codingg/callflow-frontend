@@ -1,6 +1,6 @@
-import clsx from "clsx";
-import { LabelHTMLAttributes } from "react";
-import { Paragraph, ParagraphSizeVariant } from "@/components";
+import clsx from 'clsx';
+import { LabelHTMLAttributes } from 'react';
+import { Paragraph, ParagraphSizeVariant } from '@/components';
 
 interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
   name?: string;
@@ -20,17 +20,13 @@ export const Label = ({
 }: LabelProps) => {
   return (
     <label
-      className={clsx("flex flex-col w-full", className)}
+      className={clsx('flex flex-col w-full', className)}
       htmlFor={name}
       {...props}
     >
       {name && (
         <div className="flex items-center justify-between">
-          <Paragraph
-            size={ParagraphSizeVariant.Large}
-            disabled={disabled}
-            className={labelStyle}
-          >
+          <Paragraph disabled={disabled} className={labelStyle}>
             {name}
           </Paragraph>
 

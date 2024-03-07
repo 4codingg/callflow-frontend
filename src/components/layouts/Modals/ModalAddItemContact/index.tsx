@@ -1,15 +1,13 @@
-import { Button, ButtonVariant } from "@/components/Button";
-import { Input } from "@/components/Input";
-import { Line } from "@/components/Line";
-import { Modal } from "@/components/Modal";
-import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { useCallsList } from "@/hooks/useCallsList";
-import { schemaCallItem } from "@/schemas/calls";
-import { schemaContactItem } from "@/schemas/contacts";
-import { Formik } from "formik";
-import { validateConfig } from "next/dist/server/config-shared";
-import { CheckCircle, X, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction } from "react";
+import { Button, ButtonVariant } from '@/components/Button';
+import { Input } from '@/components/Input';
+import { Line } from '@/components/Line';
+import { Modal } from '@/components/Modal';
+import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
+import { useCallsList } from '@/hooks/useCallsList';
+import { schemaContactItem } from '@/schemas/contacts';
+import { Formik } from 'formik';
+import { CheckCircle, X, XCircle } from 'phosphor-react';
+import { Dispatch, SetStateAction } from 'react';
 
 interface IModalAddItemContactList {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -31,15 +29,15 @@ export const ModalAddItemContactList = ({
   const { handleAddContactToCallsList } = useCallsList();
 
   const initialValuesAddItem = {
-    name: "",
-    email: "",
-    phone: "",
+    name: '',
+    email: '',
+    phone: '',
   };
 
   const handleForm = (values: IAddContacts, { resetForm }) => {
-    console.log("nome:", values.name);
-    console.log("email:", values.email);
-    console.log("telefone:", values.phone);
+    console.log('nome:', values.name);
+    console.log('email:', values.email);
+    console.log('telefone:', values.phone);
     handleAddContactToCallsList(values);
     setModalIsOpen(false);
     resetForm();
@@ -70,7 +68,7 @@ export const ModalAddItemContactList = ({
                 <header className="flex justify-between items-center w-full flex-1">
                   <Paragraph
                     size={ParagraphSizeVariant.Medium}
-                    className=" text-purple-secundary !font-mediumm"
+                    className=" text-purple-secundary !font-medium "
                   >
                     Adicionar contato
                   </Paragraph>
@@ -79,7 +77,7 @@ export const ModalAddItemContactList = ({
                       variant={ButtonVariant.iconOnly}
                       className="!w-6 !h-6"
                     >
-                      <XCircle size={24} color="#7F7F7F" />
+                      <XCircle size={24} color="#000" />
                     </Button>
                   </Modal.Close>
                 </header>
@@ -88,28 +86,28 @@ export const ModalAddItemContactList = ({
                   <Input
                     label="Nome"
                     value={values.name}
-                    onChange={handleChange("name")}
-                    onBlur={handleBlur("name")}
+                    onChange={handleChange('name')}
+                    onBlur={handleBlur('name')}
+                    placeholder="Digite o nome"
                     error={errors.name as string}
-                    labelStyle=" text-grey-label font-semibold"
                     className=" !text-grey-label font-light "
                   />
                   <Input
-                    label="Email"
+                    label="E-mail"
                     value={values.email}
-                    onChange={handleChange("email")}
-                    onBlur={handleBlur("email")}
+                    onChange={handleChange('email')}
+                    placeholder="Digite o e-mail"
+                    onBlur={handleBlur('email')}
                     error={errors.email as string}
-                    labelStyle=" text-grey-label font-semibold"
                     className=" !text-grey-label  font-light"
                   />
                   <Input
                     label="Telefone"
                     value={values.phone}
-                    onChange={handleChange("phone")}
-                    onBlur={handleBlur("phone")}
+                    onChange={handleChange('phone')}
+                    onBlur={handleBlur('phone')}
                     error={errors.phone as string}
-                    labelStyle=" text-grey-label font-semibold"
+                    placeholder="Digite o telefone"
                     className=" !text-grey-label  font-light"
                   />
                   <section className="flex justify-end items-center gap-4 mt-[16px]">

@@ -3,38 +3,31 @@ import {
   Paragraph,
   ParagraphSizeVariant,
   Table,
-} from "@/components";
-import { Breadcrumb } from "@/components/Breadcrumb";
-import { Button } from "@/components/Button";
-import { TableHeader } from "@/components/layouts/Headers/TableHeader";
-import { ModalAddItemContactList } from "@/components/layouts/Modals/ModalAddItemContact";
-import { MOCK_CONTACTS } from "@/constants/contentCalls";
-
-import {
-  CaretUp,
-  CheckCircle,
-  DotsThreeOutlineVertical,
-  PlusCircle,
-  Upload,
-} from "phosphor-react";
-
-import { useState } from "react";
+} from '@/components';
+import { Breadcrumb } from '@/components/Breadcrumb';
+import { Button } from '@/components/Button';
+import { TableHeader } from '@/components/layouts/Headers/TableHeader';
+import { ModalAddItemContactList } from '@/components/layouts/Modals/ModalAddItemContact';
+import { MOCK_CONTACTS } from '@/constants/contentCalls';
+import { CheckCircle, PlusCircle, Upload } from 'phosphor-react';
+import { useState } from 'react';
 
 const crumbs = [
   {
-    label: "Contatos",
-    path: "/contacts",
+    label: 'Contatos',
+    path: '/contacts',
   },
   {
-    label: "Criar lista de Contatos",
+    label: 'Criar lista de Contatos',
   },
 ];
 
 const handleAddItem = () => {};
 
 export const CreateListContactsTemplate = () => {
-  const [modalAddItemContactListIsOpen, setmodalAddItemContactListIsOpen] =
+  const [modalAddItemContactListIsOpen, setModalAddItemContactListIsOpen] =
     useState(false);
+
   return (
     <>
       <LayoutWithSidebar>
@@ -44,7 +37,7 @@ export const CreateListContactsTemplate = () => {
             <Button
               className="!w-[200px] !text-sm font-normal"
               leftIcon={<PlusCircle color="#FFF" size={20} />}
-              onClick={() => setmodalAddItemContactListIsOpen(true)}
+              onClick={() => setModalAddItemContactListIsOpen(true)}
             >
               Adicionar contato
             </Button>
@@ -56,10 +49,10 @@ export const CreateListContactsTemplate = () => {
             </Button>
           </div>
           <div>
-            <Paragraph size={ParagraphSizeVariant.Large} className="flex mt-8">
+            <Paragraph className="flex mt-8">
               Aqui você pode criar sua lista de contatos.
             </Paragraph>
-            <Paragraph size={ParagraphSizeVariant.Large}>
+            <Paragraph>
               Você pode criar adicionar o contato manualmente e/ou fazendo
               upload de um arquivo CSV.
             </Paragraph>
@@ -80,7 +73,7 @@ export const CreateListContactsTemplate = () => {
       </LayoutWithSidebar>
       <ModalAddItemContactList
         modalIsOpen={modalAddItemContactListIsOpen}
-        setModalIsOpen={setmodalAddItemContactListIsOpen}
+        setModalIsOpen={setModalAddItemContactListIsOpen}
         handleAddItem={handleAddItem}
       />
     </>
