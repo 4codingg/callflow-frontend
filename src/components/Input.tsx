@@ -53,7 +53,8 @@ export const Input = ({
   };
 
   const inputPlaceholderClassesVariant = {
-    [InputPlaceholderVariant.Default]: '',
+    [InputPlaceholderVariant.Default]:
+      'placeholder:text-xs placeholder:text-grey',
     [InputPlaceholderVariant.Primary]: 'placeholder:text-primary',
     [InputPlaceholderVariant.Secondary]: 'placeholder:text-dark-grey',
   };
@@ -64,12 +65,12 @@ export const Input = ({
       name={label}
       disabled={disabled}
       isOptional={isOptional}
-      className="font-poppins"
+      className="font-poppins font-semibold text-default-grey"
       labelStyle={clsx(labelStyle)}
     >
       <div
         className={clsx(
-          'bg-white rounded p-3 flex items-center text-main-blue',
+          'bg-white rounded p-3 flex items-center text-main-blue mt-3',
           inputClassesVariant[variant],
           {
             '!bg-neutral-light-grey': disabled,
@@ -106,7 +107,8 @@ export const Input = ({
       {label && (
         <Paragraph
           className={clsx({
-            'before:content-["ok"] opacity-0': !error,
+            'before:content-["ok"] opacity-0 my-1': !error,
+            ' my-2 !font-normal !text-xs': error,
           })}
           hasError={!!error}
         >
