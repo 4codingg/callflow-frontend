@@ -1,9 +1,11 @@
 export enum ETabsWallet {
+  Plan = 'Plano',
   PaymentMethods = 'Métodos de pagamentos',
   PaymentHistory = 'Histórico de pagamentos',
 }
 
 export const TABS_WALLET = [
+  ETabsWallet.Plan,
   ETabsWallet.PaymentMethods,
   ETabsWallet.PaymentHistory,
 ];

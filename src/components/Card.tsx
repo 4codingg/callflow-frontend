@@ -1,5 +1,5 @@
-import clsx from "clsx";
-import { ReactNode } from "react";
+import clsx from 'clsx';
+import { ReactNode } from 'react';
 
 export interface ICardProps {
   children: ReactNode;
@@ -8,8 +8,6 @@ export interface ICardProps {
 
 export const Card = ({ children, className }: ICardProps) => {
   return (
-    <div className={clsx("bg-white rounded-2xl p-6", className)}>
-      {children}
-    </div>
+    <div className={clsx('bg-white rounded-lg p-6', className)}>{children}</div>
   );
 };

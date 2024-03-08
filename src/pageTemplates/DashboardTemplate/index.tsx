@@ -23,7 +23,7 @@ export const DashboardTemplate = () => {
           <div className="flex gap-4">
             {SERVICES.map((service) => {
               return (
-                <Card className="max-w-[300px] flex flex-col gap-2">
+                <Card className="flex-1 flex flex-col gap-2">
                   <header className="flex items-center justify-between">
                     <div
                       className={clsx(
@@ -82,13 +82,16 @@ export const DashboardTemplate = () => {
                   >
                     {activitie.icon}
                   </div>
-                  <Paragraph className="w-[25%] text-left">
+                  <Paragraph className="w-[15%] text-left !font-normal">
                     {activitie.title}
                   </Paragraph>
-                  <Paragraph className="w-[30%] text-left">
+                  <Paragraph className="w-[25%] text-left !font-normal">
+                    {activitie.contactsList}
+                  </Paragraph>
+                  <Paragraph className="w-[30%] text-left !font-normal">
                     {activitie.time}
                   </Paragraph>
-                  <Paragraph className="w-[20%] text-left">
+                  <Paragraph className="w-[20%] text-left !font-normal">
                     -R$ {activitie.cost}
                   </Paragraph>
                   <Paragraph

@@ -1,4 +1,3 @@
-import { Button, ButtonVariant } from '@/components/Button';
 import { Modal } from '@/components/Modal';
 import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
 import { toast } from '@/utils/toast';

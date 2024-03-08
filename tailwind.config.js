@@ -3,7 +3,7 @@ const config = {
   theme: {
     extend: {
       colors: {
-        background: "#EFF3FD",
+        background: "#F8FAFC",
         primary: "#783EFD",
         "dark-primary": "#14082E",
         red: "#E85959",
@@ -27,6 +27,7 @@ const config = {
       },
       boxShadow: {
         primary: "0px 4px 16px rgba(90, 85, 210, 0.40)",
+        card: "rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;"
       },
     },
   },
