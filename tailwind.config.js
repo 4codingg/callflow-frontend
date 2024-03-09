@@ -21,6 +21,7 @@ const config = {
         "purple-secundary": "#5A55D2",
         "circle-X": "#7F7F7F",
         "grey-label": "#686E72",
+        "text-grey": "#9a9494",
       },
       fontFamily: {
         poppins: "Poppins, sans-serif",

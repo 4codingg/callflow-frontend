@@ -3,22 +3,23 @@ import {
   Paragraph,
   ParagraphSizeVariant,
   Table,
-} from '@/components';
-import { Breadcrumb } from '@/components/Breadcrumb';
-import { Button } from '@/components/Button';
-import { TableHeader } from '@/components/layouts/Headers/TableHeader';
-import { ModalAddItemContactList } from '@/components/layouts/Modals/ModalAddItemContact';
-import { MOCK_CONTACTS } from '@/constants/contentCalls';
-import { CheckCircle, PlusCircle, Upload } from 'phosphor-react';
-import { useState } from 'react';
+} from "@/components";
+import { Breadcrumb } from "@/components/Breadcrumb";
+import { Button } from "@/components/Button";
+import { TableHeader } from "@/components/layouts/Headers/TableHeader";
+import { ModalAddItemContactList } from "@/components/layouts/Modals/ModalAddItemContact";
+import { ModalUploadCsv } from "@/components/layouts/Modals/ModalUploadCsv";
+import { MOCK_CONTACTS } from "@/constants/contentCalls";
+import { CheckCircle, PlusCircle, Upload } from "phosphor-react";
+import { useState } from "react";
 
 const crumbs = [
   {
-    label: 'Contatos',
-    path: '/contacts',
+    label: "Contatos",
+    path: "/contacts",
   },
   {
-    label: 'Criar lista de Contatos',
+    label: "Criar lista de Contatos",
   },
 ];
 
@@ -27,6 +28,9 @@ const handleAddItem = () => {};
 export const CreateListContactsTemplate = () => {
   const [modalAddItemContactListIsOpen, setModalAddItemContactListIsOpen] =
     useState(false);
+  const [modalUploadCSVIsOpen, setModalUploadCSVIsOpen] = useState(false);
+
+  function handleUploadAccepted() {}
 
   return (
     <>
@@ -44,6 +48,7 @@ export const CreateListContactsTemplate = () => {
             <Button
               className="!w-[200px] !text-sm font-normal !bg-green"
               leftIcon={<Upload color="#FFF" size={20} />}
+              onClick={() => setModalUploadCSVIsOpen(true)}
             >
               Upload de Planilha
             </Button>
@@ -75,6 +80,10 @@ export const CreateListContactsTemplate = () => {
         modalIsOpen={modalAddItemContactListIsOpen}
         setModalIsOpen={setModalAddItemContactListIsOpen}
         handleAddItem={handleAddItem}
+      />
+      <ModalUploadCsv
+        modalIsOpen={modalUploadCSVIsOpen}
+        setModalIsOpen={setModalUploadCSVIsOpen}
       />
     </>
   );
