@@ -19,13 +19,13 @@ export const Sidebar = () => {
             return (
               <Link
                 key={tab.title}
-                className="flex items-center justify-start gap-2 py-3"
+                className="flex items-center justify-start gap-4 py-3"
                 href={tab.route}
               >
                 <div>{tab.icon(isActive)}</div>
                 <span
-                  className={clsx('text-base', {
-                    'text-primary': isActive,
+                  className={clsx('text-sm font-medium font-poppins', {
+                    'text-primary !font-bold': isActive,
                   })}
                 >
                   {tab.title}

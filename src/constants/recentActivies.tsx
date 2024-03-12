@@ -9,6 +9,7 @@ import {
 export const MOCK_ACTIVITIES = [
   {
     title: 'Ligações',
+    contactsList: 'Amplifi List',
     time: '19:13:22 PM',
     status: 'completed',
     cost: 11,
@@ -17,6 +18,7 @@ export const MOCK_ACTIVITIES = [
   },
   {
     title: 'SMSs',
+    contactsList: 'Invoice List',
     time: '09:15:31 AM',
     status: 'pending',
     cost: 21,
@@ -25,6 +27,7 @@ export const MOCK_ACTIVITIES = [
   },
   {
     title: 'SMSs',
+    contactsList: 'Neivy LTDA',
     time: '09:15:31 AM',
     status: 'pending',
     cost: 21,
@@ -33,6 +36,7 @@ export const MOCK_ACTIVITIES = [
   },
   {
     title: 'Emails',
+    contactsList: 'Nexus Company',
     time: '09:15:31 AM',
     status: 'completed',
     cost: 5,

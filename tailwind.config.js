@@ -3,7 +3,7 @@ const config = {
   theme: {
     extend: {
       colors: {
-        background: "#EFF3FD",
+        background: "#F8FAFC",
         primary: "#783EFD",
         "dark-primary": "#14082E",
         red: "#E85959",
@@ -18,6 +18,7 @@ const config = {
         "modal-background": "#000000BF",
         "grey-80": "#808080",
         "grey-secundary": "#DBDAF5",
+        "medium-light-grey": "#D6E4EC",
         "purple-secundary": "#5A55D2",
         "circle-X": "#7F7F7F",
         "grey-label": "#686E72",
@@ -28,6 +29,7 @@ const config = {
       },
       boxShadow: {
         primary: "0px 4px 16px rgba(90, 85, 210, 0.40)",
+        card: "rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;"
       },
     },
   },
