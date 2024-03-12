@@ -18,9 +18,11 @@ const config = {
         "modal-background": "#000000BF",
         "grey-80": "#808080",
         "grey-secundary": "#DBDAF5",
+        "medium-light-grey": "#D6E4EC",
         "purple-secundary": "#5A55D2",
         "circle-X": "#7F7F7F",
         "grey-label": "#686E72",
+        "text-grey": "#9a9494",
       },
       fontFamily: {
         poppins: "Poppins, sans-serif",
