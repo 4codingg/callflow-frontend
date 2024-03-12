@@ -1,14 +1,14 @@
-import { Button, ButtonSizeVariant, ButtonVariant } from '@/components/Button';
-import { Line } from '@/components/Line';
-import { Modal } from '@/components/Modal';
-import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
-import { toast } from '@/utils/toast';
-import { Check, CheckCircle, FileCsv, Trash, X, XCircle } from 'phosphor-react';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { formatFileSize, useCSVReader } from 'react-papaparse';
-import Image from 'next/image';
-import CloudImage from '@/assets/icons/cloud-add.svg';
-import TickeCircle from '@/assets/icons/tick-circle.svg';
+import { Button, ButtonSizeVariant, ButtonVariant } from "@/components/Button";
+import { Line } from "@/components/Line";
+import { Modal } from "@/components/Modal";
+import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
+import { toast } from "@/utils/toast";
+import { Check, CheckCircle, FileCsv, Trash, X, XCircle } from "phosphor-react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { formatFileSize, useCSVReader } from "react-papaparse";
+import Image from "next/image";
+import CloudImage from "@/assets/icons/cloud-add.svg";
+import TickeCircle from "@/assets/icons/tick-circle.svg";
 
 interface IModalUploadCsvProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -30,6 +30,24 @@ export const ModalUploadCsv = ({
 
   const { CSVReader } = useCSVReader();
 
+  function handleDescarteResults() {
+    setPendingResults([]);
+    setFiles([]);
+    setModalIsOpen(false);
+  }
+
+  function handleSalvedResults() {
+    handleUploadAccepted(pendingResults);
+    setModalIsOpen(false);
+    toast("success", "Upload realizado com sucesso");
+    setFiles([]);
+    setPendingResults([]);
+  }
+
+  function handleDeleteUpload(fileName) {
+    setPendingResults(pendingResults.filter((file) => file.name !== fileName));
+    setFiles(files.filter((file) => file.name !== fileName));
+  }
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
       <Modal.Content>
@@ -55,8 +73,8 @@ export const ModalUploadCsv = ({
             }}
             onUploadRejected={() =>
               toast(
-                'error',
-                'Algo deu errado. Cheque a extensão do arquivo e tente novamente.'
+                "error",
+                "Algo deu errado. Cheque a extensão do arquivo e tente novamente."
               )
             }
             multiple={false}
@@ -102,7 +120,10 @@ export const ModalUploadCsv = ({
                     </Paragraph>
                   </Paragraph>
                 </div>
-                <button className="absolute top-3 right-4">
+                <button
+                  onClick={() => handleDeleteUpload(file.name)}
+                  className="absolute top-3 right-4"
+                >
                   <Trash size={16} color="#000" />
                 </button>
               </div>
@@ -113,7 +134,7 @@ export const ModalUploadCsv = ({
               leftIcon={<X size={24} />}
               type="button"
               className="!bg-grey-secundary !text-purple-secundary !w-[213px] !h-[48px] font-medium"
-              onClick={() => setModalIsOpen(false)}
+              onClick={handleDescarteResults}
             >
               Descartar Alterações
             </Button>
@@ -121,7 +142,7 @@ export const ModalUploadCsv = ({
               leftIcon={<CheckCircle size={24} />}
               type="submit"
               className="!w-[109px] !h-[48px] font-medium"
-              onClick={() => handleUploadAccepted(pendingResults)}
+              onClick={handleSalvedResults}
             >
               Salvar
             </Button>

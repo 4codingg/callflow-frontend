@@ -136,12 +136,7 @@ export const Table = ({
           </div>
         </>
       ) : (
-        <div className="flex items-center justify-center flex-col  py-4">
-          <Paragraph size={ParagraphSizeVariant.ExtraLarge}>
-            {emptyMessage}
-          </Paragraph>
-          <Image src={SearchImage} alt="" className="w-1/3 mt-6" />
-        </div>
+        <div className="flex items-center justify-center flex-col  py-4"></div>
       )}
     </div>
   );
