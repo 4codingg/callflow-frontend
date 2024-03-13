@@ -23,13 +23,16 @@ const config = {
         "circle-X": "#7F7F7F",
         "grey-label": "#686E72",
         "text-grey": "#9a9494",
+        "grey-information": "#DBDAF5",
+        "grey-input": "#5C5C5C",
+        "grey-title": "#4A4A4A",
       },
       fontFamily: {
         poppins: "Poppins, sans-serif",
       },
       boxShadow: {
         primary: "0px 4px 16px rgba(90, 85, 210, 0.40)",
-        card: "rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;"
+        card: "rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;",
       },
     },
   },

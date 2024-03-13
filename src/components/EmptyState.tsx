@@ -1,23 +1,37 @@
-import Image from 'next/image';
-import { PlusCircle } from 'phosphor-react';
-import { Button } from './Button';
-import { Paragraph } from './Paragraph';
+import Image from "next/image";
+import { PlusCircle } from "phosphor-react";
+import { Button } from "./Button";
+import { Paragraph } from "./Paragraph";
+import { Heading, HeadingSizeVariant, HeadingVariant } from "./Heading";
 
-export const EmptyState = ({ icon }) => {
+interface EmptyProps {
+  icon?: any;
+  title?: string;
+  description?: string;
+  actionButton?: any;
+  textButton?: string;
+}
+export const EmptyState = ({
+  icon,
+  title,
+  description,
+  actionButton,
+  textButton,
+}: EmptyProps) => {
   return (
     <div className="flex flex-col items-center">
       <section className="flex flex-col items-center gap-1 w-54">
         <Image src={icon} alt="icon-lista-vazia" />
-        <Paragraph className=" font-bold text-lg">
-          A lista está vazia{' '}
+        <Heading size={HeadingSizeVariant.Small}>{title}</Heading>
+        <Paragraph className=" font-normal text-center max-w-[240px]">
+          {" "}
+          {description}
         </Paragraph>
-        <Paragraph> Adicione um contato ou </Paragraph>
-        <Paragraph>faça o upload de uma planilha </Paragraph>
         <Button
-          className="font-light mt-6"
+          className="font-light mt-6 w-[!149]"
           leftIcon={<PlusCircle size={20} color="#FFF" />}
         >
-          Adicionar lista
+          {textButton}
         </Button>
       </section>
     </div>
