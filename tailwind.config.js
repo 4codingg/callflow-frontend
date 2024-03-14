@@ -26,6 +26,7 @@ const config = {
         "grey-information": "#DBDAF5",
         "grey-input": "#5C5C5C",
         "grey-title": "#4A4A4A",
+        "text-label": "#343C44",
       },
       fontFamily: {
         poppins: "Poppins, sans-serif",

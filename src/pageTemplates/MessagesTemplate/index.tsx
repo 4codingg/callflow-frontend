@@ -6,7 +6,7 @@ import {
   HeadingSizeVariant,
 } from "@/components";
 import { Button, ButtonSizeVariant } from "@/components/Button";
-import { CONTENT_CALLS } from "@/constants/contentCalls";
+import { CONTENT_CALLS, MOCK_CONTACTS } from "@/constants/contentCalls";
 import { useRouter } from "next/router";
 import Information from "@/assets/icons/information-circle.svg";
 import Image from "next/image";
@@ -16,6 +16,7 @@ import { EmptyState } from "@/components/EmptyState";
 import Empty from "@/assets/empty-state.png";
 import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
 import { useState } from "react";
+import Select from "@/components/select";
 
 export const MessagesTemplate = () => {
   const router = useRouter();
@@ -54,13 +55,7 @@ export const MessagesTemplate = () => {
         </header>
         <div className="flex justify-between items-end gap-[24px] ">
           <section className="flex gap-[24px] w-full mt-[42px] max-w-[85%] ">
-            <Input
-              type="select"
-              label="Lista de Contatos"
-              placeholder="Selecione sua lista"
-              className=" font-normal text-grey-input h-[40px] "
-              disableError
-            />
+            <Select list={"teste"} label="Lista de Contatos" />
             <Input
               type="text"
               label="Mensagem"
@@ -85,7 +80,7 @@ export const MessagesTemplate = () => {
           </Button>
         </div>
         <div className="mt-8 flex w-full">
-          {CONTENT_CALLS.length == 0 ? (
+          {MOCK_CONTACTS.length == 0 ? (
             <div className="flex w-full justify-center mt-16">
               <EmptyState
                 description="Nenhuma lista foi selecionada,
@@ -96,11 +91,15 @@ selecione para enviar suas mensagens"
               />
             </div>
           ) : (
-            <Table
-              content={CONTENT_CALLS}
-              handleAccessItem={handleAccessItem}
-              disableEditItem
-            />
+            <div className="w-full p-[24px] bg-white">
+              <Heading> Contatos</Heading>
+              <Table
+                checkBox
+                content={MOCK_CONTACTS}
+                handleAccessItem={handleAccessItem}
+                disableEditItem
+              />
+            </div>
           )}
         </div>
       </LayoutWithSidebar>

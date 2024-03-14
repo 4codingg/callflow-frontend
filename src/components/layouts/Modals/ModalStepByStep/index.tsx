@@ -19,28 +19,8 @@ export const ModalStepByStep = ({
   setModalIsOpen,
   modalIsOpen,
 }: IModalAddItemFromContactsProps) => {
-  const [contacts, setContacts] = useState(MOCK_CONTACTS);
-  const [selectedContacts, setSelectedContacts] = useState<Contact[] | null>(
-    []
-  );
-
-  const handleSelectContact = (contact: Contact) => {
-    if (selectedContacts.find((sC) => sC.id === contact.id)) {
-      const selectedContactsFiltered = selectedContacts.filter(
-        (sC) => sC.id !== contact.id
-      );
-      setSelectedContacts([...selectedContactsFiltered]);
-      return;
-    }
-
-    setSelectedContacts([...selectedContacts, contact]);
-    console.log(selectedContacts);
-  };
-
   const handleSave = () => {
-    console.log("=============");
-    console.log(selectedContacts);
-    console.log("=============");
+    setModalIsOpen(false);
   };
 
   return (
@@ -73,7 +53,7 @@ export const ModalStepByStep = ({
                     <Image src={Rocket} alt="Foguete" />
                   </section>
                   <section className="flex flex-col gap-[4px]">
-                    <Paragraph className="text-primary font-bold text-sm">
+                    <Paragraph className="text-primary !font-bold text-base">
                       Passo {instruction.id}
                     </Paragraph>
                     <Paragraph className="font-normal">
@@ -83,7 +63,7 @@ export const ModalStepByStep = ({
                 </div>
               );
             })}
-            <section className="flex justify-end mt-[30px]">
+            <section className="flex justify-end mt-[17px]">
               <Button
                 type="button"
                 className="text-xs font-normal !w-[144px] "

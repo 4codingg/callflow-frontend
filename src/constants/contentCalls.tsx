@@ -4,27 +4,27 @@ export enum EStatus {
 }
 
 export const CONTENT_CALLS = [
-  // {
-  //   id: 1,
-  //   name: 'Billing Calls',
-  //   quantity: 13,
-  //   lastPlay: '03/11/2023 11:23',
-  //   status: 'pending',
-  // },
-  // {
-  //   id: 2,
-  //   name: 'Amplifi Calls',
-  //   quantity: 132,
-  //   lastPlay: '13/10/2023 17:23',
-  //   status: 'pending',
-  // },
-  // {
-  //   id: 3,
-  //   name: 'Marketing Calls',
-  //   quantity: 3,
-  //   lastPlay: '03/11/2023 21:23',
-  //   status: 'completed',
-  // },
+  {
+    id: 1,
+    name: "Billing Calls",
+    quantity: 13,
+    lastPlay: "03/11/2023 11:23",
+    status: "pending",
+  },
+  {
+    id: 2,
+    name: "Amplifi Calls",
+    quantity: 132,
+    lastPlay: "13/10/2023 17:23",
+    status: "pending",
+  },
+  {
+    id: 3,
+    name: "Marketing Calls",
+    quantity: 3,
+    lastPlay: "03/11/2023 21:23",
+    status: "completed",
+  },
 ];
 
 export const INSTRUCTIONS = [
@@ -36,7 +36,7 @@ export const INSTRUCTIONS = [
   { id: 3, description: "Confirme o custo final da lista" },
   {
     id: 4,
-    description: `Após confirmar as informações, clique em ${"Enviar para a lista"} e aguarde a confirmação`,
+    description: `Após confirmar as informações, clique em ${"Enviar para a lista"} e aguarde a confirmação.`,
   },
 ];
 export const MOCK_CONTACTS = [
@@ -117,6 +117,61 @@ export const MOCK_CONTACTS = [
     name: "Pedro Costa",
     phone: "(41) 7654-3210",
     email: "pedro.costa@email.com",
+  },
+];
+
+export const MOCKCONTACTS2 = [
+  {
+    nameList: "Caio",
+    options: [
+      {
+        id: "1",
+        name: "João Silva",
+        phone: "(11) 1234-5678",
+        email: "joao.silva@email.com",
+      },
+      {
+        id: "2",
+        name: "Maria Oliveira",
+        phone: "(21) 9876-5432",
+        email: "maria.oliveira@email.com",
+      },
+      {
+        id: "3",
+        name: "Carlos Santos",
+        phone: "(31) 8765-4321",
+        email: "carlos.santos@email.com",
+      },
+      {
+        id: "4",
+        name: "Ana Souza",
+        phone: "(41) 2345-6789",
+        email: "ana.souza@email.com",
+      },
+    ],
+  },
+  {
+    nameList: "Joao",
+    options: [
+      {
+        id: "2",
+        name: "Maria Oliveira",
+        phone: "(21) 9876-5432",
+        email: "maria.oliveira@email.com",
+      },
+      {
+        id: "3",
+        name: "Carlos Santos",
+        phone: "(31) 8765-4321",
+        email: "carlos.santos@email.com",
+      },
+      {
+        id: "4",
+        name: "Ana Souza",
+        phone: "(41) 2345-6789",
+        email: "ana.souza@email.com",
+      },
+    ],
   },
 ];
 
