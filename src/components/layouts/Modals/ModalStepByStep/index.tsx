@@ -1,14 +1,12 @@
-import { Button, ButtonVariant } from "@/components/Button";
-import { Checkbox } from "@/components/Checkbox";
-import { Line } from "@/components/Line";
-import { Modal } from "@/components/Modal";
-import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { INSTRUCTIONS, MOCK_CONTACTS } from "@/constants/contentCalls";
-import { Contact } from "@/interfaces";
-import Image from "next/image";
-import { ArrowArcRight, ArrowRight, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction, useState } from "react";
-import Rocket from "@/assets/icons/rocket-launch.svg";
+import { Button, ButtonVariant } from '@/components/Button';
+import { Line } from '@/components/Line';
+import { Modal } from '@/components/Modal';
+import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
+import { INSTRUCTIONS, MOCK_CONTACTS } from '@/constants/contentCalls';
+import Image from 'next/image';
+import { ArrowRight, XCircle } from 'phosphor-react';
+import { Dispatch, SetStateAction } from 'react';
+import Rocket from '@/assets/icons/rocket-launch.svg';
 
 interface IModalAddItemFromContactsProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -19,7 +17,7 @@ export const ModalStepByStep = ({
   setModalIsOpen,
   modalIsOpen,
 }: IModalAddItemFromContactsProps) => {
-  const handleSave = () => {
+  const handleOk = () => {
     setModalIsOpen(false);
   };
 
@@ -43,13 +41,12 @@ export const ModalStepByStep = ({
           <Line direction="horizontal" className="mt-4" />
           <form
             className="mt-6 flex flex-col gap-4 min-w-[600px] max-h-[80vh]"
-            onSubmit={handleSave}
+            onSubmit={handleOk}
           >
             {INSTRUCTIONS.map((instruction) => {
               return (
                 <div className="flex justify-start gap-4 items-center">
                   <section>
-                    {" "}
                     <Image src={Rocket} alt="Foguete" />
                   </section>
                   <section className="flex flex-col gap-[4px]">
@@ -67,7 +64,7 @@ export const ModalStepByStep = ({
               <Button
                 type="button"
                 className="text-xs font-normal !w-[144px] "
-                onClick={handleSave}
+                onClick={handleOk}
               >
                 OK, entendi <ArrowRight size={18} />
               </Button>

@@ -4,21 +4,21 @@ import {
   Paragraph,
   ParagraphSizeVariant,
   Table,
-} from "@/components";
-import { Breadcrumb } from "@/components/Breadcrumb";
-import { Button, ButtonSizeVariant } from "@/components/Button";
-import { DropdownMenu } from "@/components/Dropdown";
-import { TableHeader } from "@/components/layouts/Headers/TableHeader";
-import { ModalAddItemCallsList } from "@/components/layouts/Modals/ModalAddItemCallsList";
-import { ModalAddItemFromContacts } from "@/components/layouts/Modals/ModalAddItemFromContacts";
-import { ModalEditItemCallsList } from "@/components/layouts/Modals/ModalEditItemCallsList";
-import { ModalPlayCallsList } from "@/components/layouts/Modals/ModalPlayCallsList";
-import { ModalUploadCsv } from "@/components/layouts/Modals/ModalUploadCsv";
-import { EStatus, MOCK_CONTACTS } from "@/constants/contentCalls";
-import { useCallsList } from "@/hooks/useCallsList";
-import { formatCsvToJson } from "@/utils/formatCsvToJson";
-import { toast } from "@/utils/toast";
-import { useRouter } from "next/router";
+} from '@/components';
+import { Breadcrumb } from '@/components/Breadcrumb';
+import { Button, ButtonSizeVariant } from '@/components/Button';
+import { DropdownMenu } from '@/components/DropdownMenu';
+import { TableHeader } from '@/components/layouts/Headers/TableHeader';
+import { ModalAddItemCallsList } from '@/components/layouts/Modals/ModalAddItemCallsList';
+import { ModalAddItemFromContacts } from '@/components/layouts/Modals/ModalAddItemFromContacts';
+import { ModalEditItemCallsList } from '@/components/layouts/Modals/ModalEditItemCallsList';
+import { ModalPlayCallsList } from '@/components/layouts/Modals/ModalPlayCallsList';
+import { ModalUploadCsv } from '@/components/layouts/Modals/ModalUploadCsv';
+import { EStatus, MOCK_CONTACTS } from '@/constants/contentCalls';
+import { useCallsList } from '@/hooks/useCallsList';
+import { formatCsvToJson } from '@/utils/formatCsvToJson';
+import { toast } from '@/utils/toast';
+import { useRouter } from 'next/router';
 import {
   CaretUp,
   CheckCircle,
@@ -27,19 +27,19 @@ import {
   PlusCircle,
   Upload,
   UsersThree,
-} from "phosphor-react";
-import { useState } from "react";
+} from 'phosphor-react';
+import { useState } from 'react';
 
 const crumbs = [
   {
-    label: "Ligações",
-    path: "/calls",
+    label: 'Ligações',
+    path: '/calls',
   },
   {
-    label: "Editar lista de ligações",
+    label: 'Editar lista de ligações',
   },
   {
-    label: "Amplifi Calls",
+    label: 'Amplifi Calls',
   },
 ];
 
@@ -68,7 +68,7 @@ export const CallsDetailTemplate = () => {
   const actions = [
     {
       icon: <UsersThree color="#14082E" size={16} />,
-      label: "Adicionar de seus contatos",
+      label: 'Adicionar de seus contatos',
       action: () => setModalAddItemFromContactsIsOpen(true),
     },
   ];
@@ -93,7 +93,7 @@ export const CallsDetailTemplate = () => {
   const handleAddItem = () => {};
 
   const handleAccessItem = (id: string) => {
-    router.push("/" + id);
+    router.push('/' + id);
   };
 
   return (
@@ -117,7 +117,7 @@ export const CallsDetailTemplate = () => {
               Adicionar contato
             </Button>
             <Button
-              className="!bg-dark-primary !w-[200px] !text-sm font-normal"
+              className="!bg-black !w-[200px] !text-sm font-normal"
               leftIcon={<Upload color="#FFF" size={16} />}
               onClick={() => setModalUploadCsvIsOpen(true)}
             >
@@ -157,7 +157,7 @@ export const CallsDetailTemplate = () => {
           <div>
             <Paragraph size={ParagraphSizeVariant.Large} className="flex mt-8">
               Aqui você pode editar sua lista para fazer chamadas com mensagens
-              personalizadas.{" "}
+              personalizadas.{' '}
             </Paragraph>
             <Paragraph size={ParagraphSizeVariant.Large}>
               Você pode editar a lista através de seus contatos e/ou fazendo
@@ -176,7 +176,7 @@ export const CallsDetailTemplate = () => {
               <TableHeader
                 title="Lista de contatos"
                 status={EStatus.Completed}
-                lastPlay={"12/03/2023 17:32"}
+                lastPlay={'12/03/2023 17:32'}
                 handleResetList={() => setResults([])}
                 saveButtonIsAble={existsPendingChange}
                 showActions={!!results.length}

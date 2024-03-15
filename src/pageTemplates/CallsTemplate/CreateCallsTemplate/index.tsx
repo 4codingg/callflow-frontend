@@ -5,18 +5,18 @@ import {
   Paragraph,
   ParagraphSizeVariant,
   Table,
-} from "@/components";
-import { Breadcrumb } from "@/components/Breadcrumb";
-import { Button } from "@/components/Button";
-import { DropdownMenu } from "@/components/Dropdown";
-import { TableHeader } from "@/components/layouts/Headers/TableHeader";
-import { ModalAddItemCallsList } from "@/components/layouts/Modals/ModalAddItemCallsList";
-import { ModalAddItemFromContacts } from "@/components/layouts/Modals/ModalAddItemFromContacts";
-import { ModalConfirmCreateCallsList } from "@/components/layouts/Modals/ModalConfirmCreateCallsList";
-import { ModalEditItemCallsList } from "@/components/layouts/Modals/ModalEditItemCallsList";
-import { ModalUploadCsv } from "@/components/layouts/Modals/ModalUploadCsv";
-import { formatCsvToJson } from "@/utils/formatCsvToJson";
-import { useRouter } from "next/router";
+} from '@/components';
+import { Breadcrumb } from '@/components/Breadcrumb';
+import { Button } from '@/components/Button';
+import { DropdownMenu } from '@/components/DropdownMenu';
+import { TableHeader } from '@/components/layouts/Headers/TableHeader';
+import { ModalAddItemCallsList } from '@/components/layouts/Modals/ModalAddItemCallsList';
+import { ModalAddItemFromContacts } from '@/components/layouts/Modals/ModalAddItemFromContacts';
+import { ModalConfirmCreateCallsList } from '@/components/layouts/Modals/ModalConfirmCreateCallsList';
+import { ModalEditItemCallsList } from '@/components/layouts/Modals/ModalEditItemCallsList';
+import { ModalUploadCsv } from '@/components/layouts/Modals/ModalUploadCsv';
+import { formatCsvToJson } from '@/utils/formatCsvToJson';
+import { useRouter } from 'next/router';
 import {
   CaretUp,
   CheckCircle,
@@ -24,17 +24,17 @@ import {
   PlusCircle,
   Upload,
   UsersThree,
-} from "phosphor-react";
-import { useState } from "react";
-import { useCSVReader, formatFileSize } from "react-papaparse";
+} from 'phosphor-react';
+import { useState } from 'react';
+import { useCSVReader, formatFileSize } from 'react-papaparse';
 
 const crumbs = [
   {
-    label: "Ligações",
-    path: "/calls",
+    label: 'Ligações',
+    path: '/calls',
   },
   {
-    label: "Criar lista de ligações",
+    label: 'Criar lista de ligações',
   },
 ];
 
@@ -62,7 +62,7 @@ export const CreateCallsTemplate = () => {
   const actions = [
     {
       icon: <UsersThree color="#14082E" size={16} />,
-      label: "Adicionar de seus contatos",
+      label: 'Adicionar de seus contatos',
       action: () => setModalAddItemFromContactsIsOpen(true),
     },
   ];
@@ -73,7 +73,7 @@ export const CreateCallsTemplate = () => {
   };
 
   const handleCreateCallsList = () => {
-    console.log("Criando lista...");
+    console.log('Criando lista...');
   };
 
   const handleDeleteItem = (id: string) => {
@@ -91,8 +91,8 @@ export const CreateCallsTemplate = () => {
   const handleAddItem = () => {};
 
   const handleAccessItem = (id: string) => {
-    console.log("id ==> ", id);
-    router.push("/" + id);
+    console.log('id ==> ', id);
+    router.push('/' + id);
   };
 
   return (
@@ -109,7 +109,7 @@ export const CreateCallsTemplate = () => {
               Adicionar contato
             </Button>
             <Button
-              className="!bg-dark-primary !w-[200px] !text-sm font-normal"
+              className="!bg-black !w-[200px] !text-sm font-normal"
               leftIcon={<Upload color="#FFF" size={16} />}
               onClick={() => setModalUploadCsvIsOpen(true)}
             >
@@ -149,7 +149,7 @@ export const CreateCallsTemplate = () => {
           <div>
             <Paragraph size={ParagraphSizeVariant.Large} className="flex mt-8">
               Aqui você pode criar uma lista para fazer chamadas com mensagens
-              personalizadas.{" "}
+              personalizadas.{' '}
             </Paragraph>
             <Paragraph size={ParagraphSizeVariant.Large}>
               Você pode criar a lista através de seus contatos e/ou fazendo

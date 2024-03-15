@@ -1,13 +1,9 @@
-import { LayoutWithSidebar } from "@/components";
-import { Button, ButtonVariant } from "@/components/Button";
-import { DropdownMenu } from "@/components/Dropdown";
-import { CALL_DETAIL_ACTIONS } from "@/constants/callDetailActions";
-import { DotsThreeVertical } from "phosphor-react";
+import Link from 'next/link';
 
 const IndexPage = () => (
-  // <LayoutWithSidebar title="Home | Next.js + TypeScript Example">
-  <div className="flex items-center w-full h-[100vh] justify-center z-[70]"></div>
-  // </LayoutWithSidebar>
+  <div className="flex items-center w-full h-[100vh] justify-center z-[70]">
+    <Link href="/dashboard">Go to dashboard</Link>
+  </div>
 );
 
 export default IndexPage;

@@ -1,14 +1,14 @@
-import { Button, ButtonSizeVariant, ButtonVariant } from "@/components/Button";
-import { Line } from "@/components/Line";
-import { Modal } from "@/components/Modal";
-import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { toast } from "@/utils/toast";
-import { Check, CheckCircle, FileCsv, Trash, X, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction, useState } from "react";
-import { formatFileSize, useCSVReader } from "react-papaparse";
-import Image from "next/image";
-import CloudImage from "@/assets/icons/cloud-add.svg";
-import TickeCircle from "@/assets/icons/tick-circle.svg";
+import { Button, ButtonSizeVariant, ButtonVariant } from '@/components/Button';
+import { Line } from '@/components/Line';
+import { Modal } from '@/components/Modal';
+import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
+import { toast } from '@/utils/toast';
+import { Check, CheckCircle, FileCsv, Trash, X, XCircle } from 'phosphor-react';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { formatFileSize, useCSVReader } from 'react-papaparse';
+import Image from 'next/image';
+import CloudImage from '@/assets/icons/cloud-add.svg';
+import TickeCircle from '@/assets/icons/tick-circle.svg';
 
 interface IModalUploadCsvProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -39,7 +39,7 @@ export const ModalUploadCsv = ({
   function handleSalvedResults() {
     handleUploadAccepted(pendingResults);
     setModalIsOpen(false);
-    toast("success", "Upload realizado com sucesso");
+    toast('success', 'Upload realizado com sucesso');
     setFiles([]);
     setPendingResults([]);
   }
@@ -73,8 +73,8 @@ export const ModalUploadCsv = ({
             }}
             onUploadRejected={() =>
               toast(
-                "error",
-                "Algo deu errado. Cheque a extensão do arquivo e tente novamente."
+                'error',
+                'Algo deu errado. Cheque a extensão do arquivo e tente novamente.'
               )
             }
             multiple={false}
@@ -91,7 +91,7 @@ export const ModalUploadCsv = ({
                       <Paragraph className=" text-center font-medium">
                         Escolha um arquivo e arraste-o até aqui
                       </Paragraph>
-                      <Paragraph className="text-text-grey">
+                      <Paragraph className="text-default-grey">
                         .xlsx ou .csv até 50mb
                       </Paragraph>
                       <Button

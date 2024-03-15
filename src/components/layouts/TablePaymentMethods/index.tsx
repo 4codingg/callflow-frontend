@@ -50,7 +50,7 @@ export const TablePaymentMethods = ({
   };
 
   return (
-    <div className="flex flex-col bg-white w-full px-8 py-6 rounded-2xl">
+    <div className="flex flex-col border border-muted shadow-md w-full px-8 py-6 rounded-2xl">
       <header>{headerComponent}</header>
       {titles.length ? (
         <>
@@ -74,9 +74,7 @@ export const TablePaymentMethods = ({
                 <th
                   className={`flex justify-start`}
                   style={{ width: calculateWidthSize() }}
-                >
-                  {/* <Paragraph className="font-medium">Actions</Paragraph> */}
-                </th>
+                ></th>
               </tr>
             </thead>
             <tbody className={`flex flex-col gap-4 mt-4 w-full`}>

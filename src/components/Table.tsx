@@ -1,12 +1,12 @@
-import { convertCamelCaseToWords } from "@/utils/convertCamelCaseToWords";
-import { CaretRight, PencilLine, Trash } from "phosphor-react";
-import { Line } from "./Line";
-import { Paragraph, ParagraphSizeVariant } from "./Paragraph";
-import SearchImage from "@/assets/search.svg";
-import Image from "next/image";
-import { Heading } from "./Heading";
-import { ReactNode } from "react";
-import { Checkbox } from "@/components/Checkbox";
+import { convertCamelCaseToWords } from '@/utils/convertCamelCaseToWords';
+import { CaretRight, PencilLine, Trash } from 'phosphor-react';
+import { Line } from './Line';
+import { Paragraph, ParagraphSizeVariant } from './Paragraph';
+import SearchImage from '@/assets/search.svg';
+import Image from 'next/image';
+import { Heading } from './Heading';
+import { ReactNode } from 'react';
+import { Checkbox } from '@/components/Checkbox';
 
 interface ITableProps {
   content: any[];
@@ -37,7 +37,7 @@ export const Table = ({
   checkBox,
 }: ITableProps) => {
   const titles = content[0]
-    ? Object.keys(content[0]).filter((item) => item != "id")
+    ? Object.keys(content[0]).filter((item) => item != 'id')
     : [];
 
   const calculateWidthSize = () => {
@@ -46,7 +46,7 @@ export const Table = ({
   };
 
   return (
-    <div className="flex flex-col bg-white w-full px-8 py-6 rounded-2xl">
+    <div className="flex flex-col border border-muted shadow-sm w-full px-8 py-6 rounded-2xl">
       <header>{headerComponent}</header>
       {titles.length ? (
         <>

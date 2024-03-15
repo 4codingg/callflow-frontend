@@ -2,14 +2,15 @@ import { TABS_SIDEBAR } from '@/constants';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Line } from './Line';
+import { Line } from '@/components/Line';
+import { Logo } from '@/components/Logo';
 
 export const Sidebar = () => {
   const { pathname } = useRouter();
 
   return (
-    <aside className="w-full h-full flex flex-col gap-4 items-center bg-white px-6 py-8">
-      <div>LOGO</div>
+    <aside className="w-full h-full flex flex-col gap-4 items-center px-6 py-8 border-r border-muted shadow-sm">
+      <Logo />
       <Line />
       <div className="w-full flex flex-col items-center">
         <ul className="flex flex-col gap-4 mt-8">
