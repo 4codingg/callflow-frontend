@@ -84,7 +84,7 @@ export const TextArea = ({
           id={name}
           disabled={disabled}
           className={clsx(
-            'resize-none w-full outline-none text-sm font-poppins disabled:text-dark-grey rounded bg-transparent h-[150px] py-4',
+            'resize-none w-full outline-none text-sm font-poppins disabled:text-dark-grey rounded bg-transparent h-[150px] p2',
             textAreaPlaceholderClassesVariant[variantPlaceholder]
           )}
           autoComplete="off"

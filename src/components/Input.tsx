@@ -25,6 +25,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   variantPlaceholder?: InputPlaceholderVariant;
   labelStyle?: string;
   isLoading?: boolean;
+  disableError?: boolean;
 }
 
 export const Input = ({
@@ -41,6 +42,7 @@ export const Input = ({
   variantPlaceholder = InputPlaceholderVariant.Default,
   labelStyle,
   isLoading = false,
+  disableError,
   ...props
 }: InputProps) => {
   const inputClassesVariant = {
@@ -54,7 +56,7 @@ export const Input = ({
 
   const inputPlaceholderClassesVariant = {
     [InputPlaceholderVariant.Default]:
-      'placeholder:text-xs placeholder:text-grey',
+      'placeholder:text-xs placeholder:default-grey',
     [InputPlaceholderVariant.Primary]: 'placeholder:text-primary',
     [InputPlaceholderVariant.Secondary]: 'placeholder:text-dark-grey',
   };
@@ -65,7 +67,7 @@ export const Input = ({
       name={label}
       disabled={disabled}
       isOptional={isOptional}
-      className="font-poppins font-semibold text-default-grey"
+      className="font-poppins font-semibold text-sm text-default-grey"
       labelStyle={clsx(labelStyle)}
     >
       <div
@@ -73,7 +75,7 @@ export const Input = ({
           'bg-white rounded p-3 flex items-center text-main-blue mt-3',
           inputClassesVariant[variant],
           {
-            '!bg-neutral-light-grey': disabled,
+            '!bg-medium-light-grey': disabled,
             'border-negative-dark border-opacity-100': error,
             'border-neutral-grey': !error,
           },
@@ -104,7 +106,7 @@ export const Input = ({
         {iconRight && <div className="ml-2">{iconRight}</div>}
       </div>
 
-      {label && (
+      {label && !disableError && (
         <Paragraph
           className={clsx({
             'before:content-["ok"] opacity-0 my-1': !error,

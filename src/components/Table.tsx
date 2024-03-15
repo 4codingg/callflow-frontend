@@ -6,6 +6,7 @@ import SearchImage from '@/assets/search.svg';
 import Image from 'next/image';
 import { Heading } from './Heading';
 import { ReactNode } from 'react';
+import { Checkbox } from '@/components/Checkbox';
 
 interface ITableProps {
   content: any[];
@@ -19,6 +20,7 @@ interface ITableProps {
   emptyMessage?: string;
   tableTitle?: string;
   headerComponent?: ReactNode;
+  checkBox?: boolean;
 }
 
 export const Table = ({
@@ -32,6 +34,7 @@ export const Table = ({
   emptyMessage,
   tableTitle,
   headerComponent,
+  checkBox,
 }: ITableProps) => {
   const titles = content[0]
     ? Object.keys(content[0]).filter((item) => item != 'id')
@@ -78,6 +81,11 @@ export const Table = ({
                   key={item.name}
                   className="w-full flex hover:bg-background px-8 py-4"
                 >
+                  {checkBox == true ? (
+                    <Checkbox size={24} className="mr-3" />
+                  ) : (
+                    <div> </div>
+                  )}
                   {titles.map((title) => (
                     <td
                       className={`flex `}

@@ -90,7 +90,7 @@ export const ModalAddItemContactList = ({
                     onBlur={handleBlur('name')}
                     placeholder="Digite o nome"
                     error={errors.name as string}
-                    className=" !text-grey-label font-light "
+                    className=" !default-grey-label font-light "
                   />
                   <Input
                     label="E-mail"
@@ -99,7 +99,7 @@ export const ModalAddItemContactList = ({
                     placeholder="Digite o e-mail"
                     onBlur={handleBlur('email')}
                     error={errors.email as string}
-                    className=" !text-grey-label  font-light"
+                    className=" !default-grey-label  font-light"
                   />
                   <Input
                     label="Telefone"
@@ -108,7 +108,7 @@ export const ModalAddItemContactList = ({
                     onBlur={handleBlur('phone')}
                     error={errors.phone as string}
                     placeholder="Digite o telefone"
-                    className=" !text-grey-label  font-light"
+                    className=" !default-grey-label  font-light"
                   />
                   <section className="flex justify-end items-center gap-4 mt-[16px]">
                     <Button

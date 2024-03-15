@@ -5,6 +5,7 @@ const config = {
       colors: {
         "background": "#F8FAFC",
         "primary": "#783EFD",
+        "light-primary": "#DBDAF5",
         "red": "#E85959",
         "green": "#00DEA3",
         "orange": "#F7931A",

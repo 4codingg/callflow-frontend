@@ -2,8 +2,8 @@ import { TABS_SIDEBAR } from '@/constants';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Line } from '../../Line';
-import { Logo } from '../../Logo';
+import { Line } from '@/components/Line';
+import { Logo } from '@/components/Logo';
 
 export const Sidebar = () => {
   const { pathname } = useRouter();

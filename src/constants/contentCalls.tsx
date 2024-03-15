@@ -27,6 +27,25 @@ export const CONTENT_CALLS = [
   },
 ];
 
+export const INSTRUCTIONS = [
+  {
+    id: 1,
+    description: 'Selecione sua lista de contatos',
+  },
+  {
+    id: 2,
+    description: 'Selecione a mensagem que será enviada',
+  },
+  {
+    id: 3,
+    description: 'Confirme o custo final da lista',
+  },
+  {
+    id: 4,
+    description: `Após confirmar as informações, clique em ${'Enviar para a lista'} e aguarde a confirmação.`,
+  },
+];
+
 export const MOCK_CONTACTS = [
   {
     id: '1',
@@ -108,6 +127,61 @@ export const MOCK_CONTACTS = [
   },
 ];
 
+export const MOCKCONTACTS2 = [
+  {
+    nameList: 'Caio',
+    options: [
+      {
+        id: '1',
+        name: 'João Silva',
+        phone: '(11) 1234-5678',
+        email: 'joao.silva@email.com',
+      },
+      {
+        id: '2',
+        name: 'Maria Oliveira',
+        phone: '(21) 9876-5432',
+        email: 'maria.oliveira@email.com',
+      },
+      {
+        id: '3',
+        name: 'Carlos Santos',
+        phone: '(31) 8765-4321',
+        email: 'carlos.santos@email.com',
+      },
+      {
+        id: '4',
+        name: 'Ana Souza',
+        phone: '(41) 2345-6789',
+        email: 'ana.souza@email.com',
+      },
+    ],
+  },
+  {
+    nameList: 'Joao',
+    options: [
+      {
+        id: '2',
+        name: 'Maria Oliveira',
+        phone: '(21) 9876-5432',
+        email: 'maria.oliveira@email.com',
+      },
+      {
+        id: '3',
+        name: 'Carlos Santos',
+        phone: '(31) 8765-4321',
+        email: 'carlos.santos@email.com',
+      },
+      {
+        id: '4',
+        name: 'Ana Souza',
+        phone: '(41) 2345-6789',
+        email: 'ana.souza@email.com',
+      },
+    ],
+  },
+];
+
 export const MOCK_MEMBERS = [
   {
     id: '1',
@@ -130,4 +204,10 @@ export const MOCK_MEMBERS = [
     email: 'carlos.santos@email.com',
     role: 'Membro',
   },
+];
+
+export const OPTIONSLIST = [
+  { value: 'contact1', label: 'Lista de Contatos 1' },
+  { value: 'contact2', label: 'Lista de Contatos 2' },
+  { value: 'contact3', label: 'Lista de Contatos 3' },
 ];

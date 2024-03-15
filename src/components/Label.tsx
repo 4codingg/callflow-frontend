@@ -25,7 +25,7 @@ export const Label = ({
       {...props}
     >
       {name && (
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between font-semibold text-default-grey">
           <Paragraph disabled={disabled} className={labelStyle}>
             {name}
           </Paragraph>
