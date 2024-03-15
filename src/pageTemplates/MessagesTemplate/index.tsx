@@ -6,7 +6,11 @@ import {
   HeadingSizeVariant,
 } from "@/components";
 import { Button, ButtonSizeVariant } from "@/components/Button";
-import { CONTENT_CALLS, MOCK_CONTACTS } from "@/constants/contentCalls";
+import {
+  CONTENT_CALLS,
+  MOCK_CONTACTS,
+  OPTIONSLIST,
+} from "@/constants/contentCalls";
 import { useRouter } from "next/router";
 import Information from "@/assets/icons/information-circle.svg";
 import Image from "next/image";
@@ -16,7 +20,8 @@ import { EmptyState } from "@/components/EmptyState";
 import Empty from "@/assets/empty-state.png";
 import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
 import { useState } from "react";
-import Select from "@/components/select";
+import { Dropdown } from "@/components/Dropdown";
+import { ModalConfirmedMensage } from "@/components/layouts/Modals/ModalConfirmedMensage";
 
 export const MessagesTemplate = () => {
   const router = useRouter();
@@ -25,9 +30,14 @@ export const MessagesTemplate = () => {
   };
 
   const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState(false);
+  const [modalConfirmedMensage, setModalConfirmedMensage] = useState(false);
 
   function handleInstructions() {
     setModalStepByStepIsOpen(true);
+  }
+
+  function handleConfirmedMensage() {
+    setModalConfirmedMensage(true);
   }
   return (
     <>
@@ -55,7 +65,7 @@ export const MessagesTemplate = () => {
         </header>
         <div className="flex justify-between items-end gap-[24px] ">
           <section className="flex gap-[24px] w-full mt-[42px] max-w-[85%] ">
-            <Select list={"teste"} label="Lista de Contatos" />
+            <Dropdown options={OPTIONSLIST} label="Lista de Contatos" />
             <Input
               type="text"
               label="Mensagem"
@@ -67,14 +77,14 @@ export const MessagesTemplate = () => {
               type="text"
               label="Custo"
               disableError
-              className="h-[40px] font-normal text-primary"
+              className="h-[40px] font-normal  text-primary"
               disabled
               value={"R$ 3,00"}
             />
           </section>
           <Button
             className=" !h[48px] !w-[160px] rounded-2xl text-xs font-medium "
-            disabled
+            onClick={handleConfirmedMensage}
           >
             Enviar para lista <Check size={18} />
           </Button>
@@ -94,7 +104,6 @@ selecione para enviar suas mensagens"
             <div className="w-full p-[24px] bg-white">
               <Heading> Contatos</Heading>
               <Table
-                checkBox
                 content={MOCK_CONTACTS}
                 handleAccessItem={handleAccessItem}
                 disableEditItem
@@ -106,6 +115,10 @@ selecione para enviar suas mensagens"
       <ModalStepByStep
         modalIsOpen={modalStepByStepIsOpen}
         setModalIsOpen={setModalStepByStepIsOpen}
+      />
+      <ModalConfirmedMensage
+        modalIsOpen={modalConfirmedMensage}
+        setModalIsOpen={setModalConfirmedMensage}
       />
     </>
   );

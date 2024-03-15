@@ -7,7 +7,7 @@ import {
 } from "@/components";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { Button, ButtonSizeVariant } from "@/components/Button";
-import { DropdownMenu } from "@/components/DropdownMenu";
+import { DropdownMenu } from "@/components/Dropdown";
 import { TableHeader } from "@/components/layouts/Headers/TableHeader";
 import { ModalAddItemCallsList } from "@/components/layouts/Modals/ModalAddItemCallsList";
 import { ModalAddItemFromContacts } from "@/components/layouts/Modals/ModalAddItemFromContacts";

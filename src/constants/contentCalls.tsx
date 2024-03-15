@@ -198,3 +198,9 @@ export const MOCK_MEMBERS = [
     role: "Membro",
   },
 ];
+
+export const OPTIONSLIST = [
+  { value: "contact1", label: "Lista de Contatos 1" },
+  { value: "contact2", label: "Lista de Contatos 2" },
+  { value: "contact3", label: "Lista de Contatos 3" },
+];

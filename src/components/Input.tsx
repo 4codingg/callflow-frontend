@@ -67,7 +67,7 @@ export const Input = ({
       name={label}
       disabled={disabled}
       isOptional={isOptional}
-      className="font-poppins font-semibold text-default-grey"
+      className="font-poppins font-semibold text-sm text-default-grey"
       labelStyle={clsx(labelStyle)}
     >
       <div

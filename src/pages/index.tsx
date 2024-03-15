@@ -1,8 +1,8 @@
-import { LayoutWithSidebar } from '@/components';
-import { Button, ButtonVariant } from '@/components/Button';
-import { DropdownMenu } from '@/components/DropdownMenu';
-import { CALL_DETAIL_ACTIONS } from '@/constants/callDetailActions';
-import { DotsThreeVertical } from 'phosphor-react';
+import { LayoutWithSidebar } from "@/components";
+import { Button, ButtonVariant } from "@/components/Button";
+import { DropdownMenu } from "@/components/Dropdown";
+import { CALL_DETAIL_ACTIONS } from "@/constants/callDetailActions";
+import { DotsThreeVertical } from "phosphor-react";
 
 const IndexPage = () => (
   // <LayoutWithSidebar title="Home | Next.js + TypeScript Example">
