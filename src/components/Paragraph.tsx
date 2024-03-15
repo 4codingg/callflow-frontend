@@ -37,7 +37,7 @@ export const Paragraph = ({
         'font-poppins font-medium',
         ParagraphClassesSize[size],
         {
-          'text-dark-primary': !disabled && !hasError,
+          'text-black': !disabled && !hasError,
           'text-dark-grey': disabled,
           'text-negative-dark': hasError,
         },

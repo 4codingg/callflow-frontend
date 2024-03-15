@@ -109,7 +109,7 @@ export const CreateCallsTemplate = () => {
               Adicionar contato
             </Button>
             <Button
-              className="!bg-dark-primary !w-[200px] !text-sm font-normal"
+              className="!bg-black !w-[200px] !text-sm font-normal"
               leftIcon={<Upload color="#FFF" size={16} />}
               onClick={() => setModalUploadCsvIsOpen(true)}
             >

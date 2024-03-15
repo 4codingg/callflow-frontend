@@ -3,15 +3,14 @@ const config = {
   theme: {
     extend: {
       colors: {
-        background: "#F8FAFC",
-        primary: "#783EFD",
-        "dark-primary": "#14082E",
-        red: "#E85959",
-        green: "#00DEA3",
-        orange: "#F7931A",
+        "background": "#F8FAFC",
+        "primary": "#783EFD",
+        "red": "#E85959",
+        "green": "#00DEA3",
+        "orange": "#F7931A",
         "negative-dark": "#CC0000",
-        neutral: "#fafafa",
-        "default-grey": "#343C44",
+        "neutral": "#fafafa",
+        "default-grey": "#71717A",
         "light-grey": "#EFF0F4",
         "medium-grey": "#667483",
         "light-light-grey": "#F7F8FA",
@@ -22,14 +21,14 @@ const config = {
         "purple-secundary": "#5A55D2",
         "circle-X": "#7F7F7F",
         "grey-label": "#686E72",
-        "text-grey": "#9a9494",
+        "muted": "##E4E4E7",
       },
       fontFamily: {
         poppins: "Poppins, sans-serif",
       },
       boxShadow: {
         primary: "0px 4px 16px rgba(90, 85, 210, 0.40)",
-        card: "rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;"
+        card: "0 2px 2px 0 rgba(0, 0, 0, 0.10)"
       },
     },
   },
