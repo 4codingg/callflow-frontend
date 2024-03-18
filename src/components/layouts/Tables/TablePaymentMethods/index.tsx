@@ -1,6 +1,5 @@
-import { convertCamelCaseToWords } from '@/utils/convertCamelCaseToWords';
-import { CaretRight, PencilLine, Trash } from 'phosphor-react';
-import { Line } from '@/components/Line';
+import { convertCamelCaseToWordsAndTranslate } from '@/utils/convertCamelCaseToWords';
+import { Trash } from 'phosphor-react';
 import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
 import SearchImage from '@/assets/search.svg';
 import HiperCardIcon from '@/assets/icons/hipercard-icon.svg';
@@ -9,33 +8,19 @@ import EloIcon from '@/assets/icons/elo-icon.svg';
 import VisaIcon from '@/assets/icons/visa-icon.svg';
 import Image from 'next/image';
 import { Heading } from '@/components/Heading';
-import { ReactNode } from 'react';
 
 interface ITablePaymentMethodsProps {
   paymentMethods: any[];
-  showIdColumn?: false;
   handleDeleteItem?: (id: string) => void;
-  handleEditItem?: (id: string) => void;
-  handleAccessItem?: (id: string) => void;
-  disableAccessItem?: boolean;
-  disableDeleteItem?: boolean;
-  disableEditItem?: boolean;
   emptyMessage?: string;
   tableTitle?: string;
-  headerComponent?: ReactNode;
 }
 
 export const TablePaymentMethods = ({
   paymentMethods,
-  handleAccessItem,
   handleDeleteItem,
-  handleEditItem,
-  disableAccessItem,
-  disableDeleteItem,
-  disableEditItem,
   emptyMessage,
   tableTitle,
-  headerComponent,
 }: ITablePaymentMethodsProps) => {
   const titles = [
     'Apelido',
@@ -50,8 +35,7 @@ export const TablePaymentMethods = ({
   };
 
   return (
-    <div className="flex flex-col border border-muted shadow-md w-full px-8 py-6 rounded-2xl">
-      <header>{headerComponent}</header>
+    <div className="flex flex-col border border-muted shadow-md w-full px-8 py-6 rounded">
       {titles.length ? (
         <>
           <Heading className=" mb-4">{tableTitle}</Heading>
@@ -66,7 +50,7 @@ export const TablePaymentMethods = ({
                       style={{ width: calculateWidthSize() }}
                     >
                       <Paragraph className="font-medium">
-                        {convertCamelCaseToWords(title)}
+                        {convertCamelCaseToWordsAndTranslate(title)}
                       </Paragraph>
                     </th>
                   );
@@ -107,50 +91,20 @@ export const TablePaymentMethods = ({
                     className={`flex  gap-2`}
                     style={{ width: calculateWidthSize() }}
                   >
-                    {!disableDeleteItem && (
-                      <button
-                        onClick={() => handleDeleteItem(item.id)}
-                        className="bg-none border-none rounded-full hover:bg-primary hover:text-white p-1"
-                      >
-                        <Trash
-                          size={20}
-                          className="text-primary hover:text-white"
-                        />
-                      </button>
-                    )}
-                    {!disableEditItem && (
-                      <button
-                        onClick={() => handleEditItem(item.id)}
-                        className="bg-none border-none rounded-full hover:bg-primary hover:text-white p-1"
-                      >
-                        <PencilLine
-                          size={20}
-                          className="text-primary hover:text-white"
-                        />
-                      </button>
-                    )}
-                    {!disableAccessItem && (
-                      <button
-                        onClick={() => handleAccessItem(item.id)}
-                        className="bg-none border-none rounded-full hover:bg-primary hover:text-white p-1"
-                      >
-                        <CaretRight
-                          size={20}
-                          className="text-primary hover:text-white"
-                        />
-                      </button>
-                    )}
+                    <button
+                      onClick={() => handleDeleteItem(item.id)}
+                      className="bg-none border-none rounded-full hover:bg-primary hover:text-white p-1"
+                    >
+                      <Trash
+                        size={20}
+                        className="text-primary hover:text-white"
+                      />
+                    </button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <Line className="my-4 " />
-          <div>
-            <Paragraph size={ParagraphSizeVariant.Large}>
-              Total Items: {paymentMethods.length}
-            </Paragraph>
-          </div>
         </>
       ) : (
         <div className="flex items-center justify-center flex-col  py-4">

@@ -1,4 +1,4 @@
-import { Heading, LayoutWithSidebar, Table } from '@/components';
+import { Heading, LayoutWithSidebar, Paragraph, Table } from '@/components';
 import { MOCK_MEMBERS } from '@/constants/contentCalls';
 import { useState } from 'react';
 
@@ -12,6 +12,9 @@ export const MembersTemplate = () => {
   return (
     <LayoutWithSidebar>
       <Heading>Members</Heading>
+      <Paragraph className="!text-default-grey">
+        Adicione membros para compor seu time.
+      </Paragraph>
       <div className="mt-4">
         <Table
           content={members}

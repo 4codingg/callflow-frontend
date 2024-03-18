@@ -43,6 +43,33 @@ export const MOCK_ACTIVITIES = [
     icon: <Envelope color="#fff" weight="bold" />,
     colorIcon: '#FE8F66',
   },
+  {
+    title: 'Emails',
+    contactsList: 'Nexus Company',
+    time: '09:15:31 AM',
+    status: 'completed',
+    cost: 5,
+    icon: <Envelope color="#fff" weight="bold" />,
+    colorIcon: '#FE8F66',
+  },
+  {
+    title: 'Ligações',
+    contactsList: 'Nexus Company',
+    time: '09:15:31 AM',
+    status: 'completed',
+    cost: 5,
+    icon: <PhoneIncoming color="#fff" weight="bold" />,
+    colorIcon: '#00DEA3',
+  },
+  {
+    title: 'SMSs',
+    contactsList: 'Nexus Company',
+    time: '09:15:31 AM',
+    status: 'completed',
+    cost: 51,
+    icon: <Chat color="#fff" weight="bold" />,
+    colorIcon: '#FE8F66',
+  },
 ];
 
 export const MOCK_ACTIVITIES2 = [

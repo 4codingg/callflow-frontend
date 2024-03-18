@@ -1,9 +1,7 @@
-import { convertCamelCaseToWords } from '@/utils/convertCamelCaseToWords';
+import { convertCamelCaseToWordsAndTranslate } from '@/utils/convertCamelCaseToWords';
 import { CaretRight, PencilLine, Trash } from 'phosphor-react';
 import { Line } from './Line';
 import { Paragraph, ParagraphSizeVariant } from './Paragraph';
-import SearchImage from '@/assets/search.svg';
-import Image from 'next/image';
 import { Heading } from './Heading';
 import { ReactNode } from 'react';
 import { Checkbox } from '@/components/Checkbox';
@@ -17,7 +15,6 @@ interface ITableProps {
   disableAccessItem?: boolean;
   disableDeleteItem?: boolean;
   disableEditItem?: boolean;
-  emptyMessage?: string;
   tableTitle?: string;
   headerComponent?: ReactNode;
   checkBox?: boolean;
@@ -31,7 +28,6 @@ export const Table = ({
   disableAccessItem,
   disableDeleteItem,
   disableEditItem,
-  emptyMessage,
   tableTitle,
   headerComponent,
   checkBox,
@@ -46,7 +42,7 @@ export const Table = ({
   };
 
   return (
-    <div className="flex flex-col border border-muted shadow-sm w-full px-8 py-6 rounded-2xl">
+    <div className="flex flex-col border border-muted shadow-sm w-full px-8 py-6 rounded">
       <header>{headerComponent}</header>
       {titles.length ? (
         <>
@@ -62,7 +58,7 @@ export const Table = ({
                       style={{ width: calculateWidthSize() }}
                     >
                       <Paragraph className="font-medium">
-                        {convertCamelCaseToWords(title)}
+                        {convertCamelCaseToWordsAndTranslate(title)}
                       </Paragraph>
                     </th>
                   );
@@ -70,22 +66,16 @@ export const Table = ({
                 <th
                   className={`flex justify-start`}
                   style={{ width: calculateWidthSize() }}
-                >
-                  {/* <Paragraph className="font-medium">Actions</Paragraph> */}
-                </th>
+                ></th>
               </tr>
             </thead>
             <tbody className={`flex flex-col gap-4 mt-4 w-full`}>
               {content.map((item) => (
                 <tr
                   key={item.name}
-                  className="w-full flex hover:bg-background px-8 py-4"
+                  className="w-full flex hover:bg-background px-4 py-4"
                 >
-                  {checkBox == true ? (
-                    <Checkbox size={24} className="mr-3" />
-                  ) : (
-                    <div> </div>
-                  )}
+                  {checkBox && <Checkbox size={24} className="mr-3" />}
                   {titles.map((title) => (
                     <td
                       className={`flex `}
@@ -136,12 +126,6 @@ export const Table = ({
               ))}
             </tbody>
           </table>
-          <Line className="my-4 " />
-          <div>
-            <Paragraph size={ParagraphSizeVariant.Large}>
-              Total Items: {content.length}
-            </Paragraph>
-          </div>
         </>
       ) : (
         <div className="flex items-center justify-center flex-col  py-4"></div>

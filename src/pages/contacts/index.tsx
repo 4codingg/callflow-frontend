@@ -1,5 +1,5 @@
-import { ContactsTemplate } from "@/pageTemplates/ContactsTemplate";
+import { ContactsListTemplate } from '@/pageTemplates/ContactsListTemplate';
 
-const Contacts = () => <ContactsTemplate />;
+const ContactsList = () => <ContactsListTemplate />;
 
-export default Contacts;
+export default ContactsList;

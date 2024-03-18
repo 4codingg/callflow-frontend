@@ -7,6 +7,10 @@ export const activities = [
     value: 'pending',
     label: 'Pendente'
   },
+  {
+    value: 'paid',
+    label: 'Paga'
+  },
 ]
 
 export const getActivitieLabel = (value: string) => {

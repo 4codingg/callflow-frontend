@@ -1,34 +1,28 @@
-import {
-  LayoutWithSidebar,
-  Paragraph,
-  ParagraphSizeVariant,
-  Table,
-} from "@/components";
-import { Breadcrumb } from "@/components/Breadcrumb";
-import { Button } from "@/components/Button";
-import { TableHeader } from "@/components/layouts/Headers/TableHeader";
-import { ModalAddItemContactList } from "@/components/layouts/Modals/ModalAddItemContact";
-import { ModalUploadCsv } from "@/components/layouts/Modals/ModalUploadCsv";
-import { MOCK_CONTACTS } from "@/constants/contentCalls";
-import { formatCsvToJson } from "@/utils/formatCsvToJson";
-import { CheckCircle, PlusCircle, Upload } from "phosphor-react";
-import { useState } from "react";
-import Empty from "@/assets/empty-state.png";
-import Image from "next/image";
+import { LayoutWithSidebar, Paragraph, Table } from '@/components';
+import { Breadcrumb } from '@/components/Breadcrumb';
+import { Button } from '@/components/Button';
+import { TableHeader } from '@/components/layouts/Headers/TableHeader';
+import { ModalAddItemContactList } from '@/components/layouts/Modals/ModalAddItemContact';
+import { ModalUploadCsv } from '@/components/layouts/Modals/ModalUploadCsv';
+import { formatCsvToJson } from '@/utils/formatCsvToJson';
+import { CheckCircle, PlusCircle, Upload } from 'phosphor-react';
+import { useState } from 'react';
+import Empty from '@/assets/empty-state.png';
+import Image from 'next/image';
 
 const crumbs = [
   {
-    label: "Contatos",
-    path: "/contacts",
+    label: 'Contatos',
+    path: '/contacts',
   },
   {
-    label: "Criar lista de Contatos",
+    label: 'Criar lista de Contatos',
   },
 ];
 
 const handleAddItem = () => {};
 
-export const CreateListContactsTemplate = () => {
+export const CreateContactsListTemplate = () => {
   const [modalAddItemContactListIsOpen, setModalAddItemContactListIsOpen] =
     useState(false);
   const [modalUploadCSVIsOpen, setModalUploadCSVIsOpen] = useState(false);
@@ -51,15 +45,15 @@ export const CreateListContactsTemplate = () => {
               <Image src={Empty} alt="logo-empty" />
               <section className="flex flex-col items-center mt-4[40px]">
                 <Paragraph className="!font-bold">
-                  {" "}
-                  A lista está vazia{" "}
+                  {' '}
+                  A lista está vazia{' '}
                 </Paragraph>
                 <Paragraph className="font-normal">
-                  {" "}
+                  {' '}
                   Adicione um contato ou
                 </Paragraph>
                 <Paragraph className="font-normal">
-                  {" "}
+                  {' '}
                   Faça uoload de uma planilha
                 </Paragraph>
               </section>
@@ -138,5 +132,3 @@ export const CreateListContactsTemplate = () => {
     </>
   );
 };
-
-CreateListContactsTemplate;

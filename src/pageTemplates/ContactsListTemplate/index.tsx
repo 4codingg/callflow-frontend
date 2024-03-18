@@ -1,4 +1,4 @@
-import { Heading, LayoutWithSidebar, Paragraph } from '@/components';
+import { Heading, LayoutWithSidebar, Paragraph, Table } from '@/components';
 import { Button } from '@/components/Button';
 import { EmptyState } from '@/components/EmptyState';
 import { CardContactsList } from '@/components/layouts/Cards/CardContactsList';
@@ -8,7 +8,7 @@ import { useState } from 'react';
 import SearchImage from '@/assets/empty-state.png';
 import { useRouter } from 'next/router';
 
-export const ContactsTemplate = () => {
+export const ContactsListTemplate = () => {
   const router = useRouter();
   const [contactsListItems, setContactsListItems] = useState(
     CONTENT_CARD_CALLS_LIST
@@ -20,6 +20,7 @@ export const ContactsTemplate = () => {
         <div className="flex justify-between">
           <section className="flex gap-10 items-center">
             <Heading>Lista de Contatos</Heading>
+
             <Paragraph className=" text-gray-500">
               {contactsListItems.length} listas
             </Paragraph>
@@ -28,19 +29,24 @@ export const ContactsTemplate = () => {
             <Button
               className="!w-[139px] !h-[40px] font-light text-xs"
               leftIcon={<PlusCircle size={16} color="#FFF" />}
-              disabled={CONTENT_CARD_CALLS_LIST.length === 0}
+              disabled={contactsListItems.length === 0}
               onClick={() => router.push('/contacts/create-list')}
             >
               Adicionar lista
             </Button>
           )}
         </div>
+        <Paragraph className="!text-default-grey">
+          Aqui você pode criar listas de contatos para enviar SMS, Email e
+          Ligações em massa.
+        </Paragraph>
         <div className="mt-8">
-          {contactsListItems.length ? (
-            <CardContactsList content={CONTENT_CARD_CALLS_LIST} />
-          ) : (
-            <EmptyState icon={SearchImage} />
-          )}
+          <Table
+            content={contactsListItems}
+            handleEditItem={() => {}}
+            handleDeleteItem={() => {}}
+            disableAccessItem
+          />
         </div>
       </LayoutWithSidebar>
     </>

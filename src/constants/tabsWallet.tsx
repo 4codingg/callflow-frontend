@@ -44,3 +44,42 @@ export const MOCK_PAYMENTS_METHODS = [
     billingAddress: 'Avenida Paulista 127',
   },
 ];
+
+export const MOCK_PAYMENTS_HISTORY = [
+  {
+    id: 1,
+    date: '03/01/2024 14:32',
+    last4: 3333,
+    brand: 'mastercard',
+    type: 'plan',
+    list: null,
+    price: 23.9,
+  },
+  {
+    id: 2,
+    date: '09/01/2024 14:32',
+    last4: 3333,
+    brand: 'mastercard',
+    type: 'plan',
+    list: null,
+    price: 23.9,
+  },
+  {
+    id: 3,
+    date: '03/01/2024 14:32',
+    last4: null,
+    brand: null,
+    type: 'sms-mass',
+    list: 'CCFX',
+    price: 31.95,
+  },
+  {
+    id: 3,
+    date: '11/01/2024 14:32',
+    last4: null,
+    brand: null,
+    type: 'email-mass',
+    list: 'Amplifi List',
+    price: 3.95,
+  },
+];
