@@ -1,24 +1,24 @@
-import { Heading, Input, Line, Logo, Paragraph } from '@/components';
-import { Button } from '@/components/Button';
-import { LogoVariant } from '@/components/Logo';
-import { toast } from '@/utils/toast';
-import { validationSchema } from '@/validation/login';
-import { useFormik } from 'formik';
-import Link from 'next/link';
-import { Envelope, Eye, EyeClosed } from 'phosphor-react';
-import { useState } from 'react';
-import { FcGoogle } from 'react-icons/fc';
+import { Heading, Input, Line, Logo, Paragraph } from "@/components";
+import { Button } from "@/components/Button";
+import { LogoVariant } from "@/components/Logo";
+import { toast } from "@/utils/toast";
+import { validationSchema } from "@/validation/login";
+import { useFormik } from "formik";
+import Link from "next/link";
+import { Envelope, Eye, EyeClosed } from "phosphor-react";
+import { useState } from "react";
+import { FcGoogle } from "react-icons/fc";
 
 export const LoginTemplate = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleAuth = async (values) => {
     try {
-      console.log('Autenticando com:', values);
+      console.log("Autenticando com:", values);
     } catch (error) {
       toast(
-        'error',
-        'Ocorreu um erro durante a autenticação. Por favor, tente novamente.'
+        "error",
+        "Ocorreu um erro durante a autenticação. Por favor, tente novamente."
       );
     }
   };
@@ -27,8 +27,8 @@ export const LoginTemplate = () => {
     validateOnChange: false,
     validateOnBlur: true,
     initialValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) =>
@@ -50,7 +50,7 @@ export const LoginTemplate = () => {
       </div>
       <div className="flex flex-col items-center justify-center w-[50%] px-20 relative">
         <Link
-          href={'/signup'}
+          href={"/signup"}
           className="absolute top-9 right-9 !font-semibold !text-sm"
         >
           Cadastre-se
@@ -66,16 +66,16 @@ export const LoginTemplate = () => {
             label="E-mail"
             className=" !font-semibold px-4 py-[10px]"
             error={formik.errors?.email as string}
-            {...formik.getFieldProps('email')}
+            {...formik.getFieldProps("email")}
             iconRight={<Envelope size={16} />}
           />
           <Input
             placeholder="Digite sua senha"
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             label="Senha"
             labelStyle="!text-sm !font-medium"
             className=" mt-[12px] px-4 py-[10px]"
-            onChange={formik.handleChange('password')}
+            onChange={formik.handleChange("password")}
             value={formik.values.password}
             error={formik.errors?.password as string}
             iconRight={
