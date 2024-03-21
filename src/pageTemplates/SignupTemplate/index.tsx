@@ -13,20 +13,28 @@ import { LogoVariant } from "@/components/Logo";
 import { COMPANY_TYPES } from "@/constants/contentCalls";
 import { formatCEP } from "@/utils/formatCEP";
 import { formatCNPJ } from "@/utils/formatCNPJ";
+import { formatPhone } from "@/utils/formatPhone";
 import { toast } from "@/utils/toast";
 
-import { validationSchemaSignup } from "@/validation/signup";
+import {
+  validationSchemaSignup,
+  validationSchemaUser,
+} from "@/validation/signup";
 import { useFormik } from "formik";
 import Link from "next/link";
+import { Check } from "phosphor-react";
 
 import { useState } from "react";
 
 export const SignupTemplate = () => {
-  const [stepValidty, setStepValidty] = useState(true);
+  const [step, setStep] = useState(1);
+  const [stepValidty, setStepValidty] = useState(false);
 
   const handleAuth = async (values) => {
     try {
-      console.log("Autenticando com:", values);
+      setStepValidty(true);
+      setStep(step + 1);
+      console.log(values);
     } catch (error) {
       toast(
         "error",
@@ -46,8 +54,14 @@ export const SignupTemplate = () => {
       number: "",
       type: "",
       objetivo: "",
+      email: "",
+      phone: "",
+      password: "",
+      confirmedPassword: "",
     },
-    validationSchema: validationSchemaSignup,
+    validationSchema: stepValidty
+      ? validationSchemaSignup
+      : validationSchemaUser,
     onSubmit: (values) =>
       handleAuth({
         name: values.name,
@@ -57,6 +71,10 @@ export const SignupTemplate = () => {
         number: values.number,
         type: values.type,
         objetivo: values.objetivo,
+        email: values.email,
+        phone: values.phone,
+        password: values.password,
+        condirmedPassword: values.confirmedPassword,
       }),
   });
 
@@ -64,6 +82,10 @@ export const SignupTemplate = () => {
     { quantity: 1, description: "Sobre a Empresa" },
     { quantity: 2, description: "Sobre você" },
   ];
+
+  function HandleFinishForm() {
+    setStep(3);
+  }
   return (
     <div className="h-[100vh] w-full flex  flex-wrap justify-between">
       <div className="w-[50%] bg-primary p-9 flex flex-col justify-between">
@@ -84,12 +106,18 @@ export const SignupTemplate = () => {
         >
           Cadastre-se
         </Link>
-        <Heading>Fazer Cadastro</Heading>
-        <Paragraph className="text-sm text-default-grey !font-poppins">
-          Seja um parceiro e facilite suas comunicações!
-        </Paragraph>
-        <FormStep validity={stepValidty ? true : false} data={testeData} />
-        {stepValidty === false ? (
+        {step !== 3 ? (
+          <>
+            {" "}
+            <Heading className="  mt-28">Fazer Cadastro</Heading>
+            <Paragraph className="text-sm text-default-grey !font-poppins">
+              Seja um parceiro e facilite suas comunicações!
+            </Paragraph>
+            <FormStep validity={stepValidty ? true : false} data={testeData} />
+          </>
+        ) : null}
+
+        {step === 1 ? (
           <form className="w-[400px] mt-6" onSubmit={formik.handleSubmit}>
             <Input
               placeholder="Digite o nome da empresa"
@@ -101,16 +129,17 @@ export const SignupTemplate = () => {
             />
             <Input
               placeholder="Digite o CNPJ da empresa"
-              type="text"
               label="CNPJ"
               className=" !font-semibold px-4 py-[10px]"
               onChange={(e) => {
                 const formattedValue = formatCNPJ(e.target.value);
                 formik.setFieldValue("CNPJ", formattedValue);
               }}
+              value={formik.values.CNPJ}
               error={formik.errors?.CNPJ as string}
               {...formik.getFieldProps("CNPJ")}
             />
+
             <Input
               placeholder="Digite o endereço da empresa"
               type="text"
@@ -134,7 +163,6 @@ export const SignupTemplate = () => {
               />
               <Input
                 placeholder="Digite o numero da empresa"
-                type="number"
                 label="Numero"
                 className=" !font-semibold px-4 py-[10px]"
                 onChange={(e) => {
@@ -162,7 +190,7 @@ export const SignupTemplate = () => {
               Avançar
             </Button>
           </form>
-        ) : (
+        ) : step == 2 ? (
           <form className="w-[400px] mt-6" onSubmit={formik.handleSubmit}>
             <Input
               placeholder="Digite seu nome"
@@ -185,9 +213,15 @@ export const SignupTemplate = () => {
               type="text"
               label="Telefone"
               className=" !font-semibold px-4 py-[10px]"
+              onChange={(e) => {
+                const formattedValue = formatPhone(e.target.value);
+                formik.setFieldValue("phone", formattedValue);
+              }}
+              value={formik.values.phone}
               error={formik.errors?.phone as string}
               {...formik.getFieldProps("phone")}
             />
+
             <Input
               placeholder="Digite sua senha"
               type="text"
@@ -205,11 +239,31 @@ export const SignupTemplate = () => {
               {...formik.getFieldProps("confirmedPassword")}
             />
 
-            <Button className="!rounded-md !font-poppins !font-medium mt-2 !h-10 ">
+            <Button
+              className="!rounded-md !font-poppins !font-medium mt-2 !h-10 "
+              type="button"
+              onClick={HandleFinishForm}
+            >
               Criar conta
             </Button>
           </form>
-        )}
+        ) : step == 3 ? (
+          <div className="flex flex-col justify-center items-center gap-16 ">
+            <section className="flex flex-col gap-2 justify-center items-center">
+              <Heading> Conta em análise! </Heading>
+              <Paragraph className=" w-4/6 text-default-grey">
+                {" "}
+                Sua conta foi enviada para análise, retornaremos com um e-mail
+                em até 2 dias úteis com o resultado da análise da sua conta.{" "}
+              </Paragraph>
+            </section>
+            <Check className="bg-green rounded-full text-white" size={120} />
+            <Button className="!rounded-md !font-poppins !font-medium mt-2 !h-10 !w-3/6 ">
+              {" "}
+              OK{" "}
+            </Button>
+          </div>
+        ) : null}
       </div>
     </div>
   );
