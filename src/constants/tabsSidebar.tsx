@@ -1,6 +1,7 @@
 import {
   ChartBar,
   Chat,
+  Cube,
   Envelope,
   PhoneIncoming,
   Users,
@@ -56,6 +57,13 @@ export const TABS_SIDEBAR = [
     route: '/wallet',
     icon: (isActive) => (
       <Wallet size={20} color={isActive ? '#783EFD' : '#000'} />
+    ),
+  },
+  {
+    title: 'Métricas',
+    route: '/metrics',
+    icon: (isActive) => (
+      <Cube size={20} color={isActive ? '#783EFD' : '#000'} />
     ),
   },
 ];

@@ -18,7 +18,7 @@ export const MyPlan = () => {
         <Line className="my-4" />
         <Paragraph className="font-medium !text-base">Grátis</Paragraph>
         <Paragraph className="!text-xs !text-default-grey">
-          Para estudantes e testers.
+          Para estudantes, testers e amadores.
         </Paragraph>
         <Button
           className="!w-[230px] h-[40px] font-normal !text-xs mt-4"
@@ -45,6 +45,7 @@ export const MyPlan = () => {
         <Button
           className="!w-[230px] h-[40px] font-normal !text-xs mt-4"
           rightIcon={<ArrowRight color="#FFF" size={20} />}
+          onClick={() => router.push('/wallet/add-funds')}
         >
           Adicionar saldo
         </Button>
@@ -55,7 +56,7 @@ export const MyPlan = () => {
         </Paragraph>
         <Paragraph className="!text-xs !text-default-grey">
           Histórico dos pagamentos das cobranças referentes apenas ao valor do
-          seu plano.
+          seu <span className="text-primary">plano</span>.
         </Paragraph>
         <Line className="my-4" />
         <div className="mt-4">
