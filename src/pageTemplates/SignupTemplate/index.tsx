@@ -1,18 +1,18 @@
-import { Heading, Logo, Paragraph } from '@/components';
-import { FormStep } from '@/components/FormStep';
-import { LogoVariant } from '@/components/Logo';
-import { ESignupStep } from '@/constants/signup';
+import { Heading, Logo, Paragraph } from "@/components";
+import { FormStep } from "@/components/FormStep";
+import { LogoVariant } from "@/components/Logo";
+import { ESignupStep } from "@/constants/signup";
 
-import Link from 'next/link';
+import Link from "next/link";
 
-import { useState } from 'react';
-import { AboutCompanyStep } from './AboutCompanyStep';
-import { AboutUserStep } from './AboutUserStep';
-import { ConfirmationStep } from './ConfirmationStep';
+import { useState } from "react";
+import { AboutCompanyStep } from "./AboutCompanyStep";
+import { AboutUserStep } from "./AboutUserStep";
+import { ConfirmationStep } from "./ConfirmationStep";
 
 const steps = [
-  { value: ESignupStep.AboutCompany, description: 'Sobre a Empresa' },
-  { value: ESignupStep.AboutUser, description: 'Sobre você' },
+  { value: ESignupStep.AboutCompany, description: "Sobre a Empresa" },
+  { value: ESignupStep.AboutUser, description: "Sobre você" },
 ];
 
 export const SignupTemplate = () => {
@@ -35,17 +35,26 @@ export const SignupTemplate = () => {
       </div>
       <div className="flex flex-col items-center justify-center w-[50%] px-20 relative">
         <Link
-          href={'/signup'}
+          href={"/signup"}
           className="absolute top-9 right-9 !font-semibold !text-sm"
         >
-          Cadastre-se
+          Fazer login
         </Link>
-        <Heading className="  mt-28">Fazer Cadastro</Heading>
-        <Paragraph className="text-sm text-default-grey !font-poppins">
-          Seja um parceiro e facilite suas comunicações!
-        </Paragraph>
         {activeStep !== ESignupStep.Confirmation && (
-          <FormStep data={steps} activeStep={activeStep} />
+          <>
+            <Heading className=" mt-24">Fazer Cadastro</Heading>
+            <Paragraph className="text-sm text-default-grey !font-poppins mt-2">
+              Seja um parceiro e facilite suas comunicações!
+            </Paragraph>
+          </>
+        )}
+
+        {activeStep !== ESignupStep.Confirmation && (
+          <FormStep
+            data={steps}
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
+          />
         )}
 
         {activeStep === ESignupStep.AboutCompany && (

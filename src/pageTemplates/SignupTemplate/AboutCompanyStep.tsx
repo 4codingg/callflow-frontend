@@ -1,13 +1,13 @@
-import { Button, Dropdown, Input, TextArea } from '@/components';
-import { COMPANY_TYPES } from '@/constants/contentCalls';
-import { ESignupStep } from '@/constants/signup';
-import { formatCEP } from '@/utils/formatCEP';
-import { formatCNPJ } from '@/utils/formatCNPJ';
-import { formatPhone } from '@/utils/formatPhone';
-import { toast } from '@/utils/toast';
-import { validationSchemaAboutCompanySignupStep } from '@/validation/signup';
-import { useFormik } from 'formik';
-import { Dispatch, SetStateAction } from 'react';
+import { Button, Dropdown, Input, TextArea } from "@/components";
+import { COMPANY_TYPES } from "@/constants/contentCalls";
+import { ESignupStep } from "@/constants/signup";
+import { formatCEP } from "@/utils/formatCEP";
+import { formatCNPJ } from "@/utils/formatCNPJ";
+import { formatPhone } from "@/utils/formatPhone";
+import { toast } from "@/utils/toast";
+import { validationSchemaAboutCompanySignupStep } from "@/validation/signup";
+import { useFormik } from "formik";
+import { Dispatch, SetStateAction } from "react";
 
 interface IAboutCompanyStepProps {
   setActiveStep: Dispatch<SetStateAction<ESignupStep>>;
@@ -18,13 +18,13 @@ export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
     validateOnChange: false,
     validateOnBlur: true,
     initialValues: {
-      name: '',
-      CNPJ: '',
-      address: '',
-      CEP: '',
-      number: '',
-      type: '',
-      objective: '',
+      name: "",
+      CNPJ: "",
+      address: "",
+      CEP: "",
+      number: "",
+      type: "",
+      objective: "",
     },
     validationSchema: validationSchemaAboutCompanySignupStep,
     onSubmit: (values) => handleAuth(values),
@@ -36,31 +36,31 @@ export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
       setActiveStep(ESignupStep.AboutUser);
     } catch (error) {
       toast(
-        'error',
-        'Ocorreu um erro durante a autenticação. Por favor, tente novamente.'
+        "error",
+        "Ocorreu um erro durante a autenticação. Por favor, tente novamente."
       );
     }
   };
 
   return (
-    <form className="w-[400px] mt-6" onSubmit={formik.handleSubmit}>
+    <form className="w-[400px] mt-5" onSubmit={formik.handleSubmit}>
       <Input
         placeholder="Digite o nome da empresa"
         type="text"
         label="Nome da empresa"
         className=" !font-semibold px-4 py-[10px]"
         error={formik.errors?.name as string}
-        {...formik.getFieldProps('name')}
+        {...formik.getFieldProps("name")}
       />
       <Input
         placeholder="Digite o CNPJ da empresa"
         label="CNPJ"
         className=" !font-semibold px-4 py-[10px]"
         error={formik.errors?.CNPJ as string}
-        {...formik.getFieldProps('CNPJ')}
+        {...formik.getFieldProps("CNPJ")}
         onChange={(e) => {
           const formattedValue = formatCNPJ(e.target.value);
-          formik.setFieldValue('CNPJ', formattedValue);
+          formik.setFieldValue("CNPJ", formattedValue);
         }}
       />
       <Input
@@ -69,7 +69,7 @@ export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
         label="Endereço"
         className=" !font-semibold px-4 py-[10px]"
         error={formik.errors?.address as string}
-        {...formik.getFieldProps('address')}
+        {...formik.getFieldProps("address")}
       />
       <section className=" flex gap-3">
         <Input
@@ -78,11 +78,11 @@ export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
           label="CEP"
           className=" !font-semibold px-4 py-[10px]"
           error={formik.errors?.CEP as string}
-          {...formik.getFieldProps('CEP')}
+          {...formik.getFieldProps("CEP")}
           onChange={(e) => {
             console.log(e);
             const formattedValue = formatCEP(e.target.value);
-            formik.setFieldValue('CEP', formattedValue);
+            formik.setFieldValue("CEP", formattedValue);
           }}
         />
         <Input
@@ -90,10 +90,10 @@ export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
           label="Numero"
           className=" !font-semibold px-4 py-[10px]"
           error={formik.errors?.number as string}
-          {...formik.getFieldProps('number')}
+          {...formik.getFieldProps("number")}
           onChange={(e) => {
             const formattedValue = formatPhone(e.target.value);
-            formik.setFieldValue('number', formattedValue);
+            formik.setFieldValue("number", formattedValue);
           }}
         />
       </section>
@@ -101,14 +101,14 @@ export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
         className=" mb-4"
         options={COMPANY_TYPES}
         label="Tipo de empresa"
-        {...formik.getFieldProps('contactsListId')}
+        {...formik.getFieldProps("contactsListId")}
       />
       <TextArea
         placeholder="Digite o objetivo da empresa com o call.flow "
         label="Objetivo"
         className=" !font-semibold !h-20 text-sm font-poppins"
         error={formik.errors?.objective as string}
-        {...formik.getFieldProps('objective')}
+        {...formik.getFieldProps("objective")}
       />
       <Button className="!rounded-md !font-poppins !font-medium mt-2 !h-10 ">
         Avançar
