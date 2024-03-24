@@ -1,6 +1,6 @@
-import clsx from "clsx";
-import { CaretRight, Check } from "phosphor-react";
-import { Paragraph } from "./Paragraph";
+import clsx from 'clsx';
+import { CaretRight, Check } from 'phosphor-react';
+import { Paragraph } from './Paragraph';
 
 interface DotStepsProps {
   description?: string;
@@ -15,7 +15,7 @@ interface DataProps {
 }
 
 export const FormStep = ({ data, activeStep, setActiveStep }: DataProps) => {
-  function HandleActiveCicle(item, index) {
+  function handleChangeStep(item, index) {
     const activeStepIndex = data.findIndex((item) => item.value === activeStep);
     if (index < activeStepIndex) {
       setActiveStep(item.value);
@@ -43,9 +43,9 @@ export const FormStep = ({ data, activeStep, setActiveStep }: DataProps) => {
               </div>
             )}
             <Paragraph
-              onClick={() => HandleActiveCicle(item, index)}
-              className={clsx("font-normal text-default-grey cursor-pointer", {
-                "!font-bold": isActive,
+              onClick={() => handleChangeStep(item, index)}
+              className={clsx('font-normal text-default-grey cursor-pointer', {
+                '!font-bold': isActive,
               })}
             >
               {item.description}
