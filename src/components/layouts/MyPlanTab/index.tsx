@@ -8,7 +8,7 @@ import { ArrowRight } from 'phosphor-react';
 import { TableInvoicesPayments } from '../Tables/TableInvoicesPayments';
 import 'react-credit-cards/es/styles-compiled.css';
 
-export const MyPlan = () => {
+export const MyPlanTab = () => {
   const router = useRouter();
 
   return (
