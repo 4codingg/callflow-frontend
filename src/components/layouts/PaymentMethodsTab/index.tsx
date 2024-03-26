@@ -1,16 +1,20 @@
-import { Button } from '@/components/Button';
-import { Card } from '@/components/Card';
-import { TablePaymentMethods } from '@/components/layouts/Tables/TablePaymentMethods';
-import { Line } from '@/components/Line';
-import { Paragraph } from '@/components/Paragraph';
-import { MOCK_PAYMENTS_METHODS } from '@/constants/tabsWallet';
-import HiperCardIcon from '@/assets/icons/hipercard-icon.svg';
-import MasterCardIcon from '@/assets/icons/mastercard-icon.svg';
-import EloIcon from '@/assets/icons/elo-icon.svg';
-import VisaIcon from '@/assets/icons/visa-icon.svg';
-import Image from 'next/image';
-import { ArrowRight, PlusCircle } from 'phosphor-react';
-import { useRouter } from 'next/router';
+import { Button } from "@/components/Button";
+import { Card } from "@/components/Card";
+import { TablePaymentMethods } from "@/components/layouts/Tables/TablePaymentMethods";
+import { Line } from "@/components/Line";
+import { Paragraph } from "@/components/Paragraph";
+import {
+  MOCK_DROP_PAYMENT,
+  MOCK_PAYMENTS_METHODS,
+} from "@/constants/tabsWallet";
+import HiperCardIcon from "@/assets/icons/hipercard-icon.svg";
+import MasterCardIcon from "@/assets/icons/mastercard-icon.svg";
+import EloIcon from "@/assets/icons/elo-icon.svg";
+import VisaIcon from "@/assets/icons/visa-icon.svg";
+import Image from "next/image";
+import { ArrowRight, PlusCircle } from "phosphor-react";
+import { useRouter } from "next/router";
+import { DropdownPaymentMethods } from "../DropdownPaymentMethods";
 
 export const PaymentMethodsTab = () => {
   const router = useRouter();
@@ -35,7 +39,7 @@ export const PaymentMethodsTab = () => {
         <Button
           className="!w-[230px] h-[40px] font-normal !text-xs mt-4"
           rightIcon={<ArrowRight color="#FFF" size={20} />}
-          onClick={() => router.push('/wallet/add-funds')}
+          onClick={() => router.push("/wallet/add-funds")}
         >
           Adicionar saldo
         </Button>
@@ -45,11 +49,7 @@ export const PaymentMethodsTab = () => {
           Método de pagamento
         </Paragraph>
         <Line className="my-4 mb-6" />
-        <div className="flex items-center gap-2">
-          {getIconBrand('mastercard')}
-          <Paragraph>**** **** **** 3333 - </Paragraph>
-          <span className="text-sm font-poppins">Masterzinho</span>
-        </div>
+        <DropdownPaymentMethods data={MOCK_DROP_PAYMENT} />
         <Button
           className="!w-[260px] h-[40px] font-normal !text-xs mt-6"
           rightIcon={<PlusCircle color="#FFF" size={20} />}
@@ -73,15 +73,15 @@ export const PaymentMethodsTab = () => {
   );
 };
 
-const getIconBrand = (brand: string) => {
+export const getIconBrand = (brand: string) => {
   return (
     <>
-      {brand === 'visa' && <Image src={VisaIcon} alt="" width={26} />}
-      {brand === 'elo' && <Image src={EloIcon} alt="" width={26} />}
-      {brand === 'mastercard' && (
+      {brand === "visa" && <Image src={VisaIcon} alt="" width={26} />}
+      {brand === "elo" && <Image src={EloIcon} alt="" width={26} />}
+      {brand === "mastercard" && (
         <Image src={MasterCardIcon} alt="" width={26} />
       )}
-      {brand === 'hipercard' && <Image src={HiperCardIcon} alt="" width={26} />}
+      {brand === "hipercard" && <Image src={HiperCardIcon} alt="" width={26} />}
     </>
   );
 };
