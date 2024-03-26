@@ -1,4 +1,5 @@
-import { Card, Paragraph } from '@/components';
+import { Button, Card, DropdownMenu, Line, Paragraph } from '@/components';
+import { CaretDown } from 'phosphor-react';
 import {
   BarChart,
   Bar,
@@ -10,51 +11,60 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const data = [
+const options = [
   {
-    name: 'Agosto 2023',
-    sms: 300,
-    email: 198,
-    call: 220,
+    label: 'SMS',
+    value: 'sms',
   },
   {
-    name: 'Setembro 2023',
-    sms: 200,
-    email: 900,
-    call: 220,
+    label: 'E-mail',
+    value: 'email',
   },
   {
-    name: 'Outubro 2023',
-    sms: 278,
-    email: 308,
-    call: 200,
-  },
-  {
-    name: 'Novembro 2023',
-    sms: 189,
-    email: 400,
-    call: 211,
-  },
-  {
-    name: 'Dezembro 2023',
-    sms: 239,
-    email: 300,
-    call: 250,
-  },
-  {
-    name: 'Janeiro 2024',
-    sms: 340,
-    email: 400,
-    call: 210,
+    label: 'Ligações',
+    value: 'calls',
   },
 ];
 
-export const ServicesUsageCostChart = () => {
+export const ServicesUsageCostChart = ({ label, data, dataKey, fillColor }) => {
+  const handleChange = (value: string) => {
+    console.log(value);
+  };
+
   return (
     <Card className="w-[100%] flex flex-col gap-6">
-      <Paragraph className="!font-semibold !text-sm">
-        Valor gasto (R$) com os serviços
-      </Paragraph>
+      <div className="items-center flex justify-between">
+        <Paragraph className="!font-semibold !text-sm">
+          Valor gasto (R$) - {label}
+        </Paragraph>
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger className="flex ml-auto !w-[150px] ">
+            <Button
+              className="!bg-[#fff] border border-muted shadow-md rounded-lg !text-[#000]"
+              rightIcon={<CaretDown size={16} color="#3F3F3F" />}
+            >
+              SMS
+            </Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content className="bg-white p-4 flex flex-col gap-4 mt-1 min-w-[200px] border border-muted shadow-md rounded-lg">
+            {options.map((action, index) => {
+              const isLastItem = options.length === index + 1;
+
+              return (
+                <>
+                  <button
+                    onClick={() => handleChange(action.value)}
+                    className="flex gap-2  items-center"
+                  >
+                    <Paragraph>{action.label}</Paragraph>
+                  </button>
+                  {!isLastItem && <Line direction="horizontal" />}
+                </>
+              );
+            })}
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+      </div>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           height={300}
@@ -79,21 +89,9 @@ export const ServicesUsageCostChart = () => {
           <Tooltip />
           <Bar
             label="SMSs"
-            dataKey="sms"
+            dataKey={dataKey}
             fill="#783EFD"
-            activeBar={<Rectangle fill="#783EFD" />}
-          />
-          <Bar
-            label="Ligações"
-            dataKey="call"
-            fill="#00DEA3"
-            activeBar={<Rectangle fill="#00DEA3" />}
-          />
-          <Bar
-            label="E-mails"
-            dataKey="email"
-            fill="#FE8F66"
-            activeBar={<Rectangle fill="#FE8F66" />}
+            activeBar={<Rectangle fill={fillColor} />}
           />
         </BarChart>
       </ResponsiveContainer>

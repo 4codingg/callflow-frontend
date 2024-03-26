@@ -5,8 +5,8 @@ export enum ETabsWallet {
 }
 
 export const TABS_WALLET = [
-  ETabsWallet.Plan,
   ETabsWallet.PaymentMethods,
+  ETabsWallet.Plan,
   ETabsWallet.PaymentHistory,
 ];
 

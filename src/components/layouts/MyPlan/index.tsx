@@ -12,7 +12,7 @@ export const MyPlan = () => {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 mt-4">
       <Card>
         <Paragraph className="font-medium !text-base">Plano</Paragraph>
         <Line className="my-4" />
@@ -25,29 +25,6 @@ export const MyPlan = () => {
           rightIcon={<ArrowRight color="#FFF" size={20} />}
         >
           Conferir upgrades de plano
-        </Button>
-      </Card>
-      <Card>
-        <Paragraph className="font-medium !text-base">Seu saldo</Paragraph>
-        <Paragraph className="!text-xs !text-default-grey">
-          Saldo disponível para fazer ações na plataforma
-          <span className="text-primary"> call.flow</span>.
-        </Paragraph>
-        <Line className="my-4" />
-        <div className=" flex items-center">
-          <div className=" flex gap-2 flex-col">
-            <Paragraph className="!text-sm !text-default-grey">
-              Saldo total
-            </Paragraph>
-            <Paragraph className="font-medium !text-xl">R$ 103,13</Paragraph>
-          </div>
-        </div>
-        <Button
-          className="!w-[230px] h-[40px] font-normal !text-xs mt-4"
-          rightIcon={<ArrowRight color="#FFF" size={20} />}
-          onClick={() => router.push('/wallet/add-funds')}
-        >
-          Adicionar saldo
         </Button>
       </Card>
       <Card>

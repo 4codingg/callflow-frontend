@@ -13,43 +13,31 @@ import {
 const data = [
   {
     name: 'Agosto 2023',
-    sms: 3000,
-    email: 7000,
-    call: 1000,
+    cost: 3000,
   },
   {
     name: 'Setembro 2023',
-    sms: 2000,
-    email: 11000,
-    call: 1220,
+    cost: 2000,
   },
   {
     name: 'Outubro 2023',
-    sms: 2781,
-    email: 5080,
-    call: 1790,
+    cost: 2781,
   },
   {
     name: 'Novembro 2023',
-    sms: 1891,
-    email: 8000,
-    call: 1020,
+    cost: 1891,
   },
   {
     name: 'Dezembro 2023',
-    sms: 2391,
-    email: 5000,
-    call: 1140,
+    cost: 2391,
   },
   {
     name: 'Janeiro 2024',
-    sms: 340,
-    email: 400,
-    call: 1420,
+    cost: 340,
   },
 ];
 
-export const ServicesUsageChart = () => {
+export const ServicesUsageChart = ({ label, data, dataKey, fillColor }) => {
   return (
     <Card className="w-[100%] flex flex-col gap-6">
       <Paragraph className="!font-semibold !text-sm">
