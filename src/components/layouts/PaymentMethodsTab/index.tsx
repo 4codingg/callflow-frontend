@@ -1,23 +1,27 @@
-import { Button } from "@/components/Button";
-import { Card } from "@/components/Card";
-import { TablePaymentMethods } from "@/components/layouts/Tables/TablePaymentMethods";
-import { Line } from "@/components/Line";
-import { Paragraph } from "@/components/Paragraph";
-import {
-  MOCK_DROP_PAYMENT,
-  MOCK_PAYMENTS_METHODS,
-} from "@/constants/tabsWallet";
-import HiperCardIcon from "@/assets/icons/hipercard-icon.svg";
-import MasterCardIcon from "@/assets/icons/mastercard-icon.svg";
-import EloIcon from "@/assets/icons/elo-icon.svg";
-import VisaIcon from "@/assets/icons/visa-icon.svg";
-import Image from "next/image";
-import { ArrowRight, PlusCircle } from "phosphor-react";
-import { useRouter } from "next/router";
-import { DropdownPaymentMethods } from "../DropdownPaymentMethods";
+import { Button } from '@/components/Button';
+import { Card } from '@/components/Card';
+import { TablePaymentMethods } from '@/components/layouts/Tables/TablePaymentMethods';
+import { Line } from '@/components/Line';
+import { Paragraph } from '@/components/Paragraph';
+import { MOCK_PAYMENTS_METHODS } from '@/constants/tabsWallet';
 
-export const PaymentMethodsTab = () => {
+import { ArrowRight, FloppyDisk, PlusCircle } from 'phosphor-react';
+import { useRouter } from 'next/router';
+import { DropdownPaymentMethods } from '@/components/DropdownPaymentMethods';
+import { useState } from 'react';
+
+export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
+  const [pendingPaymentMethod, setPendingPaymentMethod] = useState('');
+
+  const paymentMethodId = MOCK_PAYMENTS_METHODS[0].id.toString();
+
   const router = useRouter();
+
+  const handleChangePaymentMethod = (paymentMethodId: string) => {
+    setPendingPaymentMethod(paymentMethodId);
+  };
+
+  const handleSave = () => {};
 
   return (
     <div className="mt-4 flex flex-col gap-4">
@@ -39,7 +43,7 @@ export const PaymentMethodsTab = () => {
         <Button
           className="!w-[230px] h-[40px] font-normal !text-xs mt-4"
           rightIcon={<ArrowRight color="#FFF" size={20} />}
-          onClick={() => router.push("/wallet/add-funds")}
+          onClick={() => router.push('/wallet/add-funds')}
         >
           Adicionar saldo
         </Button>
@@ -49,10 +53,25 @@ export const PaymentMethodsTab = () => {
           Método de pagamento
         </Paragraph>
         <Line className="my-4 mb-6" />
-        <DropdownPaymentMethods data={MOCK_DROP_PAYMENT} />
+        <div className="flex gap-4 items-center flex-row justify-start">
+          <DropdownPaymentMethods
+            options={MOCK_PAYMENTS_METHODS}
+            value={paymentMethodId}
+            onValueChange={handleChangePaymentMethod}
+          />
+          <Button
+            disabled={!pendingPaymentMethod}
+            className="!w-[100px] !h-[40px] font-normal !text-xs"
+            rightIcon={<FloppyDisk color="#FFF" size={20} />}
+            onClick={handleSave}
+          >
+            Salvar
+          </Button>
+        </div>
         <Button
           className="!w-[260px] h-[40px] font-normal !text-xs mt-6"
           rightIcon={<PlusCircle color="#FFF" size={20} />}
+          onClick={() => setModalAddPaymentMethodIsOpen(true)}
         >
           Adicionar método de pagamento
         </Button>
@@ -70,18 +89,5 @@ export const PaymentMethodsTab = () => {
         </div>
       </Card>
     </div>
-  );
-};
-
-export const getIconBrand = (brand: string) => {
-  return (
-    <>
-      {brand === "visa" && <Image src={VisaIcon} alt="" width={26} />}
-      {brand === "elo" && <Image src={EloIcon} alt="" width={26} />}
-      {brand === "mastercard" && (
-        <Image src={MasterCardIcon} alt="" width={26} />
-      )}
-      {brand === "hipercard" && <Image src={HiperCardIcon} alt="" width={26} />}
-    </>
   );
 };

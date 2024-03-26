@@ -72,12 +72,13 @@ export const Input = ({
     >
       <div
         className={clsx(
-          'bg-white rounded p-3 flex items-center text-main-blue mt-3',
+          'bg-white rounded p-3 flex items-center text-main-blue ',
           inputClassesVariant[variant],
           {
             '!bg-medium-light-grey': disabled,
             'border-negative-dark border-opacity-100': error,
             'border-neutral-grey': !error,
+            'mt-3': !!label,
           },
           className
         )}

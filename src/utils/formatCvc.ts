@@ -8,13 +8,18 @@ export function formatCvc(cvc: string) {
 }
 
 export const formatCardNumber = (v: any) => {
+  console.log(v)
+  console.log(v.length)
+
   if (!v) {
     return "";
   }
 
-  if (v.length > 19) {
+  if (v.length >= 19) {
     return v;
   }
+
+  console.log("RAte")
 
   v = v.replace(/\D/g, "");
   try {
@@ -23,17 +28,18 @@ export const formatCardNumber = (v: any) => {
     return v;
   }
 };
-export const formatCardExpiration = (ve: any) => {
-  if (ve.length > 7) {
-    return;
+
+export const formatCardExpiration = (ve) => {
+  ve = ve.replace(/\D/g, ""); // Remove todos os caracteres não numéricos
+  ve = ve.substring(0, 6); // Garante que o comprimento máximo seja de 6 caracteres
+
+  let formattedDate = "";
+  for (let i = 0; i < ve.length; i++) {
+    formattedDate += ve[i];
+    if (i === 1) {
+      formattedDate += " / "; // Adiciona uma barra após os dois primeiros dígitos (mês)
+    }
   }
 
-  ve = ve.replace(/\D/g, "");
-
-  if (ve.length < 1) {
-    return "";
-  }
-
-  ve = ve.match(/\d{1,2}/g).join("/");
-  return ve;
+  return formattedDate;
 };
