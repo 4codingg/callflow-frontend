@@ -16,13 +16,6 @@ interface IModalAddBalance {
   handleAddItem?: any;
 }
 
-interface IAddContacts {
-  name: string;
-  email: string;
-  phone: string;
-  id: string | number;
-}
-
 export const ModalAddBalance = ({
   setModalIsOpen,
   modalIsOpen,
