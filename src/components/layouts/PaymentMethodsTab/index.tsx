@@ -1,17 +1,21 @@
-import { Button } from '@/components/Button';
-import { Card } from '@/components/Card';
-import { TablePaymentMethods } from '@/components/layouts/Tables/TablePaymentMethods';
-import { Line } from '@/components/Line';
-import { Paragraph } from '@/components/Paragraph';
-import { MOCK_PAYMENTS_METHODS } from '@/constants/tabsWallet';
+import { Button } from "@/components/Button";
+import { Card } from "@/components/Card";
+import { TablePaymentMethods } from "@/components/layouts/Tables/TablePaymentMethods";
+import { Line } from "@/components/Line";
+import { Paragraph } from "@/components/Paragraph";
+import { MOCK_PAYMENTS_METHODS } from "@/constants/tabsWallet";
 
-import { ArrowRight, FloppyDisk, PlusCircle } from 'phosphor-react';
-import { useRouter } from 'next/router';
-import { DropdownPaymentMethods } from '@/components/DropdownPaymentMethods';
-import { useState } from 'react';
+import { ArrowRight, FloppyDisk, PlusCircle } from "phosphor-react";
+import { useRouter } from "next/router";
+import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
+import { useState } from "react";
+import { ModalConfirmedCancelPlan } from "../Modals/ModalConfirmedCancelPlan";
 
 export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
-  const [pendingPaymentMethod, setPendingPaymentMethod] = useState('');
+  const [pendingPaymentMethod, setPendingPaymentMethod] = useState("");
+  const [cancelSubscription, setCancelSubscription] = useState(false);
+  const [modalConfirmedCancelPlan, setModalConfirmedCancelPlan] =
+    useState(false);
 
   const paymentMethodId = MOCK_PAYMENTS_METHODS[0].id.toString();
 
@@ -29,7 +33,7 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         <Paragraph className="font-medium !text-base">Seu saldo</Paragraph>
         <Paragraph className="!text-xs !text-default-grey">
           Saldo disponível para fazer ações na plataforma
-          <span className="text-primary"> call.flow</span>.
+          <span className="text-primary"> call.flow</span>
         </Paragraph>
         <Line className="my-4" />
         <div className=" flex items-center">
@@ -43,7 +47,7 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         <Button
           className="!w-[230px] h-[40px] font-normal !text-xs mt-4"
           rightIcon={<ArrowRight color="#FFF" size={20} />}
-          onClick={() => router.push('/wallet/add-funds')}
+          onClick={() => router.push("/wallet/add-funds")}
         >
           Adicionar saldo
         </Button>
@@ -78,6 +82,44 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
       </Card>
       <Card>
         <Paragraph className="font-medium !text-base">
+          Cancelar assinatura
+        </Paragraph>
+        <Line className="my-4" />
+        {cancelSubscription === true ? (
+          <>
+            <Paragraph className="!text-xs !text-default-grey">
+              Sua assinatura acabará em 24 de maio de 2024.
+              <Paragraph className="!text-xs !text-default-grey">
+                Ao sua assinatura expirar, todos os membros perderão acesso.
+              </Paragraph>
+            </Paragraph>
+            <Button
+              className="!w-[230px] h-[40px] font-normal !text-xs mt-4"
+              rightIcon={<ArrowRight color="#FFF" size={20} />}
+            >
+              Renovar assinatura
+            </Button>
+          </>
+        ) : (
+          <>
+            <Paragraph className="!text-xs !text-default-grey">
+              Sua assinatura será renovada em 24 de abril de 2024.
+            </Paragraph>
+            <Paragraph className="!text-xs !text-default-grey">
+              Ao cancelar sua assinatura, todos os membros perderão acesso.
+            </Paragraph>
+            <Button
+              className="!w-[230px] h-[40px] font-normal !text-xs mt-4"
+              rightIcon={<ArrowRight color="#FFF" size={20} />}
+              onClick={() => setModalConfirmedCancelPlan(true)}
+            >
+              Cancelar assinatura
+            </Button>
+          </>
+        )}
+      </Card>
+      <Card>
+        <Paragraph className="font-medium !text-base">
           Métodos de pagamentos
         </Paragraph>
         <Paragraph className="!text-xs !text-default-grey">
@@ -88,6 +130,10 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
           <TablePaymentMethods paymentMethods={MOCK_PAYMENTS_METHODS} />
         </div>
       </Card>
+      <ModalConfirmedCancelPlan
+        modalIsOpen={modalConfirmedCancelPlan}
+        setModalIsOpen={setModalConfirmedCancelPlan}
+      />
     </div>
   );
 };
