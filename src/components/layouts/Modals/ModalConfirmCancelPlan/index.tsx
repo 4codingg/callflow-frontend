@@ -1,28 +1,28 @@
-import { Button, ButtonVariant } from "@/components/Button";
-import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
-import { Input } from "@/components/Input";
-import { Line } from "@/components/Line";
-import { Modal } from "@/components/Modal";
-import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { MOCK_PAYMENTS_METHODS } from "@/constants/tabsWallet";
-import { useCallsList } from "@/hooks/useCallsList";
+import { Button, ButtonVariant } from '@/components/Button';
+import { Line } from '@/components/Line';
+import { Modal } from '@/components/Modal';
+import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
+import Warning from '@/assets/warning.svg';
 
-import { CheckCircle, X, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { CheckCircle, X, XCircle } from 'phosphor-react';
+import { Dispatch, SetStateAction } from 'react';
+import Image from 'next/image';
 
-interface IModalConfirmedCancelPlan {
+interface IModalConfirmCancelPlan {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
-  handleAddItem?: any;
+  setSubscriptionIsActive?: Dispatch<SetStateAction<boolean>>;
 }
 
-export const ModalConfirmedCancelPlan = ({
+export const ModalConfirmCancelPlan = ({
   setModalIsOpen,
   modalIsOpen,
-}: IModalConfirmedCancelPlan) => {
-  function HandleConfirmedCancelPlan() {
+  setSubscriptionIsActive,
+}: IModalConfirmCancelPlan) => {
+  const handleActionPlan = () => {
     setModalIsOpen(false);
-  }
+    setSubscriptionIsActive((prevState) => !prevState);
+  };
 
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
@@ -43,13 +43,16 @@ export const ModalConfirmedCancelPlan = ({
           </header>
           <Line direction="horizontal" className="mt-4" />
           <div className="flex flex-col mt-8 gap-8">
-            <section className="flex flex-col gap-2 items-center justify-start">
-              <Paragraph className=" text-black !font-poppins !font-semibold !text-xl">
-                Tem certeza que quer cancelar sua assinatura?
-              </Paragraph>
-              <Paragraph className="!text-xs !text-default-grey">
-                Ao cancelar sua assinatura, todos os membros perderão acesso.
-              </Paragraph>
+            <section className="flex flex-col gap-8 items-center justify-start">
+              <Image src={Warning} alt="warning" className="w-[100px]" />
+              <div className="flex flex-col items-center gap-2">
+                <Paragraph className=" text-black !font-poppins !font-semibold !text-xl">
+                  Tem certeza disso?
+                </Paragraph>
+                <Paragraph className="!text-xs !text-default-grey">
+                  Ao cancelar sua assinatura, todos os membros perderão acesso.
+                </Paragraph>
+              </div>
             </section>
           </div>
           <section className="flex justify-end items-center gap-4 mt-8">
@@ -67,7 +70,7 @@ export const ModalConfirmedCancelPlan = ({
               leftIcon={<CheckCircle size={24} />}
               type="submit"
               className="!w-[109px] !h-[48px] font-medium !p-2"
-              onClick={HandleConfirmedCancelPlan}
+              onClick={handleActionPlan}
             >
               Confirmar
             </Button>
