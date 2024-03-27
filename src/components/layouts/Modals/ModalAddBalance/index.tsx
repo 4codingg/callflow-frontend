@@ -1,31 +1,32 @@
-import { Button, ButtonVariant } from "@/components/Button";
-import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
-import { Input } from "@/components/Input";
-import { Line } from "@/components/Line";
-import { Modal } from "@/components/Modal";
-import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { MOCK_ADDBALANCE, MOCK_PAYMENTS_METHODS } from "@/constants/tabsWallet";
-import { useCallsList } from "@/hooks/useCallsList";
+import { Button, ButtonVariant } from '@/components/Button';
+import { DropdownPaymentMethods } from '@/components/DropdownPaymentMethods';
+import { Line } from '@/components/Line';
+import { Modal } from '@/components/Modal';
+import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
+import {
+  MOCK_ADD_BALANCE,
+  MOCK_PAYMENTS_METHODS,
+} from '@/constants/tabsWallet';
 
-import { CheckCircle, X, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { CheckCircle, X, XCircle } from 'phosphor-react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 interface IModalAddBalance {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
-  handleAddItem?: any;
 }
 
 export const ModalAddBalance = ({
   setModalIsOpen,
   modalIsOpen,
 }: IModalAddBalance) => {
-  const { handleAddContactToCallsList } = useCallsList();
-  const [pendingPaymentMethod, setPendingPaymentMethod] = useState("");
+  const [paymentMethodId, setPaymentMethodId] = useState(
+    MOCK_PAYMENTS_METHODS[0].id.toString()
+  );
+  const [value, setValue] = useState(0);
 
-  const paymentMethodId = MOCK_PAYMENTS_METHODS[0].id.toString();
-  const handleChangePaymentMethod = (paymentMethodId: string) => {
-    setPendingPaymentMethod(paymentMethodId);
+  const handleChangePaymentMethod = (id: string) => {
+    setPaymentMethodId(id);
   };
 
   return (
@@ -37,7 +38,7 @@ export const ModalAddBalance = ({
               size={ParagraphSizeVariant.Medium}
               className=" text-purple-secundary !font-medium "
             >
-              Adicionar contato
+              Adicionar saldo
             </Paragraph>
             <Modal.Close>
               <Button variant={ButtonVariant.iconOnly} className="!w-6 !h-6">
@@ -53,9 +54,12 @@ export const ModalAddBalance = ({
               onValueChange={handleChangePaymentMethod}
             />
             <div className="flex h-11 gap-2">
-              {MOCK_ADDBALANCE.map((item) => {
+              {MOCK_ADD_BALANCE.map((item) => {
                 return (
-                  <Button className=" rounded-sm !text-primary bg-white border-2 ">
+                  <Button
+                    className=" rounded-sm !text-primary bg-white border-2"
+                    onClick={() => setValue(value + item)}
+                  >
                     + R$ {item}
                   </Button>
                 );
@@ -67,7 +71,7 @@ export const ModalAddBalance = ({
                 R$
               </Paragraph>
               <Paragraph className=" text-black !font-poppins !font-semibold !text-3xl">
-                32,<span className="!text-xl"> 00 </span>
+                {value},<span className="!text-xl"> 00 </span>
               </Paragraph>
             </section>
           </div>
