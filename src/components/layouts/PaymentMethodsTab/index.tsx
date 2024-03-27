@@ -31,7 +31,7 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         <Paragraph className="font-medium !text-base">Seu saldo</Paragraph>
         <Paragraph className="!text-xs !text-default-grey">
           Saldo disponível para fazer ações na plataforma
-          <span className="text-primary"> call.flow</span>.
+          <span className="text-primary"> call.flow</span>
         </Paragraph>
         <Line className="my-4" />
         <div className=" flex items-center">
