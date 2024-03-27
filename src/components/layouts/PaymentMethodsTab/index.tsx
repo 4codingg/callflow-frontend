@@ -1,19 +1,19 @@
-import { Button } from "@/components/Button";
-import { Card } from "@/components/Card";
-import { TablePaymentMethods } from "@/components/layouts/Tables/TablePaymentMethods";
-import { Line } from "@/components/Line";
-import { Paragraph } from "@/components/Paragraph";
-import { MOCK_PAYMENTS_METHODS } from "@/constants/tabsWallet";
+import { Button } from '@/components/Button';
+import { Card } from '@/components/Card';
+import { TablePaymentMethods } from '@/components/layouts/Tables/TablePaymentMethods';
+import { Line } from '@/components/Line';
+import { Paragraph } from '@/components/Paragraph';
+import { MOCK_PAYMENTS_METHODS } from '@/constants/tabsWallet';
 
-import { ArrowRight, FloppyDisk, PlusCircle } from "phosphor-react";
-import { useRouter } from "next/router";
-import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
-import { useState } from "react";
-import { ModalAddBalance } from "../Modals/ModalAddBalance";
+import { ArrowRight, FloppyDisk, PlusCircle } from 'phosphor-react';
+import { useRouter } from 'next/router';
+import { DropdownPaymentMethods } from '@/components/DropdownPaymentMethods';
+import { useState } from 'react';
+import { ModalAddBalance } from '../Modals/ModalAddBalance';
 
 export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
-  const [pendingPaymentMethod, setPendingPaymentMethod] = useState("");
-  const [modalAddBalance, setModalAddBalance] = useState(false);
+  const [pendingPaymentMethod, setPendingPaymentMethod] = useState('');
+  const [modalAddBalanceIsOpen, setModalAddBalanceIsOpen] = useState(false);
 
   const paymentMethodId = MOCK_PAYMENTS_METHODS[0].id.toString();
 
@@ -45,7 +45,7 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         <Button
           className="!w-[230px] h-[40px] font-normal !text-xs mt-4"
           rightIcon={<ArrowRight color="#FFF" size={20} />}
-          onClick={() => setModalAddBalance(true)}
+          onClick={() => setModalAddBalanceIsOpen(true)}
         >
           Adicionar saldo
         </Button>
@@ -91,8 +91,8 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         </div>
       </Card>
       <ModalAddBalance
-        modalIsOpen={modalAddBalance}
-        setModalIsOpen={setModalAddBalance}
+        modalIsOpen={modalAddBalanceIsOpen}
+        setModalIsOpen={setModalAddBalanceIsOpen}
       />
     </div>
   );
