@@ -1,5 +1,6 @@
 // pages/_app.tsx
-import CallsListContextProvider from '@/hooks/useCallsList';
+import { CallsListContextProvider } from '@/hooks/useCallsList';
+import { AuthContextProvider } from '@/hooks/useAuth';
 import '@/styles/global.css';
 import Head from 'next/head';
 
@@ -14,9 +15,11 @@ function MyApp({ Component, pageProps }) {
           rel="stylesheet"
         />
       </Head>
-      <CallsListContextProvider>
-        <Component {...pageProps} />
-      </CallsListContextProvider>
+      <AuthContextProvider>
+        <CallsListContextProvider>
+          <Component {...pageProps} />
+        </CallsListContextProvider>
+      </AuthContextProvider>
     </>
   );
 }

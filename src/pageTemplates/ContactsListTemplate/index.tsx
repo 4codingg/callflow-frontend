@@ -45,7 +45,6 @@ export const ContactsListTemplate = () => {
             content={contactsListItems}
             handleEditItem={() => {}}
             handleDeleteItem={() => {}}
-            disableAccessItem
           />
         </div>
       </LayoutWithSidebar>

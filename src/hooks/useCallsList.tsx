@@ -1,12 +1,12 @@
-import { MOCK_CONTACTS } from "@/constants/contentCalls";
-import { Contact } from "@/interfaces";
+import { MOCK_CONTACTS } from '@/constants/contentCalls';
+import { Contact } from '@/interfaces';
 import {
   createContext,
   Dispatch,
   ReactNode,
   useContext,
   useState,
-} from "react";
+} from 'react';
 
 interface CallsListContextDataProps {
   activeCallsList: any;
@@ -25,9 +25,7 @@ const CallsListContext = createContext<CallsListContextDataProps>(
   {} as CallsListContextDataProps
 );
 
-export default function CallsListContextProvider({
-  children,
-}: CallsListProviderProps) {
+export function CallsListContextProvider({ children }: CallsListProviderProps) {
   const [activeCallsList, setActiveCallsList] = useState<any>();
   const [results, setResults] = useState(MOCK_CONTACTS);
 

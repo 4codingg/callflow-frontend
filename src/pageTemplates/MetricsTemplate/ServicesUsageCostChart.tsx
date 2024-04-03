@@ -1,5 +1,6 @@
 import { Button, Card, DropdownMenu, Line, Paragraph } from '@/components';
-import { CaretDown } from 'phosphor-react';
+import { CaretDown, Check } from 'phosphor-react';
+import { useState } from 'react';
 import {
   BarChart,
   Bar,
@@ -27,44 +28,55 @@ const options = [
 ];
 
 export const ServicesUsageCostChart = ({ label, data, dataKey, fillColor }) => {
+  const [serviceActive, setServiceActive] = useState(options[0].value);
+
   const handleChange = (value: string) => {
-    console.log(value);
+    setServiceActive(value);
   };
 
   return (
-    <Card className="w-[100%] flex flex-col gap-6">
-      <div className="items-center flex justify-between">
-        <Paragraph className="!font-semibold !text-sm">
-          Valor gasto (R$) - {label}
-        </Paragraph>
-        <DropdownMenu.Root>
-          <DropdownMenu.Trigger className="flex ml-auto !w-[150px] ">
-            <Button
-              className="!bg-[#fff] border border-muted shadow-md rounded-lg !text-[#000]"
-              rightIcon={<CaretDown size={16} color="#3F3F3F" />}
-            >
-              SMS
-            </Button>
-          </DropdownMenu.Trigger>
-          <DropdownMenu.Content className="bg-white p-4 flex flex-col gap-4 mt-1 min-w-[200px] border border-muted shadow-md rounded-lg">
-            {options.map((action, index) => {
-              const isLastItem = options.length === index + 1;
+    <Card className="w-[100%] flex flex-col">
+      <div className="flex items-center justify-between w-full">
+        <div className="flex flex-col">
+          <Paragraph className="font-medium !text-base">
+            Valor gasto por serviço
+          </Paragraph>
+        </div>
+        <div className="items-center flex justify-between">
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger className="flex ml-auto !w-[150px] ">
+              <Button
+                className="!bg-[#fff] border border-muted shadow-md rounded-lg font-medium !text-[#000]"
+                rightIcon={<CaretDown size={16} color="#3F3F3F" />}
+              >
+                <Paragraph className="text-xs text-default-grey">
+                  Serviço:
+                </Paragraph>
+                SMS
+              </Button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content className="bg-white p-2 flex flex-col mt-1 min-w-[200px] border border-muted shadow-md rounded-lg">
+              {options.map((action, index) => {
+                const isActive = action.value === serviceActive;
 
-              return (
-                <>
-                  <button
-                    onClick={() => handleChange(action.value)}
-                    className="flex gap-2  items-center"
-                  >
-                    <Paragraph>{action.label}</Paragraph>
-                  </button>
-                  {!isLastItem && <Line direction="horizontal" />}
-                </>
-              );
-            })}
-          </DropdownMenu.Content>
-        </DropdownMenu.Root>
+                return (
+                  <>
+                    <button
+                      onClick={() => handleChange(action.value)}
+                      className={`flex gap-2 items-center justify-between p-2 rounded-md hover:bg-light-grey`}
+                    >
+                      <Paragraph>{action.label}</Paragraph>
+                      {isActive && <Check size={16} color="#000" />}
+                    </button>
+                  </>
+                );
+              })}
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
+        </div>
       </div>
+      <Line className="my-4" />
+
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           height={300}

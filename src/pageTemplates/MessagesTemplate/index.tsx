@@ -17,14 +17,16 @@ import { ModalStepByStep } from '@/components/layouts/Modals/ModalStepByStep';
 import { ModalConfirmMessage } from '@/components/layouts/Modals/ModalConfirmMessage';
 import { MOCK_CONTACTS, OPTIONSLIST } from '@/constants/contentCalls';
 import Information from '@/assets/icons/information-circle.svg';
-import { Check } from 'phosphor-react';
+import { Check, CheckCircle } from 'phosphor-react';
 import Empty from '@/assets/empty-state.png';
 import { useFormik } from 'formik';
 import { toast } from '@/utils/toast';
 import { schemaSendCallsListMessage } from '@/schemas/callsList';
+import { ModalMessage } from '@/components/layouts/Modals/ModalMessage';
 
 export const MessagesTemplate = () => {
   const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState(false);
+  const [modalMessageIsOpen, setModalMessageIsOpen] = useState(false);
   const [modalConfirmMessageIsOpen, setModalConfirmMessageIsOpen] =
     useState(false);
   const [contacts, setContacts] = useState(MOCK_CONTACTS);
@@ -46,17 +48,18 @@ export const MessagesTemplate = () => {
     router.push('/messages/' + id);
   };
 
-  function handleOpenModalInstructions() {
+  const handleOpenModalInstructions = () => {
     setModalStepByStepIsOpen(true);
-  }
+  };
 
-  function handleConfirm() {
+  const handleConfirm = () => {
     if (formik.isValid) {
       setModalConfirmMessageIsOpen(true);
     } else {
       toast('error', 'Preencha todas as informações!');
     }
-  }
+  };
+
   return (
     <>
       <LayoutWithSidebar hiddenInput={true}>
@@ -85,20 +88,24 @@ export const MessagesTemplate = () => {
             <Dropdown
               options={OPTIONSLIST}
               label="Lista de Contatos"
+              placeholder="Seleciona a lista de contatos"
               {...formik.getFieldProps('contactsListId')}
             />
-            <Input
-              type="text"
-              label="Mensagem"
-              placeholder="Crie sua mensagem para ser disparada"
-              className=" font-normal default-default-grey h-[40px]"
-              disableError
-              error={formik.errors?.message as string}
-              {...formik.getFieldProps('message')}
-            />
+            <div className="flex flex-col gap-3 w-full">
+              <Label className="font-semibold text-sm">Mensagem</Label>
+              <button
+                className="rounded flex items-center justify-between h-[40px] border p-3 w-full"
+                onClick={() => setModalMessageIsOpen(true)}
+              >
+                <Paragraph className="text-primary">
+                  Personalize sua mensagem
+                </Paragraph>
+                <CheckCircle color="#00DEA3" />
+              </button>
+            </div>
             <div className="flex flex-col w-full gap-3">
               <Label className="font-semibold text-sm">Custo</Label>
-              <div className="bg-default-grey bg-opacity-30 rounded-sm flex items-center justify-between h-[40px] p-3 w-full">
+              <div className="bg-default-grey bg-opacity-30 rounded flex items-center justify-between h-[40px] p-3 w-full">
                 <Paragraph className="text-primary">R$ 30,00</Paragraph>
                 <Paragraph className="text-black text-xs text-opacity-70">
                   (R$0,10 / contato)
@@ -144,6 +151,10 @@ export const MessagesTemplate = () => {
       <ModalConfirmMessage
         modalIsOpen={modalConfirmMessageIsOpen}
         setModalIsOpen={setModalConfirmMessageIsOpen}
+      />
+      <ModalMessage
+        modalIsOpen={modalMessageIsOpen}
+        setModalIsOpen={setModalMessageIsOpen}
       />
     </>
   );

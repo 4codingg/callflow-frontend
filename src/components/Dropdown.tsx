@@ -1,15 +1,15 @@
-import React, { ChangeEvent } from "react";
-import * as Select from "@radix-ui/react-select";
-import { CaretDown } from "phosphor-react";
-import Image from "next/image";
-import { DropdownItem } from "./DropdownItem";
-import clsx from "clsx";
-import { Label } from "./Label";
-import { Spinner } from "./Spinner";
-import { Paragraph } from "./Paragraph";
+import React, { ChangeEvent } from 'react';
+import * as Select from '@radix-ui/react-select';
+import { CaretDown } from 'phosphor-react';
+import Image from 'next/image';
+import { DropdownItem } from './DropdownItem';
+import clsx from 'clsx';
+import { Label } from './Label';
+import { Spinner } from './Spinner';
+import { Paragraph } from './Paragraph';
 
 export enum DropdownVariant {
-  Default = "default",
+  Default = 'default',
 }
 
 export interface ISelectOptionProps {
@@ -24,7 +24,7 @@ interface DropdownProps {
   variant?: DropdownVariant;
   isOptional?: boolean;
   className?: string;
-  value?: ISelectOptionProps["value"];
+  value?: ISelectOptionProps['value'];
   selectStyle?: string;
   onValueChange?: (e: string | ChangeEvent<any>) => void;
   options: ISelectOptionProps[] | string[];
@@ -37,12 +37,12 @@ interface DropdownProps {
 export const Dropdown = ({
   value,
   onValueChange,
-  selectStyle = "",
+  selectStyle = '',
   options,
   error,
   variant = DropdownVariant.Default,
   label,
-  placeholder = "Select",
+  placeholder = 'Select',
   disabled = false,
   className,
   labelStyle,
@@ -50,7 +50,7 @@ export const Dropdown = ({
 }: DropdownProps) => {
   const dropdownClassesVariant = {
     [DropdownVariant.Default]:
-      "border outline-none focus-within:border-primary border-negative-dark",
+      'border outline-none focus-within:border-primary',
   };
 
   return (
@@ -62,12 +62,12 @@ export const Dropdown = ({
       >
         <Select.Trigger
           className={clsx(
-            "p-3 text-sm font-poppins text-neutral-darkest disabled:text-dark-grey h-[40px] mt-3 disabled:bg-neutral-light-grey font w-full flex justify-between items-center rounded data-[placeholder]:text-neutral-darkest",
+            'p-3 text-sm font-poppins text-neutral-darkest disabled:text-dark-grey h-[40px] mt-3 disabled:bg-neutral-light-grey font w-full flex justify-between items-center rounded data-[placeholder]:text-neutral-darkest',
             dropdownClassesVariant[variant],
             selectStyle,
             {
-              "border-negative-dark": !!error,
-              "border-neutral-grey": !error,
+              // "border-negative-dark": !!error,
+              // "border-neutral-grey": !error,
             },
             className
           )}
@@ -86,7 +86,7 @@ export const Dropdown = ({
           >
             <Select.Viewport
               className="text-neutral-darkest font-poppins"
-              defaultValue={"United States"}
+              defaultValue={'United States'}
             >
               <Select.Group>
                 {isLoading && (
@@ -98,11 +98,11 @@ export const Dropdown = ({
                 {options.map((option) => (
                   <DropdownItem
                     description={
-                      typeof option === "string" ? "" : option?.description
+                      typeof option === 'string' ? '' : option?.description
                     }
-                    key={typeof option === "string" ? option : option?.value}
-                    label={typeof option === "string" ? option : option?.label}
-                    value={typeof option === "string" ? option : option?.value}
+                    key={typeof option === 'string' ? option : option?.value}
+                    label={typeof option === 'string' ? option : option?.label}
+                    value={typeof option === 'string' ? option : option?.value}
                   />
                 ))}
               </Select.Group>

@@ -1,4 +1,5 @@
-import React, { createContext, ReactNode, useContext } from 'react';
+import { ISubscription, IPlanSubscriptionValue } from '@/@types/Subscription';
+import React, { createContext, ReactNode, useContext, useState } from 'react';
 
 export interface AuthProviderProps {
   children: ReactNode;
@@ -6,19 +7,25 @@ export interface AuthProviderProps {
 
 export interface AuthContextDataProps {
   isAuthenticated: boolean;
+  plan: ISubscription;
 }
 
 const AuthContext = createContext<AuthContextDataProps>(
   {} as AuthContextDataProps
 );
 
-export default function AuthContextProvider({ children }: AuthProviderProps) {
+export function AuthContextProvider({ children }: AuthProviderProps) {
+  const [plan, setPlan] = useState({
+    value: IPlanSubscriptionValue.Free,
+  } as ISubscription);
+
   const isAuthenticated = true;
 
   return (
     <AuthContext.Provider
       value={{
         isAuthenticated,
+        plan,
       }}
     >
       {children}

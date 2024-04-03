@@ -12,7 +12,7 @@ const config = {
         "negative-dark": "#CC0000",
         neutral: "#fafafa",
         "default-grey": "#71717A",
-        "light-grey": "#EFF0F4",
+        "light-grey": "#F4F4F5",
         "medium-grey": "#667483",
         "light-light-grey": "#F7F8FA",
         "modal-background": "#000000BF",

@@ -1,18 +1,18 @@
-import clsx from "clsx";
-import { InputHTMLAttributes, TextareaHTMLAttributes, ReactNode } from "react";
-import { Label, Paragraph, Spinner } from "@/components";
-import Image from "next/image";
+import clsx from 'clsx';
+import { InputHTMLAttributes, TextareaHTMLAttributes, ReactNode } from 'react';
+import { Label, Paragraph, Spinner } from '@/components';
+import Image from 'next/image';
 
 export enum TextAreaVariant {
-  Default = "default",
-  Primary = "primary",
-  Secondary = "secondary",
+  Default = 'default',
+  Primary = 'primary',
+  Secondary = 'secondary',
 }
 
 export enum TextAreaPlaceholderVariant {
-  Default = "default",
-  Primary = "primary",
-  Secondary = "secondary",
+  Default = 'default',
+  Primary = 'primary',
+  Secondary = 'secondary',
 }
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
@@ -45,17 +45,17 @@ export const TextArea = ({
 }: TextAreaProps) => {
   const textAreaClassesVariant = {
     [TextAreaVariant.Default]:
-      "border outline-none focus-within:border-primary text-neutral-darkest ",
+      'border outline-none focus-within:border-primary text-neutral-darkest ',
     [TextAreaVariant.Primary]:
-      "!bg-neutral-light-grey placeholder:text-dark-grey rounded-lg text-neutral-darkest ",
+      '!bg-neutral-light-grey placeholder:text-dark-grey rounded-lg text-neutral-darkest ',
     [TextAreaVariant.Secondary]:
-      "border !border-main-blue rounded-lg text-main-blue",
+      'border !border-main-blue rounded-lg text-main-blue',
   };
 
   const textAreaPlaceholderClassesVariant = {
-    [TextAreaPlaceholderVariant.Default]: "",
-    [TextAreaPlaceholderVariant.Primary]: "placeholder:text-primary",
-    [TextAreaPlaceholderVariant.Secondary]: "placeholder:text-dark-grey",
+    [TextAreaPlaceholderVariant.Default]: '',
+    [TextAreaPlaceholderVariant.Primary]: 'placeholder:text-primary',
+    [TextAreaPlaceholderVariant.Secondary]: 'placeholder:text-dark-grey',
   };
 
   return (
@@ -69,12 +69,12 @@ export const TextArea = ({
     >
       <div
         className={clsx(
-          "bg-white rounded p-3 flex items-center text-main-blue",
+          'bg-white rounded p-3 flex items-center text-main-blue',
           textAreaClassesVariant[variant],
           {
-            "!bg-neutral-light-grey": disabled,
-            "border-negative-dark border-opacity-100": error,
-            "border-neutral-grey": !error,
+            '!bg-neutral-light-grey': disabled,
+            'border-negative-dark border-opacity-100': error,
+            'border-neutral-grey': !error,
           }
         )}
       >
@@ -83,7 +83,7 @@ export const TextArea = ({
           id={name}
           disabled={disabled}
           className={clsx(
-            "resize-none w-full outline-none text-sm font-poppins disabled:text-dark-grey rounded bg-transparent h-[150px] p2",
+            'resize-none w-full outline-none text-sm font-poppins disabled:text-dark-grey rounded bg-transparent h-[150px] p2',
             textAreaPlaceholderClassesVariant[variantPlaceholder],
             className
           )}
@@ -94,7 +94,7 @@ export const TextArea = ({
         {isLoading && (
           <Spinner
             className={clsx({
-              "border-l-secondary border-t-secondary":
+              'border-l-secondary border-t-secondary':
                 variant === TextAreaVariant.Primary,
             })}
           />
@@ -103,7 +103,7 @@ export const TextArea = ({
         {iconRight && <div className="ml-2">{iconRight}</div>}
       </div>
 
-      {label && (
+      {label && error && (
         <Paragraph
           className={clsx({
             'before:content-["ok"] opacity-0': !error,

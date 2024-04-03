@@ -32,15 +32,15 @@ const data = [
   },
   {
     name: 'Janeiro 2024',
-    cost: 340,
+    cost: 297,
   },
   {
     name: 'Fevereiro 2024',
-    cost: 340,
+    cost: 294,
   },
   {
     name: 'Março 2024',
-    cost: 340,
+    cost: 222,
   },
 ];
 
