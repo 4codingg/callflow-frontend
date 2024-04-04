@@ -4,13 +4,13 @@ import {
   Line,
   Paragraph,
   Table,
-} from "@/components";
-import { Breadcrumb } from "@/components/Breadcrumb";
-import { Button } from "@/components/Button";
-import { TableHeader } from "@/components/layouts/Headers/TableHeader";
-import { ModalAddItemContactList } from "@/components/layouts/Modals/ModalAddItemContact";
-import { ModalUploadCsv } from "@/components/layouts/Modals/ModalUploadCsv";
-import { formatCsvToJson } from "@/utils/formatCsvToJson";
+  Breadcrumb,
+  Button,
+} from '@/components';
+import { TableHeader } from '@/components/layouts/Headers/TableHeader';
+import { ModalAddItemContactList } from '@/components/layouts/Modals/ModalAddItemContact';
+import { ModalUploadCsv } from '@/components/layouts/Modals/ModalUploadCsv';
+import { formatCsvToJson } from '@/utils/formatCsvToJson';
 import {
   CaretUp,
   CheckCircle,
@@ -19,20 +19,19 @@ import {
   PlusCircle,
   Trash,
   Upload,
-} from "phosphor-react";
-import { useState } from "react";
-import Empty from "@/assets/empty-state.png";
-import Image from "next/image";
-import { ModalEditItemCallsList } from "@/components/layouts/Modals/ModalEditItemCallsList";
-import { ModalEditNameContactList } from "@/components/layouts/Modals/ModalEditNameContactList";
+} from 'phosphor-react';
+import { useState } from 'react';
+import Empty from '@/assets/empty-state.png';
+import Image from 'next/image';
+import { ModalEditNameContactList } from '@/components/layouts/Modals/ModalEditNameContactList';
 
 const crumbs = [
   {
-    label: "Lista de Contatos",
-    path: "/contacts",
+    label: 'Lista de Contatos',
+    path: '/contacts',
   },
   {
-    label: "Name",
+    label: 'Name',
   },
 ];
 
@@ -55,14 +54,14 @@ export const ContactsListDetailsTemplate = () => {
   const actions = [
     {
       icon: <NotePencil color="#01DDA3" size={16} />,
-      color: "#01DDA3",
-      label: "Editar nome da Lista",
+      color: '#01DDA3',
+      label: 'Editar nome da Lista',
       action: () => setModalEditItemCallsList(true),
     },
     {
       icon: <Trash color="#3F3F3F" size={16} />,
-      color: "#3F3F3F",
-      label: "Deletar Lista",
+      color: '#3F3F3F',
+      label: 'Deletar Lista',
     },
   ];
   return (
@@ -122,7 +121,6 @@ export const ContactsListDetailsTemplate = () => {
         </section>
         <section className="flex flex-col mt-4">
           <Paragraph className=" !font-poppins !text-base">
-            {" "}
             Aqui você pode criar sua lista de contatos.
           </Paragraph>
           <Paragraph className=" !font-poppins !text-base">
@@ -135,16 +133,11 @@ export const ContactsListDetailsTemplate = () => {
             <div className="flex flex-col items-center mt-[89px]">
               <Image src={Empty} alt="logo-empty" />
               <section className="flex flex-col items-center mt-4[40px]">
-                <Paragraph className="!font-bold">
-                  {" "}
-                  A lista está vazia{" "}
-                </Paragraph>
+                <Paragraph className="!font-bold">A lista está vazia</Paragraph>
                 <Paragraph className="font-normal">
-                  {" "}
                   Adicione um contato ou
                 </Paragraph>
                 <Paragraph className="font-normal">
-                  {" "}
                   Faça uoload de uma planilha
                 </Paragraph>
               </section>
@@ -207,7 +200,7 @@ export const ContactsListDetailsTemplate = () => {
       <ModalEditNameContactList
         modalIsOpen={modalEditItemCallsList}
         setModalIsOpen={setModalEditItemCallsList}
-        item={"teste"}
+        item={'teste'}
       />
     </>
   );
