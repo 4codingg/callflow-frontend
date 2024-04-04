@@ -1,8 +1,8 @@
-import Image from "next/image";
-import { PlusCircle } from "phosphor-react";
-import { Button } from "./Button";
-import { Paragraph } from "./Paragraph";
-import { Heading, HeadingSizeVariant, HeadingVariant } from "./Heading";
+import Image from 'next/image';
+import { PlusCircle } from 'phosphor-react';
+import { Button } from './Button';
+import { Paragraph } from './Paragraph';
+import { Heading, HeadingSizeVariant, HeadingVariant } from './Heading';
 
 interface EmptyProps {
   icon?: any;
@@ -24,15 +24,17 @@ export const EmptyState = ({
         <Image src={icon} alt="icon-lista-vazia" />
         <Heading size={HeadingSizeVariant.Small}>{title}</Heading>
         <Paragraph className=" font-normal text-center max-w-[240px]">
-          {" "}
+          {' '}
           {description}
         </Paragraph>
-        <Button
-          className="font-light mt-6 w-[!149]"
-          leftIcon={<PlusCircle size={20} color="#FFF" />}
-        >
-          {textButton}
-        </Button>
+        {textButton && (
+          <Button
+            className="font-light mt-6 w-[!149]"
+            leftIcon={<PlusCircle size={20} color="#FFF" />}
+          >
+            {textButton}
+          </Button>
+        )}
       </section>
     </div>
   );
