@@ -1,11 +1,13 @@
-import { Heading, LayoutWithSidebar, Paragraph, Table } from '@/components';
-import { Button } from '@/components/Button';
-import { EmptyState } from '@/components/EmptyState';
-import { CardContactsList } from '@/components/layouts/Cards/CardContactsList';
+import {
+  Heading,
+  LayoutWithSidebar,
+  Button,
+  Paragraph,
+  Table,
+} from '@/components';
 import { CONTENT_CARD_CALLS_LIST } from '@/constants/contentCardCallList';
 import { PlusCircle } from 'phosphor-react';
 import { useState } from 'react';
-import SearchImage from '@/assets/empty-state.png';
 import { useRouter } from 'next/router';
 
 export const ContactsListTemplate = () => {

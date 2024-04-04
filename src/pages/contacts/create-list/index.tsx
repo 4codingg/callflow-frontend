@@ -1,4 +1,4 @@
-import { CreateContactsListTemplate } from '@/pageTemplates/ContactsListTemplate/CreateContactsListTemplate/index';
+import { CreateContactsListTemplate } from "@/pageTemplates/ContactsListTemplate/ContactsListDetailsTemplate/index";
 
 const CreateContactsList = () => <CreateContactsListTemplate />;
 
