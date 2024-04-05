@@ -118,7 +118,7 @@ export const CreateContactListTemplate = () => {
           </section>
           <Button
             onClick={handleClickNext}
-            className=" mt-2 m-auto w-48 font-poppins font-medium text-sm gap-2"
+            className=" mt-2 m-auto !w-48 font-poppins font-medium text-sm gap-2"
           >
             {" "}
             Avançar
