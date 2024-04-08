@@ -15,7 +15,7 @@ import {
 } from '@/components';
 import { ModalStepByStep } from '@/components/layouts/Modals/ModalStepByStep';
 import { ModalConfirmMessage } from '@/components/layouts/Modals/ModalConfirmMessage';
-import { MOCK_CONTACTS, OPTIONSLIST } from '@/constants/contentCalls';
+import { MOCK_CONTACTS, OPTIONS_LIST } from '@/constants/contentCalls';
 import Information from '@/assets/icons/information-circle.svg';
 import { Check, CheckCircle } from 'phosphor-react';
 import Empty from '@/assets/empty-state.png';
@@ -86,7 +86,7 @@ export const EmailsTemplate = () => {
         <div className="flex justify-between items-end gap-6">
           <section className="flex gap-6 w-full mt-6 max-w-[85%] ">
             <Dropdown
-              options={OPTIONSLIST}
+              options={OPTIONS_LIST}
               label="Lista de Contatos"
               placeholder="Selecione a lista de contatos"
               {...formik.getFieldProps('contactsListId')}

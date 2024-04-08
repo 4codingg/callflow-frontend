@@ -1,31 +1,22 @@
-import { LayoutWithSidebar, Breadcrumb, Button, Paragraph } from "@/components";
-import { ModalAddItemContactList } from "@/components/layouts/Modals/ModalAddItemContact";
-import { ModalUploadCsv } from "@/components/layouts/Modals/ModalUploadCsv";
-import { formatCsvToJson } from "@/utils/formatCsvToJson";
-import {
-  ArrowRight,
-  NotePencil,
-  Trash,
-  Warning,
-  X,
-  XCircle,
-} from "phosphor-react";
-import { useState } from "react";
-import { ModalEditNameContactList } from "@/components/layouts/Modals/ModalEditNameContactList";
-import { Tipbox } from "@/components/Tipbox";
-import { useAuth } from "@/hooks/useAuth";
-import { IPlanSubscriptionValue } from "@/@types/Subscription";
-import { Input } from "@/components/Input";
-import { ModalConfirmVariable } from "@/components/layouts/Modals/ModalConfirmVariable";
-import { useRouter } from "next/router";
+import { LayoutWithSidebar, Breadcrumb, Button, Paragraph } from '@/components';
+import { ModalAddItemContactList } from '@/components/layouts/Modals/ModalAddItemContact';
+import { ArrowRight, Warning, XCircle } from 'phosphor-react';
+import { useState } from 'react';
+import { ModalEditNameContactList } from '@/components/layouts/Modals/ModalEditNameContactList';
+import { Tipbox } from '@/components/Tipbox';
+import { useAuth } from '@/hooks/useAuth';
+import { IPlanSubscriptionValue } from '@/@types/Subscription';
+import { Input } from '@/components/Input';
+import { useRouter } from 'next/router';
+import { ModalConfirmVariables } from '@/components/layouts/Modals/ModalConfirmVariables';
 
 const crumbs = [
   {
-    label: "Lista de Contatos",
-    path: "/contacts",
+    label: 'Lista de Contatos',
+    path: '/contacts',
   },
   {
-    label: "Criar lista de contatos",
+    label: 'Criar lista de contatos',
   },
 ];
 
@@ -36,30 +27,23 @@ export const CreateContactListTemplate = () => {
     useState(false);
   const [modalConfirmVariable, setModalConfirmVariable] = useState(false);
   const [modalEditItemCallsList, setModalEditItemCallsList] = useState(false);
-  const [results, setResults] = useState([]);
-  const [variables, setVariables] = useState(["Nome", "Email", "Telefone"]);
-  const [inputValue, setInputValue] = useState("");
+  const [variables, setVariables] = useState(['Nome', 'Email', 'Telefone']);
+  const [inputValue, setInputValue] = useState('');
 
-  const handleUploadAccepted = (resultsFromCsv: any[]) => {
-    for (const res of resultsFromCsv) {
-      const resultsFormatted = formatCsvToJson(res.data);
-      setResults((prevResults) => [...prevResults, ...resultsFormatted]);
-    }
-  };
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      if (inputValue.trim() !== "" && !variables.includes(inputValue)) {
+    if (event.key === 'Enter') {
+      if (inputValue.trim() !== '' && !variables.includes(inputValue)) {
         setVariables((prevVariables) => [...prevVariables, inputValue]);
       }
-      setInputValue("");
+      setInputValue('');
     }
   };
 
   const handleDeleteVariable = (itemToDelete: string) => {
     if (
-      itemToDelete === "Nome" ||
-      itemToDelete === "Email" ||
-      itemToDelete === "Telefone"
+      itemToDelete === 'Nome' ||
+      itemToDelete === 'Email' ||
+      itemToDelete === 'Telefone'
     ) {
       return;
     }
@@ -72,12 +56,13 @@ export const CreateContactListTemplate = () => {
       setInputValue(event.target.value);
     }
   };
+
   const { plan } = useAuth();
   const router = useRouter();
 
   const handleClickNext = () => {
     if (plan.value === IPlanSubscriptionValue.Free) {
-      router.push("/contacts/1");
+      router.push('/contacts/1');
     } else setModalConfirmVariable(true);
   };
 
@@ -86,7 +71,17 @@ export const CreateContactListTemplate = () => {
       <LayoutWithSidebar>
         <Breadcrumb crumbs={crumbs} />
         {plan.value === IPlanSubscriptionValue.Free && (
-          <Tipbox buttonRigth iconLeft={<Warning size={20} />}>
+          <Tipbox
+            iconLeft={<Warning size={20} />}
+            buttonRight={
+              <Button
+                className="!w-56 font-medium !text-sm"
+                rightIcon={<ArrowRight color="#FFF" />}
+              >
+                Fazer upgrade
+              </Button>
+            }
+          >
             Seu plano gratuito tem acesso apenas a lista padrão com 3 variavéis
             (nome, e-mail e telefone)
           </Tipbox>
@@ -94,8 +89,8 @@ export const CreateContactListTemplate = () => {
         <section className="mt-5">
           <Input label="Nome da lista" placeholder="Dê um nome pra sua lista" />
           <Input
-            label="Variaveis"
-            placeholder="Acione as variavéis da sua lista"
+            label="Variáveis"
+            placeholder="Acione as variáveis da sua lista"
             onChange={handleChangeInput}
             onKeyDown={handleKeyDown}
             value={inputValue}
@@ -120,7 +115,6 @@ export const CreateContactListTemplate = () => {
             onClick={handleClickNext}
             className=" mt-2 m-auto !w-48 font-poppins font-medium text-sm gap-2"
           >
-            {" "}
             Avançar
             <ArrowRight size={19} color="#fff" />
           </Button>
@@ -131,16 +125,15 @@ export const CreateContactListTemplate = () => {
         setModalIsOpen={setModalAddItemContactListIsOpen}
         handleAddItem={handleAddItem}
       />
-      <ModalConfirmVariable
+      <ModalConfirmVariables
         modalIsOpen={modalConfirmVariable}
         setModalIsOpen={setModalConfirmVariable}
         variables={variables}
       />
-
       <ModalEditNameContactList
         modalIsOpen={modalEditItemCallsList}
         setModalIsOpen={setModalEditItemCallsList}
-        item={"teste"}
+        item={'teste'}
       />
     </>
   );

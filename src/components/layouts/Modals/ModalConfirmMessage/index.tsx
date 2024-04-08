@@ -2,7 +2,7 @@ import { Button, ButtonVariant } from '@/components/Button';
 import { Line } from '@/components/Line';
 import { Modal } from '@/components/Modal';
 import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
-import { OPTIONSLIST } from '@/constants/contentCalls';
+import { OPTIONS_LIST } from '@/constants/contentCalls';
 import { ArrowRight, XCircle } from 'phosphor-react';
 import { Dispatch, SetStateAction } from 'react';
 import { Dropdown } from '@/components/Dropdown';
@@ -50,7 +50,7 @@ export const ModalConfirmMessage = ({
             className="mt-6 flex flex-col gap-6 min-w-[600px] max-h-[80vh] "
             onSubmit={handleSave}
           >
-            <Dropdown options={OPTIONSLIST} label="Lista de Contatos" />
+            <Dropdown options={OPTIONS_LIST} label="Lista de Contatos" />
             <section className="flex gap-[16px]">
               <div className="flex flex-col w-full gap-3">
                 <Label className="font-semibold text-sm">Contatos</Label>

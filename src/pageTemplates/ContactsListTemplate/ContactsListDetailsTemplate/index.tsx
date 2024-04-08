@@ -64,6 +64,7 @@ export const ContactsListDetailsTemplate = () => {
       label: 'Deletar Lista',
     },
   ];
+
   return (
     <>
       <LayoutWithSidebar>

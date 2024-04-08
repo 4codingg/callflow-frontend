@@ -206,7 +206,7 @@ export const MOCK_MEMBERS = [
   },
 ];
 
-export const OPTIONSLIST = [
+export const OPTIONS_LIST = [
   { value: 'contact1', label: 'Amplifi List' },
   { value: 'contact2', label: 'Yarley Uni' },
   { value: 'contact3', label: 'Travel Agency USP' },

@@ -1,24 +1,25 @@
-import { Button, ButtonVariant } from "@/components/Button";
-import { Line } from "@/components/Line";
-import { Modal } from "@/components/Modal";
-import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { Tipbox } from "@/components/Tipbox";
-import { useRouter } from "next/router";
-import { CheckCircle, Warning, X, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction } from "react";
+import { Button, ButtonVariant } from '@/components/Button';
+import { Line } from '@/components/Line';
+import { Modal } from '@/components/Modal';
+import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
+import { Tipbox } from '@/components/Tipbox';
+import { useRouter } from 'next/router';
+import { CheckCircle, Warning, X, XCircle } from 'phosphor-react';
+import { Dispatch, SetStateAction } from 'react';
 
-interface IModalConfirmVariable {
+interface IModalConfirmVariables {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
   variables?: string[];
 }
 
-export const ModalConfirmVariable = ({
+export const ModalConfirmVariables = ({
   setModalIsOpen,
   modalIsOpen,
   variables,
-}: IModalConfirmVariable) => {
+}: IModalConfirmVariables) => {
   const router = useRouter();
+
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
       <Modal.Content>
@@ -41,10 +42,9 @@ export const ModalConfirmVariable = ({
             Essa ação é irreversível.
           </Tipbox>
           <Paragraph className=" mt-8 font-poppins font-medium mb-4">
-            {" "}
             Variaveis
           </Paragraph>
-          <section className="flex gap-4">
+          <section className="flex gap-2">
             {variables.map((item, index) => (
               <div
                 key={index}
@@ -68,9 +68,9 @@ export const ModalConfirmVariable = ({
               </Button>
               <Button
                 leftIcon={<CheckCircle size={24} />}
-                type="submit"
+                type="button"
                 className="!w-32 !h-10 font-medium"
-                onClick={() => router.push("/contacts/1")}
+                onClick={() => router.push('/contacts/1')}
               >
                 Confirmar
               </Button>
