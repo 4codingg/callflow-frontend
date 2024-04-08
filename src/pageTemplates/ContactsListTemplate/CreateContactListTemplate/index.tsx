@@ -1,22 +1,22 @@
-import { LayoutWithSidebar, Breadcrumb, Button, Paragraph } from '@/components';
-import { ModalAddItemContactList } from '@/components/layouts/Modals/ModalAddItemContact';
-import { ArrowRight, Warning, XCircle } from 'phosphor-react';
-import { useState } from 'react';
-import { ModalEditNameContactList } from '@/components/layouts/Modals/ModalEditNameContactList';
-import { Tipbox } from '@/components/Tipbox';
-import { useAuth } from '@/hooks/useAuth';
-import { IPlanSubscriptionValue } from '@/@types/Subscription';
-import { Input } from '@/components/Input';
-import { useRouter } from 'next/router';
-import { ModalConfirmVariables } from '@/components/layouts/Modals/ModalConfirmVariables';
+import { LayoutWithSidebar, Breadcrumb, Button, Paragraph } from "@/components";
+import { ModalAddItemContactList } from "@/components/layouts/Modals/ModalAddItemContact";
+import { ArrowRight, Warning, XCircle } from "phosphor-react";
+import { useState } from "react";
+import { ModalEditNameContactList } from "@/components/layouts/Modals/ModalEditNameContactList";
+import { Tipbox } from "@/components/Tipbox";
+import { useAuth } from "@/hooks/useAuth";
+import { IPlanSubscriptionValue } from "@/@types/Subscription";
+import { Input } from "@/components/Input";
+import { useRouter } from "next/router";
+import { ModalConfirmVariables } from "@/components/layouts/Modals/ModalConfirmVariables";
 
 const crumbs = [
   {
-    label: 'Lista de Contatos',
-    path: '/contacts',
+    label: "Lista de Contatos",
+    path: "/contacts",
   },
   {
-    label: 'Criar lista de contatos',
+    label: "Criar lista de contatos",
   },
 ];
 
@@ -27,23 +27,23 @@ export const CreateContactListTemplate = () => {
     useState(false);
   const [modalConfirmVariable, setModalConfirmVariable] = useState(false);
   const [modalEditItemCallsList, setModalEditItemCallsList] = useState(false);
-  const [variables, setVariables] = useState(['Nome', 'Email', 'Telefone']);
-  const [inputValue, setInputValue] = useState('');
+  const [variables, setVariables] = useState(["Nome", "Email", "Telefone"]);
+  const [inputValue, setInputValue] = useState("");
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      if (inputValue.trim() !== '' && !variables.includes(inputValue)) {
+    if (event.key === "Enter") {
+      if (inputValue.trim() !== "" && !variables.includes(inputValue)) {
         setVariables((prevVariables) => [...prevVariables, inputValue]);
       }
-      setInputValue('');
+      setInputValue("");
     }
   };
 
   const handleDeleteVariable = (itemToDelete: string) => {
     if (
-      itemToDelete === 'Nome' ||
-      itemToDelete === 'Email' ||
-      itemToDelete === 'Telefone'
+      itemToDelete === "Nome" ||
+      itemToDelete === "Email" ||
+      itemToDelete === "Telefone"
     ) {
       return;
     }
@@ -62,7 +62,7 @@ export const CreateContactListTemplate = () => {
 
   const handleClickNext = () => {
     if (plan.value === IPlanSubscriptionValue.Free) {
-      router.push('/contacts/1');
+      router.push("/contacts/1");
     } else setModalConfirmVariable(true);
   };
 
@@ -133,7 +133,7 @@ export const CreateContactListTemplate = () => {
       <ModalEditNameContactList
         modalIsOpen={modalEditItemCallsList}
         setModalIsOpen={setModalEditItemCallsList}
-        item={'teste'}
+        item={"teste"}
       />
     </>
   );
