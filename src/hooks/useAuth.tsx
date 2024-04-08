@@ -16,7 +16,7 @@ const AuthContext = createContext<AuthContextDataProps>(
 
 export function AuthContextProvider({ children }: AuthProviderProps) {
   const [plan, setPlan] = useState({
-    value: IPlanSubscriptionValue.Free,
+    value: IPlanSubscriptionValue.Plus,
   } as ISubscription);
 
   const isAuthenticated = true;

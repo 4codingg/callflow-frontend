@@ -29,7 +29,7 @@ export function Trigger({ children, className }: TriggerProps) {
   );
 }
 
-interface ModalContentProps extends Dialog.DialogPortalProps {
+interface ModalContentProps extends Dialog.DialogContentProps {
   children: ReactNode;
   className?: string;
 }
@@ -54,6 +54,7 @@ export const Content = ({
           'overflow-auto fixed max-w-[90%] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg z-20 shadow',
           className
         )}
+        {...props}
       >
         {children}
       </Dialog.Content>

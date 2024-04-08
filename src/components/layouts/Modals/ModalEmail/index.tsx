@@ -3,48 +3,21 @@ import { Line } from '@/components/Line';
 import { Modal } from '@/components/Modal';
 import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
 import { CheckCircle, XCircle } from 'phosphor-react';
-import { Dispatch, SetStateAction, useRef, useState } from 'react';
-// import { IJoditEditorProps } from 'jodit-react';
-import dynamic from 'next/dynamic';
-const JoditEditor = dynamic(() => import('jodit-react'), {
-  ssr: false,
-}) as any;
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { Editor } from '@tinymce/tinymce-react';
+import { Input } from '@/components/Input';
 
 interface IModalEmailProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
 }
 
-// type IJoditConfigProps = IJoditEditorProps['config'];
-
-const buttons = [
-  '\n',
-  '|',
-  'bold',
-  'italic',
-  'underline',
-  'ul',
-  'ol',
-  'font',
-  'file',
-  'image',
-  'copy',
-  'paste',
-  'font-size',
-  'font',
-  'link',
-  'symbols',
-];
-
-const editorConfig = {
-  readonly: false,
-  toolbar: true,
-  showCharsCounter: false,
-  showWordsCounter: false,
-  removeButtons: [''],
-  buttons: buttons,
-  width: 600,
-  height: 500,
+const handleFocusIn = (e) => {
+  if (
+    e.target.closest('.tox-tinymce-aux, .moxman-window, .tam-assetmanager-root')
+  ) {
+    e.stopPropagation();
+  }
 };
 
 export const ModalEmail = ({
@@ -52,13 +25,12 @@ export const ModalEmail = ({
   modalIsOpen,
 }: IModalEmailProps) => {
   const variables = ['nome', 'telefone', 'email'];
-  const [message, setMessage] = useState('');
-  const editor = useRef(null);
+  const editorRef = useRef(null);
   const [content, setContent] = useState('');
 
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
-      <Modal.Content>
+      <Modal.Content onOpenAutoFocus={(e) => e.preventDefault()}>
         <div className="bg-white px-4 py-4 min-w-[600px] max-h-[90%]">
           <header className="flex justify-between items-center w-full flex-1">
             <Paragraph
@@ -75,7 +47,7 @@ export const ModalEmail = ({
           </header>
           <Line direction="horizontal" className="mt-4" />
           <section className="my-6">
-            <div className="flex flex-col  gap-2">
+            <div className="flex flex-col gap-2 mb-4">
               <Paragraph>Variáveis disponíveis: </Paragraph>
               <div className="flex items-center gap-2">
                 {variables.map((item) => (
@@ -87,15 +59,14 @@ export const ModalEmail = ({
                 ))}
               </div>
             </div>
-            <div className="mt-6 flex gap-4 flex-1">
-              <JoditEditor
-                className="w-full h-full"
-                ref={editor}
-                value={content}
-                config={editorConfig}
-                onChange={(value) => setContent(value)}
-              />
-            </div>
+            <Input label="Título do E-mail" />
+            <Editor
+              apiKey="w56ccsq6o6q0fwmb6kj5a5b01cwsb2uqa0vvjcgendqerk4h"
+              onInit={(evt, editor) => {
+                editorRef.current = editor;
+              }}
+              initialValue="<p>Some initial text.</p>"
+            />
           </section>
           <section className="flex justify-end mt-4">
             <Button
