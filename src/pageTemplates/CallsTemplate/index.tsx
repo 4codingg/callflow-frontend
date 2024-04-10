@@ -3,7 +3,7 @@ import {
   HeadingSizeVariant,
   LayoutWithSidebar,
   Paragraph,
-  Table,
+  TableDefault,
 } from '@/components';
 import { Button, ButtonSizeVariant } from '@/components/Button';
 import { CONTENT_CALLS } from '@/constants/contentCalls';
@@ -39,7 +39,7 @@ export const CallsTemplate = () => {
         </Button>
       </header>
       <div className="mt-8 flex w-full">
-        <Table
+        <TableDefault
           content={CONTENT_CALLS}
           handleAccessItem={handleAccessItem}
           disableEditItem
