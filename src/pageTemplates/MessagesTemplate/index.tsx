@@ -9,7 +9,7 @@ import {
   LayoutWithSidebar,
   Heading,
   Paragraph,
-  Table,
+  TableDefault,
   HeadingSizeVariant,
   Label,
 } from '@/components';
@@ -135,7 +135,7 @@ export const MessagesTemplate = () => {
           ) : (
             <div className="w-full flex flex-col gap-4 bg-white">
               <Heading>Contatos</Heading>
-              <Table
+              <TableDefault
                 content={MOCK_CONTACTS}
                 handleAccessItem={handleAccessItem}
                 disableEditItem

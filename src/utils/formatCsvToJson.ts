@@ -14,7 +14,11 @@ export const formatCsvToJson = (results: any) => {
         }
       })
     }
+
+    lineFormatted['id'] = crypto.randomUUID()
+
     return lineFormatted
-  }).filter((r) => Object.keys(r).length > 0)
+  }).filter((r) => Object.keys(r).length > 1)
+
   return resultsFormatted
 }

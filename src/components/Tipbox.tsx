@@ -17,14 +17,17 @@ export const Tipbox = ({
   className,
 }: ITipboxProps) => {
   return (
-    <div className={clsx('flex items-center gap-5 !w-full', className)}>
-      <div className=" bg-light-primary flex !w-full justify-between items-center rounded-3xl px-6 py-3 mt-5 ">
-        <section className="flex gap-4">
-          <div className="text-primary">{iconLeft}</div>
-          <Paragraph className=" text-primary "> {children} </Paragraph>
-        </section>
-        {buttonRight}
-      </div>
+    <div
+      className={clsx(
+        'bg-light-primary flex gap-4 !w-full justify-between items-center rounded-3xl px-6 py-3',
+        className
+      )}
+    >
+      <section className="flex gap-4">
+        <div className="text-primary">{iconLeft}</div>
+        <Paragraph className=" text-primary "> {children} </Paragraph>
+      </section>
+      {buttonRight}
     </div>
   );
 };

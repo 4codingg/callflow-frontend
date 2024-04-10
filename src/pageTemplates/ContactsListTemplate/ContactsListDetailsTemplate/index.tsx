@@ -3,9 +3,9 @@ import {
   LayoutWithSidebar,
   Line,
   Paragraph,
-  Table,
   Breadcrumb,
   Button,
+  EmptyState,
 } from '@/components';
 import { TableHeader } from '@/components/layouts/Headers/TableHeader';
 import { ModalAddItemContactList } from '@/components/layouts/Modals/ModalAddItemContact';
@@ -20,33 +20,44 @@ import {
   Trash,
   Upload,
 } from 'phosphor-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Empty from '@/assets/empty-state.png';
-import Image from 'next/image';
-import { ModalEditNameContactList } from '@/components/layouts/Modals/ModalEditNameContactList';
-
-const crumbs = [
-  {
-    label: 'Lista de Contatos',
-    path: '/contacts',
-  },
-  {
-    label: 'Name',
-  },
-];
-
-const handleAddItem = () => {};
+import { ModalEditNameContactsList } from '@/components/layouts/Modals/ModalEditNameContactsList';
+import { updateContactsList } from '@/api/contactsList/update-contacts-list';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import { getContactsListDetail } from '@/api/contactsList/get-contacts-list-detail';
+import { TableContacts } from '@/components/layouts/Tables/TableContacts';
 
 export const ContactsListDetailsTemplate = () => {
   const [modalAddItemContactListIsOpen, setModalAddItemContactListIsOpen] =
     useState(false);
   const [modalUploadCSVIsOpen, setModalUploadCSVIsOpen] = useState(false);
-  const [modalEditItemCallsList, setModalEditItemCallsList] = useState(false);
+  const [modalEditNameContactsListIsOpen, setModalEditNameContactsListIsOpen] =
+    useState(false);
   const [results, setResults] = useState([]);
+  const [pendingDocuments, setPendingDocuments] = useState([]);
+
+  const router = useRouter();
+  const contactsListId = router.query.id as string;
+
+  const { mutateAsync: updateContactsListFn } = useMutation({
+    mutationFn: updateContactsList,
+  });
+
+  const { data: contactsListDetail } = useQuery({
+    queryKey: ['contacts-list-detail', contactsListId],
+    queryFn: () => getContactsListDetail({ contactsListId }),
+    staleTime: Infinity,
+  });
 
   const handleUploadAccepted = (resultsFromCsv: any[]) => {
     for (const res of resultsFromCsv) {
       const resultsFormatted = formatCsvToJson(res.data);
+      setPendingDocuments((prevResults) => [
+        ...prevResults,
+        ...resultsFormatted,
+      ]);
       setResults((prevResults) => [...prevResults, ...resultsFormatted]);
     }
   };
@@ -56,7 +67,7 @@ export const ContactsListDetailsTemplate = () => {
       icon: <NotePencil color="#01DDA3" size={16} />,
       color: '#01DDA3',
       label: 'Editar nome da Lista',
-      action: () => setModalEditItemCallsList(true),
+      action: () => setModalEditNameContactsListIsOpen(true),
     },
     {
       icon: <Trash color="#3F3F3F" size={16} />,
@@ -65,12 +76,47 @@ export const ContactsListDetailsTemplate = () => {
     },
   ];
 
+  const handleSave = async () => {
+    await updateContactsListFn({
+      contactsListId: contactsListId,
+      contacts: pendingDocuments,
+    });
+
+    setPendingDocuments([]);
+  };
+
+  const getCrumbs = (contactsListDetailName: string) => {
+    return [
+      {
+        label: 'Lista de Contatos',
+        path: '/contacts',
+      },
+      {
+        label: contactsListDetailName || '',
+      },
+    ];
+  };
+
+  const handleAddItem = () => {};
+
+  useEffect(() => {
+    if (contactsListDetail) {
+      const arr = contactsListDetail.contacts.map((contact) => {
+        return {
+          ...contact.data,
+          id: contact.id,
+        };
+      });
+      setResults(arr);
+    }
+  }, [contactsListDetail]);
+
   return (
     <>
       <LayoutWithSidebar>
-        <Breadcrumb crumbs={crumbs} />
-        <section className="flex justify-between mt-6">
-          <section className="flex gap-[11px] mt-[15px]">
+        <Breadcrumb crumbs={getCrumbs(contactsListDetail?.name)} />
+        <section className="flex justify-between">
+          <section className="flex gap-[11px] mt-4">
             <Button
               className="!w-[200px] !text-sm font-normal"
               leftIcon={<PlusCircle color="#FFF" size={20} />}
@@ -130,58 +176,25 @@ export const ContactsListDetailsTemplate = () => {
           </Paragraph>
         </section>
         {results.length == 0 ? (
-          <div className="flex flex-col h-screen w-full">
-            <div className="flex flex-col items-center mt-[89px]">
-              <Image src={Empty} alt="logo-empty" />
-              <section className="flex flex-col items-center mt-4[40px]">
-                <Paragraph className="!font-bold">A lista está vazia</Paragraph>
-                <Paragraph className="font-normal">
-                  Adicione um contato ou
-                </Paragraph>
-                <Paragraph className="font-normal">
-                  Faça uoload de uma planilha
-                </Paragraph>
-              </section>
-            </div>
+          <div className="flex mt-6 items-center justify-center">
+            <EmptyState
+              icon={Empty}
+              title="A lista está vazia"
+              description="Adicione um contato ou faça upload de uma planilha"
+            />
           </div>
         ) : (
           <>
-            <div className="flex flex-col mt-6">
-              <div className="flex items-center gap-4 w-full">
-                <Button
-                  className="!w-[200px] !text-sm font-normal"
-                  leftIcon={<PlusCircle color="#FFF" size={20} />}
-                  onClick={() => setModalAddItemContactListIsOpen(true)}
-                >
-                  Adicionar contato
-                </Button>
-                <Button
-                  className="!w-[200px] !text-sm font-normal !bg-green"
-                  leftIcon={<Upload color="#FFF" size={20} />}
-                  onClick={() => setModalUploadCSVIsOpen(true)}
-                >
-                  Upload de Planilha
-                </Button>
-              </div>
-              <div>
-                <Paragraph className="flex mt-8">
-                  Aqui você pode criar sua lista de contatos.
-                </Paragraph>
-                <Paragraph>
-                  Você pode criar adicionar o contato manualmente e/ou fazendo
-                  upload de um arquivo CSV.
-                </Paragraph>
-              </div>
-            </div>
             <div className="mt-4">
-              <Table
+              <TableContacts
                 content={results}
-                headerComponent={<TableHeader title="Contatos" />}
+                pendingDocuments={pendingDocuments}
               />
             </div>
             <Button
               leftIcon={<CheckCircle size={22} color="#FFF" />}
               className="mt-8 !w-[160px] mx-auto font-light flex"
+              onClick={handleSave}
             >
               Salvar lista
             </Button>
@@ -198,10 +211,13 @@ export const ContactsListDetailsTemplate = () => {
         setModalIsOpen={setModalUploadCSVIsOpen}
         handleUploadAccepted={handleUploadAccepted}
       />
-      <ModalEditNameContactList
-        modalIsOpen={modalEditItemCallsList}
-        setModalIsOpen={setModalEditItemCallsList}
-        item={'teste'}
+      <ModalEditNameContactsList
+        modalIsOpen={modalEditNameContactsListIsOpen}
+        setModalIsOpen={setModalEditNameContactsListIsOpen}
+        item={{
+          name: contactsListDetail?.name,
+          id: contactsListId,
+        }}
       />
     </>
   );

@@ -14,7 +14,7 @@ import { DotSteps } from '@/components/DotSteps';
 import { Checkbox } from '@/components/Checkbox';
 import { Button } from '@/components/Button';
 import { Breadcrumb } from '@/components/Breadcrumb';
-import { Table } from './Table';
+import { TableDefault } from './layouts/Tables/TableDefault';
 import { Heading, HeadingAsVariant, HeadingSizeVariant, HeadingVariant } from './Heading';
 import { Paragraph, ParagraphSizeVariant } from './Paragraph';
 import { Line } from './Line';
@@ -39,7 +39,7 @@ export {
   Spinner,
   Card,
   Input,
-  Table,
+  TableDefault,
   Breadcrumb,
   Button,
   ButtonSizeVariant,
