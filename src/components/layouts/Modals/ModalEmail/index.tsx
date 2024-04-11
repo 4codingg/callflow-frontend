@@ -3,22 +3,15 @@ import { Line } from '@/components/Line';
 import { Modal } from '@/components/Modal';
 import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
 import { CheckCircle, XCircle } from 'phosphor-react';
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useRef, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { Input } from '@/components/Input';
+import { FocusScope } from '@radix-ui/react-focus-scope';
 
 interface IModalEmailProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
 }
-
-const handleFocusIn = (e) => {
-  if (
-    e.target.closest('.tox-tinymce-aux, .moxman-window, .tam-assetmanager-root')
-  ) {
-    e.stopPropagation();
-  }
-};
 
 export const ModalEmail = ({
   setModalIsOpen,
@@ -29,9 +22,13 @@ export const ModalEmail = ({
   const [content, setContent] = useState('');
 
   return (
-    <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
-      <Modal.Content onOpenAutoFocus={(e) => e.preventDefault()}>
-        <div className="bg-white px-4 py-4 min-w-[600px] max-h-[90%]">
+    <Modal.Root
+      trapFocus={false}
+      isOpen={modalIsOpen}
+      setIsOpen={setModalIsOpen}
+    >
+      <Modal.Content className="min-w-[600px]">
+        <div className="bg-white px-4 py-4 ">
           <header className="flex justify-between items-center w-full flex-1">
             <Paragraph
               size={ParagraphSizeVariant.Medium}
