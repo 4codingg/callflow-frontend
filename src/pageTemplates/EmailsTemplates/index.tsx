@@ -3,13 +3,12 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import {
   Button,
-  Input,
   EmptyState,
   Dropdown,
   LayoutWithSidebar,
   Heading,
   Paragraph,
-  Table,
+  TableDefault,
   HeadingSizeVariant,
   Label,
 } from '@/components';
@@ -22,7 +21,6 @@ import Empty from '@/assets/empty-state.png';
 import { useFormik } from 'formik';
 import { toast } from '@/utils/toast';
 import { schemaSendCallsListMessage } from '@/schemas/callsList';
-import { ModalMessage } from '@/components/layouts/Modals/ModalMessage';
 import { ModalEmail } from '@/components/layouts/Modals/ModalEmail';
 
 export const EmailsTemplate = () => {
@@ -136,7 +134,7 @@ export const EmailsTemplate = () => {
           ) : (
             <div className="w-full flex flex-col gap-4 bg-white">
               <Heading>Contatos</Heading>
-              <Table
+              <TableDefault
                 content={MOCK_CONTACTS}
                 handleAccessItem={handleAccessItem}
                 disableEditItem

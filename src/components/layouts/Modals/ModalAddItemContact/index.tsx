@@ -1,13 +1,13 @@
-import { Button, ButtonVariant } from "@/components/Button";
-import { Input } from "@/components/Input";
-import { Line } from "@/components/Line";
-import { Modal } from "@/components/Modal";
-import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { useCallsList } from "@/hooks/useCallsList";
-import { schemaContactItem } from "@/schemas/contacts";
-import { Formik } from "formik";
-import { CheckCircle, X, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction } from "react";
+import { Button, ButtonVariant } from '@/components/Button';
+import { Input } from '@/components/Input';
+import { Line } from '@/components/Line';
+import { Modal } from '@/components/Modal';
+import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
+import { useCallsList } from '@/hooks/useCallsList';
+import { schemaContactItem } from '@/schemas/contacts';
+import { Formik } from 'formik';
+import { CheckCircle, X, XCircle } from 'phosphor-react';
+import { Dispatch, SetStateAction } from 'react';
 
 interface IModalAddItemContactList {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -29,15 +29,15 @@ export const ModalAddItemContactList = ({
   const { handleAddContactToCallsList } = useCallsList();
 
   const initialValuesAddItem = {
-    name: "",
-    email: "",
-    phone: "",
+    name: '',
+    email: '',
+    phone: '',
   };
 
   const handleForm = (values: IAddContacts, { resetForm }) => {
-    console.log("nome:", values.name);
-    console.log("email:", values.email);
-    console.log("telefone:", values.phone);
+    console.log('nome:', values.name);
+    console.log('email:', values.email);
+    console.log('telefone:', values.phone);
     handleAddContactToCallsList(values);
     setModalIsOpen(false);
     resetForm();
@@ -63,8 +63,8 @@ export const ModalAddItemContactList = ({
       }) => {
         return (
           <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
-            <Modal.Content>
-              <div className="bg-white p-4 min-w-[400px]">
+            <Modal.Content className="min-w-[400px]">
+              <div className="bg-white py-4 ">
                 <header className="flex justify-between items-center w-full flex-1">
                   <Paragraph
                     size={ParagraphSizeVariant.Medium}
@@ -86,8 +86,8 @@ export const ModalAddItemContactList = ({
                   <Input
                     label="Nome"
                     value={values.name}
-                    onChange={handleChange("name")}
-                    onBlur={handleBlur("name")}
+                    onChange={handleChange('name')}
+                    onBlur={handleBlur('name')}
                     placeholder="Digite o nome"
                     error={errors.name as string}
                     className=" !default-grey-label font-light "
@@ -95,17 +95,17 @@ export const ModalAddItemContactList = ({
                   <Input
                     label="E-mail"
                     value={values.email}
-                    onChange={handleChange("email")}
+                    onChange={handleChange('email')}
                     placeholder="Digite o e-mail"
-                    onBlur={handleBlur("email")}
+                    onBlur={handleBlur('email')}
                     error={errors.email as string}
                     className=" !default-grey-label  font-light"
                   />
                   <Input
                     label="Telefone"
                     value={values.phone}
-                    onChange={handleChange("phone")}
-                    onBlur={handleBlur("phone")}
+                    onChange={handleChange('phone')}
+                    onBlur={handleBlur('phone')}
                     error={errors.phone as string}
                     placeholder="Digite o telefone"
                     className=" !default-grey-label  font-light"

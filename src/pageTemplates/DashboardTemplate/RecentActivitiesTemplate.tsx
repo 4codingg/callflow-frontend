@@ -41,20 +41,22 @@ export const RecentActivitiesTemplate = () => {
             <Paragraph className="w-[15%] text-left !font-normal">
               -R$ {activitie.cost}
             </Paragraph>
-            <Paragraph
-              className={clsx('w-[15%] text-right flex items-center gap-2', {
-                'text-green': activitie.status === 'completed',
-                'text-primary': activitie.status === 'pending',
-              })}
-            >
+            <div className={clsx('w-[15%] text-right flex items-center gap-2')}>
               <div
                 className={clsx('w-2 h-2 rounded-full', {
                   'bg-green': activitie.status === 'completed',
                   'bg-primary': activitie.status === 'pending',
                 })}
               />
-              {getActivitieLabel(activitie.status)}
-            </Paragraph>
+              <Paragraph
+                className={clsx({
+                  '!text-green': activitie.status === 'completed',
+                  '!text-primary': activitie.status === 'pending',
+                })}
+              >
+                {getActivitieLabel(activitie.status)}
+              </Paragraph>
+            </div>
           </div>
         ))}
       </div>

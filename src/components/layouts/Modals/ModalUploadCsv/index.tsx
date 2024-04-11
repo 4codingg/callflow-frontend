@@ -50,8 +50,8 @@ export const ModalUploadCsv = ({
   }
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
-      <Modal.Content>
-        <div className="bg-white px-4 py-4 w-[430px]">
+      <Modal.Content className="w-[430px]">
+        <div className="bg-white py-4 ">
           <header className="flex justify-between items-center w-full flex-1">
             <Paragraph
               size={ParagraphSizeVariant.Medium}

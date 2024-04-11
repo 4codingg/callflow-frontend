@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
-import Image from "next/image";
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 import {
   Button,
   Input,
@@ -9,20 +9,20 @@ import {
   LayoutWithSidebar,
   Heading,
   Paragraph,
-  Table,
+  TableDefault,
   HeadingSizeVariant,
   Label,
-} from "@/components";
-import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
-import { ModalConfirmMessage } from "@/components/layouts/Modals/ModalConfirmMessage";
-import { MOCK_CONTACTS, OPTIONS_LIST } from "@/constants/contentCalls";
-import Information from "@/assets/icons/information-circle.svg";
-import { Check, CheckCircle } from "phosphor-react";
-import Empty from "@/assets/empty-state.png";
-import { useFormik } from "formik";
-import { toast } from "@/utils/toast";
-import { schemaSendCallsListMessage } from "@/schemas/callsList";
-import { ModalMessage } from "@/components/layouts/Modals/ModalMessage";
+} from '@/components';
+import { ModalStepByStep } from '@/components/layouts/Modals/ModalStepByStep';
+import { ModalConfirmMessage } from '@/components/layouts/Modals/ModalConfirmMessage';
+import { MOCK_CONTACTS, OPTIONS_LIST } from '@/constants/contentCalls';
+import Information from '@/assets/icons/information-circle.svg';
+import { Check, CheckCircle } from 'phosphor-react';
+import Empty from '@/assets/empty-state.png';
+import { useFormik } from 'formik';
+import { toast } from '@/utils/toast';
+import { schemaSendCallsListMessage } from '@/schemas/callsList';
+import { ModalMessage } from '@/components/layouts/Modals/ModalMessage';
 
 export const MessagesTemplate = () => {
   const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState(false);
@@ -34,9 +34,9 @@ export const MessagesTemplate = () => {
   const formik = useFormik({
     isInitialValid: false,
     initialValues: {
-      contactsListId: "",
-      message: "",
-      cost: "",
+      contactsListId: '',
+      message: '',
+      cost: '',
     },
     validationSchema: schemaSendCallsListMessage,
     onSubmit: () => {},
@@ -45,7 +45,7 @@ export const MessagesTemplate = () => {
   const router = useRouter();
 
   const handleAccessItem = (id: string) => {
-    router.push("/messages/" + id);
+    router.push('/messages/' + id);
   };
 
   const handleOpenModalInstructions = () => {
@@ -56,7 +56,7 @@ export const MessagesTemplate = () => {
     if (formik.isValid) {
       setModalConfirmMessageIsOpen(true);
     } else {
-      toast("error", "Preencha todas as informações!");
+      toast('error', 'Preencha todas as informações!');
     }
   };
 
@@ -89,7 +89,7 @@ export const MessagesTemplate = () => {
               options={OPTIONS_LIST}
               label="Lista de Contatos"
               placeholder="Seleciona a lista de contatos"
-              {...formik.getFieldProps("contactsListId")}
+              {...formik.getFieldProps('contactsListId')}
             />
             <div className="flex flex-col gap-3 w-full">
               <Label className="font-semibold text-sm">Mensagem</Label>
@@ -135,12 +135,10 @@ export const MessagesTemplate = () => {
           ) : (
             <div className="w-full flex flex-col gap-4 bg-white">
               <Heading>Contatos</Heading>
-              <Table
+              <TableDefault
                 content={MOCK_CONTACTS}
                 handleAccessItem={handleAccessItem}
                 disableEditItem
-                disableDeleteItem
-                disableAccessItem
               />
             </div>
           )}

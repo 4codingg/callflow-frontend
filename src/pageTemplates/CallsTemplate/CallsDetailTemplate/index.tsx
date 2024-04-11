@@ -166,7 +166,7 @@ export const CallsDetailTemplate = () => {
           </div>
         </div>
         <div className="mt-4">
-          <Table
+          <TableDefault
             content={results}
             handleDeleteItem={handleDeleteItem}
             handleEditItem={handleEditItem}
