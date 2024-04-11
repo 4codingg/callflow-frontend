@@ -12,7 +12,10 @@ export const DashboardTemplate = () => {
           <div className="flex items-center gap-4">
             {SERVICES.map((service) => {
               return (
-                <Card className="flex-1 flex flex-col gap-2">
+                <Card
+                  className="flex-1 flex flex-col gap-2"
+                  key={service.value}
+                >
                   <div className="flex items-center justify-between">
                     <Paragraph className="text-base font-semibold">
                       {service.title} (mês)

@@ -1,10 +1,5 @@
-import { convertCamelCaseToWordsAndTranslate } from '@/utils/convertCamelCaseToWords';
-import { CaretRight, PencilLine, Trash } from 'phosphor-react';
-import { Line } from '../../../Line';
-import { Paragraph, ParagraphSizeVariant } from '../../../Paragraph';
-import { Heading } from '../../../Heading';
 import { ReactNode } from 'react';
-import { Checkbox } from '@/components/Checkbox';
+import { Heading, Checkbox, Paragraph, EmptyState } from '@/components';
 import { TableButtons } from './TableButtons';
 import { TableHead } from './TableHead';
 
@@ -60,6 +55,7 @@ export const TableDefault = ({
                   {checkBox && <Checkbox size={24} className="mr-3" />}
                   {titles.map((title) => (
                     <td
+                      key={title}
                       className={`flex `}
                       style={{ width: calculateWidthSize() }}
                     >
@@ -82,7 +78,7 @@ export const TableDefault = ({
           </table>
         </>
       ) : (
-        <div className="flex items-center justify-center flex-col  py-4"></div>
+        <EmptyState title="Nada foi encontrado" />
       )}
     </div>
   );
