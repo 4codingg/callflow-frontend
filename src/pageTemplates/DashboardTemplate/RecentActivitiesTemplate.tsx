@@ -14,7 +14,7 @@ export const RecentActivitiesTemplate = () => {
       <div className="flex flex-col gap-4 mt-4">
         {MOCK_ACTIVITIES.map((activitie) => (
           <div
-            key={activitie.title}
+            key={activitie.id}
             className="flex justify-between items-center hover:bg-neutral cursor-pointer p-1 rounded"
           >
             <div

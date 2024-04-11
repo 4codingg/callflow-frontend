@@ -8,6 +8,7 @@ import {
 
 export const MOCK_ACTIVITIES = [
   {
+    id: 1,
     title: 'Ligações',
     contactsList: 'Amplifi List',
     time: '19:13:22 PM',
@@ -17,6 +18,7 @@ export const MOCK_ACTIVITIES = [
     colorIcon: '#00DEA3',
   },
   {
+    id: 2,
     title: 'SMSs',
     contactsList: 'Invoice List',
     time: '09:15:31 AM',
@@ -26,6 +28,7 @@ export const MOCK_ACTIVITIES = [
     colorIcon: '#FE8F66',
   },
   {
+    id: 3,
     title: 'SMSs',
     contactsList: 'Neivy LTDA',
     time: '09:15:31 AM',
@@ -35,6 +38,7 @@ export const MOCK_ACTIVITIES = [
     colorIcon: '#FE8F66',
   },
   {
+    id: 4,
     title: 'Emails',
     contactsList: 'Nexus Company',
     time: '09:15:31 AM',
@@ -44,6 +48,7 @@ export const MOCK_ACTIVITIES = [
     colorIcon: '#FE8F66',
   },
   {
+    id: 5,
     title: 'Emails',
     contactsList: 'Nexus Company',
     time: '09:15:31 AM',
@@ -53,6 +58,7 @@ export const MOCK_ACTIVITIES = [
     colorIcon: '#FE8F66',
   },
   {
+    id: 6,
     title: 'Ligações',
     contactsList: 'Nexus Company',
     time: '09:15:31 AM',
@@ -62,6 +68,7 @@ export const MOCK_ACTIVITIES = [
     colorIcon: '#00DEA3',
   },
   {
+    id: 7,
     title: 'SMSs',
     contactsList: 'Nexus Company',
     time: '09:15:31 AM',

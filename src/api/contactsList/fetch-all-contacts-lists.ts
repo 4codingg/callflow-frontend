@@ -15,7 +15,13 @@ export interface GetContactsListDetailResponse {
   name: string
 }
 
-export async function fetchAllContactsLists() {
-  const response = await api.get('/contacts-lists')
+interface IFetchAllContactsListProps {
+  fetchNameOnly?: boolean
+}
+
+export async function fetchAllContactsLists(data?: IFetchAllContactsListProps) {
+  const response = await api.get('/contacts-lists', {
+    params: data
+  })
   return response.data as GetContactsListDetailResponse[];
 }

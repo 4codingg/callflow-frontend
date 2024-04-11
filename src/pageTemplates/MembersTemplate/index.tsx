@@ -1,4 +1,9 @@
-import { Heading, LayoutWithSidebar, Paragraph, Table } from '@/components';
+import {
+  Heading,
+  LayoutWithSidebar,
+  Paragraph,
+  TableDefault,
+} from '@/components';
 import { MOCK_MEMBERS } from '@/constants/contentCalls';
 import { useState } from 'react';
 

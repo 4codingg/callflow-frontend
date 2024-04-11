@@ -10,9 +10,9 @@ import { queryClient } from '@/services/react-query';
 export const ContactsListTemplate = () => {
   const router = useRouter();
 
-  const { data: contactsListsItems, isPending } = useQuery({
+  const { data: contactsListsItems } = useQuery({
     queryKey: ['contacts-lists'],
-    queryFn: fetchAllContactsLists,
+    queryFn: () => fetchAllContactsLists(),
     staleTime: Infinity,
   });
 

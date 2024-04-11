@@ -28,7 +28,7 @@ export const ModalEmail = ({
       setIsOpen={setModalIsOpen}
     >
       <Modal.Content className="min-w-[600px]">
-        <div className="bg-white px-4 py-4 ">
+        <div className="bg-white py-4 ">
           <header className="flex justify-between items-center w-full flex-1">
             <Paragraph
               size={ParagraphSizeVariant.Medium}
