@@ -1,16 +1,20 @@
-import { Button, ButtonVariant } from "@/components/Button";
-import { Line } from "@/components/Line";
-import { Modal } from "@/components/Modal";
-import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { OPTIONS_LIST } from "@/constants/contentCalls";
-import { ArrowRight, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction } from "react";
-import { Dropdown } from "@/components/Dropdown";
-import { TextArea } from "@/components/TextArea";
-import { toast } from "@/utils/toast";
-import { Label } from "@/components/Label";
+import {
+  Button,
+  ButtonVariant,
+  Line,
+  Modal,
+  Paragraph,
+  Dropdown,
+  TextArea,
+  Label,
+  ParagraphSizeVariant,
+} from '@/components';
+import { OPTIONS_LIST } from '@/constants/contentCalls';
+import { ArrowRight, XCircle } from 'phosphor-react';
+import { Dispatch, SetStateAction } from 'react';
+import { toast } from '@/utils/toast';
 
-interface IModalModalConfirmCallProps {
+interface IModalConfirmCallProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
 }
@@ -18,14 +22,14 @@ interface IModalModalConfirmCallProps {
 export const ModalConfirmCall = ({
   setModalIsOpen,
   modalIsOpen,
-}: IModalModalConfirmCallProps) => {
+}: IModalConfirmCallProps) => {
   const handleSave = () => {
     setModalIsOpen(false);
   };
 
   const handleSubmit = () => {
     setModalIsOpen(false);
-    toast("success", "Envio de ligação em massa realizado com sucesso!");
+    toast('success', 'Envio de ligação em massa realizado com sucesso!');
   };
 
   return (
@@ -37,7 +41,7 @@ export const ModalConfirmCall = ({
               size={ParagraphSizeVariant.Medium}
               className=" text-purple-secundary !font-medium "
             >
-              Confirme as Informações do seu envio em massa
+              Confirme as informações do seu envio em massa
             </Paragraph>
             <Modal.Close>
               <Button variant={ButtonVariant.iconOnly} className="!w-6 !h-6">
@@ -80,8 +84,9 @@ export const ModalConfirmCall = ({
                 type="button"
                 className="text-xs font-normal !w-[197px] h-[48px] "
                 onClick={handleSubmit}
+                rightIcon={<ArrowRight size={18} />}
               >
-                Confirmar e Enviar <ArrowRight size={18} />
+                Confirmar e Enviar
               </Button>
             </section>
           </form>

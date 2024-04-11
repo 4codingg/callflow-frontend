@@ -1,12 +1,14 @@
-import { Button, ButtonVariant } from "@/components/Button";
-import { Line } from "@/components/Line";
-import { Modal } from "@/components/Modal";
-import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { INSTRUCTIONS, MOCK_CONTACTS } from "@/constants/contentCalls";
-import Image from "next/image";
-import { ArrowRight, CheckCircle, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction, useRef, useState } from "react";
-import { TextArea } from "@/components/TextArea";
+import {
+  Button,
+  ButtonVariant,
+  Modal,
+  Line,
+  Paragraph,
+  ParagraphSizeVariant,
+  TextArea,
+} from '@/components';
+import { CheckCircle, XCircle } from 'phosphor-react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 interface IModalCallProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -14,13 +16,13 @@ interface IModalCallProps {
 }
 
 export const ModalCall = ({ setModalIsOpen, modalIsOpen }: IModalCallProps) => {
-  const variables = ["nome", "telefone", "email"];
-  const [message, setMessage] = useState("");
+  const variables = ['nome', 'telefone', 'email'];
+  const [message, setMessage] = useState('');
 
   const formatText = () => {
     let formattedText = message;
     variables.forEach((variable) => {
-      const regex = new RegExp(`{(${variable})}`, "g");
+      const regex = new RegExp(`{(${variable})}`, 'g');
       formattedText = formattedText.replace(
         regex,
         `<span style="color: #783EFD; font-weight: 600;">$1</span>`

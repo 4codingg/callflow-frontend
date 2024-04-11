@@ -1,9 +1,7 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
-import Image from "next/image";
+import { useState } from 'react';
+import Image from 'next/image';
 import {
   Button,
-  Input,
   EmptyState,
   Dropdown,
   LayoutWithSidebar,
@@ -12,17 +10,17 @@ import {
   Table,
   HeadingSizeVariant,
   Label,
-} from "@/components";
-import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
-import { MOCK_CONTACTS, OPTIONS_LIST } from "@/constants/contentCalls";
-import Information from "@/assets/icons/information-circle.svg";
-import { Check, CheckCircle } from "phosphor-react";
-import Empty from "@/assets/empty-state.png";
-import { useFormik } from "formik";
-import { toast } from "@/utils/toast";
-import { schemaSendCallsListMessage } from "@/schemas/callsList";
-import { ModalConfirmCall } from "@/components/layouts/Modals/ModalConfirmCall";
-import { ModalCall } from "@/components/layouts/Modals/ModalCall";
+} from '@/components';
+import { ModalStepByStep } from '@/components/layouts/Modals/ModalStepByStep';
+import { MOCK_CONTACTS, OPTIONS_LIST } from '@/constants/contentCalls';
+import Information from '@/assets/icons/information-circle.svg';
+import { Check, CheckCircle } from 'phosphor-react';
+import Empty from '@/assets/empty-state.png';
+import { useFormik } from 'formik';
+import { toast } from '@/utils/toast';
+import { schemaSendCallsListMessage } from '@/schemas/callsList';
+import { ModalConfirmCall } from '@/components/layouts/Modals/ModalConfirmCall';
+import { ModalCall } from '@/components/layouts/Modals/ModalCall';
 
 export const CallsTemplate = () => {
   const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState(false);
@@ -33,29 +31,19 @@ export const CallsTemplate = () => {
   const formik = useFormik({
     isInitialValid: false,
     initialValues: {
-      contactsListId: "",
-      message: "",
-      cost: "",
+      contactsListId: '',
+      message: '',
+      cost: '',
     },
     validationSchema: schemaSendCallsListMessage,
     onSubmit: () => {},
   });
 
-  const router = useRouter();
-
-  const handleAccessItem = (id: string) => {
-    router.push("/calls/" + id);
-  };
-
-  const handleOpenModalInstructions = () => {
-    setModalStepByStepIsOpen(true);
-  };
-
   const handleConfirm = () => {
     if (formik.isValid) {
       setModalConfirmCallIsOpen(true);
     } else {
-      toast("error", "Preencha todas as informações!");
+      toast('error', 'Preencha todas as informações!');
     }
   };
 
@@ -72,7 +60,7 @@ export const CallsTemplate = () => {
               ligação e realize o envio em massa.
             </Paragraph>
             <Button
-              onClick={handleOpenModalInstructions}
+              onClick={() => setModalStepByStepIsOpen(true)}
               className="!bg-light-primary !w-[165px] !h-[48px] mt-[24px]"
             >
               <Image src={Information} alt="circle-information" />
@@ -88,7 +76,7 @@ export const CallsTemplate = () => {
               options={OPTIONS_LIST}
               label="Lista de Contatos"
               placeholder="Seleciona a lista de contatos"
-              {...formik.getFieldProps("contactsListId")}
+              {...formik.getFieldProps('contactsListId')}
             />
             <div className="flex flex-col gap-3 w-full">
               <Label className="font-semibold text-sm">
@@ -138,7 +126,6 @@ export const CallsTemplate = () => {
               <Heading>Contatos</Heading>
               <Table
                 content={MOCK_CONTACTS}
-                handleAccessItem={handleAccessItem}
                 disableEditItem
                 disableDeleteItem
                 disableAccessItem
