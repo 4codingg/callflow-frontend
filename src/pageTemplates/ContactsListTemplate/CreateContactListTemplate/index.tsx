@@ -1,70 +1,108 @@
-import { LayoutWithSidebar, Breadcrumb, Button, Paragraph } from "@/components";
-import { ModalAddItemContactList } from "@/components/layouts/Modals/ModalAddItemContact";
-import { ArrowRight, Warning, XCircle } from "phosphor-react";
-import { useState } from "react";
-import { ModalEditNameContactList } from "@/components/layouts/Modals/ModalEditNameContactList";
-import { Tipbox } from "@/components/Tipbox";
-import { useAuth } from "@/hooks/useAuth";
-import { IPlanSubscriptionValue } from "@/@types/Subscription";
-import { Input } from "@/components/Input";
-import { useRouter } from "next/router";
-import { ModalConfirmVariables } from "@/components/layouts/Modals/ModalConfirmVariables";
+import { LayoutWithSidebar, Breadcrumb, Button } from '@/components';
+import { ArrowRight, Warning } from 'phosphor-react';
+import { useState } from 'react';
+import { Tipbox } from '@/components/Tipbox';
+import { useAuth } from '@/hooks/useAuth';
+import { IPlanSubscriptionValue } from '@/@types/Subscription';
+import { Input } from '@/components/Input';
+import { useRouter } from 'next/router';
+import { ModalConfirmVariables } from '@/components/layouts/Modals/ModalConfirmVariables';
+import { useMutation } from '@tanstack/react-query';
+import { createContactsList } from '@/api/contactsList/create-contacts-list';
+import { useFormik } from 'formik';
+import { Labelbox } from '@/components/Labelbox';
+import { toast } from '@/utils/toast';
 
 const crumbs = [
   {
-    label: "Lista de Contatos",
-    path: "/contacts",
+    label: 'Lista de Contatos',
+    path: '/contacts',
   },
   {
-    label: "Criar lista de contatos",
+    label: 'Criar lista de contatos',
   },
 ];
 
-const handleAddItem = () => {};
-
 export const CreateContactListTemplate = () => {
-  const [modalAddItemContactListIsOpen, setModalAddItemContactListIsOpen] =
+  const [modalConfirmVariablesIsOpen, setModalConfirmVariablesIsOpen] =
     useState(false);
-  const [modalConfirmVariable, setModalConfirmVariable] = useState(false);
-  const [modalEditItemCallsList, setModalEditItemCallsList] = useState(false);
-  const [variables, setVariables] = useState(["Nome", "Email", "Telefone"]);
-  const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { plan } = useAuth();
+  const router = useRouter();
+
+  const { mutateAsync: createContactsListFn, isPending } = useMutation({
+    mutationFn: createContactsList,
+  });
+
+  const handleConfirmCreateContactsList = async () => {
+    if (
+      plan.value !== IPlanSubscriptionValue.Free &&
+      !modalConfirmVariablesIsOpen
+    ) {
+      setModalConfirmVariablesIsOpen(true);
+      return;
+    }
+
+    setIsLoading(true);
+    const { id } = await createContactsListFn({
+      name: values.name,
+      variables: values.variables,
+    });
+
+    toast('success', 'Lista criada com sucesso!');
+    router.push(`/contacts/${id}`);
+    setIsLoading(false);
+  };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      if (inputValue.trim() !== "" && !variables.includes(inputValue)) {
-        setVariables((prevVariables) => [...prevVariables, inputValue]);
+    if (event.key === 'Enter') {
+      if (
+        values.inputVariableValue.trim() !== '' &&
+        !values.variables.includes(values.inputVariableValue)
+      ) {
+        setFieldValue('variables', [
+          ...values.variables,
+          values.inputVariableValue,
+        ]);
       }
-      setInputValue("");
+      setFieldValue('inputVariableValue', '');
     }
   };
 
   const handleDeleteVariable = (itemToDelete: string) => {
     if (
-      itemToDelete === "Nome" ||
-      itemToDelete === "Email" ||
-      itemToDelete === "Telefone"
+      itemToDelete === 'Nome' ||
+      itemToDelete === 'Email' ||
+      itemToDelete === 'Telefone'
     ) {
       return;
     }
-    const updatedVariables = variables.filter((item) => item !== itemToDelete);
-    setVariables(updatedVariables);
+    const updatedVariables = values.variables.filter(
+      (item) => item !== itemToDelete
+    );
+    setFieldValue('variables', updatedVariables);
   };
 
   const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event) {
-      setInputValue(event.target.value);
+      setFieldValue('inputVariableValue', event.target.value);
     }
   };
 
-  const { plan } = useAuth();
-  const router = useRouter();
-
-  const handleClickNext = () => {
-    if (plan.value === IPlanSubscriptionValue.Free) {
-      router.push("/contacts/1");
-    } else setModalConfirmVariable(true);
-  };
+  const { values, setFieldValue, getFieldProps } = useFormik({
+    isInitialValid: false,
+    enableReinitialize: true,
+    initialValues: {
+      name: '',
+      inputVariableValue: '',
+      variables:
+        plan.value === IPlanSubscriptionValue.Free
+          ? ['name', 'email', 'phone']
+          : [],
+    },
+    onSubmit: handleConfirmCreateContactsList,
+  });
 
   return (
     <>
@@ -87,32 +125,30 @@ export const CreateContactListTemplate = () => {
           </Tipbox>
         )}
         <section className="mt-5">
-          <Input label="Nome da lista" placeholder="Dê um nome pra sua lista" />
+          <Input
+            label="Nome da lista"
+            placeholder="Dê um nome pra sua lista"
+            {...getFieldProps('name')}
+          />
           <Input
             label="Variáveis"
             placeholder="Acione as variáveis da sua lista"
             onChange={handleChangeInput}
             onKeyDown={handleKeyDown}
-            value={inputValue}
+            value={values.inputVariableValue}
             disabled={plan.value === IPlanSubscriptionValue.Free}
           />
           <section className="flex gap-4">
-            {variables.map((item, index) => (
-              <div
+            {values.variables.map((item, index) => (
+              <Labelbox
                 key={index}
-                className=" h-8 bg-primary flex text-white rounded-3xl px-4 py-1 justify-between items-center gap-2 "
-              >
-                <button onClick={() => handleDeleteVariable(item)}>
-                  <XCircle size={19} />
-                </button>
-                <Paragraph className=" text-white font-poppins font-medium text-sm">
-                  {item}
-                </Paragraph>
-              </div>
+                action={handleDeleteVariable}
+                label={item}
+              />
             ))}
           </section>
           <Button
-            onClick={handleClickNext}
+            onClick={handleConfirmCreateContactsList}
             className=" mt-2 m-auto !w-48 font-poppins font-medium text-sm gap-2"
           >
             Avançar
@@ -120,20 +156,12 @@ export const CreateContactListTemplate = () => {
           </Button>
         </section>
       </LayoutWithSidebar>
-      <ModalAddItemContactList
-        modalIsOpen={modalAddItemContactListIsOpen}
-        setModalIsOpen={setModalAddItemContactListIsOpen}
-        handleAddItem={handleAddItem}
-      />
       <ModalConfirmVariables
-        modalIsOpen={modalConfirmVariable}
-        setModalIsOpen={setModalConfirmVariable}
-        variables={variables}
-      />
-      <ModalEditNameContactList
-        modalIsOpen={modalEditItemCallsList}
-        setModalIsOpen={setModalEditItemCallsList}
-        item={"teste"}
+        modalIsOpen={modalConfirmVariablesIsOpen}
+        setModalIsOpen={setModalConfirmVariablesIsOpen}
+        variables={values.variables}
+        handleConfirmVariables={handleConfirmCreateContactsList}
+        isLoading={isLoading || isPending}
       />
     </>
   );
