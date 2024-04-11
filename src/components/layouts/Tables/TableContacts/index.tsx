@@ -72,6 +72,7 @@ export const TableContacts = ({
                   >
                     {titles.map((title) => (
                       <td
+                        key={title}
                         className={`flex `}
                         style={{ width: calculateWidthSize() }}
                       >

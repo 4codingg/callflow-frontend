@@ -28,6 +28,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { getContactsListDetail } from '@/api/contactsList/get-contacts-list-detail';
 import { TableContacts } from '@/components/layouts/Tables/TableContacts';
+import { toast } from '@/utils/toast';
 
 export const ContactsListDetailsTemplate = () => {
   const [modalAddItemContactListIsOpen, setModalAddItemContactListIsOpen] =
@@ -77,12 +78,17 @@ export const ContactsListDetailsTemplate = () => {
   ];
 
   const handleSave = async () => {
-    await updateContactsListFn({
-      contactsListId: contactsListId,
-      contacts: pendingDocuments,
-    });
+    try {
+      await updateContactsListFn({
+        contactsListId: contactsListId,
+        contacts: pendingDocuments,
+      });
 
-    setPendingDocuments([]);
+      toast('success', 'Lista salva com sucesso!');
+      setPendingDocuments([]);
+    } catch (err) {
+      toast('error', 'Algo deu errado.');
+    }
   };
 
   const getCrumbs = (contactsListDetailName: string) => {
