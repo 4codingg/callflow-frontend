@@ -11,6 +11,7 @@ import { useMutation } from '@tanstack/react-query';
 import { createContactsList } from '@/api/contactsList/create-contacts-list';
 import { useFormik } from 'formik';
 import { Labelbox } from '@/components/Labelbox';
+import { toast } from '@/utils/toast';
 
 const crumbs = [
   {
@@ -49,6 +50,7 @@ export const CreateContactListTemplate = () => {
       variables: values.variables,
     });
 
+    toast('success', 'Lista criada com sucesso!');
     router.push(`/contacts/${id}`);
     setIsLoading(false);
   };
