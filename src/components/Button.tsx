@@ -63,11 +63,11 @@ export const Button = ({
       disabled={disabled}
       {...props}
     >
-      {!disabled && leftIcon}
+      {leftIcon}
 
       {children}
 
-      {!disabled && rightIcon}
+      {rightIcon}
     </button>
   );
 };

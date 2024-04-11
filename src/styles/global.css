@@ -5,11 +5,3 @@
 * {
   font-family: 'Poppins';
 }
-
-body.tox-fullscreen .tox.tox-tinymce.tox-fullscreen {
-  z-index: 1000001;
-}
-
-.tox.tox-silver-sink.tox-tinymce-aux {
-  z-index: 1000001;
-}

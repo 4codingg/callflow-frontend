@@ -23,8 +23,8 @@ export const ModalStepByStep = ({
 
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
-      <Modal.Content className="min-w-[700px]">
-        <div className="bg-white py-4 ">
+      <Modal.Content>
+        <div className="bg-white px-4 py-4 min-w-[700px]">
           <header className="flex justify-between items-center w-full flex-1">
             <Paragraph
               size={ParagraphSizeVariant.Medium}

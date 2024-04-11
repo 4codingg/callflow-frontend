@@ -1,43 +1,46 @@
-import { Button, ButtonVariant } from '@/components/Button';
-import { Line } from '@/components/Line';
-import { Modal } from '@/components/Modal';
-import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
+import {
+  Button,
+  ButtonVariant,
+  Modal,
+  Line,
+  Paragraph,
+  ParagraphSizeVariant,
+  TextArea,
+} from '@/components';
 import { CheckCircle, XCircle } from 'phosphor-react';
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
-import { Editor } from '@tinymce/tinymce-react';
-import { Input } from '@/components/Input';
+import { Dispatch, SetStateAction, useState } from 'react';
 
-interface IModalEmailProps {
+interface IModalCallProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
 }
 
-const handleFocusIn = (e) => {
-  if (
-    e.target.closest('.tox-tinymce-aux, .moxman-window, .tam-assetmanager-root')
-  ) {
-    e.stopPropagation();
-  }
-};
-
-export const ModalEmail = ({
-  setModalIsOpen,
-  modalIsOpen,
-}: IModalEmailProps) => {
+export const ModalCall = ({ setModalIsOpen, modalIsOpen }: IModalCallProps) => {
   const variables = ['nome', 'telefone', 'email'];
-  const editorRef = useRef(null);
-  const [content, setContent] = useState('');
+  const [message, setMessage] = useState('');
+
+  const formatText = () => {
+    let formattedText = message;
+    variables.forEach((variable) => {
+      const regex = new RegExp(`{(${variable})}`, 'g');
+      formattedText = formattedText.replace(
+        regex,
+        `<span style="color: #783EFD; font-weight: 600;">$1</span>`
+      );
+    });
+    return { __html: formattedText };
+  };
 
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
-      <Modal.Content onOpenAutoFocus={(e) => e.preventDefault()}>
-        <div className="bg-white px-4 py-4 min-w-[600px] max-h-[90%]">
+      <Modal.Content>
+        <div className="bg-white px-4 py-4 min-w-[600px]">
           <header className="flex justify-between items-center w-full flex-1">
             <Paragraph
               size={ParagraphSizeVariant.Medium}
               className=" text-purple-secundary !font-medium "
             >
-              E-mail personalizado
+              Ligação personalizada
             </Paragraph>
             <Modal.Close>
               <Button variant={ButtonVariant.iconOnly} className="!w-6 !h-6">
@@ -47,7 +50,7 @@ export const ModalEmail = ({
           </header>
           <Line direction="horizontal" className="mt-4" />
           <section className="my-6">
-            <div className="flex flex-col gap-2 mb-4">
+            <div className="flex flex-col  gap-2">
               <Paragraph>Variáveis disponíveis: </Paragraph>
               <div className="flex items-center gap-2">
                 {variables.map((item) => (
@@ -59,14 +62,20 @@ export const ModalEmail = ({
                 ))}
               </div>
             </div>
-            <Input label="Título do E-mail" />
-            <Editor
-              apiKey="w56ccsq6o6q0fwmb6kj5a5b01cwsb2uqa0vvjcgendqerk4h"
-              onInit={(evt, editor) => {
-                editorRef.current = editor;
-              }}
-              initialValue="<p>Some initial text.</p>"
-            />
+            <div className="mt-6 flex gap-4">
+              <div className="w-full">
+                <TextArea
+                  label="Mensagem da ligação"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Olá, {name}. Seja bem-vindo a nossa..."
+                />
+              </div>
+              <div
+                className="p-3 mt-8 border rounded min-h-[100px] w-full text-sm"
+                dangerouslySetInnerHTML={formatText()}
+              />
+            </div>
           </section>
           <section className="flex justify-end mt-4">
             <Button

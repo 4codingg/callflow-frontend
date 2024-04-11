@@ -4,7 +4,5 @@ export const TRANSLATION = {
   name: "Nome",
   role: "Cargo",
   lastPlay: "Última reprodução",
-  phone: "Telefone",
-  variables: "Variáveis",
-  contactsQuantity: "Quantidade de Contatos"
+  phone: "Telefone"
 };

@@ -3,10 +3,6 @@ import { CallsListContextProvider } from '@/hooks/useCallsList';
 import { AuthContextProvider } from '@/hooks/useAuth';
 import '@/styles/global.css';
 import Head from 'next/head';
-import { ChakraProvider } from '@chakra-ui/react';
-import { CreateContactsListContextProvider } from '@/hooks/useCreateContactsList';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from '@/services/react-query';
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -19,17 +15,11 @@ function MyApp({ Component, pageProps }) {
           rel="stylesheet"
         />
       </Head>
-      <QueryClientProvider client={queryClient}>
-        <AuthContextProvider>
-          <CreateContactsListContextProvider>
-            <CallsListContextProvider>
-              <ChakraProvider>
-                <Component {...pageProps} />
-              </ChakraProvider>
-            </CallsListContextProvider>
-          </CreateContactsListContextProvider>
-        </AuthContextProvider>
-      </QueryClientProvider>
+      <AuthContextProvider>
+        <CallsListContextProvider>
+          <Component {...pageProps} />
+        </CallsListContextProvider>
+      </AuthContextProvider>
     </>
   );
 }

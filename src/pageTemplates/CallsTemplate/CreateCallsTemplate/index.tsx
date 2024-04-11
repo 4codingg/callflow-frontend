@@ -159,7 +159,7 @@ export const CreateCallsTemplate = () => {
         </div>
         <div className="mt-4">
           <Input label="Nome da lista" placeholder="Dê um nome a sua lista" />
-          <TableDefault
+          <Table
             content={results}
             handleDeleteItem={handleDeleteItem}
             handleEditItem={handleEditItem}

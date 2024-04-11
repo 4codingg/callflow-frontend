@@ -1,31 +1,20 @@
-import { Heading, LayoutWithSidebar, Button, Paragraph } from '@/components';
+import {
+  Heading,
+  LayoutWithSidebar,
+  Button,
+  Paragraph,
+  Table,
+} from '@/components';
+import { CONTENT_CARD_CALLS_LIST } from '@/constants/contentCardCallList';
 import { PlusCircle } from 'phosphor-react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { fetchAllContactsLists } from '@/api/contactsList/fetch-all-contacts-lists';
-import { TableContactsList } from '@/components/layouts/Tables/TableContactsList';
-import { deleteContactsList } from '@/api/contactsList/delete-contacts-list';
-import { queryClient } from '@/services/react-query';
 
 export const ContactsListTemplate = () => {
   const router = useRouter();
-
-  const { data: contactsListsItems, isPending } = useQuery({
-    queryKey: ['contacts-lists'],
-    queryFn: fetchAllContactsLists,
-    staleTime: Infinity,
-  });
-
-  const { mutateAsync: deleteContactsListFn } = useMutation({
-    mutationFn: deleteContactsList,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['contacts-lists'] });
-    },
-  });
-
-  const handleDeleteContactsList = async (contactsListId: string) => {
-    await deleteContactsListFn({ contactsListId });
-  };
+  const [contactsListItems, setContactsListItems] = useState(
+    CONTENT_CARD_CALLS_LIST
+  );
 
   return (
     <>
@@ -35,14 +24,14 @@ export const ContactsListTemplate = () => {
             <Heading>Lista de Contatos</Heading>
 
             <Paragraph className=" text-gray-500">
-              {contactsListsItems?.length} listas
+              {contactsListItems.length} listas
             </Paragraph>
           </section>
-          {!!contactsListsItems?.length && (
+          {!!contactsListItems.length && (
             <Button
               className="!w-[139px] !h-[40px] font-light text-xs"
               leftIcon={<PlusCircle size={16} color="#FFF" />}
-              disabled={contactsListsItems.length === 0}
+              disabled={contactsListItems.length === 0}
               onClick={() => router.push('/contacts/create-list')}
             >
               Adicionar lista
@@ -54,10 +43,10 @@ export const ContactsListTemplate = () => {
           Ligações em massa.
         </Paragraph>
         <div className="mt-8">
-          <TableContactsList
-            content={contactsListsItems || []}
-            handleEditItem={(id) => router.push(`/contacts/${id}`)}
-            handleDeleteItem={(id) => handleDeleteContactsList(id)}
+          <Table
+            content={contactsListItems}
+            handleEditItem={() => {}}
+            handleDeleteItem={() => {}}
           />
         </div>
       </LayoutWithSidebar>

@@ -16,7 +16,7 @@ export const MembersTemplate = () => {
         Adicione membros para compor seu time.
       </Paragraph>
       <div className="mt-4">
-        <TableDefault
+        <Table
           content={members}
           handleEditItem={handleEditItem}
           handleDeleteItem={handleDeleteItem}

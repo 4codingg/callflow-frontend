@@ -31,8 +31,8 @@ export const ModalAddBalance = ({
 
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
-      <Modal.Content className="min-w-[430px]">
-        <div className="bg-white py-4 ">
+      <Modal.Content>
+        <div className="bg-white p-4 min-w-[430px]">
           <header className="flex justify-between items-center w-full flex-1">
             <Paragraph
               size={ParagraphSizeVariant.Medium}

@@ -2,8 +2,8 @@ import { Button, ButtonVariant } from '@/components/Button';
 import { Line } from '@/components/Line';
 import { Modal } from '@/components/Modal';
 import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
-import { Spinner } from '@/components/Spinner';
 import { Tipbox } from '@/components/Tipbox';
+import { useRouter } from 'next/router';
 import { CheckCircle, Warning, X, XCircle } from 'phosphor-react';
 import { Dispatch, SetStateAction } from 'react';
 
@@ -11,21 +11,19 @@ interface IModalConfirmVariables {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
   variables?: string[];
-  handleConfirmVariables: () => void;
-  isLoading: boolean;
 }
 
 export const ModalConfirmVariables = ({
   setModalIsOpen,
   modalIsOpen,
   variables,
-  handleConfirmVariables,
-  isLoading,
 }: IModalConfirmVariables) => {
+  const router = useRouter();
+
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
-      <Modal.Content className="min-w-[400px]">
-        <div className="bg-white py-4 ">
+      <Modal.Content>
+        <div className="bg-white px-4 py-4 min-w-[400px]">
           <header className="flex justify-between items-center w-full flex-1">
             <Paragraph
               size={ParagraphSizeVariant.Medium}
@@ -72,10 +70,9 @@ export const ModalConfirmVariables = ({
                 leftIcon={<CheckCircle size={24} />}
                 type="button"
                 className="!w-32 !h-10 font-medium"
-                onClick={handleConfirmVariables}
-                disabled={isLoading}
+                onClick={() => router.push('/contacts/1')}
               >
-                {isLoading ? <Spinner /> : 'Confirmar'}
+                Confirmar
               </Button>
             </section>
           </form>
