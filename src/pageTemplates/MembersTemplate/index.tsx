@@ -1,6 +1,11 @@
-import { Heading, LayoutWithSidebar, Paragraph, Table } from '@/components';
-import { MOCK_MEMBERS } from '@/constants/contentCalls';
-import { useState } from 'react';
+import {
+  Heading,
+  LayoutWithSidebar,
+  Paragraph,
+  TableDefault,
+} from "@/components";
+import { MOCK_MEMBERS } from "@/constants/contentCalls";
+import { useState } from "react";
 
 export const MembersTemplate = () => {
   const [members, setMembers] = useState(MOCK_MEMBERS);
