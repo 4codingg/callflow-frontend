@@ -15,7 +15,6 @@ import {
 } from '@/components';
 import { ModalStepByStep } from '@/components/layouts/Modals/ModalStepByStep';
 import { ModalConfirmMessage } from '@/components/layouts/Modals/ModalConfirmMessage';
-import { MOCK_CONTACTS, OPTIONS_LIST } from '@/constants/contentCalls';
 import Information from '@/assets/icons/information-circle.svg';
 import { Check, CheckCircle } from 'phosphor-react';
 import Empty from '@/assets/empty-state.png';
@@ -23,9 +22,12 @@ import { useFormik } from 'formik';
 import { toast } from '@/utils/toast';
 import { schemaSendCallsListMessage } from '@/schemas/callsList';
 import { ModalMessage } from '@/components/layouts/Modals/ModalMessage';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { fetchAllContactsLists } from '@/api/contactsList/fetch-all-contacts-lists';
-import { getContactsListDetail } from '@/api/contactsList/get-contacts-list-detail';
+import {
+  getContactsListDetail,
+  GetContactsListDetailResponse,
+} from '@/api/contactsList/get-contacts-list-detail';
 
 export const MessagesTemplate = () => {
   const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState(false);
@@ -33,24 +35,18 @@ export const MessagesTemplate = () => {
   const [modalConfirmMessageIsOpen, setModalConfirmMessageIsOpen] =
     useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [contactsListDetail, setContactsListDetail] = useState({
-    id: null,
-    contacts: [],
-    variables: [],
-  });
+  const [contactsListDetail, setContactsListDetail] =
+    useState<GetContactsListDetailResponse>({
+      id: '',
+      contacts: [],
+      variables: [],
+    });
 
   const { data: contactsListsItems } = useQuery({
     queryKey: ['contacts-lists'],
     queryFn: () => fetchAllContactsLists({ fetchNameOnly: true }),
     staleTime: Infinity,
   });
-
-  // const { mutateAsync: sendSmsMass } = useMutation({
-  //   mutationFn: deleteContactsList,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ['contacts-lists'] });
-  //   },
-  // });
 
   const { getFieldProps, values, setFieldValue, handleChange, isValid } =
     useFormik({
@@ -104,6 +100,15 @@ export const MessagesTemplate = () => {
     }
   };
 
+  const handleOpenMessageModal = () => {
+    if (!contactsListDetail?.variables.length) {
+      toast('error', 'Selecione uma lista de contatos para prosseguir.');
+      return;
+    }
+
+    setModalMessageIsOpen(true);
+  };
+
   const contactsListDropdownOptions =
     contactsListsItems?.map(({ name, id }) => {
       return {
@@ -144,16 +149,16 @@ export const MessagesTemplate = () => {
               onValueChange={handleChangeContactsList}
               {...getFieldProps('contactsListId')}
             />
-            <div className="flex flex-col gap-3 w-full">
+            <div className="flex flex-col gap-3 w-full max-w-[33%]">
               <Label className="font-semibold text-sm">Mensagem</Label>
               <button
                 className="rounded flex items-center justify-between h-[40px] border p-3 w-full"
-                onClick={() => setModalMessageIsOpen(true)}
+                onClick={handleOpenMessageModal}
               >
-                <Paragraph className="text-primary">
-                  Personalize sua mensagem
+                <Paragraph className="text-primary text-ellipsis truncate overflow-hidden">
+                  {values.message ? values.message : 'Personalize sua mensagem'}
                 </Paragraph>
-                <CheckCircle color="#00DEA3" />
+                {values.message && <CheckCircle color="#00DEA3" />}
               </button>
             </div>
             <div className="flex flex-col w-full gap-3">
@@ -204,10 +209,19 @@ export const MessagesTemplate = () => {
       <ModalConfirmMessage
         modalIsOpen={modalConfirmMessageIsOpen}
         setModalIsOpen={setModalConfirmMessageIsOpen}
+        contactsListDetail={contactsListDetail}
+        message={values.message}
       />
       <ModalMessage
         modalIsOpen={modalMessageIsOpen}
         setModalIsOpen={setModalMessageIsOpen}
+        variables={contactsListDetail?.variables}
+        exampleItem={
+          !!contactsListDetail?.contacts.length &&
+          contactsListDetail?.contacts[0]
+        }
+        message={values.message}
+        setMessage={(value) => setFieldValue('message', value)}
       />
     </>
   );

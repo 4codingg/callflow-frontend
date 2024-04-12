@@ -11,12 +11,12 @@ interface Contact {
 
 export interface GetContactsListDetailResponse {
   id: string,
-  companyId: string,
-  createdAt: string,
-  updatedAt: string,
+  companyId?: string,
+  createdAt?: string,
+  updatedAt?: string,
   contacts: Contact[],
   variables: string[],
-  name: string
+  name?: string
 }
 
 export async function getContactsListDetail({
