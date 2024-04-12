@@ -1,4 +1,4 @@
-import { Breadcrumb, LayoutWithSidebar } from "@/components";
+import { Breadcrumb, Dropdown, LayoutWithSidebar } from "@/components";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { schemaCreateMember } from "@/schemas/contacts";
@@ -27,6 +27,7 @@ export const CreateTemplate = () => {
     resetForm();
   };
 
+  const teste = ["Jogador", "Desenvolvedor", "Empreendedor"];
   const crumbs = [
     {
       label: "Membros",
@@ -72,14 +73,13 @@ export const CreateTemplate = () => {
                 error={errors.email as string}
                 className=" !default-grey-label  font-light"
               />
-              <Input
+              <Dropdown
                 label="Cargo"
                 value={values.cargo}
-                onChange={handleChange("cargo")}
-                onBlur={handleBlur("cargo")}
                 error={errors.cargo as string}
-                placeholder="Digite o telefone"
-                className=" !default-grey-label font-light"
+                placeholder="Selecione o cargo"
+                options={teste}
+                className=" !default-grey-label font-light mb-8"
               />
               <Input
                 label="Senha"
