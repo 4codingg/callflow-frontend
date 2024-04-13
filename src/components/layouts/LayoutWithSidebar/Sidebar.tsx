@@ -1,9 +1,9 @@
-import { TABS_SIDEBAR } from '@/constants';
-import clsx from 'clsx';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { Line } from '@/components/Line';
-import { Logo } from '@/components/Logo';
+import { TABS_SIDEBAR } from "@/constants";
+import clsx from "clsx";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { Line } from "@/components/Line";
+import { Logo } from "@/components/Logo";
 
 export const Sidebar = () => {
   const { pathname } = useRouter();
@@ -15,8 +15,7 @@ export const Sidebar = () => {
       <div className="w-full flex flex-col items-center">
         <ul className="flex flex-col gap-4 mt-8">
           {TABS_SIDEBAR.map((tab) => {
-            const isActive = tab.route === pathname;
-
+            const isActive = pathname.startsWith(tab.route);
             return (
               <Link
                 key={tab.title}
@@ -25,8 +24,8 @@ export const Sidebar = () => {
               >
                 <div>{tab.icon(isActive)}</div>
                 <span
-                  className={clsx('text-sm font-medium font-poppins', {
-                    'text-primary !font-bold': isActive,
+                  className={clsx("text-sm font-medium font-poppins", {
+                    "text-primary !font-bold": isActive,
                   })}
                 >
                   {tab.title}

@@ -1,25 +1,25 @@
-import { LayoutWithSidebar, Breadcrumb, Button } from '@/components';
-import { ArrowRight, Warning } from 'phosphor-react';
-import { useState } from 'react';
-import { Tipbox } from '@/components/Tipbox';
-import { useAuth } from '@/hooks/useAuth';
-import { IPlanSubscriptionValue } from '@/@types/Subscription';
-import { Input } from '@/components/Input';
-import { useRouter } from 'next/router';
-import { ModalConfirmVariables } from '@/components/layouts/Modals/ModalConfirmVariables';
-import { useMutation } from '@tanstack/react-query';
-import { createContactsList } from '@/api/contactsList/create-contacts-list';
-import { useFormik } from 'formik';
-import { Labelbox } from '@/components/Labelbox';
-import { toast } from '@/utils/toast';
+import { LayoutWithSidebar, Breadcrumb, Button } from "@/components";
+import { ArrowRight, Warning } from "phosphor-react";
+import { useState } from "react";
+import { Tipbox } from "@/components/Tipbox";
+import { useAuth } from "@/hooks/useAuth";
+import { IPlanSubscriptionValue } from "@/@types/Subscription";
+import { Input } from "@/components/Input";
+import { useRouter } from "next/router";
+import { ModalConfirmVariables } from "@/components/layouts/Modals/ModalConfirmVariables";
+import { useMutation } from "@tanstack/react-query";
+import { createContactsList } from "@/api/contactsList/create-contacts-list";
+import { useFormik } from "formik";
+import { Labelbox } from "@/components/Labelbox";
+import { toast } from "@/utils/toast";
 
 const crumbs = [
   {
-    label: 'Lista de Contatos',
-    path: '/contacts',
+    label: "Lista de Contatos",
+    path: "/contacts",
   },
   {
-    label: 'Criar lista de contatos',
+    label: "Criar lista de contatos",
   },
 ];
 
@@ -50,43 +50,43 @@ export const CreateContactListTemplate = () => {
       variables: values.variables,
     });
 
-    toast('success', 'Lista criada com sucesso!');
+    toast("success", "Lista criada com sucesso!");
     router.push(`/contacts/${id}`);
     setIsLoading(false);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       if (
-        values.inputVariableValue.trim() !== '' &&
+        values.inputVariableValue.trim() !== "" &&
         !values.variables.includes(values.inputVariableValue)
       ) {
-        setFieldValue('variables', [
+        setFieldValue("variables", [
           ...values.variables,
           values.inputVariableValue,
         ]);
       }
-      setFieldValue('inputVariableValue', '');
+      setFieldValue("inputVariableValue", "");
     }
   };
 
   const handleDeleteVariable = (itemToDelete: string) => {
     if (
-      itemToDelete === 'Nome' ||
-      itemToDelete === 'Email' ||
-      itemToDelete === 'Telefone'
+      itemToDelete === "Nome" ||
+      itemToDelete === "Email" ||
+      itemToDelete === "Telefone"
     ) {
       return;
     }
     const updatedVariables = values.variables.filter(
       (item) => item !== itemToDelete
     );
-    setFieldValue('variables', updatedVariables);
+    setFieldValue("variables", updatedVariables);
   };
 
   const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event) {
-      setFieldValue('inputVariableValue', event.target.value);
+      setFieldValue("inputVariableValue", event.target.value);
     }
   };
 
@@ -94,11 +94,11 @@ export const CreateContactListTemplate = () => {
     isInitialValid: false,
     enableReinitialize: true,
     initialValues: {
-      name: '',
-      inputVariableValue: '',
+      name: "",
+      inputVariableValue: "",
       variables:
         plan.value === IPlanSubscriptionValue.Free
-          ? ['name', 'email', 'phone']
+          ? ["name", "email", "phone"]
           : [],
     },
     onSubmit: handleConfirmCreateContactsList,
@@ -128,7 +128,7 @@ export const CreateContactListTemplate = () => {
           <Input
             label="Nome da lista"
             placeholder="Dê um nome pra sua lista"
-            {...getFieldProps('name')}
+            {...getFieldProps("name")}
           />
           <Input
             label="Variáveis"

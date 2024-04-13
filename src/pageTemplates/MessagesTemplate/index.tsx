@@ -15,7 +15,6 @@ import {
 } from '@/components';
 import { ModalStepByStep } from '@/components/layouts/Modals/ModalStepByStep';
 import { ModalConfirmMessage } from '@/components/layouts/Modals/ModalConfirmMessage';
-import { MOCK_CONTACTS, OPTIONS_LIST } from '@/constants/contentCalls';
 import Information from '@/assets/icons/information-circle.svg';
 import { Check, CheckCircle } from 'phosphor-react';
 import Empty from '@/assets/empty-state.png';
@@ -23,24 +22,43 @@ import { useFormik } from 'formik';
 import { toast } from '@/utils/toast';
 import { schemaSendCallsListMessage } from '@/schemas/callsList';
 import { ModalMessage } from '@/components/layouts/Modals/ModalMessage';
+import { useQuery } from '@tanstack/react-query';
+import { fetchAllContactsLists } from '@/api/contactsList/fetch-all-contacts-lists';
+import {
+  getContactsListDetail,
+  GetContactsListDetailResponse,
+} from '@/api/contactsList/get-contacts-list-detail';
 
 export const MessagesTemplate = () => {
   const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState(false);
   const [modalMessageIsOpen, setModalMessageIsOpen] = useState(false);
   const [modalConfirmMessageIsOpen, setModalConfirmMessageIsOpen] =
     useState(false);
-  const [contacts, setContacts] = useState(MOCK_CONTACTS);
+  const [isLoading, setIsLoading] = useState(false);
+  const [contactsListDetail, setContactsListDetail] =
+    useState<GetContactsListDetailResponse>({
+      id: '',
+      contacts: [],
+      variables: [],
+    });
 
-  const formik = useFormik({
-    isInitialValid: false,
-    initialValues: {
-      contactsListId: '',
-      message: '',
-      cost: '',
-    },
-    validationSchema: schemaSendCallsListMessage,
-    onSubmit: () => {},
+  const { data: contactsListsItems } = useQuery({
+    queryKey: ['contacts-lists'],
+    queryFn: () => fetchAllContactsLists({ fetchNameOnly: true }),
+    staleTime: Infinity,
   });
+
+  const { getFieldProps, values, setFieldValue, handleChange, isValid } =
+    useFormik({
+      isInitialValid: false,
+      initialValues: {
+        contactsListId: '',
+        message: '',
+        cost: '',
+      },
+      validationSchema: schemaSendCallsListMessage,
+      onSubmit: () => {},
+    });
 
   const router = useRouter();
 
@@ -53,12 +71,51 @@ export const MessagesTemplate = () => {
   };
 
   const handleConfirm = () => {
-    if (formik.isValid) {
+    if (isValid) {
       setModalConfirmMessageIsOpen(true);
     } else {
       toast('error', 'Preencha todas as informações!');
     }
   };
+
+  const handleChangeContactsList = async (contactsListId: string) => {
+    setFieldValue('contactsListId', contactsListId);
+
+    setIsLoading(true);
+    try {
+      const response = await getContactsListDetail({ contactsListId });
+
+      const formattedContacts = response.contacts.map((contact) => {
+        return {
+          ...contact.data,
+          id: contact.id,
+        };
+      });
+
+      setContactsListDetail({ ...response, contacts: formattedContacts });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleOpenMessageModal = () => {
+    if (!contactsListDetail?.variables.length) {
+      toast('error', 'Selecione uma lista de contatos para prosseguir.');
+      return;
+    }
+
+    setModalMessageIsOpen(true);
+  };
+
+  const contactsListDropdownOptions =
+    contactsListsItems?.map(({ name, id }) => {
+      return {
+        label: name,
+        value: id,
+      };
+    }) || [];
 
   return (
     <>
@@ -86,21 +143,22 @@ export const MessagesTemplate = () => {
         <div className="flex justify-between items-end gap-6">
           <section className="flex gap-6 w-full mt-6 max-w-[85%] ">
             <Dropdown
-              options={OPTIONS_LIST}
+              options={contactsListDropdownOptions}
               label="Lista de Contatos"
               placeholder="Seleciona a lista de contatos"
-              {...formik.getFieldProps('contactsListId')}
+              onValueChange={handleChangeContactsList}
+              {...getFieldProps('contactsListId')}
             />
-            <div className="flex flex-col gap-3 w-full">
+            <div className="flex flex-col gap-3 w-full max-w-[33%]">
               <Label className="font-semibold text-sm">Mensagem</Label>
               <button
                 className="rounded flex items-center justify-between h-[40px] border p-3 w-full"
-                onClick={() => setModalMessageIsOpen(true)}
+                onClick={handleOpenMessageModal}
               >
-                <Paragraph className="text-primary">
-                  Personalize sua mensagem
+                <Paragraph className="text-primary text-ellipsis truncate overflow-hidden">
+                  {values.message ? values.message : 'Personalize sua mensagem'}
                 </Paragraph>
-                <CheckCircle color="#00DEA3" />
+                {values.message && <CheckCircle color="#00DEA3" />}
               </button>
             </div>
             <div className="flex flex-col w-full gap-3">
@@ -116,14 +174,14 @@ export const MessagesTemplate = () => {
           <Button
             className=" !h-[48px] !w-[160px] rounded-2xl text-xs font-medium"
             onClick={handleConfirm}
-            disabled={!formik.isValid}
+            disabled={!isValid}
             rightIcon={<Check size={18} />}
           >
             Enviar para lista
           </Button>
         </div>
         <div className="mt-8 flex w-full">
-          {contacts.length == 0 ? (
+          {contactsListDetail.contacts.length == 0 ? (
             <div className="flex w-full justify-center mt-16">
               <EmptyState
                 description="Nenhuma lista foi selecionada, selecione para enviar suas mensagens"
@@ -136,7 +194,7 @@ export const MessagesTemplate = () => {
             <div className="w-full flex flex-col gap-4 bg-white">
               <Heading>Contatos</Heading>
               <TableDefault
-                content={MOCK_CONTACTS}
+                content={contactsListDetail?.contacts}
                 handleAccessItem={handleAccessItem}
                 disableEditItem
               />
@@ -151,10 +209,19 @@ export const MessagesTemplate = () => {
       <ModalConfirmMessage
         modalIsOpen={modalConfirmMessageIsOpen}
         setModalIsOpen={setModalConfirmMessageIsOpen}
+        contactsListDetail={contactsListDetail}
+        message={values.message}
       />
       <ModalMessage
         modalIsOpen={modalMessageIsOpen}
         setModalIsOpen={setModalMessageIsOpen}
+        variables={contactsListDetail?.variables}
+        exampleItem={
+          !!contactsListDetail?.contacts.length &&
+          contactsListDetail?.contacts[0]
+        }
+        message={values.message}
+        setMessage={(value) => setFieldValue('message', value)}
       />
     </>
   );

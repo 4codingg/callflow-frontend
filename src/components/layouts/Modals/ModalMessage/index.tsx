@@ -4,38 +4,47 @@ import { Modal } from '@/components/Modal';
 import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
 import { INSTRUCTIONS, MOCK_CONTACTS } from '@/constants/contentCalls';
 import Image from 'next/image';
-import { ArrowRight, CheckCircle, XCircle } from 'phosphor-react';
+import { ArrowRight, CheckCircle, X, XCircle } from 'phosphor-react';
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
 import { TextArea } from '@/components/TextArea';
 
 interface IModalMessageProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
+  variables: string[];
+  exampleItem: any;
+  message: string;
+  setMessage: Dispatch<SetStateAction<string>>;
 }
 
 export const ModalMessage = ({
   setModalIsOpen,
   modalIsOpen,
+  variables,
+  exampleItem,
+  message,
+  setMessage,
 }: IModalMessageProps) => {
-  const variables = ['nome', 'telefone', 'email'];
-  const [message, setMessage] = useState('');
-
   const formatText = () => {
     let formattedText = message;
     variables.forEach((variable) => {
-      const regex = new RegExp(`{(${variable})}`, 'g');
+      variable = variable.trim();
+      const regex = new RegExp(`{${variable}}`, 'g');
+
       formattedText = formattedText.replace(
         regex,
-        `<span style="color: #783EFD; font-weight: 600;">$1</span>`
+        `<span style="color: #783EFD; font-weight: 600;">${exampleItem[variable]}</span>`
       );
     });
     return { __html: formattedText };
   };
 
+  const handleSave = () => {};
+
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
-      <Modal.Content>
-        <div className="bg-white px-4 py-4 min-w-[600px]">
+      <Modal.Content className="min-w-[600px]">
+        <div className="bg-white py-4 ">
           <header className="flex justify-between items-center w-full flex-1">
             <Paragraph
               size={ParagraphSizeVariant.Medium}
@@ -78,11 +87,23 @@ export const ModalMessage = ({
               />
             </div>
           </section>
-          <section className="flex justify-end mt-4">
+          <section className="flex justify-end mt-4 gap-4">
+            <Button
+              leftIcon={<X size={16} />}
+              type="button"
+              className="!bg-grey-secundary !text-purple-secundary !w-[190px] text-xs font-normal"
+              onClick={() => {
+                setModalIsOpen(false);
+                setMessage('');
+              }}
+            >
+              Descartar Alterações
+            </Button>
             <Button
               type="button"
               className="text-xs font-normal !w-[144px] "
               rightIcon={<CheckCircle color="#FFF" size={16} />}
+              onClick={() => setModalIsOpen(false)}
             >
               Salvar
             </Button>
