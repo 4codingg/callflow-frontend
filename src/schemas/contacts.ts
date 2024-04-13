@@ -36,7 +36,7 @@ export const schemaCreateMember = Yup.object().shape({
     .required("Nome é um campo obrigatório.")
     .matches(ONLY_TEXT_REGEX, "Nome inválido.")
     .min(2, "Pelo menos 2 caracteres."),
-  cargo: Yup.string()
+  role: Yup.string()
     .trim()
     .required("Cargo é um campo obrigatório.")
     .min(2, "Pelo menos 2 caracteres."),

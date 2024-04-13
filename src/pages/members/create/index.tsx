@@ -1,5 +1,5 @@
-import { CreateTemplate } from "@/pageTemplates/MembersTemplate/CreateTemplate";
+import { CreateMemberTemplate } from '@/pageTemplates/MembersTemplate/CreateMemberTemplate';
 
-const Create = () => <CreateTemplate />;
+const CreateMember = () => <CreateMemberTemplate />;
 
-export default Create;
+export default CreateMember;
