@@ -4,62 +4,61 @@ import {
   LayoutWithSidebar,
   Button,
   Input,
-} from "@/components";
-import { ROLE_OPTIONS, members } from "@/constants/contentMembers";
-import { schemaEditMember } from "@/schemas/contacts";
-import { toast } from "@/utils/toast";
-import { useFormik } from "formik";
-import { useRouter } from "next/router";
-import { CheckCircle } from "phosphor-react";
-import { useEffect, useState } from "react";
+} from '@/components';
+import { ROLE_OPTIONS, MOCK_MEMBERS } from '@/constants/contentMembers';
+import { schemaEditMember } from '@/schemas/contacts';
+import { useFormik } from 'formik';
+import { useRouter } from 'next/router';
+import { CheckCircle } from 'phosphor-react';
+import { useEffect, useState } from 'react';
 
 interface IEditMember {
   name: string;
   email: string;
   role: string;
   password: string;
-  id: string;
+  id?: string;
 }
 
 export const EditMemberTemplate = () => {
-  const [memberDetail, setMemberDetail] = useState<IEditMember>();
   const { query } = useRouter();
 
   const handleEditMember = (values: IEditMember) => {
-    alert("entrou");
     console.log(values);
-    if (memberDetail) {
-      toast("success", "membro editado com sucesso");
-    }
   };
 
   const crumbs = [
     {
-      label: "Membros",
-      path: "/members",
+      label: 'Membros',
+      path: '/members',
     },
     {
-      label: "Editar membro",
+      label: 'Editar membro',
     },
   ];
 
   const getMemberDetail = () => {
-    const member = members.find((member) => member.id === query.id);
+    const member = MOCK_MEMBERS.find((member) => member.id === query.id);
     setMemberDetail(member);
-    console.log(member);
+  };
+
+  const setMemberDetail = (member: IEditMember) => {
+    setFieldValue('name', member?.name);
+    setFieldValue('email', member?.email);
+    setFieldValue('role', member?.role);
+    setFieldValue('password', member?.password);
   };
 
   useEffect(() => {
     getMemberDetail();
   }, [query.id]);
 
-  const { handleSubmit, getFieldProps } = useFormik({
+  const { values, handleSubmit, getFieldProps, setFieldValue } = useFormik({
     initialValues: {
-      name: memberDetail?.name,
-      email: memberDetail?.email,
-      role: memberDetail?.role,
-      password: memberDetail?.password,
-      id: query.id,
+      name: '',
+      email: '',
+      role: '',
+      password: '',
     },
     validationSchema: schemaEditMember,
     onSubmit: handleEditMember,
@@ -71,35 +70,32 @@ export const EditMemberTemplate = () => {
       <form className="mt-6" onSubmit={handleSubmit}>
         <Input
           label="Nome"
-          className=" !default-grey-label font-light "
-          {...getFieldProps("name")}
-          value={memberDetail?.name}
+          className="font-normal "
+          {...getFieldProps('name')}
         />
         <Input
           label="E-mail"
-          className=" !default-grey-label  font-light"
-          {...getFieldProps("email")}
-          value={memberDetail?.email}
+          className=" font-normal"
+          {...getFieldProps('email')}
         />
         <Dropdown
           label="Cargo"
           options={ROLE_OPTIONS}
-          className=" !default-grey-label font-light mb-8"
-          {...getFieldProps("role")}
-          value={memberDetail?.role}
+          className="font-normal mb-8"
+          onValueChange={(value) => setFieldValue('role', value)}
+          {...getFieldProps('role')}
         />
         <Input
           label="Senha"
-          className=" !default-grey-label font-light"
-          {...getFieldProps("password")}
-          value={memberDetail?.password}
+          className="font-normal"
+          {...getFieldProps('password')}
         />
         <Button
           type="submit"
           className=" flex justify-center items-center gap-2 font-medium text-sm font-poppins !w-52 !h-10 mx-auto !mt-10"
           rightIcon={<CheckCircle size={16} />}
         >
-          Confirmar Alteração
+          Salvar alterações
         </Button>
       </form>
     </LayoutWithSidebar>

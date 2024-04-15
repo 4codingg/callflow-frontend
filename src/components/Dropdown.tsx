@@ -32,9 +32,11 @@ interface DropdownProps {
   disabled?: boolean;
   labelStyle?: string;
   isLoading?: boolean;
+  defaultValue?: string;
 }
 
 export const Dropdown = ({
+  defaultValue,
   value,
   onValueChange,
   selectStyle = '',
@@ -56,8 +58,9 @@ export const Dropdown = ({
   return (
     <Label name={label} disabled={disabled} labelStyle={labelStyle}>
       <Select.Root
-        defaultValue={value}
+        defaultValue={defaultValue}
         onValueChange={onValueChange}
+        value={value}
         disabled={disabled}
       >
         <Select.Trigger
