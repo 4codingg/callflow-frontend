@@ -5,7 +5,8 @@ import {
   Button,
   Input,
 } from '@/components';
-import { schemaCreateMember } from '@/schemas/contacts';
+import { ROLE_OPTIONS } from '@/constants/contentMembers';
+import { schemaCreateMember } from '@/schemas/members';
 import { toast } from '@/utils/toast';
 import { useFormik } from 'formik';
 import { CheckCircle } from 'phosphor-react';
@@ -16,8 +17,6 @@ interface ICreateMember {
   role: string;
   password: string;
 }
-
-const ROLE_OPTIONS = ['Membro', 'Admin'];
 
 export const CreateMemberTemplate = () => {
   const handleCreateMember = (values: ICreateMember, { resetForm }) => {
@@ -54,26 +53,26 @@ export const CreateMemberTemplate = () => {
         <Input
           label="Nome"
           placeholder="Digite o nome"
-          className=" !default-grey-label font-light "
+          className="font-light "
           {...getFieldProps('name')}
         />
         <Input
           label="E-mail"
           placeholder="Digite o e-mail"
-          className=" !default-grey-label  font-light"
+          className=" font-light"
           {...getFieldProps('email')}
         />
         <Dropdown
           label="Cargo"
           placeholder="Selecione o cargo"
           options={ROLE_OPTIONS}
-          className=" !default-grey-label font-light mb-8"
+          className="font-light mb-8"
           {...getFieldProps('role')}
         />
         <Input
           label="Senha"
           placeholder="Digite a senha"
-          className=" !default-grey-label font-light"
+          className="font-light"
           {...getFieldProps('password')}
         />
 

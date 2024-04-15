@@ -47,7 +47,7 @@ export const Input = ({
 }: InputProps) => {
   const inputClassesVariant = {
     [InputVariant.Default]:
-      'border outline-none focus-within:border-primary text-neutral-darkest ',
+      'border outline-none focus-within:border-primary text-black ',
     [InputVariant.Primary]:
       '!bg-neutral-light-grey placeholder:text-dark-grey rounded-lg text-neutral-darkest ',
     [InputVariant.Secondary]:
