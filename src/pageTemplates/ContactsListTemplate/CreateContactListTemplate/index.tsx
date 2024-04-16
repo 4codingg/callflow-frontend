@@ -149,7 +149,7 @@ export const CreateContactListTemplate = () => {
           </section>
           <Button
             onClick={handleConfirmCreateContactsList}
-            className=" mt-2 m-auto !w-48 font-poppins font-medium text-sm gap-2"
+            className=" mt-12 m-auto !w-48 font-poppins font-medium text-sm gap-2"
           >
             Avançar
             <ArrowRight size={19} color="#fff" />

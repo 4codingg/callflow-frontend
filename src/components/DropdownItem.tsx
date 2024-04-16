@@ -1,8 +1,8 @@
-import * as Dropdown from '@radix-ui/react-select';
-import { Paragraph } from '@/components/Paragraph';
-import clsx from 'clsx';
-import { Check } from 'phosphor-react';
-import { ReactNode } from 'react';
+import * as Dropdown from "@radix-ui/react-select";
+import { Paragraph } from "@/components/Paragraph";
+import clsx from "clsx";
+import { Check } from "phosphor-react";
+import { ReactNode } from "react";
 
 interface DropdownItemProps {
   label: ReactNode;
@@ -22,7 +22,7 @@ export const DropdownItem = ({
 }: DropdownItemProps) => {
   return (
     <Dropdown.Item
-      className="flex-col hover:underline cursor-pointer rounded px-1 py-1  outline-none flex justify-center"
+      className="flex gap-2 items-center justify-between p-2 rounded-md hover:bg-light-grey cursor-pointer flex-row outline-none"
       {...props}
       value={value}
     >
@@ -30,8 +30,8 @@ export const DropdownItem = ({
         <div className="flex !flex-row items-center gap-2">
           {leftIcon}
           <Paragraph
-            className={clsx('font-normal', {
-              '!font-bold': !!description,
+            className={clsx("font-normal", {
+              "!font-bold": !!description,
             })}
           >
             {label}
@@ -41,7 +41,7 @@ export const DropdownItem = ({
       <Dropdown.Label className="flex flex-col">
         <Paragraph>{description}</Paragraph>
       </Dropdown.Label>
-      <Dropdown.ItemIndicator className="inline-flex right-0 absolute items-center justify-center">
+      <Dropdown.ItemIndicator className="inline-flex right-2 absolute items-center justify-center">
         <Check size={16} />
       </Dropdown.ItemIndicator>
     </Dropdown.Item>
