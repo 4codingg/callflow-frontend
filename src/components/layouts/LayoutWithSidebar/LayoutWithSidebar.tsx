@@ -1,12 +1,12 @@
-import React, { ReactNode } from 'react';
-import Head from 'next/head';
-import { Sidebar } from './Sidebar';
-import { Heading } from '../../Heading';
-import { Paragraph } from '../../Paragraph';
-import { Input } from '../../Input';
-import { MagnifyingGlass } from 'phosphor-react';
-import Image from 'next/image';
-import MenProfile from '@/assets/men-profile.png';
+import React, { ReactNode } from "react";
+import Head from "next/head";
+import { Sidebar } from "./Sidebar";
+import { Heading } from "../../Heading";
+import { Paragraph } from "../../Paragraph";
+import { Input } from "../../Input";
+import { MagnifyingGlass } from "phosphor-react";
+import Image from "next/image";
+import MenProfile from "@/assets/men-profile.png";
 
 type Props = {
   children?: ReactNode;
@@ -16,7 +16,7 @@ type Props = {
 
 export const LayoutWithSidebar = ({
   children,
-  title = 'This is the default title',
+  title = "✆ | callflow",
   hiddenInput,
 }: Props) => (
   <div className="flex h-full">
@@ -48,7 +48,7 @@ export const LayoutWithSidebar = ({
             <Image src={MenProfile} alt="" />
           </div>
         </header>
-        <div className="mt-8 px-8">{children}</div>
+        <div className="mt-8 px-8 relative">{children}</div>
       </div>
     </div>
   </div>

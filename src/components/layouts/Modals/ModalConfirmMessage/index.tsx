@@ -13,14 +13,14 @@ interface IModalConfirmMessageProps {
   contactsListDetail: GetContactsListDetailResponse;
   message: string;
   destinationVariable: string;
-  handleSendSmsMass: () => Promise<void>;
+  handleSendMassCommunication: () => Promise<void>;
 }
 
 export const ModalConfirmMessage = ({
   setModalIsOpen,
   modalIsOpen,
   contactsListDetail,
-  handleSendSmsMass,
+  handleSendMassCommunication,
   message,
   destinationVariable,
 }: IModalConfirmMessageProps) => {
@@ -91,7 +91,7 @@ export const ModalConfirmMessage = ({
               <Button
                 type="button"
                 className="text-xs font-normal !w-[197px] h-[48px] "
-                onClick={handleSendSmsMass}
+                onClick={handleSendMassCommunication}
               >
                 Confirmar e Enviar <ArrowRight size={18} />
               </Button>

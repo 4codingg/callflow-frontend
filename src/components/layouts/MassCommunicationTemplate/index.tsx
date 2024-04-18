@@ -4,10 +4,11 @@ import {
   EmptyState,
   Dropdown,
   LayoutWithSidebar,
-  Heading,
   Paragraph,
   TableDefault,
   Label,
+  Line,
+  Card,
 } from "@/components";
 import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
 import { ModalConfirmMessage } from "@/components/layouts/Modals/ModalConfirmMessage";
@@ -146,12 +147,22 @@ export const MassCommunicationTemplate = ({
   return (
     <>
       <LayoutWithSidebar hiddenInput={true}>
+        {isValid && (
+          <Button
+            type="button"
+            className=" !h-[48px] !w-[200px] rounded-2xl text-xs font-medium fixed bottom-16 right-16"
+            onClick={handleConfirm}
+            // disabled={!isValid}
+          >
+            Enviar <Check size={18} color="#FFF" />
+          </Button>
+        )}
         <MassCommunicationHeader
           type={type}
           handleOpenModalInstructions={() => setModalStepByStepIsOpen(true)}
         />
-        <form className="flex justify-between items-end gap-6">
-          <section className="flex gap-6 w-full mt-6 max-w-[85%]">
+        <div className="flex flex-col justify-between gap-4">
+          <section className="flex flex-col mt-6 gap-8 w-full flex-1">
             <Dropdown
               options={contactsListDropdownOptions}
               label="Lista de Contatos"
@@ -159,7 +170,7 @@ export const MassCommunicationTemplate = ({
               onValueChange={handleChangeContactsList}
               {...getFieldProps("contactsListId")}
             />
-            <div className="flex flex-col gap-3 w-full max-w-[33%]">
+            <div className="flex flex-col gap-3 w-full">
               <Label className="font-semibold text-sm">Mensagem</Label>
               <button
                 className="rounded flex items-center justify-between h-[40px] border p-3 w-full"
@@ -182,55 +193,54 @@ export const MassCommunicationTemplate = ({
               disabled={contactsListDetailIsEmpty}
               {...getFieldProps("destinationVariable")}
             />
+            <div className="flex flex-col w-full gap-3">
+              <Label className="font-semibold text-sm">Custo</Label>
+              <div className="flex items-center gap-4">
+                <div className="bg-default-grey bg-opacity-30 rounded flex items-center justify-between gap-4 h-[40px] p-3 w-full">
+                  <Paragraph className="text-primary">R$ 30,00</Paragraph>
+                  <Paragraph className="text-black text-xs text-opacity-70">
+                    (R$0,10 / contato)
+                  </Paragraph>
+                </div>
+              </div>
+              <button className="flex items-center gap-4">
+                <Paragraph className="text-primary">
+                  Checar relatório de custo
+                </Paragraph>
+                <ArrowRight color="#783EFD" weight="bold" />
+              </button>
+            </div>
           </section>
-          <Button
-            type="button"
-            className=" !h-[48px] !w-[160px] rounded-2xl text-xs font-medium"
-            onClick={handleConfirm}
-            disabled={!isValid}
-            rightIcon={<Check size={18} color="#FFF" />}
-          >
-            Enviar
-          </Button>
-        </form>
-        <div className="flex flex-col w-full gap-3 mt-4 ">
-          <Label className="font-semibold text-sm">Custo</Label>
-          <div className="flex items-center gap-4">
-            <div className="bg-default-grey bg-opacity-30 rounded flex items-center justify-between gap-4 h-[40px] p-3 w-full max-w-[27%]">
-              <Paragraph className="text-primary">R$ 30,00</Paragraph>
-              <Paragraph className="text-black text-xs text-opacity-70">
-                (R$0,10 / contato)
-              </Paragraph>
-            </div>
-            <button className="flex items-center gap-4">
-              <Paragraph className="text-primary">
-                Checar relatório de custo
-              </Paragraph>
-              <ArrowRight color="#783EFD" weight="bold" />
-            </button>
+          <div className="flex">
+            {contactsListDetail.contacts.length == 0 ? (
+              <div className="flex w-full justify-center mt-16">
+                <EmptyState
+                  description="Nenhuma lista foi selecionada, selecione para enviar suas mensagens"
+                  textButton="Selecionar Lista"
+                  title="Nenhuma lista selecionada"
+                  icon={Empty}
+                />
+              </div>
+            ) : (
+              <Card className="w-full">
+                <Paragraph className="font-medium !text-xl ">
+                  Contatos
+                </Paragraph>
+                <Paragraph className="!text-xs !text-default-grey">
+                  Confira alguns contatos da sua lista.
+                </Paragraph>
+                <Line className="my-4" />
+                <div className="mt-4">
+                  <TableDefault
+                    content={contactsListDetail?.contacts}
+                    disableEditItem
+                    disableAccessItem
+                    disableDeleteItem
+                  />
+                </div>
+              </Card>
+            )}
           </div>
-        </div>
-        <div className="mt-8 flex w-full">
-          {contactsListDetail.contacts.length == 0 ? (
-            <div className="flex w-full justify-center mt-16">
-              <EmptyState
-                description="Nenhuma lista foi selecionada, selecione para enviar suas mensagens"
-                textButton="Selecionar Lista"
-                title="Nenhuma lista selecionada"
-                icon={Empty}
-              />
-            </div>
-          ) : (
-            <div className="w-full flex flex-col gap-4 bg-white">
-              <Heading>Contatos</Heading>
-              <TableDefault
-                content={contactsListDetail?.contacts}
-                disableEditItem
-                disableAccessItem
-                disableDeleteItem
-              />
-            </div>
-          )}
         </div>
       </LayoutWithSidebar>
       <ModalStepByStep
@@ -242,7 +252,7 @@ export const MassCommunicationTemplate = ({
         setModalIsOpen={setModalConfirmMessageIsOpen}
         contactsListDetail={contactsListDetail}
         message={values.message}
-        handleSendSmsMass={handleSendMassCommunication}
+        handleSendMassCommunication={handleSendMassCommunication}
         destinationVariable={values.destinationVariable}
       />
       <MassCommunicationModalMessage
