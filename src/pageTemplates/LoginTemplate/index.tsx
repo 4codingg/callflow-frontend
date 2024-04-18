@@ -1,8 +1,10 @@
+import { authenticate } from "@/api/auth/authenticate";
 import { Heading, Input, Line, Logo, Paragraph } from "@/components";
 import { Button } from "@/components/Button";
 import { LogoVariant } from "@/components/Logo";
 import { toast } from "@/utils/toast";
 import { validationSchema } from "@/validation/login";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { Envelope, Eye, EyeClosed } from "phosphor-react";
@@ -12,13 +14,19 @@ import { FcGoogle } from "react-icons/fc";
 export const LoginTemplate = () => {
   const [showPassword, setShowPassword] = useState(false);
 
+  const { mutateAsync: authenticateFn } = useMutation({
+    mutationFn: authenticate,
+  });
+
   const handleAuth = async (values) => {
     try {
-      console.log("Autenticando com:", values);
+      const { token } = await authenticateFn(values);
+      localStorage.setItem("token", token);
+      console.log("Usuário autenticado, token armazenado:", token);
     } catch (error) {
       toast(
         "error",
-        "Ocorreu um erro durante a autenticação. Por favor, tente novamente."
+        `Ocorreu um erro durante a autenticação. Por favor, tente novamente. ${error}`
       );
     }
   };
