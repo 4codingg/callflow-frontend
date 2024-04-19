@@ -1,3 +1,5 @@
+import { fetchCompanyMembers } from "@/api/members/fetch-company-members";
+import { UpdateCompanyMembers } from "@/api/members/update-company-member-detail";
 import {
   Breadcrumb,
   Dropdown,
@@ -5,29 +7,30 @@ import {
   Button,
   Input,
 } from "@/components";
-import { ROLE_OPTIONS, MOCK_MEMBERS } from "@/constants/contentMembers";
-import { schemaEditMember } from "@/schemas/members";
+import { schemaEditMember, schemaEditMemberTste } from "@/schemas/members";
 import { toast } from "@/utils/toast";
+import { useQuery } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { CheckCircle } from "phosphor-react";
 import { useEffect } from "react";
 
-interface IEditMember {
-  name: string;
-  email: string;
-  role: string;
-  password: string;
-  id?: string;
+interface IUpdateCompanyMemberDetailBody {
+  name?: string;
+  email?: string;
+  phone?: string;
+  password?: string;
+  companyId?: string;
 }
 
 export const EditMemberTemplate = () => {
   const { query } = useRouter();
 
-  const handleEditMember = (values: IEditMember) => {
-    console.log(values);
-    toast("success", "membro editado com sucesso");
-  };
+  const { data: membersList } = useQuery({
+    queryKey: ["company-members"],
+    queryFn: () => fetchCompanyMembers(),
+    staleTime: Infinity,
+  });
 
   const crumbs = [
     {
@@ -40,14 +43,23 @@ export const EditMemberTemplate = () => {
   ];
 
   const getMemberDetail = () => {
-    const member = MOCK_MEMBERS.find((member) => member.id === query.id);
+    const member = membersList.find((member) => member.id === query.id);
     setMemberDetail(member);
   };
 
-  const setMemberDetail = (member: IEditMember) => {
+  const handleEditMember = async (values: IUpdateCompanyMemberDetailBody) => {
+    try {
+      console.log("fui chamado");
+      await UpdateCompanyMembers(query.id, values);
+      toast("success", "Membro editado com sucesso");
+    } catch (error) {
+      toast("error", "Erro ao editar membro");
+    }
+  };
+  const setMemberDetail = (member: IUpdateCompanyMemberDetailBody) => {
     setFieldValue("name", member?.name);
     setFieldValue("email", member?.email);
-    setFieldValue("role", member?.role);
+    setFieldValue("phone", member?.phone);
     setFieldValue("password", member?.password);
   };
 
@@ -59,10 +71,10 @@ export const EditMemberTemplate = () => {
     initialValues: {
       name: "",
       email: "",
-      role: "",
+      phone: "",
       password: "",
     },
-    validationSchema: schemaEditMember,
+    validationSchema: schemaEditMemberTste,
     onSubmit: handleEditMember,
   });
 
@@ -80,12 +92,10 @@ export const EditMemberTemplate = () => {
           className=" font-normal"
           {...getFieldProps("email")}
         />
-        <Dropdown
-          label="Cargo"
-          options={ROLE_OPTIONS}
-          className="font-normal mb-8"
-          onValueChange={(value) => setFieldValue("role", value)}
-          {...getFieldProps("role")}
+        <Input
+          label="Prone"
+          className="font-normal"
+          {...getFieldProps("phone")}
         />
         <Input
           label="Senha"
