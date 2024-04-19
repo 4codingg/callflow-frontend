@@ -1,11 +1,11 @@
-import { Button, ButtonVariant } from '@/components/Button';
-import { Line } from '@/components/Line';
-import { Modal } from '@/components/Modal';
-import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
-import { Spinner } from '@/components/Spinner';
-import { Tipbox } from '@/components/Tipbox';
-import { CheckCircle, Warning, X, XCircle } from 'phosphor-react';
-import { Dispatch, SetStateAction } from 'react';
+import { Button, ButtonVariant } from "@/components/Button";
+import { Line } from "@/components/Line";
+import { Modal } from "@/components/Modal";
+import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
+import { Spinner } from "@/components/Spinner";
+import { Tipbox } from "@/components/Tipbox";
+import { CheckCircle, Warning, X, XCircle } from "phosphor-react";
+import { Dispatch, SetStateAction } from "react";
 
 interface IModalConfirmVariables {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -39,7 +39,7 @@ export const ModalConfirmVariables = ({
               </Button>
             </Modal.Close>
           </header>
-          <Line direction="horizontal" className="mt-3" />
+          <Line direction="horizontal" className="my-3" />
           <Tipbox iconLeft={<Warning size={20} />}>
             Essa ação é irreversível.
           </Tipbox>
@@ -75,7 +75,7 @@ export const ModalConfirmVariables = ({
                 onClick={handleConfirmVariables}
                 disabled={isLoading}
               >
-                {isLoading ? <Spinner /> : 'Confirmar'}
+                {isLoading ? <Spinner /> : "Confirmar"}
               </Button>
             </section>
           </form>

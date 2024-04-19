@@ -1,25 +1,31 @@
-import { Button, ButtonVariant } from '@/components/Button';
-import { Line } from '@/components/Line';
-import { Modal } from '@/components/Modal';
-import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
-import { CheckCircle, XCircle } from 'phosphor-react';
-import { Dispatch, SetStateAction, useRef, useState } from 'react';
-import { Editor } from '@tinymce/tinymce-react';
-import { Input } from '@/components/Input';
-import { FocusScope } from '@radix-ui/react-focus-scope';
+import { Button, ButtonVariant } from "@/components/Button";
+import { Line } from "@/components/Line";
+import { Modal } from "@/components/Modal";
+import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
+import { CheckCircle, X, XCircle } from "phosphor-react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+import { Input } from "@/components/Input";
 
 interface IModalEmailProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
+  variables: string[];
+  exampleItem?: any;
+  message: string;
+  setMessage: Dispatch<SetStateAction<string>>;
+  setSubject: Dispatch<SetStateAction<string>>;
 }
 
 export const ModalEmail = ({
   setModalIsOpen,
   modalIsOpen,
+  variables,
+  message,
+  setMessage,
+  setSubject,
 }: IModalEmailProps) => {
-  const variables = ['nome', 'telefone', 'email'];
   const editorRef = useRef(null);
-  const [content, setContent] = useState('');
 
   return (
     <Modal.Root
@@ -56,20 +62,37 @@ export const ModalEmail = ({
                 ))}
               </div>
             </div>
-            <Input label="Título do E-mail" />
+            <Input
+              label="Título do E-mail"
+              onChange={(e) => setSubject(e.target.value)}
+            />
             <Editor
               apiKey="w56ccsq6o6q0fwmb6kj5a5b01cwsb2uqa0vvjcgendqerk4h"
-              onInit={(evt, editor) => {
+              onInit={(_, editor) => {
                 editorRef.current = editor;
               }}
-              initialValue="<p>Some initial text.</p>"
+              onEditorChange={(e) => setMessage(e)}
+              value={message}
+              initialValue="<p>Sua mensagem aqui.</p>"
             />
           </section>
-          <section className="flex justify-end mt-4">
+          <section className="flex justify-end mt-4 gap-4">
+            <Button
+              leftIcon={<X size={16} />}
+              type="button"
+              className="!bg-grey-secundary !text-purple-secundary !w-[190px] text-xs font-normal"
+              onClick={() => {
+                setModalIsOpen(false);
+                setMessage("");
+              }}
+            >
+              Descartar Alterações
+            </Button>
             <Button
               type="button"
               className="text-xs font-normal !w-[144px] "
               rightIcon={<CheckCircle color="#FFF" size={16} />}
+              onClick={() => setModalIsOpen(false)}
             >
               Salvar
             </Button>

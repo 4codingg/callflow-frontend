@@ -1,12 +1,10 @@
-import { Button, ButtonVariant } from '@/components/Button';
-import { Line } from '@/components/Line';
-import { Modal } from '@/components/Modal';
-import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
-import { INSTRUCTIONS, MOCK_CONTACTS } from '@/constants/contentCalls';
-import Image from 'next/image';
-import { ArrowRight, CheckCircle, X, XCircle } from 'phosphor-react';
-import { Dispatch, SetStateAction, useRef, useState } from 'react';
-import { TextArea } from '@/components/TextArea';
+import { Button, ButtonVariant } from "@/components/Button";
+import { Line } from "@/components/Line";
+import { Modal } from "@/components/Modal";
+import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
+import { CheckCircle, X, XCircle } from "phosphor-react";
+import { Dispatch, SetStateAction } from "react";
+import { TextArea } from "@/components/TextArea";
 
 interface IModalMessageProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -29,7 +27,7 @@ export const ModalMessage = ({
     let formattedText = message;
     variables.forEach((variable) => {
       variable = variable.trim();
-      const regex = new RegExp(`{${variable}}`, 'g');
+      const regex = new RegExp(`{${variable}}`, "g");
 
       formattedText = formattedText.replace(
         regex,
@@ -38,8 +36,6 @@ export const ModalMessage = ({
     });
     return { __html: formattedText };
   };
-
-  const handleSave = () => {};
 
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
@@ -94,7 +90,7 @@ export const ModalMessage = ({
               className="!bg-grey-secundary !text-purple-secundary !w-[190px] text-xs font-normal"
               onClick={() => {
                 setModalIsOpen(false);
-                setMessage('');
+                setMessage("");
               }}
             >
               Descartar Alterações
