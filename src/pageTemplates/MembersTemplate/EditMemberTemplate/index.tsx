@@ -11,7 +11,7 @@ import { toast } from "@/utils/toast";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { CheckCircle } from "phosphor-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 interface IEditMember {
   name: string;
