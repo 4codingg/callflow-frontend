@@ -44,11 +44,11 @@ export const ContactsListTemplate = () => {
               {contactsListsItems?.length || 0} listas
             </Paragraph>
           </section>
-          {!!contactsListsItems?.length && (
+          {!contactsListsItems?.length && (
             <Button
               className="!w-[139px] !h-[40px] font-light text-xs"
               leftIcon={<PlusCircle size={16} color="#FFF" />}
-              disabled={contactsListsItems.length === 0}
+              disabled={contactsListsItems?.length === 0}
               onClick={() => router.push("/contacts/create-list")}
             >
               Adicionar lista
