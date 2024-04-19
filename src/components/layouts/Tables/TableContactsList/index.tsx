@@ -1,9 +1,9 @@
-import { PencilLine, Trash } from 'phosphor-react';
-import { Paragraph } from '@/components/Paragraph';
-import { TableHead } from '../TableDefault/TableHead';
-import { TableButtons } from '../TableDefault/TableButtons';
-import { Labelbox } from '@/components/Labelbox';
-import { formatDateToDDMMYYYYHHMM } from '@/utils/formatDateToDDMMYYYYHHMM';
+import { PencilLine, Trash } from "phosphor-react";
+import { Paragraph } from "@/components/Paragraph";
+import { TableHead } from "../TableDefault/TableHead";
+import { TableButtons } from "../TableDefault/TableButtons";
+import { Labelbox } from "@/components/Labelbox";
+import { formatDateToDDMMYYYYHHMM } from "@/utils/formatDateToDDMMYYYYHHMM";
 
 interface ITableProps {
   content: any[];
@@ -18,7 +18,7 @@ export const TableContactsList = ({
   handleEditItem,
 }: ITableProps) => {
   const titles = content[0]
-    ? Object.keys(content[0]).filter((item) => item != 'id')
+    ? Object.keys(content[0]).filter((item) => item != "id")
     : [];
 
   const calculateWidthSize = () => {
@@ -44,10 +44,10 @@ export const TableContactsList = ({
                         className={`flex `}
                         style={{ width: calculateWidthSize() }}
                       >
-                        {title === 'name' && (
+                        {title === "name" && (
                           <Paragraph>{item[title]}</Paragraph>
                         )}
-                        {title === 'variables' && (
+                        {title === "variables" && (
                           <div className="flex gap-1 flex-wrap">
                             {item[title].map((variable, index) => {
                               return (
@@ -61,12 +61,12 @@ export const TableContactsList = ({
                             })}
                           </div>
                         )}
-                        {title === 'createdAt' && (
+                        {title === "createdAt" && (
                           <Paragraph>
                             {formatDateToDDMMYYYYHHMM(item[title])}
                           </Paragraph>
                         )}
-                        {title === 'contactsQuantity' && (
+                        {title === "contactsQuantity" && (
                           <Paragraph>{item[title]}</Paragraph>
                         )}
                       </td>

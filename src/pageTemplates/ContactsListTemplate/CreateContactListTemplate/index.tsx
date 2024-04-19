@@ -57,15 +57,19 @@ export const CreateContactListTemplate = () => {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      if (
-        values.inputVariableValue.trim() !== "" &&
-        !values.variables.includes(values.inputVariableValue)
-      ) {
-        setFieldValue("variables", [
-          ...values.variables,
-          values.inputVariableValue,
-        ]);
+      if (values.inputVariableValue.trim() === "") {
+        toast("error", "Não é permitido adicionar uma variavél vazia.");
+        return;
       }
+      if (values.variables.includes(values.inputVariableValue)) {
+        toast("error", "Essa variável já existe.");
+        return;
+      }
+      setFieldValue("variables", [
+        ...values.variables,
+        values.inputVariableValue,
+      ]);
+
       setFieldValue("inputVariableValue", "");
     }
   };
@@ -76,6 +80,7 @@ export const CreateContactListTemplate = () => {
       itemToDelete === "Email" ||
       itemToDelete === "Telefone"
     ) {
+      toast("error", `${itemToDelete} é uma variável fixa.`);
       return;
     }
     const updatedVariables = values.variables.filter(

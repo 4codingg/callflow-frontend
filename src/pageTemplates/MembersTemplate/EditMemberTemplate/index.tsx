@@ -4,13 +4,14 @@ import {
   LayoutWithSidebar,
   Button,
   Input,
-} from '@/components';
-import { ROLE_OPTIONS, MOCK_MEMBERS } from '@/constants/contentMembers';
-import { schemaEditMember } from '@/schemas/contacts';
-import { useFormik } from 'formik';
-import { useRouter } from 'next/router';
-import { CheckCircle } from 'phosphor-react';
-import { useEffect, useState } from 'react';
+} from "@/components";
+import { ROLE_OPTIONS, MOCK_MEMBERS } from "@/constants/contentMembers";
+import { schemaEditMember } from "@/schemas/members";
+import { toast } from "@/utils/toast";
+import { useFormik } from "formik";
+import { useRouter } from "next/router";
+import { CheckCircle } from "phosphor-react";
+import { useEffect } from "react";
 
 interface IEditMember {
   name: string;
@@ -25,15 +26,16 @@ export const EditMemberTemplate = () => {
 
   const handleEditMember = (values: IEditMember) => {
     console.log(values);
+    toast("success", "membro editado com sucesso");
   };
 
   const crumbs = [
     {
-      label: 'Membros',
-      path: '/members',
+      label: "Membros",
+      path: "/members",
     },
     {
-      label: 'Editar membro',
+      label: "Editar membro",
     },
   ];
 
@@ -43,10 +45,10 @@ export const EditMemberTemplate = () => {
   };
 
   const setMemberDetail = (member: IEditMember) => {
-    setFieldValue('name', member?.name);
-    setFieldValue('email', member?.email);
-    setFieldValue('role', member?.role);
-    setFieldValue('password', member?.password);
+    setFieldValue("name", member?.name);
+    setFieldValue("email", member?.email);
+    setFieldValue("role", member?.role);
+    setFieldValue("password", member?.password);
   };
 
   useEffect(() => {
@@ -55,10 +57,10 @@ export const EditMemberTemplate = () => {
 
   const { values, handleSubmit, getFieldProps, setFieldValue } = useFormik({
     initialValues: {
-      name: '',
-      email: '',
-      role: '',
-      password: '',
+      name: "",
+      email: "",
+      role: "",
+      password: "",
     },
     validationSchema: schemaEditMember,
     onSubmit: handleEditMember,
@@ -71,24 +73,24 @@ export const EditMemberTemplate = () => {
         <Input
           label="Nome"
           className="font-normal "
-          {...getFieldProps('name')}
+          {...getFieldProps("name")}
         />
         <Input
           label="E-mail"
           className=" font-normal"
-          {...getFieldProps('email')}
+          {...getFieldProps("email")}
         />
         <Dropdown
           label="Cargo"
           options={ROLE_OPTIONS}
           className="font-normal mb-8"
-          onValueChange={(value) => setFieldValue('role', value)}
-          {...getFieldProps('role')}
+          onValueChange={(value) => setFieldValue("role", value)}
+          {...getFieldProps("role")}
         />
         <Input
           label="Senha"
           className="font-normal"
-          {...getFieldProps('password')}
+          {...getFieldProps("password")}
         />
         <Button
           type="submit"
