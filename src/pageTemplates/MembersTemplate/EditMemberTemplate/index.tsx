@@ -6,11 +6,12 @@ import {
   Input,
 } from "@/components";
 import { ROLE_OPTIONS, MOCK_MEMBERS } from "@/constants/contentMembers";
-import { schemaEditMember } from "@/schemas/contacts";
+import { schemaEditMember } from "@/schemas/members";
+import { toast } from "@/utils/toast";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { CheckCircle } from "phosphor-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 interface IEditMember {
   name: string;
@@ -25,6 +26,7 @@ export const EditMemberTemplate = () => {
 
   const handleEditMember = (values: IEditMember) => {
     console.log(values);
+    toast("success", "membro editado com sucesso");
   };
 
   const crumbs = [
