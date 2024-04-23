@@ -1,27 +1,27 @@
-import { CreditCardIcon } from '@/assets/icons/credit-card';
-import { PixIcon } from '@/assets/icons/pix';
-import { TicketIcon } from '@/assets/icons/ticket';
-import { LayoutWithSidebar, Paragraph } from '@/components';
-import { DotSteps, DotStepsVariant } from '@/components/DotSteps';
-import { METHOD_PAYMENTS, TABS_PAYMENT_TAB } from '@/constants/tabsPayment';
-import { useState } from 'react';
-import { MethodPayment } from './MethodPayment';
-import { Payment } from './Payment';
+import { CreditCardIcon } from "@/assets/icons/credit-card";
+import { PixIcon } from "@/assets/icons/pix";
+import { TicketIcon } from "@/assets/icons/ticket";
+import { LayoutWithSidebar, Paragraph } from "@/components";
+import { DotSteps, DotStepsVariant } from "@/components/DotSteps";
+import { METHOD_PAYMENTS, TABS_PAYMENT_TAB } from "@/constants/tabsPayment";
+import { useState } from "react";
+import { MethodPayment } from "./MethodPayment";
+import { Payment } from "./Payment";
 
 const options = [
   {
-    label: 'Pix',
-    value: 'pix',
+    label: "Pix",
+    value: "pix",
     icon: <PixIcon />,
   },
   {
-    label: 'Cartão de crédito',
-    value: 'credit-card',
+    label: "Cartão de crédito",
+    value: "credit-card",
     icon: <CreditCardIcon />,
   },
   {
-    label: 'Boleto',
-    value: 'ticket',
+    label: "Boleto",
+    value: "ticket",
     icon: <TicketIcon />,
   },
 ];
@@ -36,7 +36,7 @@ export const AddFundsTemplate = () => {
   };
 
   const handleNext = () => {
-    console.log('handle next', methodPayment);
+    console.log("handle next", methodPayment);
     if (methodPayment) {
       setActiveStep(TABS_PAYMENT_TAB.Payment);
     }
@@ -58,6 +58,12 @@ export const AddFundsTemplate = () => {
           </div>
         </div>
         <div className="relative w-3/5 mt-10 ">
+          <DotSteps
+            currentStep={activeStep}
+            quantity={2}
+            variant={DotStepsVariant.Rectangle}
+            className="absolute top-4 right-0"
+          />
           {activeStep === TABS_PAYMENT_TAB.MethodPayment && (
             <MethodPayment
               handleNext={handleNext}
@@ -75,12 +81,6 @@ export const AddFundsTemplate = () => {
               valueToAdd={valueToAdd}
             />
           )}
-          <DotSteps
-            currentStep={activeStep}
-            quantity={2}
-            variant={DotStepsVariant.Rectangle}
-            className="absolute top-4 right-0"
-          />
         </div>
       </main>
     </LayoutWithSidebar>
