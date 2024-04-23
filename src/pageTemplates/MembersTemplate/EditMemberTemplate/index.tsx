@@ -1,7 +1,12 @@
-import { fetchCompanyMembers } from "@/api/members/fetch-company-members";
 import { getCompanyMember } from "@/api/members/get-company-member";
 import { updateCompanyMemberDetail } from "@/api/members/update-company-member-detail";
-import { Breadcrumb, LayoutWithSidebar, Button, Input } from "@/components";
+import {
+  Breadcrumb,
+  LayoutWithSidebar,
+  Button,
+  Input,
+  Spinner,
+} from "@/components";
 import { SchemaEditMember } from "@/schemas/members";
 import { toast } from "@/utils/toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -19,25 +24,22 @@ interface IUpdateCompanyMemberDetailBody {
 }
 
 export const EditMemberTemplate = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { query } = useRouter();
   const queryClient = useQueryClient();
-  const [currentMemberId, setCurrentMemberId] = useState(query.id as string);
+  const currentMemberId = query.id as string;
 
-  const { data: memberDetail, refetch } = useQuery({
-    queryKey: [`company-member`],
+  const { data: memberDetail, isPending } = useQuery({
+    queryKey: ["company-member-detail", currentMemberId],
     queryFn: () => getCompanyMember(currentMemberId),
-    staleTime: Infinity,
-    refetchOnMount: true,
-    enabled: false,
   });
+
   const { mutateAsync: updateCompanyMemberDetailFn } = useMutation({
     mutationFn: updateCompanyMemberDetail,
-    onSuccess: (data: IUpdateCompanyMemberDetailBody) => {
-      toast("success", "Membro editado com sucesso");
-      queryClient.invalidateQueries({ queryKey: ["company-members"] });
-    },
-    onError: () => {
-      toast("error", "Erro ao editar membro");
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["company-member-detail", currentMemberId],
+      });
     },
   });
 
@@ -50,15 +52,13 @@ export const EditMemberTemplate = () => {
       label: "Editar membro",
     },
   ];
+
   useEffect(() => {
-    const fetchData = async () => {
-      await setMemberDetail(memberDetail);
-      refetch();
-    };
-    fetchData();
-  }, [currentMemberId]);
+    setMemberDetail(memberDetail);
+  }, [currentMemberId, memberDetail?.id]);
 
   const handleEditMember = async (values: IUpdateCompanyMemberDetailBody) => {
+    setIsLoading(true);
     try {
       await updateCompanyMemberDetailFn({
         memberId: currentMemberId,
@@ -67,8 +67,11 @@ export const EditMemberTemplate = () => {
       toast("success", "Membro editado com sucesso");
     } catch (error) {
       toast("error", "Erro ao editar membro");
+    } finally {
+      setIsLoading(false);
     }
   };
+
   const setMemberDetail = (member: IUpdateCompanyMemberDetailBody) => {
     setFieldValue("name", member?.name);
     setFieldValue("email", member?.email);
@@ -76,7 +79,7 @@ export const EditMemberTemplate = () => {
     setFieldValue("password", member?.password);
   };
 
-  const { values, handleSubmit, getFieldProps, setFieldValue } = useFormik({
+  const { handleSubmit, getFieldProps, setFieldValue } = useFormik({
     initialValues: {
       name: "",
       email: "",
@@ -115,8 +118,9 @@ export const EditMemberTemplate = () => {
           type="submit"
           className=" flex justify-center items-center gap-2 font-medium text-sm font-poppins !w-52 !h-10 mx-auto !mt-10"
           rightIcon={<CheckCircle size={16} />}
+          disabled={isLoading || isPending}
         >
-          Salvar alterações
+          {isLoading || isPending ? <Spinner /> : "Salvar alterações"}
         </Button>
       </form>
     </LayoutWithSidebar>

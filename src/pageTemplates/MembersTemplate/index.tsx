@@ -5,23 +5,20 @@ import {
   Heading,
   LayoutWithSidebar,
   Paragraph,
+  Spinner,
   TableDefault,
 } from "@/components";
-import { MOCK_MEMBERS } from "@/constants/contentCalls";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { PlusCircle } from "phosphor-react";
-import { useState } from "react";
 import Empty from "@/assets/empty-state.png";
 
 export const MembersTemplate = () => {
-  const [members, setMembers] = useState(MOCK_MEMBERS);
   const router = useRouter();
 
-  const { data: membersList } = useQuery({
+  const { data: membersList, isPending } = useQuery({
     queryKey: ["company-members"],
     queryFn: () => fetchCompanyMembers(),
-    staleTime: Infinity,
   });
 
   const handleEditItem = (memberID) => {
@@ -47,8 +44,10 @@ export const MembersTemplate = () => {
           Adicionar membro
         </Button>
       </header>
-      <div className="mt-4">
-        {!membersList?.length ? (
+      <div className="mt-4 flex flex-col items-center justify-center">
+        {isPending ? (
+          <Spinner className="mt-8 border-l-primary border-t-primary" />
+        ) : !membersList?.length ? (
           <EmptyState
             icon={Empty}
             title="A lista de membros vazia"
