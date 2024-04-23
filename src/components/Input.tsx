@@ -47,7 +47,7 @@ export const Input = ({
 }: InputProps) => {
   const inputClassesVariant = {
     [InputVariant.Default]:
-      "border outline-none focus-within:border-primary text-black ",
+      "border outline-none focus-within:outline focus-within:outline-primary text-black ",
     [InputVariant.Primary]:
       "!bg-neutral-light-grey placeholder:text-dark-grey rounded-lg text-neutral-darkest ",
     [InputVariant.Secondary]:
@@ -76,8 +76,8 @@ export const Input = ({
           inputClassesVariant[variant],
           {
             "!bg-medium-light-grey": disabled,
-            "border-negative-dark border-opacity-100": error,
-            "border-neutral-grey": !error,
+            "outline outline-negative-dark": error,
+            "outline-neutral-grey": !error,
             "mt-3": !!label,
           },
           className

@@ -1,4 +1,7 @@
 import { ISubscription, IPlanSubscriptionValue } from "@/@types/Subscription";
+import User from "@/@types/User";
+import { getProfile } from "@/api/auth/get-profile";
+import { useQuery } from "@tanstack/react-query";
 import React, { createContext, ReactNode, useContext, useState } from "react";
 
 export interface AuthProviderProps {
@@ -8,6 +11,7 @@ export interface AuthProviderProps {
 export interface AuthContextDataProps {
   isAuthenticated: boolean;
   plan: ISubscription;
+  userDetail: User;
 }
 
 const AuthContext = createContext<AuthContextDataProps>(
@@ -19,6 +23,11 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
     value: IPlanSubscriptionValue.Free,
   } as ISubscription);
 
+  const { data: userDetail } = useQuery({
+    queryKey: ["user-detail"],
+    queryFn: getProfile,
+  });
+
   const isAuthenticated = true;
 
   return (
@@ -26,6 +35,7 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
       value={{
         isAuthenticated,
         plan,
+        userDetail: userDetail,
       }}
     >
       {children}

@@ -1,12 +1,13 @@
 // pages/_app.tsx
-import { CallsListContextProvider } from '@/hooks/useCallsList';
-import { AuthContextProvider } from '@/hooks/useAuth';
-import '@/styles/global.css';
-import Head from 'next/head';
-import { ChakraProvider } from '@chakra-ui/react';
-import { CreateContactsListContextProvider } from '@/hooks/useCreateContactsList';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from '@/services/react-query';
+import { CallsListContextProvider } from "@/hooks/useCallsList";
+import { AuthContextProvider } from "@/hooks/useAuth";
+import "@/styles/global.css";
+import Head from "next/head";
+import { ChakraProvider } from "@chakra-ui/react";
+import { CreateContactsListContextProvider } from "@/hooks/useCreateContactsList";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "@/services/react-query";
+import { CompanyContextProvider } from "@/hooks/useCompany";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -21,13 +22,15 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <AuthContextProvider>
-          <CreateContactsListContextProvider>
-            <CallsListContextProvider>
-              <ChakraProvider>
-                <Component {...pageProps} />
-              </ChakraProvider>
-            </CallsListContextProvider>
-          </CreateContactsListContextProvider>
+          <CompanyContextProvider>
+            <CreateContactsListContextProvider>
+              <CallsListContextProvider>
+                <ChakraProvider>
+                  <Component {...pageProps} />
+                </ChakraProvider>
+              </CallsListContextProvider>
+            </CreateContactsListContextProvider>
+          </CompanyContextProvider>
         </AuthContextProvider>
       </QueryClientProvider>
     </>
