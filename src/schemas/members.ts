@@ -41,7 +41,7 @@ export const schemaEditMember = Yup.object().shape({
     .min(6, "Pelo menos 6 caracteres."),
 });
 
-export const schemaEditMemberTste = Yup.object().shape({
+export const SchemaEditMember = Yup.object().shape({
   email: Yup.string().trim(),
   name: Yup.string().trim(),
   phone: Yup.string().trim(),

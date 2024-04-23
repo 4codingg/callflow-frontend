@@ -1,19 +1,14 @@
 import { fetchCompanyMembers } from "@/api/members/fetch-company-members";
-import { UpdateCompanyMembers } from "@/api/members/update-company-member-detail";
-import {
-  Breadcrumb,
-  Dropdown,
-  LayoutWithSidebar,
-  Button,
-  Input,
-} from "@/components";
-import { schemaEditMember, schemaEditMemberTste } from "@/schemas/members";
+import { getCompanyMember } from "@/api/members/get-company-member";
+import { updateCompanyMemberDetail } from "@/api/members/update-company-member-detail";
+import { Breadcrumb, LayoutWithSidebar, Button, Input } from "@/components";
+import { SchemaEditMember } from "@/schemas/members";
 import { toast } from "@/utils/toast";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { CheckCircle } from "phosphor-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface IUpdateCompanyMemberDetailBody {
   name?: string;
@@ -25,11 +20,25 @@ interface IUpdateCompanyMemberDetailBody {
 
 export const EditMemberTemplate = () => {
   const { query } = useRouter();
+  const queryClient = useQueryClient();
+  const [currentMemberId, setCurrentMemberId] = useState(query.id as string);
 
-  const { data: membersList } = useQuery({
-    queryKey: ["company-members"],
-    queryFn: () => fetchCompanyMembers(),
+  const { data: memberDetail, refetch } = useQuery({
+    queryKey: [`company-member`],
+    queryFn: () => getCompanyMember(currentMemberId),
     staleTime: Infinity,
+    refetchOnMount: true,
+    enabled: false,
+  });
+  const { mutateAsync: updateCompanyMemberDetailFn } = useMutation({
+    mutationFn: updateCompanyMemberDetail,
+    onSuccess: (data: IUpdateCompanyMemberDetailBody) => {
+      toast("success", "Membro editado com sucesso");
+      queryClient.invalidateQueries({ queryKey: ["company-members"] });
+    },
+    onError: () => {
+      toast("error", "Erro ao editar membro");
+    },
   });
 
   const crumbs = [
@@ -41,16 +50,20 @@ export const EditMemberTemplate = () => {
       label: "Editar membro",
     },
   ];
-
-  const getMemberDetail = () => {
-    const member = membersList.find((member) => member.id === query.id);
-    setMemberDetail(member);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      await setMemberDetail(memberDetail);
+      refetch();
+    };
+    fetchData();
+  }, [currentMemberId]);
 
   const handleEditMember = async (values: IUpdateCompanyMemberDetailBody) => {
     try {
-      console.log("fui chamado");
-      await UpdateCompanyMembers(query.id, values);
+      await updateCompanyMemberDetailFn({
+        memberId: currentMemberId,
+        body: values,
+      });
       toast("success", "Membro editado com sucesso");
     } catch (error) {
       toast("error", "Erro ao editar membro");
@@ -63,10 +76,6 @@ export const EditMemberTemplate = () => {
     setFieldValue("password", member?.password);
   };
 
-  useEffect(() => {
-    getMemberDetail();
-  }, [query.id]);
-
   const { values, handleSubmit, getFieldProps, setFieldValue } = useFormik({
     initialValues: {
       name: "",
@@ -74,7 +83,7 @@ export const EditMemberTemplate = () => {
       phone: "",
       password: "",
     },
-    validationSchema: schemaEditMemberTste,
+    validationSchema: SchemaEditMember,
     onSubmit: handleEditMember,
   });
 
@@ -93,7 +102,7 @@ export const EditMemberTemplate = () => {
           {...getFieldProps("email")}
         />
         <Input
-          label="Prone"
+          label="Phone"
           className="font-normal"
           {...getFieldProps("phone")}
         />

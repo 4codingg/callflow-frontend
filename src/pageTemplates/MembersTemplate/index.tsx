@@ -16,7 +16,7 @@ import Empty from "@/assets/empty-state.png";
 
 export const MembersTemplate = () => {
   const [members, setMembers] = useState(MOCK_MEMBERS);
-  const Router = useRouter();
+  const router = useRouter();
 
   const { data: membersList } = useQuery({
     queryKey: ["company-members"],
@@ -25,13 +25,10 @@ export const MembersTemplate = () => {
   });
 
   const handleEditItem = (memberID) => {
-    Router.push(`/members/${memberID}`);
+    router.push(`/members/${memberID}`);
   };
 
   const handleDeleteItem = () => {};
-
-  const router = useRouter();
-  console.log(membersList);
 
   return (
     <LayoutWithSidebar>
