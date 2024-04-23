@@ -1,17 +1,17 @@
-import { Button, ButtonVariant } from '@/components/Button';
-import { Input } from '@/components/Input';
-import { Line } from '@/components/Line';
-import { Modal } from '@/components/Modal';
-import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
+import { Button, ButtonVariant } from "@/components/Button";
+import { Input } from "@/components/Input";
+import { Line } from "@/components/Line";
+import { Modal } from "@/components/Modal";
+import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
 import {
   formatCardExpiration,
   formatCardNumber,
   formatCvc,
-} from '@/utils/formatCvc';
-import { useFormik } from 'formik';
-import { CheckCircle, CreditCard, Person, X, XCircle } from 'phosphor-react';
-import { Dispatch, SetStateAction } from 'react';
-import Cards from 'react-credit-cards';
+} from "@/utils/formatCvc";
+import { useFormik } from "formik";
+import { CheckCircle, CreditCard, Person, X, XCircle } from "phosphor-react";
+import { Dispatch, SetStateAction } from "react";
+import Cards from "react-credit-cards";
 
 interface IModalAddPaymentMethod {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -28,20 +28,20 @@ export const ModalAddPaymentMethod = ({
 
   const { values, handleSubmit, setFieldValue, getFieldProps } = useFormik({
     initialValues: {
-      cvc: '',
-      expiry: '',
-      focus: 'name',
-      number: '',
-      name: '',
-      cardNickname: '',
+      cvc: "",
+      expiry: "",
+      focus: "name",
+      number: "",
+      name: "",
+      cardNickname: "",
     },
     onSubmit: handleForm,
   });
 
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
-      <Modal.Content>
-        <div className="bg-white px-4 py-4 min-w-[500px]">
+      <Modal.Content className="min-w-[500px]">
+        <div className="bg-white py-4 ">
           <header className="flex justify-between items-center w-full flex-1">
             <Paragraph
               size={ParagraphSizeVariant.Medium}
@@ -65,27 +65,27 @@ export const ModalAddPaymentMethod = ({
               number={values.number}
             />
             <Input
-              {...getFieldProps('name')}
+              {...getFieldProps("name")}
               label="Nome no cartão"
               placeholder="Jane Doe"
               labelStyle="mt-12"
             />
             <Input
-              {...getFieldProps('email')}
+              {...getFieldProps("email")}
               label="Email"
               placeholder="janedoe@gmail.com"
             />
             <Input
-              {...getFieldProps('cardNickname')}
+              {...getFieldProps("cardNickname")}
               placeholder="Apelido do seu cartão"
               iconRight={<Person />}
               disableError
               label="Dados do cartão"
             />
             <Input
-              {...getFieldProps('number')}
+              {...getFieldProps("number")}
               onChange={(e) =>
-                setFieldValue('number', formatCardNumber(e.target.value))
+                setFieldValue("number", formatCardNumber(e.target.value))
               }
               value={values.number}
               placeholder="0000 0000 0000 0000"
@@ -95,9 +95,9 @@ export const ModalAddPaymentMethod = ({
             />
             <div className="flex">
               <Input
-                {...getFieldProps('expiry')}
+                {...getFieldProps("expiry")}
                 onChange={(e) =>
-                  setFieldValue('expiry', formatCardExpiration(e.target.value))
+                  setFieldValue("expiry", formatCardExpiration(e.target.value))
                 }
                 value={values.expiry}
                 placeholder="MM / YYYY"
@@ -105,9 +105,9 @@ export const ModalAddPaymentMethod = ({
                 disableError
               />
               <Input
-                {...getFieldProps('cvc')}
+                {...getFieldProps("cvc")}
                 onChange={(e) =>
-                  setFieldValue('cvc', formatCvc(e.target.value))
+                  setFieldValue("cvc", formatCvc(e.target.value))
                 }
                 placeholder="CVC"
                 maxLength={3}
