@@ -20,7 +20,7 @@ const AuthContext = createContext<AuthContextDataProps>(
 
 export function AuthContextProvider({ children }: AuthProviderProps) {
   const [plan, setPlan] = useState({
-    value: IPlanSubscriptionValue.Free,
+    value: IPlanSubscriptionValue.Premium,
   } as ISubscription);
 
   const { data: userDetail } = useQuery({

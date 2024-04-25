@@ -14,10 +14,12 @@ import { ArrowRight, Warning } from "phosphor-react";
 import { useAuth } from "@/hooks/useAuth";
 import { IPlanSubscriptionValue } from "@/@types/Subscription";
 import { useCompany } from "@/hooks/useCompany";
+import { useRouter } from "next/router";
 
 export const DashboardTemplate = () => {
   const { plan } = useAuth();
   const { companyDetail } = useCompany();
+  const router = useRouter();
 
   return (
     <LayoutWithSidebar>
@@ -30,6 +32,7 @@ export const DashboardTemplate = () => {
                 <Button
                   className="!w-56 font-medium !text-sm"
                   rightIcon={<ArrowRight color="#FFF" />}
+                  onClick={() => router.push("/plans")}
                 >
                   Fazer upgrade
                 </Button>
