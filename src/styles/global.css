@@ -1,9 +1,9 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 * {
-  font-family: 'Poppins';
+  font-family: "Poppins";
 }
 
 body.tox-fullscreen .tox.tox-tinymce.tox-fullscreen {
@@ -12,4 +12,8 @@ body.tox-fullscreen .tox.tox-tinymce.tox-fullscreen {
 
 .tox.tox-silver-sink.tox-tinymce-aux {
   z-index: 1000001;
+}
+
+.swal2-container {
+  z-index: 1000002;
 }

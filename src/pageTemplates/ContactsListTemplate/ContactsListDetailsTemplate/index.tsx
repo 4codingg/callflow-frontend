@@ -6,11 +6,10 @@ import {
   Breadcrumb,
   Button,
   EmptyState,
-} from '@/components';
-import { TableHeader } from '@/components/layouts/Headers/TableHeader';
-import { ModalAddItemContactList } from '@/components/layouts/Modals/ModalAddItemContact';
-import { ModalUploadCsv } from '@/components/layouts/Modals/ModalUploadCsv';
-import { formatCsvToJson } from '@/utils/formatCsvToJson';
+} from "@/components";
+import { ModalAddItemContactList } from "@/components/layouts/Modals/ModalAddItemContact";
+import { ModalUploadCsv } from "@/components/layouts/Modals/ModalUploadCsv";
+import { formatCsvToJson } from "@/utils/formatCsvToJson";
 import {
   CaretUp,
   CheckCircle,
@@ -19,16 +18,18 @@ import {
   PlusCircle,
   Trash,
   Upload,
-} from 'phosphor-react';
-import { useEffect, useState } from 'react';
-import Empty from '@/assets/empty-state.png';
-import { ModalEditNameContactsList } from '@/components/layouts/Modals/ModalEditNameContactsList';
-import { updateContactsList } from '@/api/contactsList/update-contacts-list';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
-import { getContactsListDetail } from '@/api/contactsList/get-contacts-list-detail';
-import { TableContacts } from '@/components/layouts/Tables/TableContacts';
-import { toast } from '@/utils/toast';
+} from "phosphor-react";
+import { useEffect, useState } from "react";
+import Empty from "@/assets/empty-state.png";
+import { ModalEditNameContactsList } from "@/components/layouts/Modals/ModalEditNameContactsList";
+import { updateContactsList } from "@/api/contactsList/update-contacts-list";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import { getContactsListDetail } from "@/api/contactsList/get-contacts-list-detail";
+import { TableContacts } from "@/components/layouts/Tables/TableContacts";
+import { toast } from "@/utils/toast";
+import { deleteContact } from "@/api/contactsList/delete-contact-item";
+import { useGlobalLoading } from "@/hooks/useGlobalLoading";
 
 export const ContactsListDetailsTemplate = () => {
   const [modalAddItemContactListIsOpen, setModalAddItemContactListIsOpen] =
@@ -39,17 +40,27 @@ export const ContactsListDetailsTemplate = () => {
   const [results, setResults] = useState([]);
   const [pendingDocuments, setPendingDocuments] = useState([]);
 
+  const queryClient = useQueryClient();
   const router = useRouter();
+  const { setGlobalLoading } = useGlobalLoading();
   const contactsListId = router.query.id as string;
 
   const { mutateAsync: updateContactsListFn } = useMutation({
     mutationFn: updateContactsList,
   });
 
+  const { mutateAsync: deleteContactFn } = useMutation({
+    mutationFn: deleteContact,
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["contacts-list-detail", contactsListDetail.id],
+      });
+    },
+  });
+
   const { data: contactsListDetail } = useQuery({
-    queryKey: ['contacts-list-detail', contactsListId],
+    queryKey: ["contacts-list-detail", contactsListId],
     queryFn: () => getContactsListDetail({ contactsListId }),
-    staleTime: Infinity,
   });
 
   const handleUploadAccepted = (resultsFromCsv: any[]) => {
@@ -66,14 +77,14 @@ export const ContactsListDetailsTemplate = () => {
   const actions = [
     {
       icon: <NotePencil color="#01DDA3" size={16} />,
-      color: '#01DDA3',
-      label: 'Editar nome da Lista',
+      color: "#01DDA3",
+      label: "Editar nome da Lista",
       action: () => setModalEditNameContactsListIsOpen(true),
     },
     {
       icon: <Trash color="#3F3F3F" size={16} />,
-      color: '#3F3F3F',
-      label: 'Deletar Lista',
+      color: "#3F3F3F",
+      label: "Deletar Lista",
     },
   ];
 
@@ -84,26 +95,36 @@ export const ContactsListDetailsTemplate = () => {
         contacts: pendingDocuments,
       });
 
-      toast('success', 'Lista salva com sucesso!');
+      toast("success", "Lista salva com sucesso!");
       setPendingDocuments([]);
     } catch (err) {
-      toast('error', 'Algo deu errado.');
+      toast("error", "Algo deu errado.");
     }
   };
 
   const getCrumbs = (contactsListDetailName: string) => {
     return [
       {
-        label: 'Lista de Contatos',
-        path: '/contacts',
+        label: "Lista de Contatos",
+        path: "/contacts",
       },
       {
-        label: contactsListDetailName || '',
+        label: contactsListDetailName || "",
       },
     ];
   };
 
-  const handleAddItem = () => {};
+  const handleDeleteContactItem = async (contactId: string) => {
+    setGlobalLoading(true);
+    try {
+      await deleteContactFn({ contactId });
+      toast("success", "Contato deletado com sucesso.");
+    } catch (err) {
+      toast("error", "Algo deu errado.");
+    } finally {
+      setGlobalLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (contactsListDetail) {
@@ -195,14 +216,16 @@ export const ContactsListDetailsTemplate = () => {
               <TableContacts
                 content={results}
                 pendingDocuments={pendingDocuments}
+                handleDeleteItem={(id) => handleDeleteContactItem(id)}
               />
             </div>
             <Button
-              leftIcon={<CheckCircle size={22} color="#FFF" />}
               className="mt-8 !w-[160px] mx-auto font-light flex"
               onClick={handleSave}
+              disabled={!!pendingDocuments}
             >
               Salvar lista
+              <CheckCircle size={22} color="#FFF" />
             </Button>
           </>
         )}
@@ -210,7 +233,7 @@ export const ContactsListDetailsTemplate = () => {
       <ModalAddItemContactList
         modalIsOpen={modalAddItemContactListIsOpen}
         setModalIsOpen={setModalAddItemContactListIsOpen}
-        handleAddItem={handleAddItem}
+        contactsListDetail={contactsListDetail}
       />
       <ModalUploadCsv
         modalIsOpen={modalUploadCSVIsOpen}

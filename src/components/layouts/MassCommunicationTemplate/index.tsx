@@ -17,7 +17,7 @@ import Empty from "@/assets/empty-state.png";
 import { useFormik } from "formik";
 import { toast } from "@/utils/toast";
 import { schemaSendCallsListMessage } from "@/schemas/callsList";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchAllContactsLists } from "@/api/contactsList/fetch-all-contacts-lists";
 import {
   getContactsListDetail,
@@ -48,14 +48,18 @@ export const MassCommunicationTemplate = ({
       variables: [],
     });
 
+  const queryClient = useQueryClient();
+
   const { data: contactsListsItems } = useQuery({
     queryKey: ["contacts-lists"],
     queryFn: () => fetchAllContactsLists({ fetchNameOnly: true }),
-    staleTime: Infinity,
   });
 
   const { mutateAsync: sendMassCommunicationFn } = useMutation({
     mutationFn: FUNCTION_MASS_COMMUNICATION[type],
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["company-detail"] });
+    },
   });
 
   const { getFieldProps, values, setFieldValue, isValid } = useFormik({
@@ -170,46 +174,51 @@ export const MassCommunicationTemplate = ({
               onValueChange={handleChangeContactsList}
               {...getFieldProps("contactsListId")}
             />
-            <div className="flex flex-col gap-3 w-full">
-              <Label className="font-semibold text-sm">Mensagem</Label>
-              <button
-                className="rounded flex items-center justify-between h-[40px] border p-3 w-full"
-                onClick={handleOpenMessageModal}
-                type="button"
-              >
-                <Paragraph className="text-primary text-ellipsis truncate overflow-hidden">
-                  {values.message ? values.message : "Personalize sua mensagem"}
-                </Paragraph>
-                <div className="min-w-[16px]">
-                  {values.message && <CheckCircle color="#00DEA3" />}
+            {!contactsListDetailIsEmpty && (
+              <>
+                <div className="flex flex-col gap-3 w-full">
+                  <Label className="font-semibold text-sm">Mensagem</Label>
+                  <button
+                    className="rounded flex items-center justify-between h-[40px] border p-3 w-full"
+                    onClick={handleOpenMessageModal}
+                    type="button"
+                  >
+                    <Paragraph className="text-primary text-ellipsis truncate overflow-hidden">
+                      {values.message
+                        ? values.message
+                        : "Personalize sua mensagem"}
+                    </Paragraph>
+                    <div className="min-w-[16px]">
+                      {values.message && <CheckCircle color="#00DEA3" />}
+                    </div>
+                  </button>
                 </div>
-              </button>
-            </div>
-            <Dropdown
-              options={contactsListDetail?.variables}
-              label="Variável de Destino"
-              placeholder="Seleciona a variável de destino"
-              onValueChange={handleChangeDestinationVariable}
-              disabled={contactsListDetailIsEmpty}
-              {...getFieldProps("destinationVariable")}
-            />
-            <div className="flex flex-col w-full gap-3">
-              <Label className="font-semibold text-sm">Custo</Label>
-              <div className="flex items-center gap-4">
-                <div className="bg-default-grey bg-opacity-30 rounded flex items-center justify-between gap-4 h-[40px] p-3 w-full">
-                  <Paragraph className="text-primary">R$ 30,00</Paragraph>
-                  <Paragraph className="text-black text-xs text-opacity-70">
-                    (R$0,10 / contato)
-                  </Paragraph>
+                <Dropdown
+                  options={contactsListDetail?.variables}
+                  label="Variável de Destino"
+                  placeholder="Seleciona a variável de destino"
+                  onValueChange={handleChangeDestinationVariable}
+                  {...getFieldProps("destinationVariable")}
+                />
+                <div className="flex flex-col w-full gap-3">
+                  <Label className="font-semibold text-sm">Custo</Label>
+                  <div className="flex items-center gap-4">
+                    <div className="bg-default-grey bg-opacity-30 rounded flex items-center justify-between gap-4 h-[40px] p-3 w-full">
+                      <Paragraph className="text-primary">R$ 30,00</Paragraph>
+                      <Paragraph className="text-black text-xs text-opacity-70">
+                        (R$0,10 / contato)
+                      </Paragraph>
+                    </div>
+                  </div>
+                  <button className="flex items-center gap-4">
+                    <Paragraph className="text-primary">
+                      Checar relatório de custo
+                    </Paragraph>
+                    <ArrowRight color="#783EFD" weight="bold" />
+                  </button>
                 </div>
-              </div>
-              <button className="flex items-center gap-4">
-                <Paragraph className="text-primary">
-                  Checar relatório de custo
-                </Paragraph>
-                <ArrowRight color="#783EFD" weight="bold" />
-              </button>
-            </div>
+              </>
+            )}
           </section>
           <div className="flex">
             {contactsListDetail.contacts.length == 0 ? (

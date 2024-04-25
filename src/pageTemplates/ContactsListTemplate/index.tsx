@@ -44,16 +44,14 @@ export const ContactsListTemplate = () => {
               {contactsListsItems?.length || 0} listas
             </Paragraph>
           </section>
-          {!contactsListsItems?.length && (
-            <Button
-              className="!w-[139px] !h-[40px] font-light text-xs"
-              leftIcon={<PlusCircle size={16} color="#FFF" />}
-              disabled={contactsListsItems?.length === 0}
-              onClick={() => router.push("/contacts/create-list")}
-            >
-              Adicionar lista
-            </Button>
-          )}
+          <Button
+            className="!w-[139px] !h-[40px] font-light text-xs"
+            leftIcon={<PlusCircle size={16} color="#FFF" />}
+            disabled={contactsListsItems?.length === 0}
+            onClick={() => router.push("/contacts/create-list")}
+          >
+            Adicionar lista
+          </Button>
         </div>
         <Paragraph className="!text-default-grey">
           Aqui você pode criar listas de contatos para enviar SMS, Email e

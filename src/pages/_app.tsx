@@ -8,6 +8,8 @@ import { CreateContactsListContextProvider } from "@/hooks/useCreateContactsList
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/services/react-query";
 import { CompanyContextProvider } from "@/hooks/useCompany";
+import { GlobalLoadingProvider } from "@/hooks/useGlobalLoading";
+import GlobalLoading from "@/components/GlobalLoading";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -20,19 +22,22 @@ function MyApp({ Component, pageProps }) {
           rel="stylesheet"
         />
       </Head>
-      <QueryClientProvider client={queryClient}>
-        <AuthContextProvider>
-          <CompanyContextProvider>
-            <CreateContactsListContextProvider>
-              <CallsListContextProvider>
-                <ChakraProvider>
-                  <Component {...pageProps} />
-                </ChakraProvider>
-              </CallsListContextProvider>
-            </CreateContactsListContextProvider>
-          </CompanyContextProvider>
-        </AuthContextProvider>
-      </QueryClientProvider>
+      <GlobalLoadingProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthContextProvider>
+            <CompanyContextProvider>
+              <CreateContactsListContextProvider>
+                <CallsListContextProvider>
+                  <ChakraProvider>
+                    <GlobalLoading />
+                    <Component {...pageProps} />
+                  </ChakraProvider>
+                </CallsListContextProvider>
+              </CreateContactsListContextProvider>
+            </CompanyContextProvider>
+          </AuthContextProvider>
+        </QueryClientProvider>
+      </GlobalLoadingProvider>
     </>
   );
 }

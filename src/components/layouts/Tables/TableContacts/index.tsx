@@ -1,7 +1,7 @@
-import { convertCamelCaseToWordsAndTranslate } from '@/utils/convertCamelCaseToWords';
-import { CaretRight, FloppyDisk, PencilLine, Trash } from 'phosphor-react';
-import { Paragraph } from '@/components/Paragraph';
-import { TableHeader } from '@/components/layouts/Headers/TableHeader';
+import { convertCamelCaseToWordsAndTranslate } from "@/utils/convertCamelCaseToWords";
+import { CaretRight, FloppyDisk, PencilLine, Trash } from "phosphor-react";
+import { Paragraph } from "@/components/Paragraph";
+import { TableHeader } from "@/components/layouts/Headers/TableHeader";
 
 interface ITableProps {
   content: any[];
@@ -19,7 +19,7 @@ export const TableContacts = ({
   handleEditItem,
 }: ITableProps) => {
   const titles = content[0]
-    ? Object.keys(content[0]).filter((item) => item != 'id')
+    ? Object.keys(content[0]).filter((item) => item != "id")
     : [];
 
   const calculateWidthSize = () => {
@@ -93,24 +93,6 @@ export const TableContacts = ({
                           className="bg-none border-none rounded-full hover:bg-primary hover:text-white p-1"
                         >
                           <Trash
-                            size={20}
-                            className="text-primary hover:text-white"
-                          />
-                        </button>
-                        <button
-                          onClick={() => handleEditItem(item.id)}
-                          className="bg-none border-none rounded-full hover:bg-primary hover:text-white p-1"
-                        >
-                          <PencilLine
-                            size={20}
-                            className="text-primary hover:text-white"
-                          />
-                        </button>
-                        <button
-                          onClick={() => handleAccessItem(item.id)}
-                          className="bg-none border-none rounded-full hover:bg-primary hover:text-white p-1"
-                        >
-                          <CaretRight
                             size={20}
                             className="text-primary hover:text-white"
                           />

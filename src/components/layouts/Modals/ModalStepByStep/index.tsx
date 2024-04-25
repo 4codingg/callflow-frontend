@@ -1,12 +1,12 @@
-import { Button, ButtonVariant } from '@/components/Button';
-import { Line } from '@/components/Line';
-import { Modal } from '@/components/Modal';
-import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
-import { INSTRUCTIONS, MOCK_CONTACTS } from '@/constants/contentCalls';
-import Image from 'next/image';
-import { ArrowRight, XCircle } from 'phosphor-react';
-import { Dispatch, SetStateAction } from 'react';
-import Rocket from '@/assets/icons/rocket-launch.svg';
+import { Button, ButtonVariant } from "@/components/Button";
+import { Line } from "@/components/Line";
+import { Modal } from "@/components/Modal";
+import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
+import { INSTRUCTIONS } from "@/constants/contentCalls";
+import Image from "next/image";
+import { ArrowRight, XCircle } from "phosphor-react";
+import { Dispatch, SetStateAction } from "react";
+import Rocket from "@/assets/icons/rocket-launch.svg";
 
 interface IModalAddItemFromContactsProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
