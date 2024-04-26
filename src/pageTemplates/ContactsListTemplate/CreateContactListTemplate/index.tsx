@@ -14,6 +14,7 @@ import { Labelbox } from "@/components/Labelbox";
 import { toast } from "@/utils/toast";
 import Information from "@/assets/icons/information-circle.svg";
 import Image from "next/image";
+import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
 
 const crumbs = [
   {
@@ -28,6 +29,7 @@ const crumbs = [
 export const CreateContactListTemplate = () => {
   const [modalConfirmVariablesIsOpen, setModalConfirmVariablesIsOpen] =
     useState(false);
+  const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const { plan } = useAuth();
@@ -133,7 +135,7 @@ export const CreateContactListTemplate = () => {
           </Tipbox>
         )}
         <Button
-          onClick={() => {}}
+          onClick={() => setModalStepByStepIsOpen(true)}
           className="!bg-light-primary !w-[185px] !h-[48px] mt-[24px] flex items-center gap-2 !rounded-full"
         >
           <Image src={Information} alt="circle-information" />
@@ -173,6 +175,12 @@ export const CreateContactListTemplate = () => {
           </Button>
         </section>
       </LayoutWithSidebar>
+      <ModalStepByStep
+        modalIsOpen={modalStepByStepIsOpen}
+        setModalIsOpen={setModalStepByStepIsOpen}
+        type="sms"
+        title="Enviar SMS em massa"
+      />
       <ModalConfirmVariables
         modalIsOpen={modalConfirmVariablesIsOpen}
         setModalIsOpen={setModalConfirmVariablesIsOpen}

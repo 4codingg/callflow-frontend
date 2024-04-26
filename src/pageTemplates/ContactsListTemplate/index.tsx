@@ -13,6 +13,8 @@ import { TableContactsList } from "@/components/layouts/Tables/TableContactsList
 import { deleteContactsList } from "@/api/contactsList/delete-contacts-list";
 import { queryClient } from "@/services/react-query";
 import Empty from "@/assets/empty-state.png";
+import { useState } from "react";
+import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
 
 export const ContactsListTemplate = () => {
   const router = useRouter();
@@ -47,7 +49,6 @@ export const ContactsListTemplate = () => {
           <Button
             className="!w-[139px] !h-[40px] font-light text-xs"
             leftIcon={<PlusCircle size={16} color="#FFF" />}
-            disabled={contactsListsItems?.length === 0}
             onClick={() => router.push("/contacts/create-list")}
           >
             Adicionar lista

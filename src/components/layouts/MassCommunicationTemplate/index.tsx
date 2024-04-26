@@ -255,6 +255,8 @@ export const MassCommunicationTemplate = ({
       <ModalStepByStep
         modalIsOpen={modalStepByStepIsOpen}
         setModalIsOpen={setModalStepByStepIsOpen}
+        type="sms"
+        title="Enviar SMS em massa"
       />
       <ModalConfirmMessage
         modalIsOpen={modalConfirmMessageIsOpen}
