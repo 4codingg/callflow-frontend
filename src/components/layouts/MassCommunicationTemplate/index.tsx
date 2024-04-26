@@ -35,6 +35,7 @@ import { MassCommunicationModalMessage } from "./MassCommunicationModalMessage";
 
 export const MassCommunicationTemplate = ({
   type,
+  modalStepbyStepTitle,
 }: IMassCommunicationTemplateProps) => {
   const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState(false);
   const [modalMessageIsOpen, setModalMessageIsOpen] = useState(false);
@@ -255,8 +256,8 @@ export const MassCommunicationTemplate = ({
       <ModalStepByStep
         modalIsOpen={modalStepByStepIsOpen}
         setModalIsOpen={setModalStepByStepIsOpen}
-        type="sms"
-        title="Enviar SMS em massa"
+        type={type}
+        title={modalStepbyStepTitle}
       />
       <ModalConfirmMessage
         modalIsOpen={modalConfirmMessageIsOpen}

@@ -2,5 +2,10 @@ import { MassCommunicationTemplate } from "@/components/layouts/MassCommunicatio
 import { EMassCommunication } from "@/constants/massCommunication";
 
 export const EmailsTemplate = () => {
-  return <MassCommunicationTemplate type={EMassCommunication.Email} />;
+  return (
+    <MassCommunicationTemplate
+      type={EMassCommunication.Email}
+      modalStepbyStepTitle={"Siga as instruções para enviar E-mail em massa."}
+    />
+  );
 };

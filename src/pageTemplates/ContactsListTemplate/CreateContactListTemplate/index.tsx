@@ -15,6 +15,7 @@ import { toast } from "@/utils/toast";
 import Information from "@/assets/icons/information-circle.svg";
 import Image from "next/image";
 import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
+import { EMassCommunication } from "@/constants/massCommunication";
 
 const crumbs = [
   {
@@ -178,8 +179,8 @@ export const CreateContactListTemplate = () => {
       <ModalStepByStep
         modalIsOpen={modalStepByStepIsOpen}
         setModalIsOpen={setModalStepByStepIsOpen}
-        type="sms"
-        title="Enviar SMS em massa"
+        type={EMassCommunication.Call}
+        title="Siga as instruções para criar a lista de contatos"
       />
       <ModalConfirmVariables
         modalIsOpen={modalConfirmVariablesIsOpen}

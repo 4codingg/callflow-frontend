@@ -11,18 +11,19 @@ import {
   INSTRUCTIONS_EMAIL,
   INSTRUCTIONS_SMS,
 } from "@/constants/instructions";
+import { EMassCommunication } from "@/constants/massCommunication";
 
 interface IModalAddItemFromContactsProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
-  type: "sms" | "email" | "calls";
+  type: EMassCommunication;
   title: string;
 }
 
 const instructions = {
   sms: INSTRUCTIONS_SMS,
   email: INSTRUCTIONS_EMAIL,
-  calls: INSTRUCTIONS_CREATE_CONTACTS_LIST,
+  call: INSTRUCTIONS_CREATE_CONTACTS_LIST,
 };
 
 export const ModalStepByStep = ({
