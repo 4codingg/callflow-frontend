@@ -115,7 +115,7 @@ export const LoginTemplate = () => {
             Logar com o Google
           </Button>
           <Link
-            href="/reset-password"
+            href="/login/reset-password"
             className="w-full flex justify-end mb-8 text-primary font-medium text-xs mt-4"
           >
             Esqueceu a senha?
