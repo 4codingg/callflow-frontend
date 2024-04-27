@@ -12,6 +12,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { PlusCircle } from "phosphor-react";
 import Empty from "@/assets/empty-state.png";
+import { IDeleteCompanyMemberProps } from "@/@types/CompanyMember";
+import { deleteCompanyMember } from "@/api/members/delete-company-members";
+import { toast } from "@/utils/toast";
 
 export const MembersTemplate = () => {
   const router = useRouter();
@@ -25,7 +28,17 @@ export const MembersTemplate = () => {
     router.push(`/members/${memberID}`);
   };
 
-  const handleDeleteItem = () => {};
+  const handleDeleteItem = async (body: IDeleteCompanyMemberProps) => {
+    deleteCompanyMember(body)
+      .then((response) => {
+        toast("success", "membro deletado com sucesso");
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast("error", "Erro ao deletar");
+      });
+  };
 
   return (
     <LayoutWithSidebar>
@@ -57,7 +70,7 @@ export const MembersTemplate = () => {
           <TableDefault
             content={membersList || []}
             handleEditItem={handleEditItem}
-            handleDeleteItem={handleDeleteItem}
+            handleDeleteItem={() => handleDeleteItem}
             disableAccessItem
           />
         )}
