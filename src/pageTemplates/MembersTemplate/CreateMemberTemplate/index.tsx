@@ -6,7 +6,7 @@ import {
   Button,
   Input,
 } from "@/components";
-import { SchemaEditMember, schemaCreateMember } from "@/schemas/members";
+import { schemaEditMember } from "@/schemas/members";
 import { toast } from "@/utils/toast";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
@@ -60,7 +60,7 @@ export const CreateMemberTemplate = () => {
       password: "",
       companyId: "a32c91f5-2190-45f5-8cc6-3e3b3c59aa0b",
     },
-    validationSchema: SchemaEditMember,
+    validationSchema: schemaEditMember,
     onSubmit: handleCreateMember,
   });
   return (
