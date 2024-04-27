@@ -80,7 +80,7 @@ export const CreateMemberTemplate = () => {
           {...getFieldProps("email")}
         />
         <Input
-          label="Phone"
+          label="Telefone"
           placeholder="Digite a seu telefone"
           {...getFieldProps("phone")}
         />
