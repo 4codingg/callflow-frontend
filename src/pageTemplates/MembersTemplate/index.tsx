@@ -8,16 +8,17 @@ import {
   Spinner,
   TableDefault,
 } from "@/components";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { PlusCircle } from "phosphor-react";
 import Empty from "@/assets/empty-state.png";
-import { IDeleteCompanyMemberProps } from "@/@types/CompanyMember";
 import { deleteCompanyMember } from "@/api/members/delete-company-members";
 import { toast } from "@/utils/toast";
+import { IDeleteCompanyMemberProps } from "@/@types/CompanyMember";
 
 export const MembersTemplate = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { data: membersList, isPending } = useQuery({
     queryKey: ["company-members"],
@@ -27,17 +28,23 @@ export const MembersTemplate = () => {
   const handleEditItem = (memberID) => {
     router.push(`/members/${memberID}`);
   };
-
-  const handleDeleteItem = async (body: IDeleteCompanyMemberProps) => {
-    deleteCompanyMember(body)
-      .then((response) => {
-        toast("success", "membro deletado com sucesso");
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-        toast("error", "Erro ao deletar");
+  const { mutateAsync: deleteCompanyMemberDetailFn } = useMutation({
+    mutationFn: deleteCompanyMember,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["company-members"],
       });
+    },
+  });
+
+  const handleDeleteMember = async (memberId: IDeleteCompanyMemberProps) => {
+    try {
+      await deleteCompanyMemberDetailFn(memberId);
+      toast("success", "Sucesso ao deletar membro");
+    } catch (error) {
+      console.error(error);
+      toast("error", "Erro ao deletar membro");
+    }
   };
 
   return (
@@ -70,7 +77,7 @@ export const MembersTemplate = () => {
           <TableDefault
             content={membersList || []}
             handleEditItem={handleEditItem}
-            handleDeleteItem={() => handleDeleteItem}
+            handleDeleteItem={handleDeleteMember}
             disableAccessItem
           />
         )}

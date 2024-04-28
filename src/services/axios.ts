@@ -6,7 +6,7 @@ const api = axios.create({
   validateStatus: (status) => status >= 200 && status <= 299,
   headers: {
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm_Do28gR3VpbGhlcm1lIiwiZW1haWwiOiJqb2FvZ3VpbGhlcm1lX3BlQGhvdG1haWwuY29tIiwiY29tcGFueUlkIjoiZTc3MDc5YzktYjU2Yi00OTRkLThkMWUtNDcwY2VkNmY0ZmFlIiwiaWF0IjoxNzEzODI0NjY4LCJleHAiOjE3MTQ0Mjk0NjgsInN1YiI6IjViMjNjZTIyLWY0ODMtNDA3My04MDcwLWVmMjA4NTA5NDJhZCJ9.lcpjECqBnkOtef_dv0LooB7RHD6yxTfxCp6QuX5YxeE"
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTGVsZSIsImVtYWlsIjoiY29vb29vaUBnbWFpbC5jb20iLCJjb21wYW55SWQiOiIyNmQ1MGRiMi0zMmQ2LTQ3NjYtODFjMy1mYWJkNjQzNDM1YzkiLCJpYXQiOjE3MTQyNjIzMDIsImV4cCI6MTcxNDg2NzEwMiwic3ViIjoiYWEzOWU3NjktOGE3MC00MzNiLWIxYjAtMWFmMjNlZGNhZjZhIn0._f3Gf14MhlhS5SlL0AqcftecT9DxbDeU_t051ylnCO0",
   },
 });
 
