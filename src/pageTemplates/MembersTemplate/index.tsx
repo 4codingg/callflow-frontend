@@ -25,10 +25,11 @@ export const MembersTemplate = () => {
     queryFn: () => fetchCompanyMembers(),
   });
 
-  const handleEditItem = (memberID) => {
-    router.push(`/members/${memberID}`);
+  const handleEditItem = (memberId: string) => {
+    router.push(`/members/${memberId}`);
   };
-  const { mutateAsync: deleteCompanyMemberDetailFn } = useMutation({
+
+  const { mutateAsync: deleteCompanyMemberFn } = useMutation({
     mutationFn: deleteCompanyMember,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -37,12 +38,11 @@ export const MembersTemplate = () => {
     },
   });
 
-  const handleDeleteMember = async (memberId: IDeleteCompanyMemberProps) => {
+  const handleDeleteMember = async (memberId: string) => {
     try {
-      await deleteCompanyMemberDetailFn(memberId);
+      await deleteCompanyMemberFn(memberId);
       toast("success", "Sucesso ao deletar membro");
     } catch (error) {
-      console.error(error);
       toast("error", "Erro ao deletar membro");
     }
   };

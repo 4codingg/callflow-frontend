@@ -1,10 +1,7 @@
 import api from "@/services/axios";
 
-interface IDeleteCompanyMemberProps {
-  memberId: string;
-}
 
-export async function deleteCompanyMember(body: IDeleteCompanyMemberProps) {
-  const response = await api.delete(`/company-member/${body}`);
+export async function deleteCompanyMember(memberId: string) {
+  const response = await api.delete(`/company-member/${memberId}`);
   return response.data;
 }
