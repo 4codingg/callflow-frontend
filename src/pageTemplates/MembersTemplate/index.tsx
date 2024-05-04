@@ -14,11 +14,12 @@ import { PlusCircle } from "phosphor-react";
 import Empty from "@/assets/empty-state.png";
 import { deleteCompanyMember } from "@/api/members/delete-company-members";
 import { toast } from "@/utils/toast";
-import { IDeleteCompanyMemberProps } from "@/@types/CompanyMember";
+import { useGlobalLoading } from "@/hooks/useGlobalLoading";
 
 export const MembersTemplate = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { setGlobalLoading } = useGlobalLoading();
 
   const { data: membersList, isPending } = useQuery({
     queryKey: ["company-members"],
@@ -39,11 +40,14 @@ export const MembersTemplate = () => {
   });
 
   const handleDeleteMember = async (memberId: string) => {
+    setGlobalLoading(true);
     try {
       await deleteCompanyMemberFn(memberId);
       toast("success", "Sucesso ao deletar membro");
     } catch (error) {
       toast("error", "Erro ao deletar membro");
+    } finally {
+      setGlobalLoading(false);
     }
   };
 
