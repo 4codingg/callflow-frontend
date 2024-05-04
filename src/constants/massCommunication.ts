@@ -10,7 +10,6 @@ export enum EMassCommunication {
 
 export interface IMassCommunicationTemplateProps {
   type: EMassCommunication;
-  modalStepbyStepTitle: string;
 }
 
 export const LABELS_MASS_COMMUNICATION = {

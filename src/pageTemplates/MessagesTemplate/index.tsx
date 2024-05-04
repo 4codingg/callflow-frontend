@@ -2,10 +2,5 @@ import { MassCommunicationTemplate } from "@/components/layouts/MassCommunicatio
 import { EMassCommunication } from "@/constants/massCommunication";
 
 export const MessagesTemplate = () => {
-  return (
-    <MassCommunicationTemplate
-      type={EMassCommunication.SMS}
-      modalStepbyStepTitle="Siga as instruções para enviar mensagens em massa."
-    />
-  );
+  return <MassCommunicationTemplate type={EMassCommunication.SMS} />;
 };

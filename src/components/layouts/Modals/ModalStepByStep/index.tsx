@@ -13,11 +13,10 @@ import {
 } from "@/constants/instructions";
 import { EMassCommunication } from "@/constants/massCommunication";
 
-interface IModalAddItemFromContactsProps {
+interface IModalStepByStepProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
   type: EMassCommunication;
-  title: string;
 }
 
 const instructions = {
@@ -26,12 +25,17 @@ const instructions = {
   call: INSTRUCTIONS_CREATE_CONTACTS_LIST,
 };
 
+const titles = {
+  sms: "Siga as instruções para enviar mensagens em massa.",
+  email: "Siga as instruções para enviar E-mail em massa.",
+  call: "Siga as instruções para enviar ligações em massa.",
+};
+
 export const ModalStepByStep = ({
   setModalIsOpen,
   modalIsOpen,
   type,
-  title,
-}: IModalAddItemFromContactsProps) => {
+}: IModalStepByStepProps) => {
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
       <Modal.Content className="min-w-[700px]">
@@ -41,7 +45,7 @@ export const ModalStepByStep = ({
               size={ParagraphSizeVariant.Medium}
               className=" text-purple-secundary !font-medium "
             >
-              {title}
+              {titles[type]}
             </Paragraph>
             <Modal.Close>
               <Button variant={ButtonVariant.iconOnly} className="!w-6 !h-6">

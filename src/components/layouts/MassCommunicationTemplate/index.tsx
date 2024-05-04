@@ -35,7 +35,6 @@ import { MassCommunicationModalMessage } from "./MassCommunicationModalMessage";
 
 export const MassCommunicationTemplate = ({
   type,
-  modalStepbyStepTitle,
 }: IMassCommunicationTemplateProps) => {
   const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState(false);
   const [modalMessageIsOpen, setModalMessageIsOpen] = useState(false);
@@ -257,7 +256,6 @@ export const MassCommunicationTemplate = ({
         modalIsOpen={modalStepByStepIsOpen}
         setModalIsOpen={setModalStepByStepIsOpen}
         type={type}
-        title={modalStepbyStepTitle}
       />
       <ModalConfirmMessage
         modalIsOpen={modalConfirmMessageIsOpen}

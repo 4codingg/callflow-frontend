@@ -180,7 +180,6 @@ export const CreateContactListTemplate = () => {
         modalIsOpen={modalStepByStepIsOpen}
         setModalIsOpen={setModalStepByStepIsOpen}
         type={EMassCommunication.Call}
-        title="Siga as instruções para criar a lista de contatos"
       />
       <ModalConfirmVariables
         modalIsOpen={modalConfirmVariablesIsOpen}
