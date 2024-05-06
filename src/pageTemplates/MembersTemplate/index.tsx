@@ -8,24 +8,48 @@ import {
   Spinner,
   TableDefault,
 } from "@/components";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { PlusCircle } from "phosphor-react";
 import Empty from "@/assets/empty-state.png";
+import { deleteCompanyMember } from "@/api/members/delete-company-members";
+import { toast } from "@/utils/toast";
+import { useGlobalLoading } from "@/hooks/useGlobalLoading";
 
 export const MembersTemplate = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const { setGlobalLoading } = useGlobalLoading();
 
   const { data: membersList, isPending } = useQuery({
     queryKey: ["company-members"],
     queryFn: () => fetchCompanyMembers(),
   });
 
-  const handleEditItem = (memberID) => {
-    router.push(`/members/${memberID}`);
+  const handleEditItem = (memberId: string) => {
+    router.push(`/members/${memberId}`);
   };
 
-  const handleDeleteItem = () => {};
+  const { mutateAsync: deleteCompanyMemberFn } = useMutation({
+    mutationFn: deleteCompanyMember,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["company-members"],
+      });
+    },
+  });
+
+  const handleDeleteMember = async (memberId: string) => {
+    setGlobalLoading(true);
+    try {
+      await deleteCompanyMemberFn(memberId);
+      toast("success", "Sucesso ao deletar membro");
+    } catch (error) {
+      toast("error", "Erro ao deletar membro");
+    } finally {
+      setGlobalLoading(false);
+    }
+  };
 
   return (
     <LayoutWithSidebar>
@@ -57,7 +81,7 @@ export const MembersTemplate = () => {
           <TableDefault
             content={membersList || []}
             handleEditItem={handleEditItem}
-            handleDeleteItem={handleDeleteItem}
+            handleDeleteItem={handleDeleteMember}
             disableAccessItem
           />
         )}

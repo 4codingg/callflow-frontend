@@ -255,6 +255,7 @@ export const MassCommunicationTemplate = ({
       <ModalStepByStep
         modalIsOpen={modalStepByStepIsOpen}
         setModalIsOpen={setModalStepByStepIsOpen}
+        type={type}
       />
       <ModalConfirmMessage
         modalIsOpen={modalConfirmMessageIsOpen}

@@ -27,25 +27,6 @@ export const CONTENT_CALLS = [
   },
 ];
 
-export const INSTRUCTIONS = [
-  {
-    id: 1,
-    description: "Selecione sua lista de contatos",
-  },
-  {
-    id: 2,
-    description: "Selecione a mensagem que será enviada",
-  },
-  {
-    id: 3,
-    description: "Confirme o custo final da lista",
-  },
-  {
-    id: 4,
-    description: `Após confirmar as informações, clique em ${"Enviar para a lista"} e aguarde a confirmação.`,
-  },
-];
-
 export const MOCK_CONTACTS = [
   {
     id: "1",

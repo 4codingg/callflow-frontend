@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
-import { Heading, Checkbox, Paragraph, EmptyState } from '@/components';
-import { TableButtons } from './TableButtons';
-import { TableHead } from './TableHead';
+import { ReactNode } from "react";
+import { Heading, Checkbox, Paragraph, EmptyState } from "@/components";
+import { TableButtons } from "./TableButtons";
+import { TableHead } from "./TableHead";
 
 interface ITableProps {
   content: any[];
@@ -30,7 +30,7 @@ export const TableDefault = ({
   checkBox,
 }: ITableProps) => {
   const titles = content[0]
-    ? Object.keys(content[0]).filter((item) => item != 'id')
+    ? Object.keys(content[0]).filter((item) => item != "id")
     : [];
 
   const calculateWidthSize = () => {

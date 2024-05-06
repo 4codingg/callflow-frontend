@@ -12,3 +12,7 @@ export interface IUpdateCompanyMemberDetailBody {
   role?: string;
   password?: string;
 }
+
+export interface IDeleteCompanyMemberProps {
+  memberId: string;
+}

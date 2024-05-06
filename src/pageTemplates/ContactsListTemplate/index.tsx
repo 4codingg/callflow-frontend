@@ -20,7 +20,6 @@ export const ContactsListTemplate = () => {
   const { data: contactsListsItems } = useQuery({
     queryKey: ["contacts-lists"],
     queryFn: () => fetchAllContactsLists(),
-    staleTime: Infinity,
   });
 
   const { mutateAsync: deleteContactsListFn } = useMutation({
@@ -47,7 +46,6 @@ export const ContactsListTemplate = () => {
           <Button
             className="!w-[139px] !h-[40px] font-light text-xs"
             leftIcon={<PlusCircle size={16} color="#FFF" />}
-            disabled={contactsListsItems?.length === 0}
             onClick={() => router.push("/contacts/create-list")}
           >
             Adicionar lista
