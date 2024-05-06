@@ -1,12 +1,12 @@
-import { authenticate } from "@/api/auth/authenticate";
 import { Heading, Input, Line, Logo, Paragraph } from "@/components";
 import { Button } from "@/components/Button";
 import { LogoVariant } from "@/components/Logo";
+import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/utils/toast";
 import { validationSchema } from "@/validation/login";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Envelope, Eye, EyeClosed } from "phosphor-react";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
@@ -14,19 +14,23 @@ import { FcGoogle } from "react-icons/fc";
 export const LoginTemplate = () => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const { mutateAsync: authenticateFn } = useMutation({
-    mutationFn: authenticate,
-  });
+  const { handleSignIn } = useAuth();
+  const router = useRouter();
 
-  const handleAuth = async (values) => {
+  const handleAuth = async (values: { email: string; password: string }) => {
     try {
-      const { token } = await authenticateFn(values);
-      localStorage.setItem("token", token);
-      console.log("Usuário autenticado, token armazenado:", token);
-    } catch (error) {
+      await handleSignIn(values.email, values.password);
+      router.push("/dashboard");
+      toast("success", "Bem vindo de volta!");
+    } catch (err) {
+      if (err.response.data.error === "Usuário/senha incorretos.") {
+        toast("error", "Usuário/senha incorretos.");
+        return;
+      }
+
       toast(
         "error",
-        `Ocorreu um erro durante a autenticação. Por favor, tente novamente. ${error}`
+        "Ocorreu um erro durante a autenticação. Por favor, tente novamente."
       );
     }
   };
