@@ -2,25 +2,40 @@ import { Button, ButtonVariant } from "@/components/Button";
 import { Line } from "@/components/Line";
 import { Modal } from "@/components/Modal";
 import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { INSTRUCTIONS } from "@/constants/contentCalls";
 import Image from "next/image";
 import { ArrowRight, XCircle } from "phosphor-react";
 import { Dispatch, SetStateAction } from "react";
 import Rocket from "@/assets/icons/rocket-launch.svg";
+import {
+  INSTRUCTIONS_CREATE_CONTACTS_LIST,
+  INSTRUCTIONS_EMAIL,
+  INSTRUCTIONS_SMS,
+} from "@/constants/instructions";
+import { EMassCommunication } from "@/constants/massCommunication";
 
-interface IModalAddItemFromContactsProps {
+interface IModalStepByStepProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
+  type: EMassCommunication;
 }
+
+const instructions = {
+  sms: INSTRUCTIONS_SMS,
+  email: INSTRUCTIONS_EMAIL,
+  call: INSTRUCTIONS_CREATE_CONTACTS_LIST,
+};
+
+const titles = {
+  sms: "Siga as instruções para enviar mensagens em massa.",
+  email: "Siga as instruções para enviar E-mail em massa.",
+  call: "Siga as instruções para enviar ligações em massa.",
+};
 
 export const ModalStepByStep = ({
   setModalIsOpen,
   modalIsOpen,
-}: IModalAddItemFromContactsProps) => {
-  const handleOk = () => {
-    setModalIsOpen(false);
-  };
-
+  type,
+}: IModalStepByStepProps) => {
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
       <Modal.Content className="min-w-[700px]">
@@ -30,7 +45,7 @@ export const ModalStepByStep = ({
               size={ParagraphSizeVariant.Medium}
               className=" text-purple-secundary !font-medium "
             >
-              Enviando SMS em massa
+              {titles[type]}
             </Paragraph>
             <Modal.Close>
               <Button variant={ButtonVariant.iconOnly} className="!w-6 !h-6">
@@ -39,11 +54,8 @@ export const ModalStepByStep = ({
             </Modal.Close>
           </header>
           <Line direction="horizontal" className="mt-4" />
-          <form
-            className="mt-6 flex flex-col gap-4 min-w-[600px] max-h-[80vh]"
-            onSubmit={handleOk}
-          >
-            {INSTRUCTIONS.map((instruction) => {
+          <form className="mt-6 flex flex-col gap-4 min-w-[600px] max-h-[80vh]">
+            {instructions[type].map((instruction) => {
               return (
                 <div className="flex justify-start gap-4 items-center">
                   <section>
@@ -64,7 +76,7 @@ export const ModalStepByStep = ({
               <Button
                 type="button"
                 className="text-xs font-normal !w-[144px] "
-                onClick={handleOk}
+                onClick={() => setModalIsOpen(false)}
               >
                 OK, entendi <ArrowRight size={18} />
               </Button>
