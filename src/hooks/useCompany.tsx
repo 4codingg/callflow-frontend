@@ -2,6 +2,7 @@ import Company from "@/@types/Company";
 import { getCompanyDetail } from "@/api/company/get-company-detail";
 import { useQuery } from "@tanstack/react-query";
 import React, { createContext, ReactNode, useContext, useState } from "react";
+import { useAuth } from "./useAuth";
 
 export interface CompanyProviderProps {
   children: ReactNode;
@@ -16,8 +17,10 @@ const CompanyContext = createContext<CompanyContextDataProps>(
 );
 
 export function CompanyContextProvider({ children }: CompanyProviderProps) {
+  const { isAuthenticated } = useAuth();
+
   const { data: companyDetail } = useQuery({
-    queryKey: ["company-detail"],
+    queryKey: ["company-detail", isAuthenticated],
     queryFn: getCompanyDetail,
   });
 

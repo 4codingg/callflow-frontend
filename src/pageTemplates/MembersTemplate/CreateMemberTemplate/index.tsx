@@ -1,13 +1,10 @@
-import { postCompanyMember } from "@/api/members/post-company-member";
-import {
-  Breadcrumb,
-  Dropdown,
-  LayoutWithSidebar,
-  Button,
-  Input,
-} from "@/components";
-import { schemaEditMember } from "@/schemas/members";
+import { createCompanyMember } from "@/api/members/create-company-member";
+import { Breadcrumb, LayoutWithSidebar, Button, Input } from "@/components";
+import { useCompany } from "@/hooks/useCompany";
+import { useGlobaLoading } from "@/hooks/useGlobalLoading";
+import { schemaCreateMember } from "@/schemas/members";
 import { toast } from "@/utils/toast";
+import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { CheckCircle } from "phosphor-react";
@@ -24,21 +21,30 @@ export interface ICreateCompanyMemberProps {
 export const CreateMemberTemplate = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const handleCreateMember = async (
-    body: ICreateCompanyMemberProps,
-    { resetForm }
-  ) => {
+  const { companyDetail } = useCompany();
+
+  const { mutateAsync: createCompanyMemberFn } = useMutation({
+    mutationFn: createCompanyMember,
+  });
+
+  const { setGlobalLoading } = useGlobaLoading();
+
+  const handleCreateMember = async (body: ICreateCompanyMemberProps) => {
+    setGlobalLoading(true);
     try {
       setIsLoading(true);
-      const response = await postCompanyMember(body);
-      console.log("Membro adicionado com sucesso:", response);
+      await createCompanyMemberFn({
+        ...body,
+        companyId: companyDetail.id,
+      });
+
       toast("success", "Membro adicionado com sucesso");
-      resetForm();
       router.push("/members");
     } catch (error) {
-      console.error("Erro ao criar membro:", error);
-      toast("error", "Erro ao criar membro");
+      toast("error", "Erro ao criar membro.");
       setIsLoading(false);
+    } finally {
+      setGlobalLoading(false);
     }
   };
 
@@ -58,11 +64,12 @@ export const CreateMemberTemplate = () => {
       email: "",
       phone: "",
       password: "",
-      companyId: "a32c91f5-2190-45f5-8cc6-3e3b3c59aa0b",
+      companyId: "",
     },
-    validationSchema: schemaEditMember,
+    validationSchema: schemaCreateMember,
     onSubmit: handleCreateMember,
   });
+
   return (
     <LayoutWithSidebar>
       <Breadcrumb crumbs={crumbs} />

@@ -1,12 +1,20 @@
 import { useGlobalLoading } from "@/hooks/useGlobalLoading";
 import clsx from "clsx";
+import { useRouter } from "next/router";
 import React from "react";
 
 const GlobalLoading = () => {
   const { globalLoading } = useGlobalLoading();
 
+  const { pathname } = useRouter();
+
+  const globalLoadingIsAble = !["/login", "/forgot-password"].includes(
+    pathname
+  );
+
   return (
-    globalLoading && (
+    globalLoading &&
+    globalLoadingIsAble && (
       <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-30 z-50">
         <span
           role="status"
