@@ -32,11 +32,12 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
   const [plan, setPlan] = useState({
     value: IPlanSubscriptionValue.Premium,
   } as ISubscription);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const { setGlobalLoading } = useGlobaLoading();
 
   const { data: userDetail, isPending } = useQuery({
-    queryKey: ["user-detail"],
+    queryKey: ["user-detail", isAuthenticated],
     queryFn: getProfile,
   });
 
@@ -53,13 +54,12 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
       const { token } = await authenticateFn({ email, password });
 
       localStorage.setItem("@CF-Token", token);
-      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      api.defaults.headers.common["authorization"] = `Bearer ${token}`;
+      setIsAuthenticated(true);
     } catch (err) {
       throw err;
     }
   };
-
-  const isAuthenticated = true;
 
   return (
     <AuthContext.Provider
