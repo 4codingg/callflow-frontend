@@ -13,8 +13,6 @@ import { TableContactsList } from "@/components/layouts/Tables/TableContactsList
 import { deleteContactsList } from "@/api/contactsList/delete-contacts-list";
 import { queryClient } from "@/services/react-query";
 import Empty from "@/assets/empty-state.png";
-import { useState } from "react";
-import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
 
 export const ContactsListTemplate = () => {
   const router = useRouter();
@@ -22,7 +20,6 @@ export const ContactsListTemplate = () => {
   const { data: contactsListsItems } = useQuery({
     queryKey: ["contacts-lists"],
     queryFn: () => fetchAllContactsLists(),
-    staleTime: Infinity,
   });
 
   const { mutateAsync: deleteContactsListFn } = useMutation({
