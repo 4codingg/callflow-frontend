@@ -1,44 +1,29 @@
-import { Button, ButtonVariant } from '@/components/Button';
-import { Line } from '@/components/Line';
-import { Modal } from '@/components/Modal';
-import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
-import { ArrowRight, XCircle } from 'phosphor-react';
-import { Dispatch, SetStateAction } from 'react';
-import { toast } from '@/utils/toast';
-import { Label } from '@/components/Label';
-import { GetContactsListDetailResponse } from '@/api/contactsList/get-contacts-list-detail';
-import { sendSMSMass } from '@/api/sms/send-sms-mass';
-import { useMutation } from '@tanstack/react-query';
-import { formatMessageToBackEnd } from '@/utils/formatMessageToBackEnd';
+import { Button, ButtonVariant } from "@/components/Button";
+import { Line } from "@/components/Line";
+import { Modal } from "@/components/Modal";
+import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
+import { ArrowRight, XCircle } from "phosphor-react";
+import { Dispatch, SetStateAction } from "react";
+import { Label } from "@/components/Label";
+import { GetContactsListDetailResponse } from "@/api/contactsList/get-contacts-list-detail";
 
 interface IModalConfirmMessageProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
   contactsListDetail: GetContactsListDetailResponse;
   message: string;
+  destinationVariable: string;
+  handleSendMassCommunication: () => Promise<void>;
 }
 
 export const ModalConfirmMessage = ({
   setModalIsOpen,
   modalIsOpen,
   contactsListDetail,
+  handleSendMassCommunication,
   message,
+  destinationVariable,
 }: IModalConfirmMessageProps) => {
-  const { mutateAsync: sendSmsMassFn } = useMutation({
-    mutationFn: sendSMSMass,
-  });
-
-  const handleSave = async () => {
-    await sendSmsMassFn({
-      destinationVariable: 'contato',
-      contactsListId: contactsListDetail.id,
-      message: formatMessageToBackEnd(message),
-    });
-
-    toast('success', 'SMS em massa enviado com sucesso!');
-    setModalIsOpen(false);
-  };
-
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
       <Modal.Content className="min-w-[700px]">
@@ -63,6 +48,16 @@ export const ModalConfirmMessage = ({
               <div className="bg-default-grey bg-opacity-30 rounded-sm flex items-center justify-between h-[40px] p-3 w-full">
                 <Paragraph className="text-opacity-70">
                   {contactsListDetail?.name}
+                </Paragraph>
+              </div>
+            </div>
+            <div className="flex flex-col w-full gap-3">
+              <Label className="font-semibold text-sm">
+                Variável de Destino
+              </Label>
+              <div className="bg-default-grey bg-opacity-30 rounded-sm flex items-center justify-between h-[40px] p-3 w-full">
+                <Paragraph className="text-opacity-70">
+                  {destinationVariable}
                 </Paragraph>
               </div>
             </div>
@@ -92,17 +87,11 @@ export const ModalConfirmMessage = ({
                 <Paragraph>{message}</Paragraph>
               </div>
             </div>
-            {/* <TextArea
-              label="Mensagem"
-              placeholder="Olá {Nome}, Seja bem-vindo(a)..."
-              className="mt-3"
-              value={message}
-            /> */}
             <section className="flex justify-end mt-[17px]">
               <Button
                 type="button"
                 className="text-xs font-normal !w-[197px] h-[48px] "
-                onClick={handleSave}
+                onClick={handleSendMassCommunication}
               >
                 Confirmar e Enviar <ArrowRight size={18} />
               </Button>

@@ -1,66 +1,92 @@
+import { getCompanyMember } from "@/api/members/get-company-member";
+import { updateCompanyMemberDetail } from "@/api/members/update-company-member-detail";
 import {
   Breadcrumb,
-  Dropdown,
   LayoutWithSidebar,
   Button,
   Input,
-} from '@/components';
-import { ROLE_OPTIONS, MOCK_MEMBERS } from '@/constants/contentMembers';
-import { schemaEditMember } from '@/schemas/contacts';
-import { useFormik } from 'formik';
-import { useRouter } from 'next/router';
-import { CheckCircle } from 'phosphor-react';
-import { useEffect, useState } from 'react';
+  Spinner,
+} from "@/components";
+import { SchemaEditMember } from "@/schemas/members";
+import { toast } from "@/utils/toast";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useFormik } from "formik";
+import { useRouter } from "next/router";
+import { CheckCircle } from "phosphor-react";
+import { useEffect, useState } from "react";
 
-interface IEditMember {
-  name: string;
-  email: string;
-  role: string;
-  password: string;
-  id?: string;
+interface IUpdateCompanyMemberDetailBody {
+  name?: string;
+  email?: string;
+  phone?: string;
+  password?: string;
+  companyId?: string;
 }
 
 export const EditMemberTemplate = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { query } = useRouter();
+  const queryClient = useQueryClient();
+  const currentMemberId = query.id as string;
 
-  const handleEditMember = (values: IEditMember) => {
-    console.log(values);
-  };
+  const { data: memberDetail, isPending } = useQuery({
+    queryKey: ["company-member-detail", currentMemberId],
+    queryFn: () => getCompanyMember(currentMemberId),
+  });
+
+  const { mutateAsync: updateCompanyMemberDetailFn } = useMutation({
+    mutationFn: updateCompanyMemberDetail,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["company-member-detail", currentMemberId],
+      });
+    },
+  });
 
   const crumbs = [
     {
-      label: 'Membros',
-      path: '/members',
+      label: "Membros",
+      path: "/members",
     },
     {
-      label: 'Editar membro',
+      label: "Editar membro",
     },
   ];
 
-  const getMemberDetail = () => {
-    const member = MOCK_MEMBERS.find((member) => member.id === query.id);
-    setMemberDetail(member);
-  };
-
-  const setMemberDetail = (member: IEditMember) => {
-    setFieldValue('name', member?.name);
-    setFieldValue('email', member?.email);
-    setFieldValue('role', member?.role);
-    setFieldValue('password', member?.password);
-  };
-
   useEffect(() => {
-    getMemberDetail();
-  }, [query.id]);
+    setMemberDetail(memberDetail);
+  }, [currentMemberId, memberDetail?.id]);
 
-  const { values, handleSubmit, getFieldProps, setFieldValue } = useFormik({
+  const handleEditMember = async (values: IUpdateCompanyMemberDetailBody) => {
+    setIsLoading(true);
+    try {
+      await updateCompanyMemberDetailFn({
+        memberId: currentMemberId,
+        body: values,
+      });
+      toast("success", "Membro editado com sucesso");
+    } catch (error) {
+      toast("error", "Erro ao editar membro");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const setMemberDetail = (member: IUpdateCompanyMemberDetailBody) => {
+    setFieldValue("name", member?.name);
+    setFieldValue("email", member?.email);
+    setFieldValue("phone", member?.phone);
+    setFieldValue("password", member?.password);
+  };
+
+  const { handleSubmit, getFieldProps, setFieldValue } = useFormik({
     initialValues: {
-      name: '',
-      email: '',
-      role: '',
-      password: '',
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
     },
-    validationSchema: schemaEditMember,
+    validationSchema: SchemaEditMember,
     onSubmit: handleEditMember,
   });
 
@@ -71,31 +97,30 @@ export const EditMemberTemplate = () => {
         <Input
           label="Nome"
           className="font-normal "
-          {...getFieldProps('name')}
+          {...getFieldProps("name")}
         />
         <Input
           label="E-mail"
           className=" font-normal"
-          {...getFieldProps('email')}
+          {...getFieldProps("email")}
         />
-        <Dropdown
-          label="Cargo"
-          options={ROLE_OPTIONS}
-          className="font-normal mb-8"
-          onValueChange={(value) => setFieldValue('role', value)}
-          {...getFieldProps('role')}
+        <Input
+          label="Phone"
+          className="font-normal"
+          {...getFieldProps("phone")}
         />
         <Input
           label="Senha"
           className="font-normal"
-          {...getFieldProps('password')}
+          {...getFieldProps("password")}
         />
         <Button
           type="submit"
           className=" flex justify-center items-center gap-2 font-medium text-sm font-poppins !w-52 !h-10 mx-auto !mt-10"
           rightIcon={<CheckCircle size={16} />}
+          disabled={isLoading || isPending}
         >
-          Salvar alterações
+          {isLoading || isPending ? <Spinner /> : "Salvar alterações"}
         </Button>
       </form>
     </LayoutWithSidebar>

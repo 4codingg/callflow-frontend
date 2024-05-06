@@ -1,5 +1,15 @@
-import { ISubscription, IPlanSubscriptionValue } from '@/@types/Subscription';
-import React, { createContext, ReactNode, useContext, useState } from 'react';
+import { ISubscription, IPlanSubscriptionValue } from "@/@types/Subscription";
+import User from "@/@types/User";
+import { getProfile } from "@/api/auth/get-profile";
+import { useQuery } from "@tanstack/react-query";
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { useGlobaLoading } from "./useGlobalLoading";
 
 export interface AuthProviderProps {
   children: ReactNode;
@@ -8,6 +18,7 @@ export interface AuthProviderProps {
 export interface AuthContextDataProps {
   isAuthenticated: boolean;
   plan: ISubscription;
+  userDetail: User;
 }
 
 const AuthContext = createContext<AuthContextDataProps>(
@@ -16,8 +27,19 @@ const AuthContext = createContext<AuthContextDataProps>(
 
 export function AuthContextProvider({ children }: AuthProviderProps) {
   const [plan, setPlan] = useState({
-    value: IPlanSubscriptionValue.Plus,
+    value: IPlanSubscriptionValue.Premium,
   } as ISubscription);
+
+  const { setGlobalLoading } = useGlobaLoading();
+
+  const { data: userDetail, isPending } = useQuery({
+    queryKey: ["user-detail"],
+    queryFn: getProfile,
+  });
+
+  useEffect(() => {
+    setGlobalLoading(isPending);
+  }, [isPending]);
 
   const isAuthenticated = true;
 
@@ -26,6 +48,7 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
       value={{
         isAuthenticated,
         plan,
+        userDetail: userDetail,
       }}
     >
       {children}

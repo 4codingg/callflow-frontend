@@ -1,18 +1,18 @@
-import clsx from 'clsx';
-import { InputHTMLAttributes, ReactNode } from 'react';
-import { Label, Paragraph, Spinner } from '@/components';
-import Image from 'next/image';
+import clsx from "clsx";
+import { InputHTMLAttributes, ReactNode } from "react";
+import { Label, Paragraph, Spinner } from "@/components";
+import Image from "next/image";
 
 export enum InputVariant {
-  Default = 'default',
-  Primary = 'primary',
-  Secondary = 'secondary',
+  Default = "default",
+  Primary = "primary",
+  Secondary = "secondary",
 }
 
 export enum InputPlaceholderVariant {
-  Default = 'default',
-  Primary = 'primary',
-  Secondary = 'secondary',
+  Default = "default",
+  Primary = "primary",
+  Secondary = "secondary",
 }
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -47,18 +47,18 @@ export const Input = ({
 }: InputProps) => {
   const inputClassesVariant = {
     [InputVariant.Default]:
-      'border outline-none focus-within:border-primary text-black ',
+      "border outline-none focus-within:outline focus-within:outline-primary text-black ",
     [InputVariant.Primary]:
-      '!bg-neutral-light-grey placeholder:text-dark-grey rounded-lg text-neutral-darkest ',
+      "!bg-neutral-light-grey placeholder:text-dark-grey rounded-lg text-neutral-darkest ",
     [InputVariant.Secondary]:
-      'border !border-main-blue rounded-lg text-main-blue',
+      "border !border-main-blue rounded-lg text-main-blue",
   };
 
   const inputPlaceholderClassesVariant = {
     [InputPlaceholderVariant.Default]:
-      'placeholder:text-xs placeholder:default-grey',
-    [InputPlaceholderVariant.Primary]: 'placeholder:text-primary',
-    [InputPlaceholderVariant.Secondary]: 'placeholder:text-dark-grey',
+      "placeholder:text-xs placeholder:default-grey",
+    [InputPlaceholderVariant.Primary]: "placeholder:text-primary",
+    [InputPlaceholderVariant.Secondary]: "placeholder:text-dark-grey",
   };
 
   return (
@@ -72,13 +72,13 @@ export const Input = ({
     >
       <div
         className={clsx(
-          'bg-white rounded p-3 flex items-center text-main-blue ',
+          "bg-white rounded p-3 flex items-center text-main-blue ",
           inputClassesVariant[variant],
           {
-            '!bg-medium-light-grey': disabled,
-            'border-negative-dark border-opacity-100': error,
-            'border-neutral-grey': !error,
-            'mt-3': !!label,
+            "!bg-medium-light-grey": disabled,
+            "outline outline-negative-dark": error,
+            "outline-neutral-grey": !error,
+            "mt-3": !!label,
           },
           className
         )}
@@ -88,7 +88,7 @@ export const Input = ({
           id={name}
           disabled={disabled}
           className={clsx(
-            'w-full outline-none text-sm font-poppins disabled:text-dark-grey rounded bg-transparent placeholder:font-normal',
+            "w-full outline-none font-normal text-sm font-poppins disabled:text-dark-grey rounded bg-transparent placeholder:font-normal",
             inputPlaceholderClassesVariant[variantPlaceholder]
           )}
           autoComplete="off"
@@ -98,7 +98,7 @@ export const Input = ({
         {isLoading && (
           <Spinner
             className={clsx({
-              'border-l-secondary border-t-secondary':
+              "border-l-secondary border-t-secondary":
                 variant === InputVariant.Primary,
             })}
           />
@@ -111,7 +111,7 @@ export const Input = ({
         <Paragraph
           className={clsx({
             'before:content-["ok"] opacity-0 my-1': !error,
-            ' my-2 !font-normal !text-xs': error,
+            " my-2 !font-normal !text-xs": error,
           })}
           hasError={!!error}
         >

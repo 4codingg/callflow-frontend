@@ -1,6 +1,6 @@
-import clsx from 'clsx';
-import { Paragraph } from './Paragraph';
-import { ReactNode } from 'react';
+import clsx from "clsx";
+import { Paragraph } from "./Paragraph";
+import { ReactNode } from "react";
 
 interface ITipboxProps {
   iconLeft?: any;
@@ -19,11 +19,11 @@ export const Tipbox = ({
   return (
     <div
       className={clsx(
-        'bg-light-primary flex gap-4 !w-full justify-between items-center rounded-3xl px-6 py-3',
+        "bg-light-primary flex gap-4 !w-full justify-between items-center rounded-3xl px-6 py-3",
         className
       )}
     >
-      <section className="flex gap-4">
+      <section className="flex gap-4 items-center">
         <div className="text-primary">{iconLeft}</div>
         <Paragraph className=" text-primary "> {children} </Paragraph>
       </section>

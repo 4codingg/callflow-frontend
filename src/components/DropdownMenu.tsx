@@ -1,6 +1,6 @@
-import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
-import clsx from 'clsx';
-import { ReactNode } from 'react';
+import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
+import clsx from "clsx";
+import { ReactNode } from "react";
 
 interface IDropdownMenuRootProps {
   children: ReactNode;
@@ -27,7 +27,7 @@ const Content = ({
       <DropdownMenuPrimitive.Content
         // asChild
         // {...props}
-        className={clsx(' bg-white shadow-lg rounded-lg', className)}
+        className={clsx(" bg-white shadow-lg rounded-lg", className)}
         side="bottom"
         align="end"
         // className={clsx(
@@ -41,11 +41,12 @@ const Content = ({
 interface IDropdownMenuTriggerProps {
   children: ReactNode;
   className?: string;
+  asChild?: boolean;
 }
 
 const Trigger = ({ children, className }: IDropdownMenuTriggerProps) => {
   return (
-    <DropdownMenuPrimitive.Trigger className={clsx('', className)}>
+    <DropdownMenuPrimitive.Trigger className={clsx("", className)}>
       {children}
     </DropdownMenuPrimitive.Trigger>
   );

@@ -1,4 +1,4 @@
-import { LayoutWithSidebar, Breadcrumb, Button } from "@/components";
+import { LayoutWithSidebar, Breadcrumb, Button, Paragraph } from "@/components";
 import { ArrowRight, Warning } from "phosphor-react";
 import { useState } from "react";
 import { Tipbox } from "@/components/Tipbox";
@@ -12,6 +12,10 @@ import { createContactsList } from "@/api/contactsList/create-contacts-list";
 import { useFormik } from "formik";
 import { Labelbox } from "@/components/Labelbox";
 import { toast } from "@/utils/toast";
+import Information from "@/assets/icons/information-circle.svg";
+import Image from "next/image";
+import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
+import { EMassCommunication } from "@/constants/massCommunication";
 
 const crumbs = [
   {
@@ -26,6 +30,7 @@ const crumbs = [
 export const CreateContactListTemplate = () => {
   const [modalConfirmVariablesIsOpen, setModalConfirmVariablesIsOpen] =
     useState(false);
+  const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const { plan } = useAuth();
@@ -61,13 +66,13 @@ export const CreateContactListTemplate = () => {
         toast("error", "Não é permitido adicionar uma variavél vazia.");
         return;
       }
-      if (values.variables.includes(values.inputVariableValue)) {
+      if (values.variables.includes(values.inputVariableValue.toLowerCase())) {
         toast("error", "Essa variável já existe.");
         return;
       }
       setFieldValue("variables", [
         ...values.variables,
-        values.inputVariableValue,
+        values.inputVariableValue.toLowerCase(),
       ]);
 
       setFieldValue("inputVariableValue", "");
@@ -124,11 +129,21 @@ export const CreateContactListTemplate = () => {
                 Fazer upgrade
               </Button>
             }
+            className="mt-4"
           >
             Seu plano gratuito tem acesso apenas a lista padrão com 3 variavéis
             (nome, e-mail e telefone)
           </Tipbox>
         )}
+        <Button
+          onClick={() => setModalStepByStepIsOpen(true)}
+          className="!bg-light-primary !w-[185px] !h-[48px] mt-[24px] flex items-center gap-2 !rounded-full"
+        >
+          <Image src={Information} alt="circle-information" />
+          <Paragraph className=" text-xs text-purple-secundary !font-bold">
+            Passo a Passo
+          </Paragraph>
+        </Button>
         <section className="mt-5">
           <Input
             label="Nome da lista"
@@ -154,13 +169,18 @@ export const CreateContactListTemplate = () => {
           </section>
           <Button
             onClick={handleConfirmCreateContactsList}
-            className=" mt-2 m-auto !w-48 font-poppins font-medium text-sm gap-2"
+            className=" mt-12 m-auto !w-48 font-poppins font-medium text-sm gap-2"
           >
             Avançar
             <ArrowRight size={19} color="#fff" />
           </Button>
         </section>
       </LayoutWithSidebar>
+      <ModalStepByStep
+        modalIsOpen={modalStepByStepIsOpen}
+        setModalIsOpen={setModalStepByStepIsOpen}
+        type={EMassCommunication.Call}
+      />
       <ModalConfirmVariables
         modalIsOpen={modalConfirmVariablesIsOpen}
         setModalIsOpen={setModalConfirmVariablesIsOpen}
