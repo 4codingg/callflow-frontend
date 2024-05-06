@@ -1,10 +1,12 @@
 import { Heading, Input, Line, Logo, Paragraph } from "@/components";
 import { Button } from "@/components/Button";
 import { LogoVariant } from "@/components/Logo";
+import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/utils/toast";
 import { validationSchema } from "@/validation/login";
 import { useFormik } from "formik";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Envelope, Eye, EyeClosed } from "phosphor-react";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
@@ -12,10 +14,20 @@ import { FcGoogle } from "react-icons/fc";
 export const LoginTemplate = () => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleAuth = async (values) => {
+  const { handleSignIn } = useAuth();
+  const router = useRouter();
+
+  const handleAuth = async (values: { email: string; password: string }) => {
     try {
-      console.log("Autenticando com:", values);
-    } catch (error) {
+      await handleSignIn(values.email, values.password);
+      router.push("/dashboard");
+      toast("success", "Bem vindo de volta!");
+    } catch (err) {
+      if (err.response.data.error === "Usuário/senha incorretos.") {
+        toast("error", "Usuário/senha incorretos.");
+        return;
+      }
+
       toast(
         "error",
         "Ocorreu um erro durante a autenticação. Por favor, tente novamente."

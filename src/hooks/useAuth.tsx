@@ -1,7 +1,9 @@
 import { ISubscription, IPlanSubscriptionValue } from "@/@types/Subscription";
 import User from "@/@types/User";
+import { authenticate } from "@/api/auth/authenticate";
 import { getProfile } from "@/api/auth/get-profile";
-import { useQuery } from "@tanstack/react-query";
+import api from "@/services/axios";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import React, {
   createContext,
   ReactNode,
@@ -19,6 +21,7 @@ export interface AuthContextDataProps {
   isAuthenticated: boolean;
   plan: ISubscription;
   userDetail: User;
+  handleSignIn: (email: string, password: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextDataProps>(
@@ -37,9 +40,24 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
     queryFn: getProfile,
   });
 
+  const { mutateAsync: authenticateFn } = useMutation({
+    mutationFn: authenticate,
+  });
+
   useEffect(() => {
     setGlobalLoading(isPending);
   }, [isPending]);
+
+  const handleSignIn = async (email: string, password: string) => {
+    try {
+      const { token } = await authenticateFn({ email, password });
+
+      localStorage.setItem("@CF-Token", token);
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+    } catch (err) {
+      throw err;
+    }
+  };
 
   const isAuthenticated = true;
 
@@ -48,7 +66,8 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
       value={{
         isAuthenticated,
         plan,
-        userDetail: userDetail,
+        userDetail,
+        handleSignIn,
       }}
     >
       {children}
