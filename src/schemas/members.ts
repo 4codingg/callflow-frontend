@@ -12,11 +12,12 @@ export const schemaCreateMember = Yup.object().shape({
     .required("Nome é um campo obrigatório.")
     .matches(ONLY_TEXT_REGEX, "Nome inválido.")
     .min(2, "Pelo menos 2 caracteres."),
-  role: Yup.string()
-    .trim()
-    .required("Cargo é um campo obrigatório.")
-    .min(2, "Pelo menos 2 caracteres."),
-  senha: Yup.string()
+  phone: Yup.string().required("Telefone é um campo obrigatório."),
+  // role: Yup.string()
+  //   .trim()
+  //   .required("Cargo é um campo obrigatório.")
+  //   .min(2, "Pelo menos 2 caracteres."),
+  password: Yup.string()
     .trim()
     .required("Senha é um campo obrigatório.")
     .min(6, "Pelo menos 6 caracteres."),
@@ -34,7 +35,6 @@ export const schemaEditMember = Yup.object().shape({
     .matches(ONLY_TEXT_REGEX, "Nome inválido.")
     .min(2, "Pelo menos 2 caracteres."),
   phone: Yup.string(),
-
   password: Yup.string()
     .trim()
     .required("Senha é um campo obrigatório.")

@@ -6,3 +6,9 @@ export const validationSchema = Yup.object().shape({
     .required("Campo obrigatório"),
   password: Yup.string().required("Campo obrigatório"),
 });
+
+export const validationSchemaResetPassword = Yup.object().shape({
+  email: Yup.string()
+    .email("Digite um e-mail válido")
+    .required("Campo obrigatório"),
+});

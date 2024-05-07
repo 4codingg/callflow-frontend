@@ -1,46 +1,70 @@
-import {
-  Breadcrumb,
-  Dropdown,
-  LayoutWithSidebar,
-  Button,
-  Input,
-} from '@/components';
-import { ROLE_OPTIONS } from '@/constants/contentMembers';
-import { schemaCreateMember } from '@/schemas/members';
-import { toast } from '@/utils/toast';
-import { useFormik } from 'formik';
-import { CheckCircle } from 'phosphor-react';
+import { createCompanyMember } from "@/api/members/create-company-member";
+import { Breadcrumb, LayoutWithSidebar, Button, Input } from "@/components";
+import { useCompany } from "@/hooks/useCompany";
+import { useGlobaLoading } from "@/hooks/useGlobalLoading";
+import { schemaCreateMember } from "@/schemas/members";
+import { toast } from "@/utils/toast";
+import { useMutation } from "@tanstack/react-query";
+import { useFormik } from "formik";
+import { useRouter } from "next/router";
+import { CheckCircle } from "phosphor-react";
+import { useState } from "react";
 
-interface ICreateMember {
+export interface ICreateCompanyMemberProps {
+  companyId: string;
   name: string;
+  phone: string;
   email: string;
-  role: string;
   password: string;
 }
 
 export const CreateMemberTemplate = () => {
-  const handleCreateMember = (values: ICreateMember, { resetForm }) => {
-    console.log(values);
-    toast('success', 'membro adicionado com sucesso');
-    resetForm();
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const { companyDetail } = useCompany();
+
+  const { mutateAsync: createCompanyMemberFn } = useMutation({
+    mutationFn: createCompanyMember,
+  });
+
+  const { setGlobalLoading } = useGlobaLoading();
+
+  const handleCreateMember = async (body: ICreateCompanyMemberProps) => {
+    setGlobalLoading(true);
+    try {
+      setIsLoading(true);
+      await createCompanyMemberFn({
+        ...body,
+        companyId: companyDetail.id,
+      });
+
+      toast("success", "Membro adicionado com sucesso");
+      router.push("/members");
+    } catch (error) {
+      toast("error", "Erro ao criar membro.");
+      setIsLoading(false);
+    } finally {
+      setGlobalLoading(false);
+    }
   };
 
   const crumbs = [
     {
-      label: 'Membros',
-      path: '/members',
+      label: "Membros",
+      path: "/members",
     },
     {
-      label: 'Criar novo membro',
+      label: "Criar novo membro",
     },
   ];
 
   const { handleSubmit, getFieldProps } = useFormik({
     initialValues: {
-      name: '',
-      email: '',
-      role: '',
-      password: '',
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+      companyId: "",
     },
     validationSchema: schemaCreateMember,
     onSubmit: handleCreateMember,
@@ -54,32 +78,32 @@ export const CreateMemberTemplate = () => {
           label="Nome"
           placeholder="Digite o nome"
           className="font-light "
-          {...getFieldProps('name')}
+          {...getFieldProps("name")}
         />
         <Input
           label="E-mail"
           placeholder="Digite o e-mail"
           className=" font-light"
-          {...getFieldProps('email')}
+          {...getFieldProps("email")}
         />
-        <Dropdown
-          label="Cargo"
-          placeholder="Selecione o cargo"
-          options={ROLE_OPTIONS}
-          className="font-light mb-8"
-          {...getFieldProps('role')}
+        <Input
+          label="Telefone"
+          placeholder="Digite a seu telefone"
+          {...getFieldProps("phone")}
         />
+
         <Input
           label="Senha"
           placeholder="Digite a senha"
           className="font-light"
-          {...getFieldProps('password')}
+          {...getFieldProps("password")}
         />
 
         <Button
           type="submit"
           className=" flex justify-center items-center gap-2 font-medium text-sm font-poppins !w-40 !h-10 mx-auto !mt-10"
           rightIcon={<CheckCircle size={16} />}
+          disabled={isLoading}
         >
           Criar
         </Button>

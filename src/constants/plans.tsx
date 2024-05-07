@@ -1,6 +1,4 @@
-import Check from "@/assets/icons/Frame.png";
-
-export const LIMITE_SMS = [
+export const PLANS_ROWS = [
   {
     label: "Limite de SMSs bônus",
     values: {
@@ -9,8 +7,6 @@ export const LIMITE_SMS = [
       premium: "100u",
     },
   },
-];
-export const LIMITE_LIGACOES = [
   {
     label: "Limite de Ligações bônus",
     values: {
@@ -19,8 +15,6 @@ export const LIMITE_LIGACOES = [
       premium: "80u",
     },
   },
-];
-export const LIMITE_EMAILS = [
   {
     label: "Limite de Ligações bônus",
     values: {
@@ -29,47 +23,36 @@ export const LIMITE_EMAILS = [
       premium: "1000u",
     },
   },
-];
-
-export const SuporteEmailWhats = [
   {
     label: "Suporte por e-mail e WhatsApp",
     values: {
-      free: Check,
-      plus: Check,
-      premium: Check,
+      free: true,
+      plus: true,
+      premium: true,
     },
   },
-];
-
-export const SuporteMeet = [
   {
     label: "Suporte por Meet",
     values: {
-      free: "",
-      plus: "",
-      premium: Check,
+      free: null,
+      plus: null,
+      premium: true,
     },
   },
-];
-export const ListaContatosPersonalizada = [
   {
     label: "Lista de contatos  personalizada",
     values: {
       free: "Lista padrão com variáveis pré estabelecidas.",
-      plus: Check,
-      premium: Check,
+      plus: true,
+      premium: true,
     },
   },
-];
-
-export const AnaliseRelatorio = [
   {
     label: "Análise e relatórios",
     values: {
-      free: "",
-      plus: Check,
-      premium: Check,
+      free: null,
+      plus: true,
+      premium: true,
     },
   },
 ];

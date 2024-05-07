@@ -1,236 +1,94 @@
 import {
   Button,
+  Card,
   Heading,
   HeadingSizeVariant,
   LayoutWithSidebar,
   Paragraph,
 } from "@/components";
-import {
-  AnaliseRelatorio,
-  LIMITE_EMAILS,
-  LIMITE_LIGACOES,
-  LIMITE_SMS,
-  ListaContatosPersonalizada,
-  SuporteEmailWhats,
-  SuporteMeet,
-} from "@/constants/plans";
+import { PLANS_ROWS } from "@/constants/plans";
+import CheckImage from "@/assets/icons/Frame.png";
 
 import Image from "next/image";
 
 export const PlansTemplate = () => {
   return (
     <LayoutWithSidebar>
-      <header className="grid grid-cols-4 gap-5 text-center h-[190px] ">
-        <section className="col-span-1 ">
-          <Heading className="!text-start">Planos</Heading>
-          <Paragraph className=" !text-start mt-4 font-medium text-[#858BA0] text-xs max-w-[206px]">
-            Escolha seu plano de acordo com seu planejamento de uso
-          </Paragraph>
+      <Card className="p-0 ">
+        <header className="grid grid-cols-4 text-center h-[190px] ">
+          <section className="col-span-1  pt-6 pl-6">
+            <Heading className="!text-start">Planos</Heading>
+            <Paragraph className=" !text-start mt-4 font-medium text-[#858BA0] text-xs max-w-[206px]">
+              Escolha seu plano de acordo com seu planejamento de uso
+            </Paragraph>
+          </section>
+          <section className="col-span-1 border-l pt-6 flex flex-col gap-4 justify-center items-center px-12">
+            <Heading size={HeadingSizeVariant.ExtraLarge}>Grátis</Heading>
+            <Button className="h-[51px] w-56  mx-auto">
+              Escolher esse Plano
+            </Button>
+          </section>
+          <section className="col-span-1 border-l pt-6 flex flex-col gap-4 justify-center items-center px-12">
+            <Heading size={HeadingSizeVariant.ExtraLarge}>
+              R$ 21,99
+              <span className="text-[#858BA0] font-medium text-sm "> /mês</span>
+            </Heading>
+            <Button className="h-[51px] w-56 mx-auto">
+              Escolher esse Plano
+            </Button>
+          </section>
+          <section className="col-span-1 border-l pt-6 flex flex-col gap-4 justify-center items-center px-12">
+            <Heading size={HeadingSizeVariant.ExtraLarge}>
+              R$ 44,99
+              <span className="text-[#858BA0] font-medium text-sm "> /mês</span>
+            </Heading>
+            <Button className="h-[51px] w-56 mx-auto">
+              Escolher esse Plano
+            </Button>
+          </section>
+        </header>
+        <section className="flex flex-col">
+          {PLANS_ROWS.map((row) => {
+            return (
+              <section
+                className="grid grid-cols-4  text-center h-[80px] border-t  items-center"
+                key={row.label}
+              >
+                <Paragraph className="!text-start flex pl-6 font-medium text-sm border-l h-full items-center">
+                  {row.label}
+                </Paragraph>
+                <Paragraph className="flex justify-center font-medium text-sm border-l h-full items-center">
+                  {row.values.free === true ? (
+                    <Check />
+                  ) : (
+                    row.values.free ?? "-"
+                  )}
+                </Paragraph>
+                <Paragraph className="flex justify-center font-medium text-sm border-l h-full items-center">
+                  {row.values.plus === true ? (
+                    <Check />
+                  ) : (
+                    row.values.plus ?? "-"
+                  )}
+                </Paragraph>
+                <Paragraph className="flex justify-center font-medium text-sm border-l h-full items-center">
+                  {row.values.premium === true ? (
+                    <Check />
+                  ) : (
+                    row.values.premium ?? "-"
+                  )}
+                </Paragraph>
+              </section>
+            );
+          })}
         </section>
-        <section className="col-span-1 gap-7">
-          <Heading size={HeadingSizeVariant.ExtraLarge}>Grátis</Heading>
-          <Button className="h-[51px] w-56 mt-7 m-auto">
-            Escolher esse Plano
-          </Button>
-        </section>
-        <section className="col-span-1 gap-7">
-          <Heading size={HeadingSizeVariant.ExtraLarge}>
-            R$ 21,99
-            <span className="text-[#858BA0] font-medium text-sm "> /mês</span>
-          </Heading>
-          <Button className="h-[51px] w-56 mt-7 m-auto">
-            Escolher esse Plano
-          </Button>
-        </section>
-        <section className="col-span-1 gap-7 ">
-          <Heading size={HeadingSizeVariant.ExtraLarge}>
-            R$ 44,99
-            <span className="text-[#858BA0] font-medium text-sm "> /mês</span>
-          </Heading>
-          <Button className="h-[51px] w-56 mt-7 m-auto">
-            Escolher esse Plano
-          </Button>
-        </section>
-      </header>
-      <div>
-        {LIMITE_SMS.map((item, index) => (
-          <section
-            className="grid grid-cols-4 gap-5 text-center h-[80px]"
-            key={index}
-          >
-            <Paragraph className="!text-start font-medium text-sm">
-              {item.label}
-            </Paragraph>
-            <Paragraph className="font-medium text-sm">
-              {item.values.free}
-            </Paragraph>
-            <Paragraph className="font-medium text-sm">
-              {item.values.plus}
-            </Paragraph>
-            <Paragraph className="font-medium text-sm">
-              {item.values.premium}
-            </Paragraph>
-          </section>
-        ))}
-      </div>
-      <div>
-        {LIMITE_LIGACOES.map((item, index) => (
-          <section
-            className="grid grid-cols-4 gap-5 text-center h-[80px]"
-            key={index}
-          >
-            <Paragraph className="!text-start font-medium text-sm">
-              {item.label}
-            </Paragraph>
-            <Paragraph className="font-medium text-sm">
-              {item.values.free}
-            </Paragraph>
-            <Paragraph className="font-medium text-sm">
-              {item.values.plus}
-            </Paragraph>
-            <Paragraph className="font-medium text-sm">
-              {item.values.premium}
-            </Paragraph>
-          </section>
-        ))}
-      </div>
-      <div>
-        {LIMITE_EMAILS.map((item, index) => (
-          <section
-            className="grid grid-cols-4 gap-5 text-center h-[80px]"
-            key={index}
-          >
-            <Paragraph className="!text-start font-medium text-sm">
-              {item.label}
-            </Paragraph>
-            <Paragraph className="font-medium text-sm">
-              {item.values.free}
-            </Paragraph>
-            <Paragraph className="font-medium text-sm">
-              {item.values.plus}
-            </Paragraph>
-            <Paragraph className="font-medium text-sm">
-              {item.values.premium}
-            </Paragraph>
-          </section>
-        ))}
-      </div>
-      <div>
-        {SuporteEmailWhats.map((item, index) => (
-          <section className="grid grid-cols-4 gap-5 h-[80px]" key={index}>
-            <Paragraph className="!text-start font-medium text-sm">
-              {item.label}
-            </Paragraph>
-
-            <Image
-              className="mx-auto"
-              alt=""
-              src={item.values.free}
-              width={20}
-              height={20}
-            />
-
-            <Image
-              className="mx-auto"
-              alt=""
-              src={item.values.plus}
-              width={20}
-              height={20}
-            />
-
-            <Image
-              className="mx-auto"
-              alt=""
-              src={item.values.premium}
-              width={20}
-              height={20}
-            />
-          </section>
-        ))}
-      </div>
-      <div>
-        {SuporteMeet.map((item, index) => (
-          <section className="grid grid-cols-4 gap-5 h-[80px]" key={index}>
-            <Paragraph className="!text-start font-medium text-sm">
-              {item.label}
-            </Paragraph>
-
-            <Paragraph className="font-medium text-sm">
-              {item.values.free}
-            </Paragraph>
-            <Paragraph className="font-medium text-sm">
-              {item.values.plus}
-            </Paragraph>
-
-            <Image
-              className="mx-auto"
-              alt=""
-              src={item.values.premium}
-              width={20}
-              height={20}
-            />
-          </section>
-        ))}
-      </div>
-      <div>
-        {ListaContatosPersonalizada.map((item, index) => (
-          <section
-            className="grid grid-cols-4 text-center gap-5 h-[80px]"
-            key={index}
-          >
-            <Paragraph className="!text-start font-medium text-sm">
-              {item.label}
-            </Paragraph>
-            <Paragraph className="font-medium text-sm mx-auto max-w-[194px]">
-              {item.values.free}
-              <span className="font-medium text-[#858BA0] text-xs block">
-                (nome, e-mail e telefone)
-              </span>
-            </Paragraph>
-            <Image
-              className="mx-auto"
-              alt=""
-              src={item.values.plus}
-              width={20}
-              height={20}
-            />
-            <Image
-              className="mx-auto"
-              alt=""
-              src={item.values.premium}
-              width={20}
-              height={20}
-            />
-          </section>
-        ))}
-      </div>
-      <div>
-        {AnaliseRelatorio.map((item, index) => (
-          <section className="grid grid-cols-4 gap-5 h-[80px]" key={index}>
-            <Paragraph className="!text-start font-medium text-sm">
-              {item.label}
-            </Paragraph>
-
-            <Paragraph className="font-medium text-sm">
-              {item.values.free}
-            </Paragraph>
-            <Image
-              className="mx-auto"
-              alt=""
-              src={item.values.plus}
-              width={20}
-              height={20}
-            />
-            <Image
-              className="mx-auto"
-              alt=""
-              src={item.values.premium}
-              width={20}
-              height={20}
-            />
-          </section>
-        ))}
-      </div>
+      </Card>
     </LayoutWithSidebar>
+  );
+};
+
+export const Check = () => {
+  return (
+    <Image className="mx-auto" alt="" src={CheckImage} width={20} height={20} />
   );
 };
