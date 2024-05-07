@@ -4,9 +4,11 @@ import { authenticate } from "@/api/auth/authenticate";
 import { getProfile } from "@/api/auth/get-profile";
 import api from "@/services/axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import React, {
   createContext,
   ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -35,8 +37,13 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const { setGlobalLoading } = useGlobaLoading();
+  const router = useRouter();
 
-  const { data: userDetail, isPending } = useQuery({
+  const {
+    data: userDetail,
+    isPending,
+    refetch,
+  } = useQuery({
     queryKey: ["user-detail", isAuthenticated],
     queryFn: getProfile,
   });
@@ -48,6 +55,33 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     setGlobalLoading(isPending);
   }, [isPending]);
+
+  const validateUserSession = useCallback(async () => {
+    const token = localStorage.getItem("@CF-Token");
+
+    if (token) {
+      try {
+        api.defaults.headers.common["authorization"] = `Bearer ${token}`;
+        const data = await refetch();
+        if (data.isSuccess) {
+          setIsAuthenticated(true);
+        } else {
+          handleSignOut();
+        }
+      } catch {
+        handleSignOut;
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    validateUserSession();
+  }, []);
+
+  const handleSignOut = () => {
+    localStorage.removeItem("@CF-Token");
+    router.push("/login");
+  };
 
   const handleSignIn = async (email: string, password: string) => {
     try {
