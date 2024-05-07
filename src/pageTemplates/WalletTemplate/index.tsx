@@ -1,17 +1,17 @@
-import { Heading, LayoutWithSidebar, Paragraph } from '@/components';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { Tabs } from '@/components/Tabs';
+import { Heading, LayoutWithSidebar, Paragraph } from "@/components";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { Tabs } from "@/components/Tabs";
 import {
   ETabsWallet,
   MOCK_PAYMENTS_HISTORY,
   TABS_WALLET,
-} from '@/constants/tabsWallet';
-import { MyPlanTab } from '@/components/layouts/MyPlanTab';
-import { TablePaymentsHistory } from '@/components/layouts/Tables/TablePaymentsHistory';
-import { PaymentMethodsTab } from '@/components/layouts/PaymentMethodsTab';
-import 'react-credit-cards/es/styles-compiled.css';
-import { ModalAddPaymentMethod } from '@/components/layouts/Modals/ModalAddPaymentMethod';
+} from "@/constants/tabsWallet";
+import { MyPlanTab } from "@/components/layouts/MyPlanTab";
+import { TablePaymentsHistory } from "@/components/layouts/Tables/TablePaymentsHistory";
+import { PaymentMethodsTab } from "@/components/layouts/PaymentMethodsTab";
+import "react-credit-cards/es/styles-compiled.css";
+import { ModalAddPaymentMethod } from "@/components/layouts/Modals/ModalAddPaymentMethod";
 
 export const WalletTemplate = () => {
   const [modalAddPaymentMethodIsOpen, setModalAddPaymentMethodIsOpen] =

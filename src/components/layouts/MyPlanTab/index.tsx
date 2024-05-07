@@ -1,19 +1,20 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import { ArrowRight } from 'phosphor-react';
-import { Button } from '@/components/Button';
-import { Card } from '@/components/Card';
-import { Line } from '@/components/Line';
-import { Paragraph } from '@/components/Paragraph';
-import { INVOICES_MOCK } from '@/constants/invoices';
-import { TableInvoicesPayments } from '../Tables/TableInvoicesPayments';
-import { ModalConfirmCancelPlan } from '../Modals/ModalConfirmCancelPlan';
-import 'react-credit-cards/es/styles-compiled.css';
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { ArrowRight } from "phosphor-react";
+import { Button } from "@/components/Button";
+import { Card } from "@/components/Card";
+import { Line } from "@/components/Line";
+import { Paragraph } from "@/components/Paragraph";
+import { INVOICES_MOCK } from "@/constants/invoices";
+import { TableInvoicesPayments } from "../Tables/TableInvoicesPayments";
+import { ModalConfirmCancelPlan } from "../Modals/ModalConfirmCancelPlan";
+import "react-credit-cards/es/styles-compiled.css";
 
 export const MyPlanTab = () => {
   const [subscriptionIsActive, setSubscriptionIsActive] = useState(true);
   const [modalConfirmCancelPlanIsOpen, setModalConfirmCancelPlanIsOpen] =
     useState(false);
+  const router = useRouter();
 
   return (
     <>
@@ -28,6 +29,7 @@ export const MyPlanTab = () => {
           <Button
             className="!w-[230px] h-[40px] font-normal !text-xs mt-4"
             rightIcon={<ArrowRight color="#FFF" size={20} />}
+            onClick={() => router.push("/plans")}
           >
             Conferir upgrades de plano
           </Button>
@@ -48,7 +50,7 @@ export const MyPlanTab = () => {
         </Card>
         <Card>
           <Paragraph className="font-medium !text-base">
-            {subscriptionIsActive ? 'Cancelar assinatura' : ''}
+            {subscriptionIsActive ? "Cancelar assinatura" : ""}
           </Paragraph>
           <Line className="my-4" />
           {subscriptionIsActive ? (
