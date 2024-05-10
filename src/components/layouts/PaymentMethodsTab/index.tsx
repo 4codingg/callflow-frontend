@@ -1,18 +1,20 @@
-import { Button } from '@/components/Button';
-import { Card } from '@/components/Card';
-import { TablePaymentMethods } from '@/components/layouts/Tables/TablePaymentMethods';
-import { Line } from '@/components/Line';
-import { Paragraph } from '@/components/Paragraph';
-import { MOCK_PAYMENTS_METHODS } from '@/constants/tabsWallet';
+import { Button } from "@/components/Button";
+import { Card } from "@/components/Card";
+import { TablePaymentMethods } from "@/components/layouts/Tables/TablePaymentMethods";
+import { Line } from "@/components/Line";
+import { Paragraph } from "@/components/Paragraph";
+import { MOCK_PAYMENTS_METHODS } from "@/constants/tabsWallet";
 
-import { ArrowRight, FloppyDisk, PlusCircle } from 'phosphor-react';
-import { useRouter } from 'next/router';
-import { DropdownPaymentMethods } from '@/components/DropdownPaymentMethods';
-import { useState } from 'react';
-import { ModalAddBalance } from '../Modals/ModalAddBalance';
+import { ArrowRight, FloppyDisk, PlusCircle } from "phosphor-react";
+import { useRouter } from "next/router";
+import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
+import { useState } from "react";
+import { ModalAddBalance } from "../Modals/ModalAddBalance";
+import { useQuery } from "@tanstack/react-query";
+import { getPaymentMethods } from "@/api/wallet/getMethodsPayment";
 
 export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
-  const [pendingPaymentMethod, setPendingPaymentMethod] = useState('');
+  const [pendingPaymentMethod, setPendingPaymentMethod] = useState("");
   const [modalAddBalanceIsOpen, setModalAddBalanceIsOpen] = useState(false);
 
   const paymentMethodId = MOCK_PAYMENTS_METHODS[0].id.toString();
@@ -23,7 +25,13 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
     setPendingPaymentMethod(paymentMethodId);
   };
 
+  const { data: methodsPaymentList } = useQuery({
+    queryKey: ["transactions/get-company-payment-methods"],
+    queryFn: () => getPaymentMethods(),
+  });
+
   const handleSave = () => {};
+  console.log("methodsPaymentList:", methodsPaymentList);
 
   return (
     <div className="mt-4 flex flex-col gap-4">
