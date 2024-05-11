@@ -3,7 +3,6 @@ import { Card } from "@/components/Card";
 import { TablePaymentMethods } from "@/components/layouts/Tables/TablePaymentMethods";
 import { Line } from "@/components/Line";
 import { Paragraph } from "@/components/Paragraph";
-import { MOCK_PAYMENTS_METHODS } from "@/constants/tabsWallet";
 
 import { ArrowRight, FloppyDisk, PlusCircle } from "phosphor-react";
 import { useRouter } from "next/router";
@@ -17,8 +16,6 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
   const [pendingPaymentMethod, setPendingPaymentMethod] = useState("");
   const [modalAddBalanceIsOpen, setModalAddBalanceIsOpen] = useState(false);
 
-  const paymentMethodId = MOCK_PAYMENTS_METHODS[0].id.toString();
-
   const router = useRouter();
 
   const handleChangePaymentMethod = (paymentMethodId: string) => {
@@ -29,9 +26,9 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
     queryKey: ["/transactions/get-company-payment-methods"],
     queryFn: () => getCompanyPaymentMethods(),
   });
+  const paymentMethodId = methodsPaymentList[0].id.toString();
 
   const handleSave = () => {};
-  console.log("methodsPaymentList:", methodsPaymentList);
 
   return (
     <div className="mt-4 flex flex-col gap-4">
@@ -65,7 +62,7 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         <Line className="my-4 mb-6" />
         <div className="flex gap-4 items-center flex-row justify-start">
           <DropdownPaymentMethods
-            options={MOCK_PAYMENTS_METHODS}
+            options={methodsPaymentList}
             value={paymentMethodId}
             onValueChange={handleChangePaymentMethod}
           />
@@ -95,7 +92,7 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         </Paragraph>
         <Line className="my-4" />
         <div className="mt-4">
-          <TablePaymentMethods paymentMethods={MOCK_PAYMENTS_METHODS} />
+          <TablePaymentMethods paymentMethods={methodsPaymentList} />
         </div>
       </Card>
       <ModalAddBalance
