@@ -11,7 +11,7 @@ import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
 import { useState } from "react";
 import { ModalAddBalance } from "../Modals/ModalAddBalance";
 import { useQuery } from "@tanstack/react-query";
-import { getPaymentMethods } from "@/api/wallet/getMethodsPayment";
+import { getCompanyPaymentMethods } from "@/api/wallet/getCompanyPaymentMethods";
 
 export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
   const [pendingPaymentMethod, setPendingPaymentMethod] = useState("");
@@ -26,8 +26,8 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
   };
 
   const { data: methodsPaymentList } = useQuery({
-    queryKey: ["transactions/get-company-payment-methods"],
-    queryFn: () => getPaymentMethods(),
+    queryKey: ["/transactions/get-company-payment-methods"],
+    queryFn: () => getCompanyPaymentMethods(),
   });
 
   const handleSave = () => {};
