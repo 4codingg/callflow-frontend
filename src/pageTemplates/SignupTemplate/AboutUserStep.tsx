@@ -1,16 +1,29 @@
+import { createCompanyMember } from "@/api/members/create-company-member";
 import { Button, Input } from "@/components";
 import { ESignupStep } from "@/constants/signup";
+import { useCompany } from "@/hooks/useCompany";
 import { formatPhone } from "@/utils/formatPhone";
 import { toast } from "@/utils/toast";
 import { validationSchemaAboutUserSignupStep } from "@/validation/signup";
+import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
-import { Dispatch, SetStateAction } from "react";
+import { useRouter } from "next/router";
+import { Dispatch, SetStateAction, useState } from "react";
 
+interface ICreateCompanyMemberBody {
+  email: string;
+  password: string;
+  name: string;
+  phone: string;
+  companyId: string;
+}
 interface IAboutUserStepProps {
   setActiveStep: Dispatch<SetStateAction<ESignupStep>>;
 }
 
 export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
+  const { companyDetail } = useCompany();
+  const router = useRouter();
   const formik = useFormik({
     validateOnChange: false,
     validateOnBlur: true,
@@ -20,15 +33,25 @@ export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
       phone: "",
       password: "",
       confirmedPassword: "",
+      companyId: "",
     },
     validationSchema: validationSchemaAboutUserSignupStep,
     onSubmit: (values) => handleAuth(values),
   });
 
-  const handleAuth = async (values) => {
+  const { mutateAsync: createCompanyMemberFn } = useMutation({
+    mutationFn: createCompanyMember,
+  });
+  const handleAuth = async (body: ICreateCompanyMemberBody) => {
     try {
-      console.log(values);
+      await createCompanyMemberFn({
+        ...body,
+        companyId: companyDetail.id,
+      });
+      console.log(companyDetail.id);
       setActiveStep(ESignupStep.Confirmation);
+      toast("success", "Membro criado com sucesso");
+      router.push("/login");
     } catch (error) {
       toast(
         "error",

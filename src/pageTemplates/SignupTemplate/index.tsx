@@ -1,21 +1,22 @@
-import { Heading, Logo, Paragraph } from '@/components';
-import { FormStep } from '@/components/FormStep';
-import { LogoVariant } from '@/components/Logo';
-import { ESignupStep } from '@/constants/signup';
+import { Heading, Logo, Paragraph } from "@/components";
+import { FormStep } from "@/components/FormStep";
+import { LogoVariant } from "@/components/Logo";
+import { ESignupStep } from "@/constants/signup";
 
-import Link from 'next/link';
+import Link from "next/link";
 
-import { useState } from 'react';
-import { AboutCompanyStep } from './AboutCompanyStep';
-import { AboutUserStep } from './AboutUserStep';
-import { ConfirmationStep } from './ConfirmationStep';
+import { useState } from "react";
+import { AboutCompanyStep } from "./AboutCompanyStep";
+import { AboutUserStep } from "./AboutUserStep";
+import { ConfirmationStep } from "./ConfirmationStep";
 
 const steps = [
-  { value: ESignupStep.AboutCompany, description: 'Sobre a Empresa' },
-  { value: ESignupStep.AboutUser, description: 'Sobre você' },
+  { value: ESignupStep.AboutCompany, description: "Sobre a Empresa" },
+  { value: ESignupStep.AboutUser, description: "Sobre você" },
 ];
 
 export const SignupTemplate = () => {
+  const [companyId, setCompanyId] = useState("");
   const [activeStep, setActiveStep] = useState<ESignupStep>(
     ESignupStep.AboutCompany
   );
@@ -35,7 +36,7 @@ export const SignupTemplate = () => {
       </div>
       <div className="flex flex-col items-center justify-center w-[50%] px-20 relative ml-auto pb-12">
         <Link
-          href={'/signup'}
+          href={"/signup"}
           className="absolute top-9 right-9 !font-semibold !text-sm"
         >
           Fazer login
