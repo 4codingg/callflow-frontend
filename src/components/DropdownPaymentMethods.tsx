@@ -60,20 +60,19 @@ export const DropdownPaymentMethods = ({
                     <Spinner />
                   </div>
                 )}
-
-                {options &&
-                  options.map((option) => {
-                    const label = `**** **** ****  ${option.last4} - ${option.name}`;
-
-                    return (
-                      <DropdownItem
-                        key={option.id}
-                        leftIcon={getIconBrand(option.brand)}
-                        label={label}
-                        value={option.id.toString()}
-                      />
-                    );
-                  })}
+                {Array.isArray(options)
+                  ? options.map((option) => {
+                      const label = `**** **** ****  ${option.last4} - ${option.name}`;
+                      return (
+                        <DropdownItem
+                          key={option.id}
+                          leftIcon={getIconBrand(option.brand)}
+                          label={label}
+                          value={option.id.toString()}
+                        />
+                      );
+                    })
+                  : null}
               </Select.Group>
             </Select.Viewport>
           </Select.Content>

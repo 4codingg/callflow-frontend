@@ -62,7 +62,7 @@ export const TablePaymentMethods = ({
               </tr>
             </thead>
             <tbody className={`flex flex-col gap-4 mt-4 w-full`}>
-              {paymentMethods &&
+              {Array.isArray(paymentMethods) &&
                 paymentMethods.map((item) => (
                   <tr
                     key={item.name}
@@ -70,6 +70,7 @@ export const TablePaymentMethods = ({
                   >
                     {titles.map((title, index) => (
                       <td
+                        key={`${item.name}-${index}`} // Chave única para cada célula
                         className={`flex `}
                         style={{ width: calculateWidthSize() }}
                       >

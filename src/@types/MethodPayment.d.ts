@@ -21,3 +21,24 @@ export interface creditCardMethods {
 //   createdAt: Date | null;
 //   updatedAt: Date | null;
 // }
+
+export interface ICreatePaymentMethodBody {
+  nickname: string;
+  remoteIp: string;
+  creditCard: {
+    holderName: string;
+    number: string;
+    expiryMonth: string;
+    expiryYear: string;
+    ccv: string;
+  };
+  creditCardHolderInfo: {
+    name: string;
+    email: string;
+    cpfCnpj: string;
+    postalCode: string;
+    addressNumber: string;
+    address: string;
+    phone: string;
+  };
+}

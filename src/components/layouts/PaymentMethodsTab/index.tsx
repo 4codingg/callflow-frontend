@@ -26,7 +26,10 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
     queryKey: ["/transactions/get-company-payment-methods"],
     queryFn: () => getCompanyPaymentMethods(),
   });
-  const paymentMethodId = methodsPaymentList[0].id.toString();
+  const paymentMethodId =
+    methodsPaymentList && methodsPaymentList.length > 0
+      ? methodsPaymentList[0].id?.toString()
+      : null;
 
   const handleSave = () => {};
 

@@ -1,16 +1,21 @@
+import { ICreatePaymentMethodBody } from "@/@types/MethodPayment";
+import { createPaymentMethod } from "@/api/wallet/createPaymentMethod";
 import { Button, ButtonVariant } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { Line } from "@/components/Line";
 import { Modal } from "@/components/Modal";
 import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
+import { useCompany } from "@/hooks/useCompany";
 import {
   formatCardExpiration,
   formatCardNumber,
   formatCvc,
 } from "@/utils/formatCvc";
+import { toast } from "@/utils/toast";
+import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { CheckCircle, CreditCard, Person, X, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Cards from "react-credit-cards";
 
 interface IModalAddPaymentMethod {
@@ -22,18 +27,45 @@ export const ModalAddPaymentMethod = ({
   setModalIsOpen,
   modalIsOpen,
 }: IModalAddPaymentMethod) => {
-  const handleForm = (values: any) => {
-    console.log(values);
+  const { mutateAsync: createPaymentMethodFn } = useMutation({
+    mutationFn: createPaymentMethod,
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const handleForm = async (body: ICreatePaymentMethodBody) => {
+    try {
+      setIsLoading(true);
+      await createPaymentMethodFn({
+        ...body,
+      });
+
+      toast("success", "Metodo de pagamento adicionado com sucesso");
+    } catch (error) {
+      toast("error", "Erro ao criar membro.");
+      console.log(error);
+      setIsLoading(false);
+    }
   };
 
   const { values, handleSubmit, setFieldValue, getFieldProps } = useFormik({
     initialValues: {
-      cvc: "",
-      expiry: "",
-      focus: "name",
-      number: "",
-      name: "",
-      cardNickname: "",
+      nickname: "",
+      remoteIp: "0000000",
+      creditCard: {
+        holderName: "",
+        number: "",
+        expiryMonth: "",
+        expiryYear: "",
+        ccv: "",
+      },
+      creditCardHolderInfo: {
+        name: "",
+        email: "",
+        cpfCnpj: "",
+        postalCode: "",
+        addressNumber: "",
+        address: "",
+        phone: "",
+      },
     },
     onSubmit: handleForm,
   });
@@ -47,7 +79,7 @@ export const ModalAddPaymentMethod = ({
               size={ParagraphSizeVariant.Medium}
               className=" text-purple-secundary !font-medium "
             >
-              Adicionar contato
+              Adicionar metodo de pagamento
             </Paragraph>
             <Modal.Close>
               <Button variant={ButtonVariant.iconOnly} className="!w-6 !h-6">
@@ -58,11 +90,10 @@ export const ModalAddPaymentMethod = ({
           <Line direction="horizontal" className="my-4" />
           <form onSubmit={handleSubmit}>
             <Cards
-              cvc={values.cvc}
-              expiry={values.expiry}
-              focused={values.focus}
-              name={values.name}
-              number={values.number}
+              cvc={values.creditCard.ccv}
+              expiry={values.creditCard.expiryYear}
+              name={values.nickname}
+              number={values.creditCard.number}
             />
             <Input
               {...getFieldProps("name")}
@@ -71,23 +102,26 @@ export const ModalAddPaymentMethod = ({
               labelStyle="mt-12"
             />
             <Input
-              {...getFieldProps("email")}
+              {...getFieldProps("creditCardHolderInfo.email")}
               label="Email"
               placeholder="janedoe@gmail.com"
             />
             <Input
-              {...getFieldProps("cardNickname")}
+              {...getFieldProps("nickname")}
               placeholder="Apelido do seu cartão"
               iconRight={<Person />}
               disableError
-              label="Dados do cartão"
+              label="Apelido do cartão"
             />
             <Input
-              {...getFieldProps("number")}
+              {...getFieldProps("creditCard.number")}
               onChange={(e) =>
-                setFieldValue("number", formatCardNumber(e.target.value))
+                setFieldValue(
+                  "creditCard.number",
+                  formatCardNumber(e.target.value)
+                )
               }
-              value={values.number}
+              value={values.creditCard.number}
               placeholder="0000 0000 0000 0000"
               iconRight={<CreditCard />}
               maxLength={19}
@@ -95,19 +129,22 @@ export const ModalAddPaymentMethod = ({
             />
             <div className="flex">
               <Input
-                {...getFieldProps("expiry")}
+                {...getFieldProps("creditCard.expiryYear")}
                 onChange={(e) =>
-                  setFieldValue("expiry", formatCardExpiration(e.target.value))
+                  setFieldValue(
+                    "creditCard.expiryYear",
+                    formatCardExpiration(e.target.value)
+                  )
                 }
-                value={values.expiry}
+                value={values.creditCard.expiryYear}
                 placeholder="MM / YYYY"
                 maxLength={9}
                 disableError
               />
               <Input
-                {...getFieldProps("cvc")}
+                {...getFieldProps("creditCard.cvc")}
                 onChange={(e) =>
-                  setFieldValue("cvc", formatCvc(e.target.value))
+                  setFieldValue("creditCard.cvc", formatCvc(e.target.value))
                 }
                 placeholder="CVC"
                 maxLength={3}
