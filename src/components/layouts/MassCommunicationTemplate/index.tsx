@@ -32,7 +32,7 @@ import {
   LABELS_MASS_COMMUNICATION,
 } from "@/constants/massCommunication";
 import { MassCommunicationModalMessage } from "./MassCommunicationModalMessage";
-import { ModalCostReport } from "../Modals/ModalCostReport";
+import { CostReports } from "../Modals/ModalCostReport";
 
 export const MassCommunicationTemplate = ({
   type,
@@ -279,7 +279,7 @@ export const MassCommunicationTemplate = ({
         setSubject={(value) => setFieldValue("subject", value)}
         contactsListDetail={contactsListDetail}
       />
-      <ModalCostReport
+      <CostReports
         modalIsOpen={modalCostReportIsOpen}
         setModalIsOpen={setModalCostReportIsOpen}
       />

@@ -15,7 +15,7 @@ interface MockProps {
   costByMessage: number | string;
   total: number;
 }
-export const ModalCostReport = ({
+export const CostReports = ({
   setModalIsOpen,
   modalIsOpen,
 }: IModalModalCostReportProps) => {
