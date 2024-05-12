@@ -100,7 +100,7 @@ export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
       <Dropdown
         className=" mb-4"
         options={COMPANY_TYPES}
-        label="Tipo de empresa"
+        label="Selecione o tipo de empresa"
         {...formik.getFieldProps("contactsListId")}
       />
       <TextArea
