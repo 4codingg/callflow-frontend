@@ -3,6 +3,7 @@ import { COMPANY_TYPES } from "@/constants/contentCalls";
 import { ESignupStep } from "@/constants/signup";
 import { formatCEP } from "@/utils/formatCEP";
 import { formatCNPJ } from "@/utils/formatCNPJ";
+import { formatNumberResidence } from "@/utils/formatNumberResidence";
 import { formatPhone } from "@/utils/formatPhone";
 import { toast } from "@/utils/toast";
 import { validationSchemaAboutCompanySignupStep } from "@/validation/signup";
@@ -87,12 +88,13 @@ export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
         />
         <Input
           placeholder="Digite o numero da empresa"
-          label="Numero"
+          label="Número"
+          type="number"
           className=" !font-semibold px-4 py-[10px]"
           error={formik.errors?.number as string}
           {...formik.getFieldProps("number")}
           onChange={(e) => {
-            const formattedValue = formatPhone(e.target.value);
+            const formattedValue = formatNumberResidence(e.target.value);
             formik.setFieldValue("number", formattedValue);
           }}
         />
