@@ -88,15 +88,15 @@ export const ModalAddPaymentMethod = ({
             </Modal.Close>
           </header>
           <Line direction="horizontal" className="my-4" />
-          <form onSubmit={handleSubmit}>
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <Cards
               cvc={values.creditCard.ccv}
               expiry={values.creditCard.expiryYear}
-              name={values.nickname}
+              name={values.creditCard.holderName}
               number={values.creditCard.number}
             />
             <Input
-              {...getFieldProps("name")}
+              {...getFieldProps("creditCard.holderName")}
               label="Nome no cartão"
               placeholder="Jane Doe"
               labelStyle="mt-12"
@@ -127,7 +127,7 @@ export const ModalAddPaymentMethod = ({
               maxLength={19}
               disableError
             />
-            <div className="flex">
+            <div className="flex gap-4">
               <Input
                 {...getFieldProps("creditCard.expiryYear")}
                 onChange={(e) =>
