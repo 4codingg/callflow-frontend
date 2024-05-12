@@ -53,7 +53,7 @@ export const ModalCostReport = ({
               </Button>
             </Modal.Close>
           </header>
-          <Line direction="horizontal" className="mt-4" />
+          <Line direction="horizontal" className="mt-4 mb-8" />
           {MOCK_COST_REPORT.map((item) => (
             <section
               key={item.id}
@@ -69,8 +69,8 @@ export const ModalCostReport = ({
             <div> 30</div>
           </section>
 
-          <section className="flex justify-end mt-[17px]">
-            <Button type="button" className="text-xs font-normal !w-20 !h-12 ">
+          <section className="flex justify-end mt-8 ">
+            <Button type="button" className="text-xs font-normal !w-20 !h-12  ">
               OK <ArrowRight size={18} />
             </Button>
           </section>
