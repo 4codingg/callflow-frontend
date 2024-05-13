@@ -26,10 +26,6 @@ export const MembersTemplate = () => {
     queryFn: () => fetchCompanyMembers(),
   });
 
-  const handleEditItem = (memberId: string) => {
-    router.push(`/members/${memberId}`);
-  };
-
   const { mutateAsync: deleteCompanyMemberFn } = useMutation({
     mutationFn: deleteCompanyMember,
     onSuccess: () => {
@@ -38,6 +34,9 @@ export const MembersTemplate = () => {
       });
     },
   });
+  const handleEditItem = (memberId: string) => {
+    router.push(`/members/${memberId}`);
+  };
 
   const handleDeleteMember = async (memberId: string) => {
     setGlobalLoading(true);
