@@ -1,5 +1,5 @@
 import { createCompanyMember } from "@/api/members/create-company-member";
-import { Button, Input } from "@/components";
+import { Button, Input, Spinner } from "@/components";
 import { ESignupStep } from "@/constants/signup";
 import { useCompany } from "@/hooks/useCompany";
 import { formatPhone } from "@/utils/formatPhone";
@@ -22,8 +22,10 @@ interface IAboutUserStepProps {
 }
 
 export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { companyDetail } = useCompany();
   const router = useRouter();
+
   const formik = useFormik({
     validateOnChange: false,
     validateOnBlur: true,
@@ -36,19 +38,20 @@ export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
       companyId: "",
     },
     validationSchema: validationSchemaAboutUserSignupStep,
-    onSubmit: (values) => handleAuth(values),
+    onSubmit: (values) => handleCreateCompanyMember(values),
   });
 
   const { mutateAsync: createCompanyMemberFn } = useMutation({
     mutationFn: createCompanyMember,
   });
-  const handleAuth = async (body: ICreateCompanyMemberBody) => {
+
+  const handleCreateCompanyMember = async (body: ICreateCompanyMemberBody) => {
     try {
+      setIsLoading(true);
       await createCompanyMemberFn({
         ...body,
         companyId: companyDetail.id,
       });
-      console.log(companyDetail.id);
       setActiveStep(ESignupStep.Confirmation);
       toast("success", "Membro criado com sucesso");
       router.push("/login");
@@ -57,6 +60,8 @@ export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
         "error",
         "Ocorreu um erro durante a autenticação. Por favor, tente novamente."
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -67,7 +72,6 @@ export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
         type="text"
         label="Nome"
         className=" !font-semibold px-4 py-[10px]"
-        error={formik.errors?.name as string}
         {...formik.getFieldProps("name")}
       />
       <Input
@@ -75,7 +79,6 @@ export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
         type="text"
         label="E-mail"
         className=" !font-semibold px-4 py-[10px]"
-        error={formik.errors?.email as string}
         {...formik.getFieldProps("email")}
       />
       <Input
@@ -83,7 +86,6 @@ export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
         type="text"
         label="Telefone"
         className=" !font-semibold px-4 py-[10px]"
-        error={formik.errors?.phone as string}
         {...formik.getFieldProps("phone")}
         onChange={(e) => {
           const formattedValue = formatPhone(e.target.value);
@@ -96,7 +98,6 @@ export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
         type="text"
         label="Senha"
         className=" !font-semibold px-4 py-[10px]"
-        error={formik.errors?.password as string}
         {...formik.getFieldProps("password")}
       />
       <Input
@@ -104,16 +105,15 @@ export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
         type="text"
         label="Confirmar Senha"
         className=" !font-semibold px-4 py-[10px]"
-        error={formik.errors?.confirmedPassword as string}
         {...formik.getFieldProps("confirmedPassword")}
       />
 
       <Button
         className="!rounded-md !font-poppins !font-medium mt-2 !h-10 "
         type="submit"
-        onClick={() => {}}
+        disabled={isLoading}
       >
-        Criar conta
+        {isLoading ? <Spinner /> : "Criar conta"}
       </Button>
     </form>
   );

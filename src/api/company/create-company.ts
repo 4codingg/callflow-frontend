@@ -1,5 +1,6 @@
 import api from "@/services/axios";
-export interface AddressProps {
+
+export interface Address {
   address: string;
   number: number;
   zipcode: string;
@@ -9,7 +10,7 @@ export interface ICreateCompanyBody {
   email: string;
   name: string;
   CNPJ: string;
-  address: AddressProps;
+  address: Address;
   quantityEmployers: number;
   type: string;
 }

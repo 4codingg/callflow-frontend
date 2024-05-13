@@ -2,58 +2,50 @@ import {
   ICreateCompanyBody,
   createCompany,
 } from "@/api/company/create-company";
-import { Button, Dropdown, Input, TextArea } from "@/components";
+import { Button, Dropdown, Input, Spinner } from "@/components";
 import { COMPANY_TYPES } from "@/constants/contentCalls";
 import { ESignupStep } from "@/constants/signup";
 import { formatCEP } from "@/utils/formatCEP";
 import { formatCNPJ } from "@/utils/formatCNPJ";
 import { formatStringToNumber } from "@/utils/formatStringToNumber";
 import { toast } from "@/utils/toast";
+import { validationSchemaAboutCompanySignupStep } from "@/validation/signup";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
-import { Dispatch, SetStateAction } from "react";
-import * as Yup from "yup";
+import { Dispatch, SetStateAction, useState } from "react";
 
 interface IAboutCompanyStepProps {
   setActiveStep: Dispatch<SetStateAction<ESignupStep>>;
 }
 
-const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Campo obrigatório"),
-  CNPJ: Yup.string().required("Campo obrigatório"),
-  address: Yup.object().shape({
-    address: Yup.string().required("Campo obrigatório"),
-    number: Yup.number().required("Campo obrigatório"),
-    zipcode: Yup.string().required("Campo obrigatório"),
-  }),
-  type: Yup.string().required("Campo obrigatório"),
-});
-
 export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const formik = useFormik({
     validateOnChange: false,
     validateOnBlur: true,
     initialValues: {
       name: "",
-      email: "cEvertone@teste.com",
+      email: "",
       CNPJ: "",
       address: {
         address: "",
-        number: 0 as number,
+        number: 0,
         zipcode: "",
       },
       quantityEmployers: 1 as number,
       type: "dev",
     },
-    validationSchema: validationSchema,
-    onSubmit: (values) => handleAuth(values),
+    validationSchema: validationSchemaAboutCompanySignupStep,
+    onSubmit: (values) => handleCreateCompany(values),
   });
   const { mutateAsync: createCompanyFn } = useMutation({
     mutationFn: createCompany,
   });
 
-  const handleAuth = async (body: ICreateCompanyBody) => {
+  const handleCreateCompany = async (body: ICreateCompanyBody) => {
     try {
+      setIsLoading(true);
       await createCompanyFn({
         ...body,
       });
@@ -64,8 +56,8 @@ export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
         "error",
         "Ocorreu um erro durante a autenticação. Por favor, tente novamente."
       );
-      console.log(error);
-      console.log(body);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -76,14 +68,19 @@ export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
         type="text"
         label="Nome da empresa"
         className=" !font-semibold px-4 py-[10px]"
-        error={formik.errors?.name as string}
         {...formik.getFieldProps("name")}
+      />
+      <Input
+        placeholder="Digite o e-mail da empresa"
+        type="text"
+        label="E-mail da empresa"
+        className=" !font-semibold px-4 py-[10px]"
+        {...formik.getFieldProps("email")}
       />
       <Input
         placeholder="Digite o CNPJ da empresa"
         label="CNPJ"
         className=" !font-semibold px-4 py-[10px]"
-        error={formik.errors?.CNPJ as string}
         {...formik.getFieldProps("CNPJ")}
         onChange={(e) => {
           const formattedValue = formatCNPJ(e.target.value);
@@ -95,7 +92,6 @@ export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
         type="text"
         label="Endereço"
         className=" !font-semibold px-4 py-[10px]"
-        error={formik.errors?.address?.address as string}
         {...formik.getFieldProps("address.address")}
       />
       <section className=" flex gap-3">
@@ -104,20 +100,17 @@ export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
           type="text"
           label="CEP"
           className=" !font-semibold px-4 py-[10px]"
-          error={formik.errors?.address?.zipcode as string}
           {...formik.getFieldProps("address.zipcode")}
           onChange={(e) => {
-            console.log(e);
             const formattedValue = formatCEP(e.target.value);
             formik.setFieldValue("address.zipcode", formattedValue);
           }}
         />
         <Input
-          placeholder="Digite o numero da empresa"
-          label="Numero"
+          placeholder="Digite o número da empresa"
+          label="Número"
           type="number"
           className=" !font-semibold px-4 py-[10px]"
-          error={formik.errors?.address?.number as string}
           {...formik.getFieldProps("address.number")}
           onChange={(e) => {
             const formattedValue = formatStringToNumber(e.target.value);
@@ -128,6 +121,7 @@ export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
       <Dropdown
         className=" mb-4"
         options={COMPANY_TYPES}
+        placeholder="Tipo de empresa"
         label="Selecione o tipo de empresa"
         value={formik.values.type}
         {...formik.getFieldProps("types")}
@@ -135,8 +129,9 @@ export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
       <Button
         className="!rounded-md !font-poppins !font-medium mt-2 !h-10 0 "
         type="submit"
+        disabled={isLoading}
       >
-        Avançar
+        {isLoading ? <Spinner /> : "Avançar"}
       </Button>
     </form>
   );

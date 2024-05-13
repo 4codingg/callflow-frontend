@@ -5,9 +5,7 @@ export const validationSchemaAboutCompanySignupStep = Yup.object().shape({
     .email("Digite um e-mail válido")
     .required("E-mail é obrigatório"),
   name: Yup.string().required("Nome da empresa é obrigatório"),
-  CNPJ: Yup.string()
-    .matches(/^\d{13}$/, "CNPJ inválido")
-    .required("CNPJ é obrigatório"),
+  CNPJ: Yup.string().required("CNPJ é obrigatório"),
   address: Yup.object().shape({
     address: Yup.string().required("Endereço é obrigatório"),
     number: Yup.number().required("Número é obrigatório"),
