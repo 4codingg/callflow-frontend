@@ -55,24 +55,6 @@ export const Dropdown = ({
       "border outline-none focus-within:border-primary",
   };
 
-  // <DropdownMenu.Content className="bg-white p-2 flex flex-col mt-1 min-w-[200px] border border-muted shadow-md rounded-lg">
-  //             {options.map((action, index) => {
-  //               const isActive = action.value === serviceActive;
-
-  //               return (
-  //                 <>
-  //                   <button
-  //                     onClick={() => handleChange(action.value)}
-  //                     className={`flex gap-2 items-center justify-between p-2 rounded-md hover:bg-light-grey`}
-  //                   >
-  //                     <Paragraph>{action.label}</Paragraph>
-  //                     {isActive && <Check size={16} color="#000" />}
-  //                   </button>
-  //                 </>
-  //               );
-  //             })}
-  //           </DropdownMenu.Content>
-
   return (
     <Label name={label} disabled={disabled} labelStyle={labelStyle}>
       <Select.Root

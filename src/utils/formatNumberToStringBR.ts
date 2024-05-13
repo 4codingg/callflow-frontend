@@ -1,3 +1,7 @@
 export const formatNumberToStringBR = (number) => {
-  return number.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
+  const parsedNumber = parseFloat(number);
+  return parsedNumber.toLocaleString("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+};
