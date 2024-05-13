@@ -1,29 +1,30 @@
-import { Button } from '@/components/Button';
-import { Card } from '@/components/Card';
-import { TablePaymentMethods } from '@/components/layouts/Tables/TablePaymentMethods';
-import { Line } from '@/components/Line';
-import { Paragraph } from '@/components/Paragraph';
-import { MOCK_PAYMENTS_METHODS } from '@/constants/tabsWallet';
+import { Button } from "@/components/Button";
+import { Card } from "@/components/Card";
+import { TablePaymentMethods } from "@/components/layouts/Tables/TablePaymentMethods";
+import { Line } from "@/components/Line";
+import { Paragraph } from "@/components/Paragraph";
 
-import { ArrowRight, FloppyDisk, PlusCircle } from 'phosphor-react';
-import { useRouter } from 'next/router';
-import { DropdownPaymentMethods } from '@/components/DropdownPaymentMethods';
-import { useState } from 'react';
-import { ModalAddBalance } from '../Modals/ModalAddBalance';
+import { ArrowRight, FloppyDisk, PlusCircle } from "phosphor-react";
+import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
+import { useState } from "react";
+import { ModalAddBalance } from "../Modals/ModalAddBalance";
+import { useQuery } from "@tanstack/react-query";
+import { getCompanyPaymentMethods } from "@/api/wallet/getCompanyPaymentMethods";
 
 export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
-  const [pendingPaymentMethod, setPendingPaymentMethod] = useState('');
+  const [pendingPaymentMethod, setPendingPaymentMethod] = useState("");
   const [modalAddBalanceIsOpen, setModalAddBalanceIsOpen] = useState(false);
-
-  const paymentMethodId = MOCK_PAYMENTS_METHODS[0].id.toString();
-
-  const router = useRouter();
 
   const handleChangePaymentMethod = (paymentMethodId: string) => {
     setPendingPaymentMethod(paymentMethodId);
   };
 
-  const handleSave = () => {};
+  const { data: methodsPayments } = useQuery({
+    queryKey: ["/transactions/get-company-payment-methods"],
+    queryFn: () => getCompanyPaymentMethods(),
+  });
+
+  const handleSavePaymentMethodAsDefault = () => {};
 
   return (
     <div className="mt-4 flex flex-col gap-4">
@@ -57,15 +58,14 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         <Line className="my-4 mb-6" />
         <div className="flex gap-4 items-center flex-row justify-start">
           <DropdownPaymentMethods
-            options={MOCK_PAYMENTS_METHODS}
-            value={paymentMethodId}
+            options={methodsPayments}
             onValueChange={handleChangePaymentMethod}
           />
           <Button
             disabled={!pendingPaymentMethod}
             className="!w-[100px] !h-[40px] font-normal !text-xs"
             rightIcon={<FloppyDisk color="#FFF" size={20} />}
-            onClick={handleSave}
+            onClick={handleSavePaymentMethodAsDefault}
           >
             Salvar
           </Button>
@@ -87,7 +87,7 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         </Paragraph>
         <Line className="my-4" />
         <div className="mt-4">
-          <TablePaymentMethods paymentMethods={MOCK_PAYMENTS_METHODS} />
+          <TablePaymentMethods paymentMethods={methodsPayments} />
         </div>
       </Card>
       <ModalAddBalance
