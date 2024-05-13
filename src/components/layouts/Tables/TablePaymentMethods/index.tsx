@@ -1,13 +1,13 @@
-import { convertCamelCaseToWordsAndTranslate } from '@/utils/convertCamelCaseToWords';
-import { Trash } from 'phosphor-react';
-import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
-import SearchImage from '@/assets/search.svg';
-import HiperCardIcon from '@/assets/icons/hipercard-icon.svg';
-import MasterCardIcon from '@/assets/icons/mastercard-icon.svg';
-import EloIcon from '@/assets/icons/elo-icon.svg';
-import VisaIcon from '@/assets/icons/visa-icon.svg';
-import Image from 'next/image';
-import { Heading } from '@/components/Heading';
+import { convertCamelCaseToWordsAndTranslate } from "@/utils/convertCamelCaseToWords";
+import { Trash } from "phosphor-react";
+import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
+import SearchImage from "@/assets/search.svg";
+import HiperCardIcon from "@/assets/icons/hipercard-icon.svg";
+import MasterCardIcon from "@/assets/icons/mastercard-icon.svg";
+import EloIcon from "@/assets/icons/elo-icon.svg";
+import VisaIcon from "@/assets/icons/visa-icon.svg";
+import Image from "next/image";
+import { Heading } from "@/components/Heading";
 
 interface ITablePaymentMethodsProps {
   paymentMethods: any[];
@@ -23,10 +23,10 @@ export const TablePaymentMethods = ({
   tableTitle,
 }: ITablePaymentMethodsProps) => {
   const titles = [
-    'Apelido',
-    'Método de pagamento',
-    'Data de expiração',
-    'Endereço de cobrança',
+    "Apelido",
+    "Método de pagamento",
+    "Data de expiração",
+    "Endereço de cobrança",
   ];
 
   const calculateWidthSize = () => {
@@ -62,47 +62,45 @@ export const TablePaymentMethods = ({
               </tr>
             </thead>
             <tbody className={`flex flex-col gap-4 mt-4 w-full`}>
-              {paymentMethods.map((item) => (
-                <tr
-                  key={item.name}
-                  className="w-full flex hover:bg-background px-8 py-4"
-                >
-                  {titles.map((title, index) => (
+              {Array.isArray(paymentMethods) &&
+                paymentMethods.map((item) => (
+                  <tr
+                    key={item.name}
+                    className="w-full flex hover:bg-background px-8 py-4"
+                  >
+                    {titles.map((title, index) => (
+                      <td
+                        key={`${item.name}-${index}`} // Chave única para cada célula
+                        className={`flex `}
+                        style={{ width: calculateWidthSize() }}
+                      >
+                        {index === 0 && <Paragraph>{item.nickname}</Paragraph>}
+                        {index === 1 && (
+                          <div className="flex items-center gap-2">
+                            {getIconBrand(item.brand)}
+                            <Paragraph>**** **** **** {item.last4}</Paragraph>
+                          </div>
+                        )}
+                        {index === 2 && <Paragraph>{item.expiry}</Paragraph>}
+                        {index === 3 && <Paragraph>{item.address}</Paragraph>}
+                      </td>
+                    ))}
                     <td
-                      className={`flex `}
+                      className={`flex  gap-2`}
                       style={{ width: calculateWidthSize() }}
                     >
-                      {index === 0 && <Paragraph>{item.name}</Paragraph>}
-                      {index === 1 && (
-                        <div className="flex items-center gap-2">
-                          {getIconBrand(item.brand)}
-                          <Paragraph>**** **** **** {item.last4}</Paragraph>
-                        </div>
-                      )}
-                      {index === 2 && (
-                        <Paragraph>{item.cardExpiration}</Paragraph>
-                      )}
-                      {index === 3 && (
-                        <Paragraph>{item.billingAddress}</Paragraph>
-                      )}
+                      <button
+                        onClick={() => handleDeleteItem(item.id)}
+                        className="bg-none border-none rounded-full hover:bg-primary hover:text-white p-1"
+                      >
+                        <Trash
+                          size={20}
+                          className="text-primary hover:text-white"
+                        />
+                      </button>
                     </td>
-                  ))}
-                  <td
-                    className={`flex  gap-2`}
-                    style={{ width: calculateWidthSize() }}
-                  >
-                    <button
-                      onClick={() => handleDeleteItem(item.id)}
-                      className="bg-none border-none rounded-full hover:bg-primary hover:text-white p-1"
-                    >
-                      <Trash
-                        size={20}
-                        className="text-primary hover:text-white"
-                      />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                  </tr>
+                ))}
             </tbody>
           </table>
         </>
@@ -121,12 +119,18 @@ export const TablePaymentMethods = ({
 const getIconBrand = (brand: string) => {
   return (
     <>
-      {brand === 'visa' && <Image src={VisaIcon} alt="" width={26} />}
-      {brand === 'elo' && <Image src={EloIcon} alt="" width={26} />}
-      {brand === 'mastercard' && (
+      {brand.toLowerCase() === "visa" && (
+        <Image src={VisaIcon} alt="" width={26} />
+      )}
+      {brand.toLowerCase() === "elo" && (
+        <Image src={EloIcon} alt="" width={26} />
+      )}
+      {brand.toLowerCase() === "mastercard" && (
         <Image src={MasterCardIcon} alt="" width={26} />
       )}
-      {brand === 'hipercard' && <Image src={HiperCardIcon} alt="" width={26} />}
+      {brand.toLowerCase() === "hipercard" && (
+        <Image src={HiperCardIcon} alt="" width={26} />
+      )}
     </>
   );
 };

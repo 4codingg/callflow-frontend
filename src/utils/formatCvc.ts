@@ -37,7 +37,7 @@ export const formatCardExpiration = (ve) => {
   for (let i = 0; i < ve.length; i++) {
     formattedDate += ve[i];
     if (i === 1) {
-      formattedDate += " / "; // Adiciona uma barra após os dois primeiros dígitos (mês)
+      formattedDate += "/"; // Adiciona uma barra após os dois primeiros dígitos (mês)
     }
   }
 
