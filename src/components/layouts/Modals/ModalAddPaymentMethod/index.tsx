@@ -1,11 +1,11 @@
-import { ICreatePaymentMethodBody } from "@/@types/MethodPayment";
+import { ICreatePaymentMethodBody } from "@/@types/PaymentMethod";
 import { createPaymentMethod } from "@/api/wallet/createPaymentMethod";
 import { Button, ButtonVariant } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { Line } from "@/components/Line";
 import { Modal } from "@/components/Modal";
 import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { useCompany } from "@/hooks/useCompany";
+import { Spinner } from "@/components/Spinner";
 import {
   formatCardExpiration,
   formatCardNumber,
@@ -27,48 +27,61 @@ export const ModalAddPaymentMethod = ({
   setModalIsOpen,
   modalIsOpen,
 }: IModalAddPaymentMethod) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const { mutateAsync: createPaymentMethodFn } = useMutation({
     mutationFn: createPaymentMethod,
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const handleForm = async (body: ICreatePaymentMethodBody) => {
+
+  const handleCreatePaymentMethod = async (body) => {
     try {
       setIsLoading(true);
-      await createPaymentMethodFn({
+
+      const date = body.creditCard.expiry.split("/");
+      const expiryMonth = date[0];
+      const expiryYear = date[1];
+
+      const paymentMethod: ICreatePaymentMethodBody = {
         ...body,
+        creditCard: {
+          ...body.creditCard,
+          number: body.creditCard.number.replaceAll(" ", ""),
+          expiryMonth,
+          expiryYear,
+        },
+      };
+
+      await createPaymentMethodFn({
+        ...paymentMethod,
       });
 
-      toast("success", "Metodo de pagamento adicionado com sucesso");
+      resetForm();
+      setModalIsOpen(false);
+      toast("success", "Método de pagamento adicionado com sucesso!");
     } catch (error) {
       toast("error", "Erro ao criar membro.");
-      console.log(error);
+    } finally {
       setIsLoading(false);
     }
   };
 
-  const { values, handleSubmit, setFieldValue, getFieldProps } = useFormik({
-    initialValues: {
-      nickname: "",
-      remoteIp: "0000000",
-      creditCard: {
-        holderName: "",
-        number: "",
-        expiryMonth: "",
-        expiryYear: "",
-        ccv: "",
+  const { values, handleSubmit, setFieldValue, getFieldProps, resetForm } =
+    useFormik({
+      initialValues: {
+        nickname: "",
+        remoteIp: "0000000",
+        creditCard: {
+          holderName: "",
+          number: "",
+          expiry: "",
+          ccv: "",
+        },
+        creditCardHolderInfo: {
+          email: "",
+        },
       },
-      creditCardHolderInfo: {
-        name: "",
-        email: "",
-        cpfCnpj: "",
-        postalCode: "",
-        addressNumber: "",
-        address: "",
-        phone: "",
-      },
-    },
-    onSubmit: handleForm,
-  });
+      onSubmit: handleCreatePaymentMethod,
+    });
 
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
@@ -91,7 +104,7 @@ export const ModalAddPaymentMethod = ({
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <Cards
               cvc={values.creditCard.ccv}
-              expiry={values.creditCard.expiryYear}
+              expiry={values.creditCard.expiry}
               name={values.creditCard.holderName}
               number={values.creditCard.number}
             />
@@ -129,22 +142,22 @@ export const ModalAddPaymentMethod = ({
             />
             <div className="flex gap-4">
               <Input
-                {...getFieldProps("creditCard.expiryYear")}
+                {...getFieldProps("creditCard.expiry")}
                 onChange={(e) =>
                   setFieldValue(
-                    "creditCard.expiryYear",
+                    "creditCard.expiry",
                     formatCardExpiration(e.target.value)
                   )
                 }
-                value={values.creditCard.expiryYear}
-                placeholder="MM / YYYY"
+                value={values.creditCard.expiry}
+                placeholder="MM/YYYY"
                 maxLength={9}
                 disableError
               />
               <Input
-                {...getFieldProps("creditCard.cvc")}
+                {...getFieldProps("creditCard.ccv")}
                 onChange={(e) =>
-                  setFieldValue("creditCard.cvc", formatCvc(e.target.value))
+                  setFieldValue("creditCard.ccv", formatCvc(e.target.value))
                 }
                 placeholder="CVC"
                 maxLength={3}
@@ -164,8 +177,9 @@ export const ModalAddPaymentMethod = ({
                 leftIcon={<CheckCircle size={24} />}
                 type="submit"
                 className="!w-[109px] !h-[48px] font-medium"
+                disabled={isLoading}
               >
-                Salvar
+                {isLoading ? <Spinner /> : "Salvar"}
               </Button>
             </section>
           </form>

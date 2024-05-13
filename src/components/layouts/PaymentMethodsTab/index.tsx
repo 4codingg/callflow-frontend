@@ -5,7 +5,6 @@ import { Line } from "@/components/Line";
 import { Paragraph } from "@/components/Paragraph";
 
 import { ArrowRight, FloppyDisk, PlusCircle } from "phosphor-react";
-import { useRouter } from "next/router";
 import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
 import { useState } from "react";
 import { ModalAddBalance } from "../Modals/ModalAddBalance";
@@ -16,22 +15,16 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
   const [pendingPaymentMethod, setPendingPaymentMethod] = useState("");
   const [modalAddBalanceIsOpen, setModalAddBalanceIsOpen] = useState(false);
 
-  const router = useRouter();
-
   const handleChangePaymentMethod = (paymentMethodId: string) => {
     setPendingPaymentMethod(paymentMethodId);
   };
 
-  const { data: methodsPaymentList } = useQuery({
+  const { data: methodsPayments } = useQuery({
     queryKey: ["/transactions/get-company-payment-methods"],
     queryFn: () => getCompanyPaymentMethods(),
   });
-  const paymentMethodId =
-    methodsPaymentList && methodsPaymentList.length > 0
-      ? methodsPaymentList[0].id?.toString()
-      : null;
 
-  const handleSave = () => {};
+  const handleSavePaymentMethodAsDefault = () => {};
 
   return (
     <div className="mt-4 flex flex-col gap-4">
@@ -65,15 +58,14 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         <Line className="my-4 mb-6" />
         <div className="flex gap-4 items-center flex-row justify-start">
           <DropdownPaymentMethods
-            options={methodsPaymentList}
-            value={paymentMethodId}
+            options={methodsPayments}
             onValueChange={handleChangePaymentMethod}
           />
           <Button
             disabled={!pendingPaymentMethod}
             className="!w-[100px] !h-[40px] font-normal !text-xs"
             rightIcon={<FloppyDisk color="#FFF" size={20} />}
-            onClick={handleSave}
+            onClick={handleSavePaymentMethodAsDefault}
           >
             Salvar
           </Button>
@@ -95,7 +87,7 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         </Paragraph>
         <Line className="my-4" />
         <div className="mt-4">
-          <TablePaymentMethods paymentMethods={methodsPaymentList} />
+          <TablePaymentMethods paymentMethods={methodsPayments} />
         </div>
       </Card>
       <ModalAddBalance

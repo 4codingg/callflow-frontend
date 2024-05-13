@@ -1,4 +1,4 @@
-import { creditCardMethods } from "@/@types/MethodPayment";
+import { creditCardMethods } from "@/@types/PaymentMethod";
 import api from "@/services/axios";
 
 export async function getCompanyPaymentMethods() {

@@ -1,4 +1,4 @@
-import { ICreatePaymentMethodBody } from "@/@types/MethodPayment";
+import { ICreatePaymentMethodBody } from "@/@types/PaymentMethod";
 import api from "@/services/axios";
 
 export async function createPaymentMethod(body: ICreatePaymentMethodBody) {

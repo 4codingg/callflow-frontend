@@ -74,19 +74,15 @@ export const TablePaymentMethods = ({
                         className={`flex `}
                         style={{ width: calculateWidthSize() }}
                       >
-                        {index === 0 && <Paragraph>{item.name}</Paragraph>}
+                        {index === 0 && <Paragraph>{item.nickname}</Paragraph>}
                         {index === 1 && (
                           <div className="flex items-center gap-2">
                             {getIconBrand(item.brand)}
                             <Paragraph>**** **** **** {item.last4}</Paragraph>
                           </div>
                         )}
-                        {index === 2 && (
-                          <Paragraph>{item.cardExpiration}</Paragraph>
-                        )}
-                        {index === 3 && (
-                          <Paragraph>{item.billingAddress}</Paragraph>
-                        )}
+                        {index === 2 && <Paragraph>{item.expiry}</Paragraph>}
+                        {index === 3 && <Paragraph>{item.address}</Paragraph>}
                       </td>
                     ))}
                     <td
@@ -123,12 +119,18 @@ export const TablePaymentMethods = ({
 const getIconBrand = (brand: string) => {
   return (
     <>
-      {brand === "visa" && <Image src={VisaIcon} alt="" width={26} />}
-      {brand === "elo" && <Image src={EloIcon} alt="" width={26} />}
-      {brand === "mastercard" && (
+      {brand.toLowerCase() === "visa" && (
+        <Image src={VisaIcon} alt="" width={26} />
+      )}
+      {brand.toLowerCase() === "elo" && (
+        <Image src={EloIcon} alt="" width={26} />
+      )}
+      {brand.toLowerCase() === "mastercard" && (
         <Image src={MasterCardIcon} alt="" width={26} />
       )}
-      {brand === "hipercard" && <Image src={HiperCardIcon} alt="" width={26} />}
+      {brand.toLowerCase() === "hipercard" && (
+        <Image src={HiperCardIcon} alt="" width={26} />
+      )}
     </>
   );
 };
