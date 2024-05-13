@@ -1,16 +1,31 @@
-import { Button, Input } from "@/components";
+import { createCompanyMember } from "@/api/members/create-company-member";
+import { Button, Input, Spinner } from "@/components";
 import { ESignupStep } from "@/constants/signup";
+import { useCompany } from "@/hooks/useCompany";
 import { formatPhone } from "@/utils/formatPhone";
 import { toast } from "@/utils/toast";
 import { validationSchemaAboutUserSignupStep } from "@/validation/signup";
+import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
-import { Dispatch, SetStateAction } from "react";
+import { useRouter } from "next/router";
+import { Dispatch, SetStateAction, useState } from "react";
 
+interface ICreateCompanyMemberBody {
+  email: string;
+  password: string;
+  name: string;
+  phone: string;
+  companyId: string;
+}
 interface IAboutUserStepProps {
   setActiveStep: Dispatch<SetStateAction<ESignupStep>>;
 }
 
 export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const { companyDetail } = useCompany();
+  const router = useRouter();
+
   const formik = useFormik({
     validateOnChange: false,
     validateOnBlur: true,
@@ -20,20 +35,33 @@ export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
       phone: "",
       password: "",
       confirmedPassword: "",
+      companyId: "",
     },
     validationSchema: validationSchemaAboutUserSignupStep,
-    onSubmit: (values) => handleAuth(values),
+    onSubmit: (values) => handleCreateCompanyMember(values),
   });
 
-  const handleAuth = async (values) => {
+  const { mutateAsync: createCompanyMemberFn } = useMutation({
+    mutationFn: createCompanyMember,
+  });
+
+  const handleCreateCompanyMember = async (body: ICreateCompanyMemberBody) => {
     try {
-      console.log(values);
+      setIsLoading(true);
+      await createCompanyMemberFn({
+        ...body,
+        companyId: companyDetail.id,
+      });
       setActiveStep(ESignupStep.Confirmation);
+      toast("success", "Membro criado com sucesso");
+      router.push("/login");
     } catch (error) {
       toast(
         "error",
         "Ocorreu um erro durante a autenticação. Por favor, tente novamente."
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -44,7 +72,6 @@ export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
         type="text"
         label="Nome"
         className=" !font-semibold px-4 py-[10px]"
-        error={formik.errors?.name as string}
         {...formik.getFieldProps("name")}
       />
       <Input
@@ -52,7 +79,6 @@ export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
         type="text"
         label="E-mail"
         className=" !font-semibold px-4 py-[10px]"
-        error={formik.errors?.email as string}
         {...formik.getFieldProps("email")}
       />
       <Input
@@ -60,7 +86,6 @@ export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
         type="text"
         label="Telefone"
         className=" !font-semibold px-4 py-[10px]"
-        error={formik.errors?.phone as string}
         {...formik.getFieldProps("phone")}
         onChange={(e) => {
           const formattedValue = formatPhone(e.target.value);
@@ -73,7 +98,6 @@ export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
         type="text"
         label="Senha"
         className=" !font-semibold px-4 py-[10px]"
-        error={formik.errors?.password as string}
         {...formik.getFieldProps("password")}
       />
       <Input
@@ -81,16 +105,15 @@ export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
         type="text"
         label="Confirmar Senha"
         className=" !font-semibold px-4 py-[10px]"
-        error={formik.errors?.confirmedPassword as string}
         {...formik.getFieldProps("confirmedPassword")}
       />
 
       <Button
         className="!rounded-md !font-poppins !font-medium mt-2 !h-10 "
         type="submit"
-        onClick={() => {}}
+        disabled={isLoading}
       >
-        Criar conta
+        {isLoading ? <Spinner /> : "Criar conta"}
       </Button>
     </form>
   );
