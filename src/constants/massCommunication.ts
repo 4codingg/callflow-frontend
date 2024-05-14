@@ -50,3 +50,17 @@ export const FUNCTION_MASS_COMMUNICATION = {
   call: sendCallMass,
   email: sendEmailMass,
 };
+
+export const MOCK_COST_REPORT = {
+  contacts: {
+    length: 50,
+    costByMessage: 1.00,
+    totalCost: 50
+  },
+  bonus: {
+    length: 20,
+    costByMessage: 1.00,
+    totalCost: 20
+  },
+  total: 30.00
+};

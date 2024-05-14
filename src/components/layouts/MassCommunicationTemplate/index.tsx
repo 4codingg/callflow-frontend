@@ -32,6 +32,7 @@ import {
   LABELS_MASS_COMMUNICATION,
 } from "@/constants/massCommunication";
 import { MassCommunicationModalMessage } from "./MassCommunicationModalMessage";
+import { CostReports } from "../Modals/ModalCostReport";
 
 export const MassCommunicationTemplate = ({
   type,
@@ -40,6 +41,7 @@ export const MassCommunicationTemplate = ({
   const [modalMessageIsOpen, setModalMessageIsOpen] = useState(false);
   const [modalConfirmMessageIsOpen, setModalConfirmMessageIsOpen] =
     useState(false);
+  const [modalCostReportIsOpen, setModalCostReportIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [contactsListDetail, setContactsListDetail] =
     useState<GetContactsListDetailResponse>({
@@ -210,7 +212,10 @@ export const MassCommunicationTemplate = ({
                       </Paragraph>
                     </div>
                   </div>
-                  <button className="flex items-center gap-4">
+                  <button
+                    className="flex items-center gap-4"
+                    onClick={() => setModalCostReportIsOpen(true)}
+                  >
                     <Paragraph className="text-primary">
                       Checar relatório de custo
                     </Paragraph>
@@ -273,6 +278,10 @@ export const MassCommunicationTemplate = ({
         setMessage={(value) => setFieldValue("message", value)}
         setSubject={(value) => setFieldValue("subject", value)}
         contactsListDetail={contactsListDetail}
+      />
+      <CostReports
+        modalIsOpen={modalCostReportIsOpen}
+        setModalIsOpen={setModalCostReportIsOpen}
       />
     </>
   );
