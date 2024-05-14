@@ -2,6 +2,7 @@ import { Button, ButtonVariant } from "@/components/Button";
 import { Line } from "@/components/Line";
 import { Modal } from "@/components/Modal";
 import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
+import { MOCK_COST_REPORT } from "@/constants/massCommunication";
 import { ArrowRight, XCircle } from "phosphor-react";
 import { Dispatch, SetStateAction } from "react";
 
@@ -9,33 +10,11 @@ interface IModalModalCostReportProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
 }
-interface MockProps {
-  id: number;
-  contatos: number;
-  costByMessage: number | string;
-  total: number;
-}
+
 export const CostReports = ({
   setModalIsOpen,
   modalIsOpen,
 }: IModalModalCostReportProps) => {
-  const MOCK_COST_REPORT = [
-    {
-      id: 1,
-      type: "contacts",
-      contato: 50,
-      costByMessage: "R$ 1 / mensagem",
-      total: 50,
-    },
-    {
-      id: 2,
-      type: "bonus",
-      contato: 20,
-      costByMessage: "bonus",
-      total: -20,
-    },
-  ];
-
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
       <Modal.Content className="min-w-[700px]">
@@ -54,23 +33,43 @@ export const CostReports = ({
             </Modal.Close>
           </header>
           <Line direction="horizontal" className="mt-4 mb-8" />
-          {MOCK_COST_REPORT.map((item) => (
-            <section
-              key={item.id}
-              className="w-full h-16 bg-primary opacity-50 flex justify-between items-center m-auto text-white border-b-2 px-20"
-            >
-              <div>{item.contato}</div>
-              <div>{item.costByMessage}</div>
-              <div>{item.total}</div>
-            </section>
-          ))}
-          <section className="w-full h-16 bg-primary opacity-50 flex justify-between items-center m-auto text-white border-b-2 px-20">
-            <div>Total</div>
-            <div> 30</div>
+          <section className="w-full h-16 bg-primary flex justify-between items-center text-white border-b border-white px-8">
+            <Paragraph className="text-white font-semibold">
+              {MOCK_COST_REPORT.contacts.length} contatos
+            </Paragraph>
+            <Paragraph className="text-white font-semibold w-[200px]">
+              R$ {MOCK_COST_REPORT.contacts.costByMessage} / mensagem
+            </Paragraph>
+            <Paragraph className="text-white font-semibold">
+              R$ {MOCK_COST_REPORT.contacts.totalCost}
+            </Paragraph>
+          </section>
+          <section className="w-full h-16 bg-primary flex justify-between items-center text-white border-b border-white px-8">
+            <Paragraph className="text-white font-semibold">
+              {MOCK_COST_REPORT.bonus.length} contatos
+            </Paragraph>
+            <Paragraph className="text-white font-semibold w-[200px]">
+              Bônus
+            </Paragraph>
+            <Paragraph className="text-white font-semibold">
+              R$ {MOCK_COST_REPORT.bonus.totalCost}
+            </Paragraph>
+          </section>
+          <section className="w-full h-16 bg-primary flex justify-between items-center text-white px-8">
+            <Paragraph className="text-white font-semibold">
+              Custo total
+            </Paragraph>
+            <Paragraph className="text-white font-semibold">
+              R$ {MOCK_COST_REPORT.total}
+            </Paragraph>
           </section>
 
           <section className="flex justify-end mt-8 ">
-            <Button type="button" className="text-xs font-normal !w-20 !h-12  ">
+            <Button
+              type="button"
+              className="text-xs font-normal !w-20 !h-12  "
+              onClick={() => setModalIsOpen(false)}
+            >
               OK <ArrowRight size={18} />
             </Button>
           </section>
