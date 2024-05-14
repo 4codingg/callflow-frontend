@@ -31,7 +31,12 @@ export const DropdownPaymentMethods = ({
   isLoading = false,
 }: DropdownPaymentMethodsProps) => {
   useEffect(() => {
-    onValueChange(options?.find((card) => card.default).id);
+    if (options && options.length > 0) {
+      const defaultCard = options.find((card) => card.default);
+      if (defaultCard) {
+        onValueChange(defaultCard.id);
+      }
+    }
   }, [options]);
 
   return (

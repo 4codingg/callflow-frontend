@@ -10,10 +10,13 @@ import { useState } from "react";
 import { ModalAddBalance } from "../Modals/ModalAddBalance";
 import { useQuery } from "@tanstack/react-query";
 import { getCompanyPaymentMethods } from "@/api/wallet/getCompanyPaymentMethods";
+import { useCompany } from "@/hooks/useCompany";
 
 export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
   const [pendingPaymentMethod, setPendingPaymentMethod] = useState("");
   const [modalAddBalanceIsOpen, setModalAddBalanceIsOpen] = useState(false);
+  const { companyDetail } = useCompany();
+  const Balance = companyDetail.balance;
 
   const handleChangePaymentMethod = (paymentMethodId: string) => {
     setPendingPaymentMethod(paymentMethodId);
@@ -40,7 +43,7 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
             <Paragraph className="!text-sm !text-default-grey">
               Saldo total
             </Paragraph>
-            <Paragraph className="font-medium !text-xl">R$ 103,13</Paragraph>
+            <Paragraph className="font-medium !text-xl">R$ {Balance}</Paragraph>
           </div>
         </div>
         <Button
