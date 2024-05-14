@@ -8,6 +8,7 @@ import { validationSchemaAboutUserSignupStep } from "@/validation/signup";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
+import { Eye, EyeClosed } from "phosphor-react";
 import { Dispatch, SetStateAction, useState } from "react";
 
 interface ICreateCompanyMemberBody {
@@ -23,6 +24,8 @@ interface IAboutUserStepProps {
 
 export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirmed, setShowPasswordConfirmed] = useState(false);
   const { companyDetail } = useCompany();
   const router = useRouter();
 
@@ -95,17 +98,59 @@ export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
 
       <Input
         placeholder="Digite sua senha"
-        type="text"
+        type={showPassword ? "text" : "password"}
         label="Senha"
         className=" !font-semibold px-4 py-[10px]"
         {...formik.getFieldProps("password")}
+        iconRight={
+          showPassword ? (
+            <Eye
+              className="cursor-pointer"
+              size={16}
+              onClick={(e) => {
+                e.preventDefault();
+                setShowPassword(!showPassword);
+              }}
+            />
+          ) : (
+            <EyeClosed
+              className="cursor-pointer"
+              size={16}
+              onClick={(e) => {
+                e.preventDefault();
+                setShowPassword(!showPassword);
+              }}
+            />
+          )
+        }
       />
       <Input
         placeholder="Confirme sua senha"
-        type="text"
+        type={showPasswordConfirmed ? "text" : "password"}
         label="Confirmar Senha"
         className=" !font-semibold px-4 py-[10px]"
         {...formik.getFieldProps("confirmedPassword")}
+        iconRight={
+          showPasswordConfirmed ? (
+            <Eye
+              className="cursor-pointer"
+              size={16}
+              onClick={(e) => {
+                e.preventDefault();
+                setShowPasswordConfirmed(!showPasswordConfirmed);
+              }}
+            />
+          ) : (
+            <EyeClosed
+              className="cursor-pointer"
+              size={16}
+              onClick={(e) => {
+                e.preventDefault();
+                setShowPasswordConfirmed(!showPasswordConfirmed);
+              }}
+            />
+          )
+        }
       />
 
       <Button
