@@ -16,9 +16,13 @@ import { Dispatch, SetStateAction, useState } from "react";
 
 interface IAboutCompanyStepProps {
   setActiveStep: Dispatch<SetStateAction<ESignupStep>>;
+  setCompanyId: Dispatch<SetStateAction<string>>;
 }
 
-export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
+export const AboutCompanyStep = ({
+  setActiveStep,
+  setCompanyId,
+}: IAboutCompanyStepProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik({
@@ -39,6 +43,7 @@ export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
     validationSchema: validationSchemaAboutCompanySignupStep,
     onSubmit: (values) => handleCreateCompany(values),
   });
+
   const { mutateAsync: createCompanyFn } = useMutation({
     mutationFn: createCompany,
   });
@@ -46,9 +51,10 @@ export const AboutCompanyStep = ({ setActiveStep }: IAboutCompanyStepProps) => {
   const handleCreateCompany = async (body: ICreateCompanyBody) => {
     try {
       setIsLoading(true);
-      await createCompanyFn({
+      const { companyId } = await createCompanyFn({
         ...body,
       });
+      setCompanyId(companyId);
       toast("success", "Empresa criada com sucesso");
       setActiveStep(ESignupStep.AboutUser);
     } catch (error) {

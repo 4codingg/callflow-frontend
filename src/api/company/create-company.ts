@@ -17,5 +17,5 @@ export interface ICreateCompanyBody {
 
 export async function createCompany(body: ICreateCompanyBody) {
   const response = await api.post(`/company`, body);
-  return response.data as ICreateCompanyBody;
+  return response.data;
 }

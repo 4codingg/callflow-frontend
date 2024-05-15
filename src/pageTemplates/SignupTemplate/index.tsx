@@ -1,10 +1,8 @@
+import Link from "next/link";
 import { Heading, Logo, Paragraph } from "@/components";
 import { FormStep } from "@/components/FormStep";
 import { LogoVariant } from "@/components/Logo";
 import { ESignupStep } from "@/constants/signup";
-
-import Link from "next/link";
-
 import { useState } from "react";
 import { AboutCompanyStep } from "./AboutCompanyStep";
 import { AboutUserStep } from "./AboutUserStep";
@@ -59,10 +57,13 @@ export const SignupTemplate = () => {
         )}
 
         {activeStep === ESignupStep.AboutCompany && (
-          <AboutCompanyStep setActiveStep={setActiveStep} />
+          <AboutCompanyStep
+            setActiveStep={setActiveStep}
+            setCompanyId={setCompanyId}
+          />
         )}
         {activeStep === ESignupStep.AboutUser && (
-          <AboutUserStep setActiveStep={setActiveStep} />
+          <AboutUserStep setActiveStep={setActiveStep} companyId={companyId} />
         )}
         {activeStep === ESignupStep.Confirmation && (
           <ConfirmationStep setActiveStep={setActiveStep} />

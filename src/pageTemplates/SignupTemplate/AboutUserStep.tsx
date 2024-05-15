@@ -1,7 +1,6 @@
 import { createCompanyMember } from "@/api/members/create-company-member";
 import { Button, Input, Spinner } from "@/components";
 import { ESignupStep } from "@/constants/signup";
-import { useCompany } from "@/hooks/useCompany";
 import { formatPhone } from "@/utils/formatPhone";
 import { toast } from "@/utils/toast";
 import { validationSchemaAboutUserSignupStep } from "@/validation/signup";
@@ -19,11 +18,14 @@ interface ICreateCompanyMemberBody {
 }
 interface IAboutUserStepProps {
   setActiveStep: Dispatch<SetStateAction<ESignupStep>>;
+  companyId: string;
 }
 
-export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
+export const AboutUserStep = ({
+  setActiveStep,
+  companyId,
+}: IAboutUserStepProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const { companyDetail } = useCompany();
   const router = useRouter();
 
   const formik = useFormik({
@@ -50,7 +52,7 @@ export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
       setIsLoading(true);
       await createCompanyMemberFn({
         ...body,
-        companyId: companyDetail.id,
+        companyId: companyId,
       });
       setActiveStep(ESignupStep.Confirmation);
       toast("success", "Membro criado com sucesso");
