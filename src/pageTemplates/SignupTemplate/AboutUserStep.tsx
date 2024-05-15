@@ -3,7 +3,7 @@ import { Button, Input, Spinner } from "@/components";
 import { ESignupStep } from "@/constants/signup";
 import { useCompany } from "@/hooks/useCompany";
 import { formatPhone } from "@/utils/formatPhone";
-import { formatPhoneNumberForBackend } from "@/utils/formatPhoneNumberforBackend";
+import { removePhoneNumberMask } from "@/utils/removePhoneNumberMask";
 import { toast } from "@/utils/toast";
 import { validationSchemaAboutUserSignupStep } from "@/validation/signup";
 import { useMutation } from "@tanstack/react-query";
@@ -52,7 +52,7 @@ export const AboutUserStep = ({ setActiveStep }: IAboutUserStepProps) => {
       await createCompanyMemberFn({
         name: body.name,
         email: body.email,
-        phone: formatPhoneNumberForBackend(body.phone),
+        phone: removePhoneNumberMask(body.phone),
         password: body.password,
         companyId: companyDetail.id,
       });
