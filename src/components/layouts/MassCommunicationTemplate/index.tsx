@@ -153,12 +153,11 @@ export const MassCommunicationTemplate = ({
   return (
     <>
       <LayoutWithSidebar hiddenInput={true}>
-        {isValid && (
+        {isValid && values.message && values.destinationVariable && (
           <Button
             type="button"
             className=" !h-[48px] !w-[200px] rounded-2xl text-xs font-medium fixed bottom-16 right-16"
             onClick={handleConfirm}
-            // disabled={!isValid}
           >
             Enviar <Check size={18} color="#FFF" />
           </Button>
