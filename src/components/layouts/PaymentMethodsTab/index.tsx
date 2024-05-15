@@ -3,17 +3,18 @@ import { Card } from "@/components/Card";
 import { TablePaymentMethods } from "@/components/layouts/Tables/TablePaymentMethods";
 import { Line } from "@/components/Line";
 import { Paragraph } from "@/components/Paragraph";
-
 import { ArrowRight, FloppyDisk, PlusCircle } from "phosphor-react";
 import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
 import { useState } from "react";
 import { ModalAddBalance } from "../Modals/ModalAddBalance";
 import { useQuery } from "@tanstack/react-query";
 import { getCompanyPaymentMethods } from "@/api/wallet/getCompanyPaymentMethods";
+import { useCompany } from "@/hooks/useCompany";
 
 export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
   const [pendingPaymentMethod, setPendingPaymentMethod] = useState("");
   const [modalAddBalanceIsOpen, setModalAddBalanceIsOpen] = useState(false);
+  const { companyDetail } = useCompany();
 
   const handleChangePaymentMethod = (paymentMethodId: string) => {
     setPendingPaymentMethod(paymentMethodId);
@@ -40,7 +41,9 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
             <Paragraph className="!text-sm !text-default-grey">
               Saldo total
             </Paragraph>
-            <Paragraph className="font-medium !text-xl">R$ 103,13</Paragraph>
+            <Paragraph className="font-medium !text-xl">
+              R$ {companyDetail.balance}
+            </Paragraph>
           </div>
         </div>
         <Button
