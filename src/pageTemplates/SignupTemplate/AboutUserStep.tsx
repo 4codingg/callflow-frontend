@@ -67,7 +67,7 @@ export const AboutUserStep = ({
     } catch (error) {
       toast(
         "error",
-        "Ocorreu um erro durante a autenticação. Por favor, tente novamente."
+        "Ocorreu um erro durante a autenticação. Por favor, tente novamente!"
       );
     } finally {
       setIsLoading(false);
