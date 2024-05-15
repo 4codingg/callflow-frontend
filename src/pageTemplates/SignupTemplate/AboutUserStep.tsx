@@ -2,11 +2,13 @@ import { createCompanyMember } from "@/api/members/create-company-member";
 import { Button, Input, Spinner } from "@/components";
 import { ESignupStep } from "@/constants/signup";
 import { formatPhone } from "@/utils/formatPhone";
+import { removePhoneNumberMask } from "@/utils/removePhoneNumberMask";
 import { toast } from "@/utils/toast";
 import { validationSchemaAboutUserSignupStep } from "@/validation/signup";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
+import { Eye, EyeClosed } from "phosphor-react";
 import { Dispatch, SetStateAction, useState } from "react";
 
 interface ICreateCompanyMemberBody {
@@ -26,6 +28,8 @@ export const AboutUserStep = ({
   companyId,
 }: IAboutUserStepProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirmed, setShowPasswordConfirmed] = useState(false);
   const router = useRouter();
 
   const formik = useFormik({
@@ -51,8 +55,11 @@ export const AboutUserStep = ({
     try {
       setIsLoading(true);
       await createCompanyMemberFn({
-        ...body,
-        companyId: companyId,
+        name: body.name,
+        email: body.email,
+        phone: removePhoneNumberMask(body.phone),
+        password: body.password,
+        companyId,
       });
       setActiveStep(ESignupStep.Confirmation);
       toast("success", "Membro criado com sucesso");
@@ -97,17 +104,59 @@ export const AboutUserStep = ({
 
       <Input
         placeholder="Digite sua senha"
-        type="text"
+        type={showPassword ? "text" : "password"}
         label="Senha"
         className=" !font-semibold px-4 py-[10px]"
         {...formik.getFieldProps("password")}
+        iconRight={
+          showPassword ? (
+            <Eye
+              className="cursor-pointer"
+              size={16}
+              onClick={(e) => {
+                e.preventDefault();
+                setShowPassword(!showPassword);
+              }}
+            />
+          ) : (
+            <EyeClosed
+              className="cursor-pointer"
+              size={16}
+              onClick={(e) => {
+                e.preventDefault();
+                setShowPassword(!showPassword);
+              }}
+            />
+          )
+        }
       />
       <Input
         placeholder="Confirme sua senha"
-        type="text"
+        type={showPasswordConfirmed ? "text" : "password"}
         label="Confirmar Senha"
         className=" !font-semibold px-4 py-[10px]"
         {...formik.getFieldProps("confirmedPassword")}
+        iconRight={
+          showPasswordConfirmed ? (
+            <Eye
+              className="cursor-pointer"
+              size={16}
+              onClick={(e) => {
+                e.preventDefault();
+                setShowPasswordConfirmed(!showPasswordConfirmed);
+              }}
+            />
+          ) : (
+            <EyeClosed
+              className="cursor-pointer"
+              size={16}
+              onClick={(e) => {
+                e.preventDefault();
+                setShowPasswordConfirmed(!showPasswordConfirmed);
+              }}
+            />
+          )
+        }
       />
 
       <Button
