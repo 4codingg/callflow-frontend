@@ -1,4 +1,5 @@
 export interface ISubscription {
+  id: string
   name: "Free" | "Plus" | "Premium",
   value: IPlanSubscriptionValue
 }

@@ -63,7 +63,7 @@ export const AboutUserStep = ({
       });
       setActiveStep(ESignupStep.Confirmation);
       toast("success", "Membro criado com sucesso");
-      router.push("/login");
+      router.push("/");
     } catch (error) {
       toast(
         "error",

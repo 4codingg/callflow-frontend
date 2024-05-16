@@ -1,5 +1,5 @@
 import { ICreatePaymentMethodBody } from "@/@types/PaymentMethod";
-import { createPaymentMethod } from "@/api/wallet/createPaymentMethod";
+import { createPaymentMethod } from "@/api/wallet/create-payment-method";
 import { Button, ButtonVariant } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { Line } from "@/components/Line";

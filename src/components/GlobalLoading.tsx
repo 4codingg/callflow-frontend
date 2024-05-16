@@ -8,7 +8,7 @@ const GlobalLoading = () => {
 
   const { pathname } = useRouter();
 
-  const globalLoadingIsAble = !["/login", "/forgot-password"].includes(
+  const globalLoadingIsAble = !["/", "/forgot-password", "/signup"].includes(
     pathname
   );
 

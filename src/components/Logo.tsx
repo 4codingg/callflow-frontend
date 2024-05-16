@@ -1,16 +1,20 @@
-import clsx from 'clsx';
-import { PhoneIncoming } from 'phosphor-react';
-import { Paragraph } from './Paragraph';
+import clsx from "clsx";
+import { PhoneIncoming } from "phosphor-react";
+import { Paragraph } from "./Paragraph";
 
 export enum LogoVariant {
-  Dark = 'dark',
-  Light = 'light',
+  Dark = "dark",
+  Light = "light",
 }
 
-export const Logo = ({ variant }) => {
+interface ILogoProps {
+  variant?: LogoVariant;
+}
+
+export const Logo = ({ variant }: ILogoProps) => {
   const logoColorVariant = {
-    [LogoVariant.Dark]: '#000',
-    [LogoVariant.Light]: '#FFF',
+    [LogoVariant.Dark]: "#000",
+    [LogoVariant.Light]: "#FFF",
   };
 
   return (
@@ -21,17 +25,17 @@ export const Logo = ({ variant }) => {
         weight="bold"
       />
       <Paragraph
-        className={clsx('!text-[${logoColorVariant[variant]}]', {
-          'text-white': variant === LogoVariant.Light,
-          'text-black': variant === LogoVariant.Dark,
+        className={clsx("!text-[${logoColorVariant[variant]}]", {
+          "text-white": variant === LogoVariant.Light,
+          "text-black": variant === LogoVariant.Dark,
         })}
       >
         |
       </Paragraph>
       <span
-        className={clsx('text-base font-normal ', {
-          'text-white': variant === LogoVariant.Light,
-          'text-black': variant === LogoVariant.Dark,
+        className={clsx("text-base font-normal ", {
+          "text-white": variant === LogoVariant.Light,
+          "text-black": variant === LogoVariant.Dark,
         })}
       >
         call.flow

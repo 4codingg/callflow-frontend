@@ -6,8 +6,8 @@ import { Line } from "@/components/Line";
 import { Logo } from "@/components/Logo";
 import { Button } from "@chakra-ui/react";
 import { SignOut } from "phosphor-react";
-import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
+import { Paragraph } from "@/components/Paragraph";
 
 export const Sidebar = () => {
   const { pathname } = useRouter();
@@ -16,7 +16,7 @@ export const Sidebar = () => {
 
   return (
     <aside className="w-full h-full flex flex-col gap-4 items-center px-6 py-8 border-r border-muted shadow-sm">
-      {/* <Logo /> */}
+      <Logo />
       <Line />
       <div className="w-full flex flex-col items-center">
         <ul className="flex flex-col gap-4 mt-8">
@@ -39,12 +39,16 @@ export const Sidebar = () => {
               </Link>
             );
           })}
-          <section className=" mt-10">
-            <Button rightIcon={<SignOut size={22} />} onClick={handleSignOut}>
-              Sair
-            </Button>
-          </section>
         </ul>
+      </div>
+      <div className="mt-auto flex">
+        <button
+          className="flex items-center gap-2 border-b border-black"
+          onClick={handleSignOut}
+        >
+          <Paragraph>Sair</Paragraph>
+          <SignOut size={16} color="#000" />
+        </button>
       </div>
     </aside>
   );

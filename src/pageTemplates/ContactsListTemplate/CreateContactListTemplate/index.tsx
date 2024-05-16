@@ -16,6 +16,7 @@ import Information from "@/assets/icons/information-circle.svg";
 import Image from "next/image";
 import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
 import { EMassCommunication } from "@/constants/massCommunication";
+import { useCompany } from "@/hooks/useCompany";
 
 const crumbs = [
   {
@@ -33,7 +34,7 @@ export const CreateContactListTemplate = () => {
   const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { plan } = useAuth();
+  const { plan } = useCompany();
   const router = useRouter();
 
   const { mutateAsync: createContactsListFn, isPending } = useMutation({
@@ -41,10 +42,7 @@ export const CreateContactListTemplate = () => {
   });
 
   const handleConfirmCreateContactsList = async () => {
-    if (
-      plan.value !== IPlanSubscriptionValue.Free &&
-      !modalConfirmVariablesIsOpen
-    ) {
+    if (plan !== IPlanSubscriptionValue.Free && !modalConfirmVariablesIsOpen) {
       setModalConfirmVariablesIsOpen(true);
       return;
     }
@@ -107,9 +105,7 @@ export const CreateContactListTemplate = () => {
       name: "",
       inputVariableValue: "",
       variables:
-        plan.value === IPlanSubscriptionValue.Free
-          ? ["name", "email", "phone"]
-          : [],
+        plan === IPlanSubscriptionValue.Free ? ["name", "email", "phone"] : [],
     },
     onSubmit: handleConfirmCreateContactsList,
   });
@@ -118,7 +114,7 @@ export const CreateContactListTemplate = () => {
     <>
       <LayoutWithSidebar>
         <Breadcrumb crumbs={crumbs} />
-        {plan.value === IPlanSubscriptionValue.Free && (
+        {plan === IPlanSubscriptionValue.Free && (
           <Tipbox
             iconLeft={<Warning size={20} />}
             buttonRight={
@@ -156,7 +152,7 @@ export const CreateContactListTemplate = () => {
             onChange={handleChangeInput}
             onKeyDown={handleKeyDown}
             value={values.inputVariableValue}
-            disabled={plan.value === IPlanSubscriptionValue.Free}
+            disabled={plan === IPlanSubscriptionValue.Free}
           />
           <section className="flex gap-4">
             {values.variables.map((item, index) => (

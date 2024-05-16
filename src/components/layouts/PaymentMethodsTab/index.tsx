@@ -7,23 +7,16 @@ import { ArrowRight, FloppyDisk, PlusCircle } from "phosphor-react";
 import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
 import { useState } from "react";
 import { ModalAddBalance } from "../Modals/ModalAddBalance";
-import { useQuery } from "@tanstack/react-query";
-import { getCompanyPaymentMethods } from "@/api/wallet/getCompanyPaymentMethods";
 import { useCompany } from "@/hooks/useCompany";
 
 export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
   const [pendingPaymentMethod, setPendingPaymentMethod] = useState("");
   const [modalAddBalanceIsOpen, setModalAddBalanceIsOpen] = useState(false);
-  const { companyDetail } = useCompany();
+  const { companyDetail, paymentsMethods } = useCompany();
 
   const handleChangePaymentMethod = (paymentMethodId: string) => {
     setPendingPaymentMethod(paymentMethodId);
   };
-
-  const { data: methodsPayments } = useQuery({
-    queryKey: ["/transactions/get-company-payment-methods"],
-    queryFn: () => getCompanyPaymentMethods(),
-  });
 
   const handleSavePaymentMethodAsDefault = () => {};
 
@@ -61,7 +54,7 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         <Line className="my-4 mb-6" />
         <div className="flex gap-4 items-center flex-row justify-start">
           <DropdownPaymentMethods
-            options={methodsPayments}
+            options={paymentsMethods}
             onValueChange={handleChangePaymentMethod}
           />
           <Button
@@ -90,7 +83,7 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         </Paragraph>
         <Line className="my-4" />
         <div className="mt-4">
-          <TablePaymentMethods paymentMethods={methodsPayments} />
+          <TablePaymentMethods paymentMethods={paymentsMethods} />
         </div>
       </Card>
       <ModalAddBalance
