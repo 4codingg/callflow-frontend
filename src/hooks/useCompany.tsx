@@ -1,7 +1,10 @@
 import Company from "@/@types/Company";
+import { IPaymentMethod } from "@/@types/PaymentMethod";
+import { IPlanSubscriptionValue } from "@/@types/Subscription";
 import { getCompanyDetail } from "@/api/company/get-company-detail";
+import { getCompanyPaymentMethods } from "@/api/wallet/get-company-payments-methods";
 import { useQuery } from "@tanstack/react-query";
-import React, { createContext, ReactNode, useContext, useState } from "react";
+import React, { createContext, ReactNode, useContext } from "react";
 import { useAuth } from "./useAuth";
 
 export interface CompanyProviderProps {
@@ -10,6 +13,8 @@ export interface CompanyProviderProps {
 
 export interface CompanyContextDataProps {
   companyDetail: Company;
+  plan: IPlanSubscriptionValue;
+  paymentsMethods: IPaymentMethod[];
 }
 
 const CompanyContext = createContext<CompanyContextDataProps>(
@@ -24,10 +29,19 @@ export function CompanyContextProvider({ children }: CompanyProviderProps) {
     queryFn: getCompanyDetail,
   });
 
+  const { data: paymentsMethods } = useQuery({
+    queryKey: ["company-payment-methods"],
+    queryFn: () => getCompanyPaymentMethods(),
+  });
+
+  const plan = companyDetail?.plan || IPlanSubscriptionValue.Free;
+
   return (
     <CompanyContext.Provider
       value={{
         companyDetail,
+        plan,
+        paymentsMethods,
       }}
     >
       {children}

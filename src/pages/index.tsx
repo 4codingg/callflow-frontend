@@ -1,9 +1,12 @@
-import Link from 'next/link';
+import { LoginTemplate } from "@/pageTemplates/LoginTemplate";
+import { canSSRGuest } from "@/utils/canSSRGuest";
 
-const IndexPage = () => (
-  <div className="flex items-center w-full h-[100vh] justify-center z-[70]">
-    <Link href="/dashboard">Go to dashboard</Link>
-  </div>
-);
+const Login = () => <LoginTemplate />;
 
-export default IndexPage;
+export default Login;
+
+export const getServerSideProps = canSSRGuest(async (context) => {
+  return {
+    props: {},
+  };
+});

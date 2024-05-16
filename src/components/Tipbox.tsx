@@ -8,6 +8,7 @@ interface ITipboxProps {
   buttonRight?: ReactNode;
   disabled?: boolean;
   className?: string;
+  colorPalette?: "yellow";
 }
 
 export const Tipbox = ({
@@ -15,17 +16,34 @@ export const Tipbox = ({
   children,
   buttonRight,
   className,
+  colorPalette,
 }: ITipboxProps) => {
   return (
     <div
       className={clsx(
         "bg-light-primary flex gap-4 !w-full justify-between items-center rounded-3xl px-6 py-3",
-        className
+        className,
+        {
+          "!bg-[#c1bafd]": colorPalette === "yellow",
+        }
       )}
     >
       <section className="flex gap-4 items-center">
-        <div className="text-primary">{iconLeft}</div>
-        <Paragraph className=" text-primary "> {children} </Paragraph>
+        <div
+          className={clsx("text-primary", {
+            "text-[#2411d3]": colorPalette === "yellow",
+          })}
+        >
+          {iconLeft}
+        </div>
+        <Paragraph
+          className={clsx("text-primary", {
+            "text-[#2411d3]": colorPalette === "yellow",
+          })}
+        >
+          {" "}
+          {children}{" "}
+        </Paragraph>
       </section>
       {buttonRight}
     </div>

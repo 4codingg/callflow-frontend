@@ -20,6 +20,7 @@ interface DropdownPaymentMethodsProps {
   options: IPaymentMethod[];
   placeholder?: string;
   isLoading?: boolean;
+  className?: string;
 }
 
 export const DropdownPaymentMethods = ({
@@ -29,6 +30,7 @@ export const DropdownPaymentMethods = ({
   label,
   placeholder = "Select",
   isLoading = false,
+  className,
 }: DropdownPaymentMethodsProps) => {
   useEffect(() => {
     if (options && options.length > 0) {
@@ -38,8 +40,9 @@ export const DropdownPaymentMethods = ({
       }
     }
   }, [options]);
+
   return (
-    <Label name={label} className="max-w-[350px]">
+    <Label name={label} className={clsx("max-w-[350px]", className)}>
       <Select.Root
         defaultValue={value}
         value={value}
@@ -47,7 +50,7 @@ export const DropdownPaymentMethods = ({
       >
         <Select.Trigger
           className={clsx(
-            "p-3 text-sm font-poppins h-[40px] max-w-[350px] flex justify-between items-center rounded-lg border border-muted shadow-sm"
+            "p-3 text-sm font-poppins h-[40px] w-full flex justify-between items-center rounded-lg border border-muted shadow-sm"
           )}
           aria-label={label}
         >
@@ -60,7 +63,7 @@ export const DropdownPaymentMethods = ({
           <Select.Content
             position="popper"
             side="bottom"
-            className="bg-white p-4 flex flex-row border border-neutral-grey rounded z-20 min-w-[350px] max-h-[300px]"
+            className="bg-white p-4 flex flex-row border border-neutral-grey rounded z-[10000] min-w-[350px] max-h-[300px]"
           >
             <Select.Viewport className="text-neutral-darkest font-poppins">
               <Select.Group>

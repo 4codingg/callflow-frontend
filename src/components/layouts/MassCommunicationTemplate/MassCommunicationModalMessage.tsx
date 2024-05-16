@@ -32,7 +32,7 @@ export const MassCommunicationModalMessage = ({
           setModalIsOpen={setModalIsOpen}
           variables={contactsListDetail?.variables}
           exampleItem={
-            !!contactsListDetail?.contacts.length &&
+            !!contactsListDetail?.contacts?.length &&
             contactsListDetail?.contacts[0]
           }
           message={message}
@@ -45,7 +45,7 @@ export const MassCommunicationModalMessage = ({
           setModalIsOpen={setModalIsOpen}
           variables={contactsListDetail?.variables}
           exampleItem={
-            !!contactsListDetail?.contacts.length &&
+            !!contactsListDetail?.contacts?.length &&
             contactsListDetail?.contacts[0]
           }
           message={message}
@@ -58,7 +58,7 @@ export const MassCommunicationModalMessage = ({
           setModalIsOpen={setModalIsOpen}
           variables={contactsListDetail?.variables}
           exampleItem={
-            !!contactsListDetail?.contacts.length &&
+            !!contactsListDetail?.contacts?.length &&
             contactsListDetail?.contacts[0]
           }
           message={message}

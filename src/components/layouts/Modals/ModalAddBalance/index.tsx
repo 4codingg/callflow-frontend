@@ -1,15 +1,15 @@
-import { Button, ButtonVariant } from '@/components/Button';
-import { DropdownPaymentMethods } from '@/components/DropdownPaymentMethods';
-import { Line } from '@/components/Line';
-import { Modal } from '@/components/Modal';
-import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
+import { Button, ButtonVariant } from "@/components/Button";
+import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
+import { Line } from "@/components/Line";
+import { Modal } from "@/components/Modal";
+import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
 import {
   MOCK_ADD_BALANCE,
   MOCK_PAYMENTS_METHODS,
-} from '@/constants/tabsWallet';
+} from "@/constants/tabsWallet";
 
-import { CheckCircle, X, XCircle } from 'phosphor-react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { CheckCircle, X, XCircle } from "phosphor-react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 interface IModalAddBalance {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;

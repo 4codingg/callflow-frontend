@@ -9,8 +9,6 @@ import Empty from "@/assets/empty-state.png";
 export const RecentActivitiesTemplate = () => {
   const { companyDetail } = useCompany();
 
-  companyDetail.communicationsHistory = [];
-
   return (
     <Card className="flex flex-col flex-1 w-full">
       <header className="flex justify-between items-center">

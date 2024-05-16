@@ -77,13 +77,14 @@ export const MassCommunicationTemplate = ({
   });
 
   const handleChangeContactsList = async (contactsListId: string) => {
+    console.log("==> ", contactsListId);
     setFieldValue("contactsListId", contactsListId);
 
     setIsLoading(true);
     try {
       const response = await getContactsListDetail({ contactsListId });
 
-      const formattedContacts = response.contacts.map((contact) => {
+      const formattedContacts = response.contacts?.map((contact) => {
         return {
           ...contact.data,
           id: contact.id,
@@ -148,7 +149,7 @@ export const MassCommunicationTemplate = ({
       };
     }) || [];
 
-  const contactsListDetailIsEmpty = !contactsListDetail?.variables.length;
+  const contactsListDetailIsEmpty = !contactsListDetail?.variables?.length;
 
   return (
     <>
@@ -225,7 +226,7 @@ export const MassCommunicationTemplate = ({
             )}
           </section>
           <div className="flex">
-            {contactsListDetail.contacts.length == 0 ? (
+            {contactsListDetail?.contacts?.length == 0 ? (
               <div className="flex w-full justify-center mt-16">
                 <EmptyState
                   description="Nenhuma lista foi selecionada, selecione para enviar suas mensagens"
@@ -245,7 +246,7 @@ export const MassCommunicationTemplate = ({
                 <Line className="my-4" />
                 <div className="mt-4">
                   <TableDefault
-                    content={contactsListDetail?.contacts}
+                    content={contactsListDetail?.contacts || []}
                     disableEditItem
                     disableAccessItem
                     disableDeleteItem

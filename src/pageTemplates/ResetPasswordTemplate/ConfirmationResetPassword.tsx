@@ -26,7 +26,7 @@ export const ConfirmationResetPassword = () => {
         />
         <Button
           className="!rounded-md !font-poppins !font-medium mt-16"
-          onClick={() => router.push("/login")}
+          onClick={() => router.push("/")}
         >
           OK
         </Button>

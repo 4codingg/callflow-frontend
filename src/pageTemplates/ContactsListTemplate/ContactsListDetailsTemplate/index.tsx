@@ -30,6 +30,9 @@ import { TableContacts } from "@/components/layouts/Tables/TableContacts";
 import { toast } from "@/utils/toast";
 import { deleteContact } from "@/api/contactsList/delete-contact-item";
 import { useGlobalLoading } from "@/hooks/useGlobalLoading";
+import { useCompany } from "@/hooks/useCompany";
+import { IPlanSubscriptionValue } from "@/@types/Subscription";
+import { formatResultsToFreePlanFormat } from "@/utils/formatResultsToFreePlanFormat";
 
 export const ContactsListDetailsTemplate = () => {
   const [modalAddItemContactListIsOpen, setModalAddItemContactListIsOpen] =
@@ -43,6 +46,7 @@ export const ContactsListDetailsTemplate = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { setGlobalLoading } = useGlobalLoading();
+  const { plan } = useCompany();
   const contactsListId = router.query.id as string;
 
   const { mutateAsync: updateContactsListFn } = useMutation({
@@ -65,7 +69,12 @@ export const ContactsListDetailsTemplate = () => {
 
   const handleUploadAccepted = (resultsFromCsv: any[]) => {
     for (const res of resultsFromCsv) {
-      const resultsFormatted = formatCsvToJson(res.data);
+      let resultsFormatted = formatCsvToJson(res.data);
+
+      if (plan === IPlanSubscriptionValue.Free) {
+        resultsFormatted = formatResultsToFreePlanFormat(resultsFormatted);
+      }
+
       setPendingDocuments((prevResults) => [
         ...prevResults,
         ...resultsFormatted,
@@ -128,13 +137,13 @@ export const ContactsListDetailsTemplate = () => {
 
   useEffect(() => {
     if (contactsListDetail) {
-      const arr = contactsListDetail.contacts.map((contact) => {
+      const arr = contactsListDetail.contacts?.map((contact) => {
         return {
           ...contact.data,
           id: contact.id,
         };
       });
-      setResults(arr);
+      setResults(arr || []);
     }
   }, [contactsListDetail]);
 
@@ -202,7 +211,7 @@ export const ContactsListDetailsTemplate = () => {
             de um arquivo CSV.
           </Paragraph>
         </section>
-        {results.length == 0 ? (
+        {results?.length === 0 ? (
           <div className="flex mt-6 items-center justify-center">
             <EmptyState
               icon={Empty}
@@ -214,7 +223,7 @@ export const ContactsListDetailsTemplate = () => {
           <>
             <div className="mt-4">
               <TableContacts
-                content={results}
+                content={results || []}
                 pendingDocuments={pendingDocuments}
                 handleDeleteItem={(id) => handleDeleteContactItem(id)}
               />
@@ -222,7 +231,7 @@ export const ContactsListDetailsTemplate = () => {
             <Button
               className="mt-8 !w-[160px] mx-auto font-light flex"
               onClick={handleSave}
-              disabled={!!pendingDocuments}
+              disabled={!pendingDocuments.length}
             >
               Salvar lista
               <CheckCircle size={22} color="#FFF" />

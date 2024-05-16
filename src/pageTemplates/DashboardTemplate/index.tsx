@@ -17,15 +17,14 @@ import { useCompany } from "@/hooks/useCompany";
 import { useRouter } from "next/router";
 
 export const DashboardTemplate = () => {
-  const { plan } = useAuth();
-  const { companyDetail } = useCompany();
+  const { companyDetail, plan } = useCompany();
   const router = useRouter();
 
   return (
     <LayoutWithSidebar>
       {companyDetail ? (
         <>
-          {plan.value === IPlanSubscriptionValue.Free && (
+          {plan === IPlanSubscriptionValue.Free && (
             <Tipbox
               iconLeft={<Warning size={20} />}
               buttonRight={

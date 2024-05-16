@@ -5,6 +5,7 @@ import { getProfile } from "@/api/auth/get-profile";
 import api from "@/services/axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
 import React, {
   createContext,
   ReactNode,
@@ -21,7 +22,6 @@ export interface AuthProviderProps {
 
 export interface AuthContextDataProps {
   isAuthenticated: boolean;
-  plan: ISubscription;
   userDetail: User;
   handleSignIn: (email: string, password: string) => Promise<void>;
   handleSignOut: () => void;
@@ -32,9 +32,6 @@ const AuthContext = createContext<AuthContextDataProps>(
 );
 
 export function AuthContextProvider({ children }: AuthProviderProps) {
-  const [plan, setPlan] = useState({
-    value: IPlanSubscriptionValue.Premium,
-  } as ISubscription);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const queryClient = useQueryClient();
 
@@ -59,11 +56,12 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
   }, [isPending]);
 
   const validateUserSession = useCallback(async () => {
-    const token = localStorage.getItem("@CF-Token");
+    const { "@cf.token": token } = parseCookies();
+    api.defaults.headers["Authorization"] = `Bearer ${token}`;
 
     if (token) {
       try {
-        api.defaults.headers.common["authorization"] = `Bearer ${token}`;
+        api.defaults.headers["Authorization"] = `Bearer ${token}`;
         const data = await refetch();
         if (data.isSuccess) {
           setIsAuthenticated(true);
@@ -81,21 +79,26 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
   }, []);
 
   const handleSignOut = () => {
-    localStorage.removeItem("@CF-Token");
+    destroyCookie(undefined, "@cf.token");
     queryClient.invalidateQueries({
-      queryKey: ["company-detail", isAuthenticated],
+      queryKey: ["company-detail", "user-detail", isAuthenticated],
     });
-    router.push("/login");
+    router.push("/");
   };
 
   const handleSignIn = async (email: string, password: string) => {
     try {
       const { token } = await authenticateFn({ email, password });
 
-      localStorage.setItem("@CF-Token", token);
-      api.defaults.headers.common["authorization"] = `Bearer ${token}`;
+      setCookie(undefined, "@cf.token", token, {
+        maxAge: 60 * 60 * 24 * 30,
+        path: "/",
+      });
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
       setIsAuthenticated(true);
+      validateUserSession();
     } catch (err) {
+      handleSignOut();
       throw err;
     }
   };
@@ -104,7 +107,6 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
     <AuthContext.Provider
       value={{
         isAuthenticated,
-        plan,
         userDetail,
         handleSignIn,
         handleSignOut,
