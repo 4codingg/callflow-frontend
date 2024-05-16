@@ -8,6 +8,8 @@ import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
 import { useState } from "react";
 import { ModalAddBalance } from "../Modals/ModalAddBalance";
 import { useCompany } from "@/hooks/useCompany";
+import { EmptyState } from "@/components/EmptyState";
+import Empty from "@/assets/empty-state.png";
 
 export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
   const [pendingPaymentMethod, setPendingPaymentMethod] = useState("");
@@ -35,7 +37,7 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
               Saldo total
             </Paragraph>
             <Paragraph className="font-medium !text-xl">
-              R$ {companyDetail.balance}
+              R$ {companyDetail?.balance}
             </Paragraph>
           </div>
         </div>
@@ -83,7 +85,17 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         </Paragraph>
         <Line className="my-4" />
         <div className="mt-4">
-          <TablePaymentMethods paymentMethods={paymentsMethods} />
+          {paymentsMethods?.length == 0 ? (
+            <EmptyState
+              description="Ainda não temos  nenhuma forma de pagamento registrada"
+              textButton="Adicionar forma de pagamento "
+              actionButton={() => setModalAddPaymentMethodIsOpen(true)}
+              title="Sem metódo de pagamento"
+              icon={Empty}
+            />
+          ) : (
+            <TablePaymentMethods paymentMethods={paymentsMethods} />
+          )}
         </div>
       </Card>
       <ModalAddBalance
