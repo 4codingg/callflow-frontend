@@ -29,6 +29,8 @@ export const ModalConfirmPlan = ({
     setPaymentMethodId(id);
   };
 
+  function handleAssignSubscription() {}
+
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
       <Modal.Content className="min-w-[430px]">
@@ -92,6 +94,7 @@ export const ModalConfirmPlan = ({
               leftIcon={<CheckCircle size={24} />}
               type="submit"
               className="!w-[109px] !h-[48px] font-medium"
+              onClick={() => handleAssignSubscription}
             >
               Salvar
             </Button>
