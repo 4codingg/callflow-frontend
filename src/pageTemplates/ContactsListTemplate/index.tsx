@@ -13,6 +13,7 @@ import { TableContactsList } from "@/components/layouts/Tables/TableContactsList
 import { deleteContactsList } from "@/api/contactsList/delete-contacts-list";
 import { queryClient } from "@/services/react-query";
 import Empty from "@/assets/empty-state.png";
+import { toast } from "@/utils/toast";
 
 export const ContactsListTemplate = () => {
   const router = useRouter();
@@ -31,6 +32,11 @@ export const ContactsListTemplate = () => {
 
   const handleDeleteContactsList = async (contactsListId: string) => {
     await deleteContactsListFn({ contactsListId });
+    try {
+      toast("success", "lista deletada com sucesso");
+    } catch {
+      toast("error", "Algo deu errado");
+    }
   };
 
   return (
