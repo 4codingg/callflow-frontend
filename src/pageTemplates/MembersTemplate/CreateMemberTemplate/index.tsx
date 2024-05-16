@@ -3,6 +3,7 @@ import { Breadcrumb, LayoutWithSidebar, Button, Input } from "@/components";
 import { useCompany } from "@/hooks/useCompany";
 import { useGlobaLoading } from "@/hooks/useGlobalLoading";
 import { schemaCreateMember } from "@/schemas/members";
+import { formatPhone } from "@/utils/formatPhone";
 import { toast } from "@/utils/toast";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
@@ -58,7 +59,7 @@ export const CreateMemberTemplate = () => {
     },
   ];
 
-  const { handleSubmit, getFieldProps } = useFormik({
+  const { handleSubmit, getFieldProps, setFieldValue } = useFormik({
     initialValues: {
       name: "",
       email: "",
@@ -90,6 +91,7 @@ export const CreateMemberTemplate = () => {
           label="Telefone"
           placeholder="Digite a seu telefone"
           {...getFieldProps("phone")}
+          onChange={(e) => setFieldValue("phone", formatPhone(e.target.value))}
         />
 
         <Input

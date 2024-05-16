@@ -4,13 +4,19 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Line } from "@/components/Line";
 import { Logo } from "@/components/Logo";
+import { Button } from "@chakra-ui/react";
+import { SignOut } from "phosphor-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
 
 export const Sidebar = () => {
   const { pathname } = useRouter();
 
+  const { handleSignOut } = useAuth();
+
   return (
     <aside className="w-full h-full flex flex-col gap-4 items-center px-6 py-8 border-r border-muted shadow-sm">
-      <Logo />
+      {/* <Logo /> */}
       <Line />
       <div className="w-full flex flex-col items-center">
         <ul className="flex flex-col gap-4 mt-8">
@@ -33,6 +39,11 @@ export const Sidebar = () => {
               </Link>
             );
           })}
+          <section className=" mt-10">
+            <Button rightIcon={<SignOut size={22} />} onClick={handleSignOut}>
+              Sair
+            </Button>
+          </section>
         </ul>
       </div>
     </aside>

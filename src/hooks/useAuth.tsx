@@ -3,7 +3,7 @@ import User from "@/@types/User";
 import { authenticate } from "@/api/auth/authenticate";
 import { getProfile } from "@/api/auth/get-profile";
 import api from "@/services/axios";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import React, {
   createContext,
@@ -24,6 +24,7 @@ export interface AuthContextDataProps {
   plan: ISubscription;
   userDetail: User;
   handleSignIn: (email: string, password: string) => Promise<void>;
+  handleSignOut: () => void;
 }
 
 const AuthContext = createContext<AuthContextDataProps>(
@@ -35,6 +36,7 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
     value: IPlanSubscriptionValue.Premium,
   } as ISubscription);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const queryClient = useQueryClient();
 
   const { setGlobalLoading } = useGlobaLoading();
   const router = useRouter();
@@ -80,6 +82,9 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
 
   const handleSignOut = () => {
     localStorage.removeItem("@CF-Token");
+    queryClient.invalidateQueries({
+      queryKey: ["company-detail", isAuthenticated],
+    });
     router.push("/login");
   };
 
@@ -102,6 +107,7 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
         plan,
         userDetail,
         handleSignIn,
+        handleSignOut,
       }}
     >
       {children}
