@@ -10,8 +10,11 @@ import { PLANS_ROWS } from "@/constants/plans";
 import CheckImage from "@/assets/icons/Frame.png";
 
 import Image from "next/image";
+import { ModalConfirmPlan } from "@/components/layouts/Modals/ModalConfirmPlan";
+import { useState } from "react";
 
 export const PlansTemplate = () => {
+  const [modalConfirmPlanIsOpen, setModalConfirmPlanIsOpen] = useState(false);
   return (
     <LayoutWithSidebar>
       <Card className="p-0 ">
@@ -24,7 +27,11 @@ export const PlansTemplate = () => {
           </section>
           <section className="col-span-1 border-l pt-6 flex flex-col gap-4 justify-center items-center px-12">
             <Heading size={HeadingSizeVariant.ExtraLarge}>Grátis</Heading>
-            <Button className="h-[51px] w-56  mx-auto">
+            <Button
+              className="h-[51px] w-56  mx-auto"
+              onClick={() => setModalConfirmPlanIsOpen(true)}
+              type="button"
+            >
               Escolher esse Plano
             </Button>
           </section>
@@ -33,7 +40,10 @@ export const PlansTemplate = () => {
               R$ 21,99
               <span className="text-[#858BA0] font-medium text-sm "> /mês</span>
             </Heading>
-            <Button className="h-[51px] w-56 mx-auto">
+            <Button
+              className="h-[51px] w-56 mx-auto"
+              onClick={() => setModalConfirmPlanIsOpen(true)}
+            >
               Escolher esse Plano
             </Button>
           </section>
@@ -42,7 +52,10 @@ export const PlansTemplate = () => {
               R$ 44,99
               <span className="text-[#858BA0] font-medium text-sm "> /mês</span>
             </Heading>
-            <Button className="h-[51px] w-56 mx-auto">
+            <Button
+              className="h-[51px] w-56 mx-auto"
+              onClick={() => setModalConfirmPlanIsOpen(true)}
+            >
               Escolher esse Plano
             </Button>
           </section>
@@ -82,6 +95,10 @@ export const PlansTemplate = () => {
             );
           })}
         </section>
+        <ModalConfirmPlan
+          modalIsOpen={modalConfirmPlanIsOpen}
+          setModalIsOpen={setModalConfirmPlanIsOpen}
+        />
       </Card>
     </LayoutWithSidebar>
   );

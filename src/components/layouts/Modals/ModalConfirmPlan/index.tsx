@@ -11,15 +11,15 @@ import {
 import { CheckCircle, X, XCircle } from "phosphor-react";
 import { Dispatch, SetStateAction, useState } from "react";
 
-interface IModalAddBalance {
+interface IModalConfirmPlan {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
 }
 
-export const ModalAddBalance = ({
+export const ModalConfirmPlan = ({
   setModalIsOpen,
   modalIsOpen,
-}: IModalAddBalance) => {
+}: IModalConfirmPlan) => {
   const [paymentMethodId, setPaymentMethodId] = useState(
     MOCK_PAYMENTS_METHODS[0].id.toString()
   );
@@ -38,7 +38,7 @@ export const ModalAddBalance = ({
               size={ParagraphSizeVariant.Medium}
               className=" text-purple-secundary !font-medium "
             >
-              Adicionar saldo
+              Pronto para assinar?
             </Paragraph>
             <Modal.Close>
               <Button variant={ButtonVariant.iconOnly} className="!w-6 !h-6">
@@ -48,31 +48,33 @@ export const ModalAddBalance = ({
           </header>
           <Line direction="horizontal" className="mt-4" />
           <div className="flex flex-col mt-8 gap-8">
-            <DropdownPaymentMethods
-              options={MOCK_PAYMENTS_METHODS}
-              value={paymentMethodId}
-              onValueChange={handleChangePaymentMethod}
-            />
-            <div className="flex h-11 gap-2">
-              {MOCK_ADD_BALANCE.map((item) => {
-                return (
-                  <Button
-                    className=" rounded-sm !text-primary bg-white border-2"
-                    onClick={() => setValue(value + item)}
-                  >
-                    + R$ {item}
-                  </Button>
-                );
-              })}
-            </div>
+            <section>
+              <Paragraph className="!text-xs !text-black">
+                Ao confirmar sua assinatura, você desfrutará de todos os
+                benefícios do nosso plano
+                <span className=" font-bold text-primary"> Premium</span>. Esta
+                ação resultará em uma cobrança automática mensal.
+              </Paragraph>
+              <Paragraph className="!text-xs !text-black mt-1">
+                Deseja continuar?
+              </Paragraph>
+            </section>
 
             <section className="flex gap-2 h-20 items-center">
-              <Paragraph className=" text-primary !font-poppins !font-semibold !text-2xl">
+              <Paragraph className=" text-primary text-center !font-poppins !font-semibold !text-3xl">
                 R$
               </Paragraph>
-              <Paragraph className=" text-black !font-poppins !font-semibold !text-3xl">
-                {value},<span className="!text-xl"> 00 </span>
+              <Paragraph className=" text-black !font-poppins !font-semibold !text-5xl">
+                {value},<span className="!text-3xl"> 00 </span>
+                <span className="text-default-grey !text-xs"> /mês</span>
               </Paragraph>
+            </section>
+            <section className="flex justify-center items-center">
+              <DropdownPaymentMethods
+                options={MOCK_PAYMENTS_METHODS}
+                value={paymentMethodId}
+                onValueChange={handleChangePaymentMethod}
+              />
             </section>
           </div>
           <section className="flex justify-end items-center gap-4 mt-8">
