@@ -45,7 +45,7 @@ export const DropdownPaymentMethods = ({
   }, [options]);
 
   return (
-    <Label name={label} className={clsx("max-w-[350px]", className)}>
+    <Label name={label} className={clsx("w-full", className)}>
       <Select.Root
         defaultValue={value}
         value={value}

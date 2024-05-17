@@ -43,7 +43,7 @@ export const ModalConfirmPlan = ({
 
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
-      <Modal.Content className="min-w-[530px] min-h-[460px]">
+      <Modal.Content className="min-w-[530px]">
         <div className="bg-white py-4 ">
           <header className="flex justify-between items-center w-full flex-1">
             <Paragraph
