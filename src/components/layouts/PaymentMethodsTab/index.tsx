@@ -35,7 +35,7 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
               Saldo total
             </Paragraph>
             <Paragraph className="font-medium !text-xl">
-              R$ {companyDetail.balance}
+              R$ {companyDetail?.balance}
             </Paragraph>
           </div>
         </div>
