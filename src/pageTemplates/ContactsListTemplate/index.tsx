@@ -31,11 +31,11 @@ export const ContactsListTemplate = () => {
   });
 
   const handleDeleteContactsList = async (contactsListId: string) => {
-    await deleteContactsListFn({ contactsListId });
     try {
-      toast("success", "lista deletada com sucesso");
-    } catch {
-      toast("error", "Algo deu errado");
+      await deleteContactsListFn({ contactsListId });
+      toast("success", "Lista deletada com sucesso.");
+    } catch (err: any) {
+      toast("error", "Algo deu errado.");
     }
   };
 
