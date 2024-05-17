@@ -67,7 +67,7 @@ export const ModalAddPaymentMethod = ({
       setModalIsOpen(false);
       toast("success", "Método de pagamento adicionado com sucesso!");
     } catch (error) {
-      toast("error", "Erro ao criar membro.");
+      toast("error", "Erro ao adicionar método de pagamento.");
     } finally {
       setIsLoading(false);
     }

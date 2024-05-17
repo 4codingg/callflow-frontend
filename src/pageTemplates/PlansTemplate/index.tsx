@@ -38,7 +38,7 @@ export const PlansTemplate = () => {
             </Paragraph>
           </section>
 
-          {plans.map((plan) => {
+          {plans?.map((plan) => {
             const isActive = plan.id === currentCompanyPlan;
 
             return (
