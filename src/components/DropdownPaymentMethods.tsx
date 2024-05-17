@@ -16,7 +16,10 @@ import { IPaymentMethod } from "@/@types/PaymentMethod";
 interface DropdownPaymentMethodsProps {
   label?: string;
   value?: string;
-  onValueChange?: (e: string | ChangeEvent<any>) => void;
+  onValueChange?: (
+    e: string | ChangeEvent<any>,
+    isDefaultValue?: boolean
+  ) => void;
   options: IPaymentMethod[];
   placeholder?: string;
   isLoading?: boolean;
@@ -36,7 +39,7 @@ export const DropdownPaymentMethods = ({
     if (options && options.length > 0) {
       const defaultCard = options.find((card) => card.default);
       if (defaultCard) {
-        onValueChange(defaultCard.id);
+        onValueChange(defaultCard.id, true);
       }
     }
   }, [options]);
