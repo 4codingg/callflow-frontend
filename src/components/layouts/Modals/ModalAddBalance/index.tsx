@@ -3,10 +3,7 @@ import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
 import { Line } from "@/components/Line";
 import { Modal } from "@/components/Modal";
 import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import {
-  MOCK_ADD_BALANCE,
-  MOCK_PAYMENTS_METHODS,
-} from "@/constants/tabsWallet";
+import { MOCK_ADD_BALANCE, MOCK_PAYMENTS_METHODS } from "@/constants/wallet";
 
 import { CheckCircle, X, XCircle } from "phosphor-react";
 import { Dispatch, SetStateAction, useState } from "react";

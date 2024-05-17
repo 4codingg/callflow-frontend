@@ -1,6 +1,6 @@
-import clsx from 'clsx';
-import { Dispatch, SetStateAction } from 'react';
-import { Paragraph } from '@/components';
+import clsx from "clsx";
+import { Dispatch, SetStateAction } from "react";
+import { Paragraph } from "@/components";
 
 export interface ITabProps {
   options: string[];
@@ -19,7 +19,7 @@ export const Tabs = ({
 }: ITabProps) => {
   return (
     <>
-      <div className={clsx('flex w-full cursor-pointer', divStyle)}>
+      <div className={clsx("flex w-full cursor-pointer", divStyle)}>
         {options.map((option) => {
           const isActive = optionActive === option;
           return (
@@ -27,21 +27,28 @@ export const Tabs = ({
               onClick={() => onClick(option)}
               key={option}
               className={clsx(
-                'flex flex-col w-full mt-4 justify-center items-center',
-                tabDivStyle
+                "flex flex-col w-full mt-4 justify-center items-center pt-1 ",
+                tabDivStyle,
+                {
+                  "hover:bg-default-grey hover:bg-opacity-10 hover:rounded-lg":
+                    !isActive,
+                }
               )}
             >
               <Paragraph
-                className={clsx('text-dark-grey font-normal', {
-                  '!font-bold !text-primary': isActive,
-                })}
+                className={clsx(
+                  "text-dark-grey font-normal whitespace-nowrap",
+                  {
+                    "!font-bold !text-primary": isActive,
+                  }
+                )}
               >
                 {option}
               </Paragraph>
               <div
-                className={clsx('mt-2 w-full', {
-                  'bg-primary h-[2px]': isActive,
-                  'bg-neutral-light-grey h-[1px]': !isActive,
+                className={clsx("mt-2 w-full", {
+                  "bg-primary h-[2px]": isActive,
+                  "bg-neutral-light-grey h-[1px]": !isActive,
                 })}
               />
             </div>

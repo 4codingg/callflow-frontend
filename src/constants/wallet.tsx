@@ -1,17 +1,5 @@
 import { IPaymentMethod } from "@/@types/PaymentMethod";
 
-export enum ETabsWallet {
-  Plan = "Plano",
-  PaymentMethods = "Métodos de pagamentos",
-  PaymentHistory = "Histórico de pagamentos",
-}
-
-export const TABS_WALLET = [
-  ETabsWallet.PaymentMethods,
-  ETabsWallet.Plan,
-  ETabsWallet.PaymentHistory,
-];
-
 export const MOCK_PAYMENTS_METHODS: IPaymentMethod[] = [
   {
     id: "1",

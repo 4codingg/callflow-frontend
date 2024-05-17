@@ -6,17 +6,14 @@ import {
 } from "@/components";
 import { useState } from "react";
 import { Tabs } from "@/components/Tabs";
-import {
-  ETabsWallet,
-  MOCK_PAYMENTS_HISTORY,
-  TABS_WALLET,
-} from "@/constants/tabsWallet";
+import { MOCK_PAYMENTS_HISTORY } from "@/constants/wallet";
 import { MyPlanTab } from "@/components/layouts/MyPlanTab";
 import { TablePaymentsHistory } from "@/components/layouts/Tables/TablePaymentsHistory";
 import { PaymentMethodsTab } from "@/components/layouts/PaymentMethodsTab";
 import "react-credit-cards/es/styles-compiled.css";
 import { ModalAddPaymentMethod } from "@/components/layouts/Modals/ModalAddPaymentMethod";
 import Empty from "@/assets/empty-state.png";
+import { ETabsWallet, TABS_WALLET } from "@/constants/tabs";
 
 export const WalletTemplate = () => {
   const [modalAddPaymentMethodIsOpen, setModalAddPaymentMethodIsOpen] =
@@ -33,9 +30,7 @@ export const WalletTemplate = () => {
             acompanhe seus gastos.
           </Paragraph>
 
-          <div className="mt-6"></div>
-
-          <div className="w-3/6 mt-4">
+          <div className="w-3/4 mt-4">
             <Tabs
               options={TABS_WALLET}
               optionActive={tabActive}
