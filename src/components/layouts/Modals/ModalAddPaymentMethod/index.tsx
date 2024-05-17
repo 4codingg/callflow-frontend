@@ -11,11 +11,12 @@ import {
   formatCardNumber,
   formatCvc,
 } from "@/utils/formatCvc";
+import { generateRandomEmail } from "@/utils/generateRandomEmail";
 import { toast } from "@/utils/toast";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { CheckCircle, CreditCard, Person, X, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Cards from "react-credit-cards";
 
 interface IModalAddPaymentMethod {
@@ -29,8 +30,15 @@ export const ModalAddPaymentMethod = ({
 }: IModalAddPaymentMethod) => {
   const [isLoading, setIsLoading] = useState(false);
 
+  const queryClient = useQueryClient();
+
   const { mutateAsync: createPaymentMethodFn } = useMutation({
     mutationFn: createPaymentMethod,
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["company-payment-methods"],
+      });
+    },
   });
 
   const handleCreatePaymentMethod = async (body) => {
@@ -59,7 +67,7 @@ export const ModalAddPaymentMethod = ({
       setModalIsOpen(false);
       toast("success", "Método de pagamento adicionado com sucesso!");
     } catch (error) {
-      toast("error", "Erro ao criar membro.");
+      toast("error", "Erro ao adicionar método de pagamento.");
     } finally {
       setIsLoading(false);
     }
@@ -82,6 +90,17 @@ export const ModalAddPaymentMethod = ({
       },
       onSubmit: handleCreatePaymentMethod,
     });
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") {
+      setFieldValue("nickname", "Jane Doe BLUE");
+      setFieldValue("creditCardHolderInfo.email", generateRandomEmail());
+      setFieldValue("creditCard.holderName", "Jane Doe");
+      setFieldValue("creditCard.number", "4444 4444 4444 4444");
+      setFieldValue("creditCard.expiry", "12 / 2026");
+      setFieldValue("creditCard.ccv", "321");
+    }
+  }, []);
 
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>

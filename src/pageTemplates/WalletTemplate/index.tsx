@@ -4,7 +4,6 @@ import {
   LayoutWithSidebar,
   Paragraph,
 } from "@/components";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import { Tabs } from "@/components/Tabs";
 import {
@@ -23,8 +22,6 @@ export const WalletTemplate = () => {
   const [modalAddPaymentMethodIsOpen, setModalAddPaymentMethodIsOpen] =
     useState(false);
   const [tabActive, setTabActive] = useState(TABS_WALLET[0]);
-
-  const router = useRouter();
 
   return (
     <>
