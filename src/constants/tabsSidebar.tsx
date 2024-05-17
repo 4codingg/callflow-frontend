@@ -4,6 +4,7 @@ import {
   Cube,
   Envelope,
   PhoneIncoming,
+  UserCircle,
   Users,
   UsersThree,
   Wallet,
@@ -64,6 +65,13 @@ export const TABS_SIDEBAR = [
     route: "/metrics",
     icon: (isActive) => (
       <Cube size={20} color={isActive ? "#783EFD" : "#000"} />
+    ),
+  },
+  {
+    title: "Conta",
+    route: "/account",
+    icon: (isActive) => (
+      <UserCircle size={20} color={isActive ? "#783EFD" : "#000"} />
     ),
   },
 ];
