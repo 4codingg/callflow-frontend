@@ -80,9 +80,8 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
 
   const handleSignOut = () => {
     destroyCookie(undefined, "@cf.token");
-    queryClient.invalidateQueries({
-      queryKey: ["company-detail", "user-detail", isAuthenticated],
-    });
+    api.defaults.headers["Authorization"] = "";
+    invalidateUserLoggedQueries();
     router.push("/");
   };
 
@@ -90,6 +89,7 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
     try {
       const { token } = await authenticateFn({ email, password });
 
+      invalidateUserLoggedQueries();
       setCookie(undefined, "@cf.token", token, {
         maxAge: 60 * 60 * 24 * 30,
         path: "/",
@@ -101,6 +101,10 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
       handleSignOut();
       throw err;
     }
+  };
+
+  const invalidateUserLoggedQueries = () => {
+    queryClient.invalidateQueries();
   };
 
   return (

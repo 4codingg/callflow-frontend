@@ -9,7 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { Eye, EyeClosed } from "phosphor-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface ICreateCompanyMemberBody {
   email: string;
@@ -73,6 +73,16 @@ export const AboutUserStep = ({
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") {
+      formik.setFieldValue("name", "Jane Doe");
+      formik.setFieldValue("email", "janedoe@gmail.com");
+      formik.setFieldValue("phone", "(81) 99169-3706");
+      formik.setFieldValue("password", "jane123");
+      formik.setFieldValue("confirmedPassword", "jane123");
+    }
+  }, []);
 
   return (
     <form className="w-[400px] mt-6 gap-4" onSubmit={formik.handleSubmit}>

@@ -8,11 +8,12 @@ import { ESignupStep } from "@/constants/signup";
 import { formatCEP } from "@/utils/formatCEP";
 import { formatCNPJ } from "@/utils/formatCNPJ";
 import { formatStringToNumber } from "@/utils/formatStringToNumber";
+import { generateRandomEmail } from "@/utils/generateRandomEmail";
 import { toast } from "@/utils/toast";
 import { validationSchemaAboutCompanySignupStep } from "@/validation/signup";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface IAboutCompanyStepProps {
   setActiveStep: Dispatch<SetStateAction<ESignupStep>>;
@@ -38,7 +39,7 @@ export const AboutCompanyStep = ({
         zipcode: "",
       },
       quantityEmployers: 1 as number,
-      type: "dev",
+      type: "development-software",
     },
     validationSchema: validationSchemaAboutCompanySignupStep,
     onSubmit: (values) => handleCreateCompany(values),
@@ -66,6 +67,17 @@ export const AboutCompanyStep = ({
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") {
+      formik.setFieldValue("name", "Jane Doe");
+      formik.setFieldValue("email", generateRandomEmail());
+      formik.setFieldValue("address.address", "Janelandy Avenue 123");
+      formik.setFieldValue("address.number", 12);
+      formik.setFieldValue("address.zipcode", "50680-230");
+      formik.setFieldValue("type", "development-software");
+    }
+  }, []);
 
   return (
     <form className="w-[400px] mt-5" onSubmit={formik.handleSubmit}>
