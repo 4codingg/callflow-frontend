@@ -29,7 +29,7 @@ export const ModalConfirmPlan = ({
   };
 
   useEffect(() => {
-    if (paymentsMethods.length) {
+    if (paymentsMethods?.length) {
       const defaultPaymentMethod = paymentsMethods.find(
         (paymentMethod) => paymentMethod.default
       );
@@ -39,7 +39,7 @@ export const ModalConfirmPlan = ({
 
   function handleAssignSubscription() {}
 
-  const existsPaymentMethods = !!paymentsMethods.length;
+  const existsPaymentMethods = !!paymentsMethods?.length;
 
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
@@ -69,11 +69,11 @@ export const ModalConfirmPlan = ({
               </Paragraph>
             </section>
 
-            <Paragraph className="text-xl font-bold">
+            <Paragraph className="text-xl font-bold mt-8">
               Plano {planToConfirm?.name}
             </Paragraph>
 
-            <section className="flex gap-2 items-center">
+            <section className="flex gap-2 items-center ">
               <Paragraph className=" text-primary text-center !font-poppins !font-semibold !text-3xl">
                 R$
               </Paragraph>
@@ -82,7 +82,7 @@ export const ModalConfirmPlan = ({
                 <span className="text-default-grey !text-xs"> /mês</span>
               </Paragraph>
             </section>
-            <section className="flex justify-center items-center w-full">
+            <section className="flex justify-center items-center w-full mt-5">
               {existsPaymentMethods ? (
                 <DropdownPaymentMethods
                   options={paymentsMethods}
@@ -105,7 +105,7 @@ export const ModalConfirmPlan = ({
             </section>
           </div>
           {existsPaymentMethods && (
-            <section className="flex justify-end items-center gap-4 mt-8">
+            <section className="flex justify-end items-center gap-4 mt-12">
               <Button
                 leftIcon={<X size={24} />}
                 type="button"
