@@ -5,20 +5,31 @@ import { Line } from "@/components/Line";
 import { Paragraph } from "@/components/Paragraph";
 import { ArrowRight, FloppyDisk, PlusCircle } from "phosphor-react";
 import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ModalAddBalance } from "../Modals/ModalAddBalance";
 import { useCompany } from "@/hooks/useCompany";
+import { toast } from "@/utils/toast";
 
 export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
   const [pendingPaymentMethod, setPendingPaymentMethod] = useState("");
   const [modalAddBalanceIsOpen, setModalAddBalanceIsOpen] = useState(false);
   const { companyDetail, paymentsMethods } = useCompany();
+  const [defaultPaymentMethod, setDefaultPaymentMethod] = useState("");
 
   const handleChangePaymentMethod = (paymentMethodId: string) => {
     setPendingPaymentMethod(paymentMethodId);
   };
 
-  const handleSavePaymentMethodAsDefault = () => {};
+  const handleSavePaymentMethodAsDefault = async () => {
+    if (pendingPaymentMethod) {
+      try {
+        await setDefaultPaymentMethod(pendingPaymentMethod);
+        toast("success", "metodo padrão salvo com sucesso");
+      } catch (error) {
+        toast("error", "Falha ao  salvar o metodo padrão");
+      }
+    }
+  };
 
   return (
     <div className="mt-4 flex flex-col gap-4">
@@ -35,7 +46,7 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
               Saldo total
             </Paragraph>
             <Paragraph className="font-medium !text-xl">
-              R$ {companyDetail.balance}
+              R$ {companyDetail?.balance}
             </Paragraph>
           </div>
         </div>
@@ -56,6 +67,9 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
           <DropdownPaymentMethods
             options={paymentsMethods}
             onValueChange={handleChangePaymentMethod}
+            value={
+              defaultPaymentMethod ? defaultPaymentMethod : pendingPaymentMethod
+            }
           />
           <Button
             disabled={!pendingPaymentMethod}
