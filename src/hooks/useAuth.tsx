@@ -90,6 +90,9 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
     try {
       const { token } = await authenticateFn({ email, password });
 
+      queryClient.invalidateQueries({
+        queryKey: ["company-detail", "user-detail", isAuthenticated],
+      });
       setCookie(undefined, "@cf.token", token, {
         maxAge: 60 * 60 * 24 * 30,
         path: "/",

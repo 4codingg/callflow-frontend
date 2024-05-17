@@ -1,24 +1,68 @@
-import { Button } from "@/components/Button";
-import { Card } from "@/components/Card";
-import { TablePaymentMethods } from "@/components/layouts/Tables/TablePaymentMethods";
-import { Line } from "@/components/Line";
-import { Paragraph } from "@/components/Paragraph";
-import { ArrowRight, FloppyDisk, PlusCircle } from "phosphor-react";
-import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
 import { useState } from "react";
+import { ArrowRight, FloppyDisk, PlusCircle } from "phosphor-react";
+import { Button, Card, Line, Paragraph, Spinner } from "@/components";
+import { TablePaymentMethods } from "@/components/layouts/Tables/TablePaymentMethods";
+import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
 import { ModalAddBalance } from "../Modals/ModalAddBalance";
 import { useCompany } from "@/hooks/useCompany";
+import { toast } from "@/utils/toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateDefaultPaymentMethod } from "@/api/wallet/update-default-payment-method";
 
 export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
   const [pendingPaymentMethod, setPendingPaymentMethod] = useState("");
   const [modalAddBalanceIsOpen, setModalAddBalanceIsOpen] = useState(false);
-  const { companyDetail, paymentsMethods } = useCompany();
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [isLoading, setIsLoading] = useState({
+    paymentMethod: false,
+  });
 
-  const handleChangePaymentMethod = (paymentMethodId: string) => {
-    setPendingPaymentMethod(paymentMethodId);
+  const { companyDetail, paymentsMethods } = useCompany();
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: updateDefaultPaymentMethodFn } = useMutation({
+    mutationFn: updateDefaultPaymentMethod,
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["company-payment-methods"],
+      });
+    },
+  });
+
+  const handleChangePaymentMethod = (
+    paymentMethodId: string,
+    isDefaultValue?: boolean
+  ) => {
+    setPaymentMethod(paymentMethodId);
+
+    if (!isDefaultValue) {
+      setPendingPaymentMethod(paymentMethodId);
+    }
   };
 
-  const handleSavePaymentMethodAsDefault = () => {};
+  const handleSavePaymentMethodAsDefault = async () => {
+    setIsLoading({
+      ...isLoading,
+      paymentMethod: true,
+    });
+    try {
+      if (pendingPaymentMethod) {
+        await updateDefaultPaymentMethodFn({
+          paymentMethodId: pendingPaymentMethod,
+        });
+        setPaymentMethod(pendingPaymentMethod);
+        setPendingPaymentMethod("");
+        toast("success", "Método de pagamento padrão atualizado com sucesso!");
+      }
+    } catch (error) {
+      toast("error", "Falha ao atualizar o método de pagamento padrão.");
+    } finally {
+      setIsLoading({
+        ...isLoading,
+        paymentMethod: false,
+      });
+    }
+  };
 
   return (
     <div className="mt-4 flex flex-col gap-4">
@@ -56,14 +100,15 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
           <DropdownPaymentMethods
             options={paymentsMethods}
             onValueChange={handleChangePaymentMethod}
+            value={paymentMethod}
           />
           <Button
-            disabled={!pendingPaymentMethod}
             className="!w-[100px] !h-[40px] font-normal !text-xs"
             rightIcon={<FloppyDisk color="#FFF" size={20} />}
             onClick={handleSavePaymentMethodAsDefault}
+            disabled={!pendingPaymentMethod || isLoading.paymentMethod}
           >
-            Salvar
+            {isLoading.paymentMethod ? <Spinner /> : "Salvar"}
           </Button>
         </div>
         <Button
