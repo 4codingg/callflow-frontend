@@ -10,6 +10,7 @@ import Empty from "@/assets/empty-state.png";
 import { toast } from "@/utils/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateDefaultPaymentMethod } from "@/api/wallet/update-default-payment-method";
+import { Label } from "recharts";
 
 export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
   const [pendingPaymentMethod, setPendingPaymentMethod] = useState("");
@@ -101,19 +102,25 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         </Paragraph>
         <Line className="my-4 mb-6" />
         <div className="flex gap-4 items-center flex-row justify-start">
-          <DropdownPaymentMethods
-            options={paymentsMethods}
-            onValueChange={handleChangePaymentMethod}
-            value={paymentMethod}
-          />
-          <Button
-            className="!w-[100px] !h-[40px] font-normal !text-xs"
-            rightIcon={<FloppyDisk color="#FFF" size={20} />}
-            onClick={handleSavePaymentMethodAsDefault}
-            disabled={!pendingPaymentMethod || isLoading.paymentMethod}
-          >
-            {isLoading.paymentMethod ? <Spinner /> : "Salvar"}
-          </Button>
+          {paymentMethod.length == 0 ? (
+            <Paragraph> Você não adicionou métodos de pagamentos.</Paragraph>
+          ) : (
+            <>
+              <DropdownPaymentMethods
+                options={paymentsMethods}
+                onValueChange={handleChangePaymentMethod}
+                value={paymentMethod}
+              />
+              <Button
+                className="!w-[100px] !h-[40px] font-normal !text-xs"
+                rightIcon={<FloppyDisk color="#FFF" size={20} />}
+                onClick={handleSavePaymentMethodAsDefault}
+                disabled={!pendingPaymentMethod || isLoading.paymentMethod}
+              >
+                {isLoading.paymentMethod ? <Spinner /> : "Salvar"}
+              </Button>
+            </>
+          )}
         </div>
         <Button
           className="!w-[260px] h-[40px] font-normal !text-xs mt-6"
