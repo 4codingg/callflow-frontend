@@ -22,7 +22,7 @@ export const ModalAddBalance = ({
 
   const { paymentsMethods } = useCompany();
 
-  const defaultPaymentMethod = paymentsMethods.find(
+  const defaultPaymentMethod = paymentsMethods?.find(
     (item) => item.default === true
   );
 
@@ -47,7 +47,7 @@ export const ModalAddBalance = ({
           <div className="flex flex-col mt-8 gap-8">
             <PreviewPaymentMethod
               paymentMethods={paymentsMethods}
-              value={defaultPaymentMethod.id}
+              value={defaultPaymentMethod?.id}
             />
             <div className="flex h-11 gap-2">
               {MOCK_ADD_BALANCE.map((item) => {

@@ -37,6 +37,8 @@ export const PreviewPaymentMethod = ({
       setDefaultCard(defaultCard);
     }
   }, [paymentMethods]);
+
+  console.log(defaultCard);
   return (
     <Label name={label} className={clsx("w-full", className)}>
       <Select.Root defaultValue={value} value={value}>
