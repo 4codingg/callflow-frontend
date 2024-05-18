@@ -6,7 +6,7 @@ export const validationSchemaAccountUser = Yup.object().shape({
     .email("Digite um e-mail válido")
     .required("Campo obrigatório"),
   phone: Yup.string()
-    .matches(/^\(\d{2}\) \d{5}-\d{4}$/, "Telefone inválido")
+    .matches(/^\+\d{1,3}\d{1,14}$/, "Telefone inválido")
     .required("Campo obrigatório"),
 });
 
