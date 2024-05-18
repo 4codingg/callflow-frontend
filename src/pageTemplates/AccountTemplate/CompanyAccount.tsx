@@ -1,8 +1,30 @@
 import { Button, Card, Dropdown, Input, Line, Paragraph } from "@/components";
 import { COMPANY_TYPES } from "@/constants/contentCalls";
+import { useCompany } from "@/hooks/useCompany";
+import { validationSchemaAccountCompany } from "@/validation/account";
+import { useFormik } from "formik";
 import { CheckCircle } from "phosphor-react";
+import { useState } from "react";
 
 export const CompanyAccount = () => {
+  const { companyDetail } = useCompany();
+  const [companyDetailData, setcompanyDetailData] = useState(companyDetail);
+
+  const { handleSubmit, getFieldProps } = useFormik({
+    initialValues: {
+      name: companyDetailData?.name,
+      email: companyDetailData?.email,
+      CNPJ: companyDetailData?.CNPJ,
+      CEP: companyDetailData.address.zipcode,
+      type: companyDetail?.type,
+    },
+    validationSchema: validationSchemaAccountCompany,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
+
+  console.log(companyDetailData);
   return (
     <div className="mt-4">
       <Card>
