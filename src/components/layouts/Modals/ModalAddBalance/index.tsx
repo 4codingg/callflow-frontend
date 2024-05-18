@@ -26,6 +26,9 @@ export const ModalAddBalance = ({
     (item) => item.default === true
   );
 
+  function handleAddBalance(cost) {
+    console.log(cost);
+  }
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
       <Modal.Content className="min-w-[430px]">
@@ -86,6 +89,7 @@ export const ModalAddBalance = ({
               leftIcon={<CheckCircle size={24} />}
               type="submit"
               className="!w-[109px] !h-[48px] font-medium"
+              onClick={() => handleAddBalance(value)}
             >
               Salvar
             </Button>
