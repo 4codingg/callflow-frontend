@@ -3,23 +3,34 @@ import { useAuth } from "@/hooks/useAuth";
 import { validationSchemaAccountUser } from "@/validation/account";
 import { useFormik } from "formik";
 import { CheckCircle } from "phosphor-react";
-import { useState } from "react";
+import { useEffect } from "react";
 
 export const PersonalAccount = () => {
   const { userDetail } = useAuth();
-  const [userDetailData, setUserDataeilData] = useState(userDetail);
 
-  const { handleSubmit, getFieldProps } = useFormik({
-    initialValues: {
-      name: userDetailData?.name,
-      email: userDetailData?.email,
-      phone: userDetailData?.phone,
-    },
-    validationSchema: validationSchemaAccountUser,
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
+  const { handleSubmit, getFieldProps, setValues, dirty, setFieldValue } =
+    useFormik({
+      initialValues: {
+        name: userDetail?.name || "",
+        email: userDetail?.email || "",
+        phone: userDetail?.phone || "",
+      },
+      validationSchema: validationSchemaAccountUser,
+      onSubmit: (values) => {
+        console.log(values);
+      },
+    });
+
+  useEffect(() => {
+    if (userDetail) {
+      setValues({
+        name: userDetail.name,
+        email: userDetail.email,
+        phone: userDetail.phone,
+      });
+    }
+  }, [userDetail, setValues]);
+
   return (
     <div className="mt-4">
       <Card>
@@ -67,6 +78,7 @@ export const PersonalAccount = () => {
             className="!w-[230px] h-[40px] font-normal !text-xs mt-4"
             rightIcon={<CheckCircle color="#FFF" size={20} />}
             type="submit"
+            disabled={!dirty}
           >
             Salvar alterações
           </Button>
