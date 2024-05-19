@@ -1,13 +1,26 @@
 import { ISubscription } from "@/@types/Subscription";
+import {
+  IAssignSubscriptionBody,
+  assignSubscription,
+} from "@/api/subscriptions/assign-subscriptions";
 import { Button, ButtonVariant } from "@/components/Button";
 import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
 import { Line } from "@/components/Line";
 import { Modal } from "@/components/Modal";
 import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
 import { useCompany } from "@/hooks/useCompany";
+import { queryClient } from "@/services/react-query";
+import { toast } from "@/utils/toast";
+import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { ArrowRight, CheckCircle, X, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface IModalConfirmPlan {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -23,7 +36,7 @@ export const ModalConfirmPlan = ({
   const { paymentsMethods } = useCompany();
   const [paymentMethodId, setPaymentMethodId] = useState("");
   const [value, setValue] = useState(0);
-
+  const existsPaymentMethods = !!paymentsMethods?.length;
   const handleChangePaymentMethod = (id: string) => {
     setPaymentMethodId(id);
   };
@@ -37,9 +50,30 @@ export const ModalConfirmPlan = ({
     }
   }, [paymentsMethods]);
 
-  function handleAssignSubscription() {}
+  const { mutateAsync: assignSubscriptionFn } = useMutation({
+    mutationFn: assignSubscription,
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["company-detail"],
+      });
+    },
+  });
 
-  const existsPaymentMethods = !!paymentsMethods?.length;
+  const handleAssignSubscription = (body) => {
+    try {
+      assignSubscriptionFn({
+        ...body,
+      });
+      console.log(body);
+      toast("success", "Assinatura realizada com sucesso!");
+      setModalIsOpen(false);
+    } catch (error) {
+      toast(
+        "error",
+        "Ocorreu um erro ao realizar a assinatura. Tente novamente."
+      );
+    }
+  };
 
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
@@ -120,7 +154,7 @@ export const ModalConfirmPlan = ({
                 leftIcon={<CheckCircle size={24} />}
                 type="submit"
                 className="!w-[109px] !h-[48px] font-medium"
-                onClick={() => handleAssignSubscription}
+                onClick={() => handleAssignSubscription(planToConfirm.id)}
               >
                 Salvar
               </Button>

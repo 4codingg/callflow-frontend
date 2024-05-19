@@ -19,6 +19,8 @@ import { useRouter } from "next/router";
 export const DashboardTemplate = () => {
   const { companyDetail, plan } = useCompany();
   const router = useRouter();
+  console.log("company:", companyDetail);
+  console.log("PLAN:", plan);
 
   return (
     <LayoutWithSidebar>
