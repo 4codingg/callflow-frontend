@@ -11,7 +11,6 @@ import { BalanceCardTemplate } from "./BalanceCardTemplate";
 import { MembersCardTemplate } from "./MembersCardTemplate";
 import { Tipbox } from "@/components/Tipbox";
 import { ArrowRight, Warning } from "phosphor-react";
-import { useAuth } from "@/hooks/useAuth";
 import { IPlanSubscriptionValue } from "@/@types/Subscription";
 import { useCompany } from "@/hooks/useCompany";
 import { useRouter } from "next/router";
@@ -19,14 +18,12 @@ import { useRouter } from "next/router";
 export const DashboardTemplate = () => {
   const { companyDetail, plan } = useCompany();
   const router = useRouter();
-  console.log("company:", companyDetail);
-  console.log("PLAN:", plan);
 
   return (
     <LayoutWithSidebar>
       {companyDetail ? (
         <>
-          {plan === IPlanSubscriptionValue.Free && (
+          {plan.value === IPlanSubscriptionValue.Free && (
             <Tipbox
               iconLeft={<Warning size={20} />}
               buttonRight={

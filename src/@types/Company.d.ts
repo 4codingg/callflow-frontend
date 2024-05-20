@@ -1,7 +1,7 @@
 // company.d.ts
 
 import { ContactList } from "./ContactsList";
-import { IPlanSubscriptionValue } from "./Subscription";
+import { IPlanSubscriptionValue, ISubscription } from "./Subscription";
 
 interface CommunicationHistory {
   id: string;
@@ -57,7 +57,7 @@ interface Company {
   createdAt: string;
   updatedAt: string;
   addressId: string;
-  plan: IPlanSubscriptionValue
+  plan: ISubscription;
 
   address: Address;
   communicationsHistory: CommunicationHistory[];

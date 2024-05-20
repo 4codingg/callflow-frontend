@@ -61,6 +61,7 @@ export const ModalConfirmPlan = ({
 
   const handleAssignSubscription = (body) => {
     try {
+      console.log(body);
       assignSubscriptionFn({
         ...body,
       });
