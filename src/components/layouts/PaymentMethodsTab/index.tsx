@@ -10,7 +10,6 @@ import Empty from "@/assets/empty-state.png";
 import { toast } from "@/utils/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateDefaultPaymentMethod } from "@/api/wallet/update-default-payment-method";
-import { Label } from "recharts";
 
 export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
   const [pendingPaymentMethod, setPendingPaymentMethod] = useState("");
@@ -102,7 +101,7 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         </Paragraph>
         <Line className="my-4 mb-6" />
         <div className="flex gap-4 items-center flex-row justify-start">
-          {paymentMethod.length == 0 ? (
+          {paymentMethodsIsEmpty ? (
             <Paragraph> Você não adicionou métodos de pagamentos.</Paragraph>
           ) : (
             <>
