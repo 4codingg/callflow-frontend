@@ -4,7 +4,7 @@ import { useCompany } from "@/hooks/useCompany";
 import { validationSchemaAccountCompany } from "@/validation/account";
 import { useFormik } from "formik";
 import { CheckCircle } from "phosphor-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export const CompanyAccount = () => {
   const { companyDetail } = useCompany();
@@ -44,7 +44,6 @@ export const CompanyAccount = () => {
         type: companyDetail?.type,
       });
     }
-    console.log(companyDetail);
   }, [companyDetail, setValues]);
 
   return (
