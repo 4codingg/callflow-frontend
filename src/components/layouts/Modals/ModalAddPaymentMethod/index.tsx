@@ -193,9 +193,7 @@ export const ModalAddPaymentMethod = ({
                 leftIcon={<X size={24} />}
                 type="button"
                 className="!bg-grey-secundary !text-purple-secundary !w-[213px] !h-[48px] font-medium"
-                onClick={() => {
-                  handleDiscardChangesMethodPayment();
-                }}
+                onClick={handleDiscardChangesMethodPayment}
               >
                 Descartar Alterações
               </Button>
