@@ -14,13 +14,7 @@ import { toast } from "@/utils/toast";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { ArrowRight, CheckCircle, X, XCircle } from "phosphor-react";
-import {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface IModalConfirmPlan {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -35,7 +29,6 @@ export const ModalConfirmPlan = ({
 }: IModalConfirmPlan) => {
   const { paymentsMethods } = useCompany();
   const [paymentMethodId, setPaymentMethodId] = useState("");
-  const [value, setValue] = useState(0);
   const existsPaymentMethods = !!paymentsMethods?.length;
   const handleChangePaymentMethod = (id: string) => {
     setPaymentMethodId(id);
@@ -59,13 +52,11 @@ export const ModalConfirmPlan = ({
     },
   });
 
-  const handleAssignSubscription = (body) => {
+  const handleAssignSubscription = async (body: IAssignSubscriptionBody) => {
     try {
-      console.log(body);
-      assignSubscriptionFn({
+      await assignSubscriptionFn({
         ...body,
       });
-      console.log(body);
       toast("success", "Assinatura realizada com sucesso!");
       setModalIsOpen(false);
     } catch (error) {
@@ -105,7 +96,7 @@ export const ModalConfirmPlan = ({
             </section>
 
             <Paragraph className="text-xl font-bold mt-8">
-              Plano {planToConfirm?.name}
+              Plano {planToConfirm?.id}
             </Paragraph>
 
             <section className="flex gap-2 items-center ">
@@ -155,7 +146,9 @@ export const ModalConfirmPlan = ({
                 leftIcon={<CheckCircle size={24} />}
                 type="submit"
                 className="!w-[109px] !h-[48px] font-medium"
-                onClick={() => handleAssignSubscription(planToConfirm.id)}
+                onClick={() =>
+                  handleAssignSubscription({ type: planToConfirm.value })
+                }
               >
                 Salvar
               </Button>

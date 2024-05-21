@@ -63,7 +63,7 @@ export const DashboardTemplate = () => {
                         {dataService?.used}
                       </Paragraph>
                       <Paragraph className="!text-xs !text-default-grey">
-                        Seu limite gratuito:{" "}
+                        Seu limite gratuito
                         <span className="text-black">
                           {dataService?.freeLimit}
                         </span>

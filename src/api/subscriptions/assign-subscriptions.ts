@@ -6,5 +6,5 @@ export interface IAssignSubscriptionBody {
 
 export const assignSubscription = async (body: IAssignSubscriptionBody) => {
   const response = await api.post(`/subscription/assign`, body);
-  return response.data as IAssignSubscriptionBody;
+  return response.data;
 };

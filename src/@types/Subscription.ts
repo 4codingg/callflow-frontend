@@ -37,7 +37,7 @@ export interface ISubscription {
 }
 
 export enum IPlanSubscriptionValue {
-  Free = 'free',
-  Plus = 'plus',
-  Premium = 'premium',
+  Free = "free",
+  Plus = "plus",
+  Premium = "premium",
 }
