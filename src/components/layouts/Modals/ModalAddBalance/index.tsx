@@ -1,9 +1,10 @@
 import { Button, ButtonVariant } from "@/components/Button";
-import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
 import { Line } from "@/components/Line";
 import { Modal } from "@/components/Modal";
 import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { MOCK_ADD_BALANCE, MOCK_PAYMENTS_METHODS } from "@/constants/wallet";
+import { PreviewPaymentMethod } from "@/components/PrevieviewMethods";
+import { MOCK_ADD_BALANCE } from "@/constants/wallet";
+import { useCompany } from "@/hooks/useCompany";
 
 import { CheckCircle, X, XCircle } from "phosphor-react";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -17,15 +18,17 @@ export const ModalAddBalance = ({
   setModalIsOpen,
   modalIsOpen,
 }: IModalAddBalance) => {
-  const [paymentMethodId, setPaymentMethodId] = useState(
-    MOCK_PAYMENTS_METHODS[0].id.toString()
-  );
   const [value, setValue] = useState(0);
 
-  const handleChangePaymentMethod = (id: string) => {
-    setPaymentMethodId(id);
-  };
+  const { paymentsMethods } = useCompany();
 
+  const defaultPaymentMethod = paymentsMethods?.find(
+    (item) => item.default === true
+  );
+
+  function handleAddBalance(cost) {
+    console.log(cost);
+  }
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
       <Modal.Content className="min-w-[430px]">
@@ -45,10 +48,9 @@ export const ModalAddBalance = ({
           </header>
           <Line direction="horizontal" className="mt-4" />
           <div className="flex flex-col mt-8 gap-8">
-            <DropdownPaymentMethods
-              options={MOCK_PAYMENTS_METHODS}
-              value={paymentMethodId}
-              onValueChange={handleChangePaymentMethod}
+            <PreviewPaymentMethod
+              paymentMethods={paymentsMethods}
+              value={defaultPaymentMethod?.id}
             />
             <div className="flex h-11 gap-2">
               {MOCK_ADD_BALANCE.map((item) => {
@@ -87,6 +89,7 @@ export const ModalAddBalance = ({
               leftIcon={<CheckCircle size={24} />}
               type="submit"
               className="!w-[109px] !h-[48px] font-medium"
+              onClick={() => handleAddBalance(value)}
             >
               Salvar
             </Button>
