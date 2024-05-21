@@ -1,6 +1,6 @@
 import Company from "@/@types/Company";
 import { IPaymentMethod } from "@/@types/PaymentMethod";
-import { IPlanSubscriptionValue } from "@/@types/Subscription";
+import { ISubscription } from "@/@types/Subscription";
 import { getCompanyDetail } from "@/api/company/get-company-detail";
 import { getCompanyPaymentMethods } from "@/api/wallet/get-company-payments-methods";
 import { useQuery } from "@tanstack/react-query";
@@ -13,7 +13,7 @@ export interface CompanyProviderProps {
 
 export interface CompanyContextDataProps {
   companyDetail: Company;
-  plan: IPlanSubscriptionValue;
+  plan: ISubscription;
   paymentsMethods: IPaymentMethod[];
 }
 
@@ -34,7 +34,7 @@ export function CompanyContextProvider({ children }: CompanyProviderProps) {
     queryFn: () => getCompanyPaymentMethods(),
   });
 
-  const plan = companyDetail?.plan || IPlanSubscriptionValue.Free;
+  const plan: ISubscription = companyDetail?.plan || ({} as ISubscription);
 
   return (
     <CompanyContext.Provider

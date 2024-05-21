@@ -11,7 +11,6 @@ import { BalanceCardTemplate } from "./BalanceCardTemplate";
 import { MembersCardTemplate } from "./MembersCardTemplate";
 import { Tipbox } from "@/components/Tipbox";
 import { ArrowRight, Warning } from "phosphor-react";
-import { useAuth } from "@/hooks/useAuth";
 import { IPlanSubscriptionValue } from "@/@types/Subscription";
 import { useCompany } from "@/hooks/useCompany";
 import { useRouter } from "next/router";
@@ -24,7 +23,7 @@ export const DashboardTemplate = () => {
     <LayoutWithSidebar>
       {companyDetail ? (
         <>
-          {plan === IPlanSubscriptionValue.Free && (
+          {plan.value === IPlanSubscriptionValue.Free && (
             <Tipbox
               iconLeft={<Warning size={20} />}
               buttonRight={
@@ -64,7 +63,7 @@ export const DashboardTemplate = () => {
                         {dataService?.used}
                       </Paragraph>
                       <Paragraph className="!text-xs !text-default-grey">
-                        Seu limite gratuito:{" "}
+                        Seu limite gratuito
                         <span className="text-black">
                           {dataService?.freeLimit}
                         </span>

@@ -1,10 +1,17 @@
 import { ISubscription } from "@/@types/Subscription";
+import {
+  IAssignSubscriptionBody,
+  assignSubscription,
+} from "@/api/subscriptions/assign-subscriptions";
 import { Button, ButtonVariant } from "@/components/Button";
 import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
 import { Line } from "@/components/Line";
 import { Modal } from "@/components/Modal";
 import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
 import { useCompany } from "@/hooks/useCompany";
+import { queryClient } from "@/services/react-query";
+import { toast } from "@/utils/toast";
+import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { ArrowRight, CheckCircle, X, XCircle } from "phosphor-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -20,9 +27,8 @@ export const ModalConfirmPlan = ({
   modalIsOpen,
   planToConfirm,
 }: IModalConfirmPlan) => {
-  const { paymentsMethods } = useCompany();
   const [paymentMethodId, setPaymentMethodId] = useState("");
-  const [value, setValue] = useState(0);
+  const { paymentsMethods } = useCompany();
 
   const handleChangePaymentMethod = (id: string) => {
     setPaymentMethodId(id);
@@ -37,7 +43,29 @@ export const ModalConfirmPlan = ({
     }
   }, [paymentsMethods]);
 
-  function handleAssignSubscription() {}
+  const { mutateAsync: assignSubscriptionFn } = useMutation({
+    mutationFn: assignSubscription,
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["company-detail"],
+      });
+    },
+  });
+
+  const handleAssignSubscription = async (body: IAssignSubscriptionBody) => {
+    try {
+      await assignSubscriptionFn({
+        ...body,
+      });
+      toast("success", "Assinatura realizada com sucesso!");
+      setModalIsOpen(false);
+    } catch (error) {
+      toast(
+        "error",
+        "Ocorreu um erro ao realizar a assinatura. Tente novamente."
+      );
+    }
+  };
 
   const existsPaymentMethods = !!paymentsMethods?.length;
 
@@ -70,7 +98,7 @@ export const ModalConfirmPlan = ({
             </section>
 
             <Paragraph className="text-xl font-bold mt-8">
-              Plano {planToConfirm?.name}
+              Plano {planToConfirm?.value}
             </Paragraph>
 
             <section className="flex gap-2 items-center ">
@@ -78,7 +106,7 @@ export const ModalConfirmPlan = ({
                 R$
               </Paragraph>
               <Paragraph className=" text-black !font-poppins !font-semibold !text-5xl">
-                {planToConfirm?.value}
+                {planToConfirm?.price}
                 <span className="text-default-grey !text-xs"> /mês</span>
               </Paragraph>
             </section>
@@ -120,7 +148,9 @@ export const ModalConfirmPlan = ({
                 leftIcon={<CheckCircle size={24} />}
                 type="submit"
                 className="!w-[109px] !h-[48px] font-medium"
-                onClick={() => handleAssignSubscription}
+                onClick={() =>
+                  handleAssignSubscription({ type: planToConfirm.value })
+                }
               >
                 Salvar
               </Button>

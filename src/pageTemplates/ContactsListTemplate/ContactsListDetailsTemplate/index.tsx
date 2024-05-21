@@ -71,7 +71,7 @@ export const ContactsListDetailsTemplate = () => {
     for (const res of resultsFromCsv) {
       let resultsFormatted = formatCsvToJson(res.data);
 
-      if (plan === IPlanSubscriptionValue.Free) {
+      if (plan.value === IPlanSubscriptionValue.Free) {
         resultsFormatted = formatResultsToFreePlanFormat(resultsFormatted);
       }
 
