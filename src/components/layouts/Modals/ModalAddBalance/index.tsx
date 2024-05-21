@@ -3,7 +3,7 @@ import { Line } from "@/components/Line";
 import { Modal } from "@/components/Modal";
 import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
 import { PreviewPaymentMethod } from "@/components/PrevieviewMethods";
-import { MOCK_ADD_BALANCE, MOCK_PAYMENTS_METHODS } from "@/constants/wallet";
+import { MOCK_ADD_BALANCE } from "@/constants/wallet";
 import { useCompany } from "@/hooks/useCompany";
 
 import { CheckCircle, X, XCircle } from "phosphor-react";

@@ -30,7 +30,6 @@ export const PreviewPaymentMethod = ({
     }
   }, [paymentMethods]);
 
-  console.log(defaultCard);
   return (
     <section>
       {isLoading ? (
@@ -41,7 +40,7 @@ export const PreviewPaymentMethod = ({
         <div>
           {defaultCard && (
             <div
-              className=" flex gap-4 justify-center items-center py-2 border-2"
+              className="p-3 text-sm font-poppins h-[40px] w-full flex items-center rounded-lg border border-muted shadow-sm gap-2"
               key={defaultCard.id}
             >
               <div> {getIconBrand(defaultCard.brand)}</div>
