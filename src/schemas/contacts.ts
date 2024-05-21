@@ -18,7 +18,7 @@ export const schemaContactItem = Yup.object().shape({
     .min(2, "Pelo menos 2 caracteres."),
   phone: Yup.string()
     .transform((value, originalValue) => {
-      const numericValue = originalValue.replace(/\D/g, ""); // Remover caracteres não numéricos
+      const numericValue = originalValue.replace(/\D/g, "");
       return numericValue.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
     })
     .matches(VALID_PHONE_REGEX, "Número de telefone inválido.")
