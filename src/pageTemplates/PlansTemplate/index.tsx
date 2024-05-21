@@ -39,7 +39,7 @@ export const PlansTemplate = () => {
           </section>
 
           {plans?.map((plan) => {
-            const isActive = plan.id === currentCompanyPlan;
+            const isActive = plan.id === currentCompanyPlan.value;
 
             return (
               <section

@@ -42,7 +42,10 @@ export const CreateContactListTemplate = () => {
   });
 
   const handleConfirmCreateContactsList = async () => {
-    if (plan !== IPlanSubscriptionValue.Free && !modalConfirmVariablesIsOpen) {
+    if (
+      plan.value !== IPlanSubscriptionValue.Free &&
+      !modalConfirmVariablesIsOpen
+    ) {
       setModalConfirmVariablesIsOpen(true);
       return;
     }
@@ -105,7 +108,9 @@ export const CreateContactListTemplate = () => {
       name: "",
       inputVariableValue: "",
       variables:
-        plan === IPlanSubscriptionValue.Free ? ["name", "email", "phone"] : [],
+        plan.value === IPlanSubscriptionValue.Free
+          ? ["name", "email", "phone"]
+          : [],
     },
     onSubmit: handleConfirmCreateContactsList,
   });
@@ -114,7 +119,7 @@ export const CreateContactListTemplate = () => {
     <>
       <LayoutWithSidebar>
         <Breadcrumb crumbs={crumbs} />
-        {plan === IPlanSubscriptionValue.Free && (
+        {plan.value === IPlanSubscriptionValue.Free && (
           <Tipbox
             iconLeft={<Warning size={20} />}
             buttonRight={
@@ -152,7 +157,7 @@ export const CreateContactListTemplate = () => {
             onChange={handleChangeInput}
             onKeyDown={handleKeyDown}
             value={values.inputVariableValue}
-            disabled={plan === IPlanSubscriptionValue.Free}
+            disabled={plan.value === IPlanSubscriptionValue.Free}
           />
           <section className="flex gap-4">
             {values.variables.map((item, index) => (
