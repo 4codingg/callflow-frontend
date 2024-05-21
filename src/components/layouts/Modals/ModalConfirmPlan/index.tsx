@@ -84,7 +84,7 @@ export const ModalConfirmPlan = ({
               size={ParagraphSizeVariant.Medium}
               className=" text-purple-secundary !font-medium "
             >
-              Pronto para assinar?
+              Pronto para assinar?.
             </Paragraph>
             <Modal.Close>
               <Button variant={ButtonVariant.iconOnly} className="!w-6 !h-6">
