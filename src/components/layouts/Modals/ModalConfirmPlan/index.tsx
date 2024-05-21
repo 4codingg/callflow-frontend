@@ -27,9 +27,9 @@ export const ModalConfirmPlan = ({
   modalIsOpen,
   planToConfirm,
 }: IModalConfirmPlan) => {
-  const { paymentsMethods } = useCompany();
   const [paymentMethodId, setPaymentMethodId] = useState("");
-  const existsPaymentMethods = !!paymentsMethods?.length;
+  const { paymentsMethods } = useCompany();
+
   const handleChangePaymentMethod = (id: string) => {
     setPaymentMethodId(id);
   };
@@ -67,6 +67,8 @@ export const ModalConfirmPlan = ({
     }
   };
 
+  const existsPaymentMethods = !!paymentsMethods?.length;
+
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
       <Modal.Content className="min-w-[530px]">
@@ -96,7 +98,7 @@ export const ModalConfirmPlan = ({
             </section>
 
             <Paragraph className="text-xl font-bold mt-8">
-              Plano {planToConfirm?.id}
+              Plano {planToConfirm?.value}
             </Paragraph>
 
             <section className="flex gap-2 items-center ">
@@ -104,7 +106,7 @@ export const ModalConfirmPlan = ({
                 R$
               </Paragraph>
               <Paragraph className=" text-black !font-poppins !font-semibold !text-5xl">
-                {planToConfirm?.value}
+                {planToConfirm?.price}
                 <span className="text-default-grey !text-xs"> /mês</span>
               </Paragraph>
             </section>

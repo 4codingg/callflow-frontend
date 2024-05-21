@@ -39,7 +39,7 @@ export const PlansTemplate = () => {
           </section>
 
           {plans?.map((plan) => {
-            const isActive = plan.id === currentCompanyPlan.value;
+            const isActive = plan.value === currentCompanyPlan.value;
 
             return (
               <section
@@ -47,7 +47,7 @@ export const PlansTemplate = () => {
                 key={plan.id}
               >
                 <Heading size={HeadingSizeVariant.ExtraLarge}>
-                  R$ {plan.value}
+                  R$ {plan.price}
                   <span className="text-[#858BA0] font-medium text-sm ">
                     {" "}
                     /mês
