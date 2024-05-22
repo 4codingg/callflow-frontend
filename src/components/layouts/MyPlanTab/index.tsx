@@ -9,12 +9,15 @@ import { INVOICES_MOCK } from "@/constants/invoices";
 import { TableInvoicesPayments } from "../Tables/TableInvoicesPayments";
 import { ModalConfirmCancelPlan } from "../Modals/ModalConfirmCancelPlan";
 import "react-credit-cards/es/styles-compiled.css";
+import { useCompany } from "@/hooks/useCompany";
+import { formatDateToDDMMYYYYHHMM } from "@/utils/formatDateToDDMMYYYYHHMM";
 
 export const MyPlanTab = () => {
   const [subscriptionIsActive, setSubscriptionIsActive] = useState(true);
   const [modalConfirmCancelPlanIsOpen, setModalConfirmCancelPlanIsOpen] =
     useState(false);
   const router = useRouter();
+  const { plan } = useCompany();
 
   return (
     <>
@@ -56,11 +59,10 @@ export const MyPlanTab = () => {
           {subscriptionIsActive ? (
             <>
               <Paragraph className="!text-xs !text-default-grey">
-                Sua assinatura será renovada em 24 de abril de 2024.
+                Sua assinatura será renovada em{" "}
+                {formatDateToDDMMYYYYHHMM(plan.nextDueDate)}.
               </Paragraph>
-              <Paragraph className="!text-xs !text-default-grey">
-                Ao cancelar sua assinatura, todos os membros perderão acesso.
-              </Paragraph>
+
               <Button
                 className="!w-[230px] h-[40px] font-normal !text-xs mt-4"
                 rightIcon={<ArrowRight color="#FFF" size={20} />}
@@ -72,7 +74,8 @@ export const MyPlanTab = () => {
           ) : (
             <>
               <Paragraph className="!text-xs !text-default-grey">
-                Sua assinatura acabará em 24 de maio de 2024.
+                Sua assinatura foi cancelada. Você perderá acesso ao plano{" "}
+                {plan.value} em {formatDateToDDMMYYYYHHMM(plan.nextDueDate)}.
                 <Paragraph className="!text-xs !text-default-grey">
                   Ao sua assinatura expirar, todos os membros perderão acesso.
                 </Paragraph>
