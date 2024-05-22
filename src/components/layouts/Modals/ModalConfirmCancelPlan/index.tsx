@@ -7,6 +7,14 @@ import Warning from "@/assets/warning.svg";
 import { CheckCircle, X, XCircle } from "phosphor-react";
 import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
+import { useMutation } from "@tanstack/react-query";
+import {
+  cancelSubscription
+} from "@/api/subscriptions/cancel-subscriptions";
+import { queryClient } from "@/services/react-query";
+import { useAuth } from "@/hooks/useAuth";
+import { useCompany } from "@/hooks/useCompany";
+import { toast } from "@/utils/toast";
 
 interface IModalConfirmCancelPlan {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -19,9 +27,32 @@ export const ModalConfirmCancelPlan = ({
   modalIsOpen,
   setSubscriptionIsActive,
 }: IModalConfirmCancelPlan) => {
-  const handleActionPlan = () => {
-    setModalIsOpen(false);
-    setSubscriptionIsActive((prevState) => !prevState);
+  const { isAuthenticated } = useAuth();
+
+  const { mutateAsync: cancelSubscriptionFn } = useMutation({
+    mutationFn: cancelSubscription,
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["company-detail", isAuthenticated],
+      });
+    },
+  });
+
+  const handleActionCancelPlan = async () => {
+    try {
+      await cancelSubscriptionFn();
+      toast(
+        "success",
+        "O seu plano foi cancelado com sucesso. Sentiremos a sua falta!"
+      );
+      setModalIsOpen(false);
+      setSubscriptionIsActive((prevState) => !prevState);
+    } catch (error) {
+      toast(
+        "error",
+        "Ocorreu um erro ao realizar o cancelamento do plano. Tente novamente."
+      );
+    }
   };
 
   return (
@@ -70,7 +101,7 @@ export const ModalConfirmCancelPlan = ({
               leftIcon={<CheckCircle size={24} />}
               type="submit"
               className="!w-[109px] !h-[48px] font-medium !p-2"
-              onClick={handleActionPlan}
+              onClick={handleActionCancelPlan}
             >
               Confirmar
             </Button>
