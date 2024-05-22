@@ -10,7 +10,7 @@ import { TableInvoicesPayments } from "../Tables/TableInvoicesPayments";
 import { ModalConfirmCancelPlan } from "../Modals/ModalConfirmCancelPlan";
 import "react-credit-cards/es/styles-compiled.css";
 import { useCompany } from "@/hooks/useCompany";
-import { formatDateToDDMMYYYYHHMM } from "@/utils/formatDateToDDMMYYYYHHMM";
+import { formatData } from "@/utils/formatDatetoDDMMYYYY";
 
 export const MyPlanTab = () => {
   const [subscriptionIsActive, setSubscriptionIsActive] = useState(true);
@@ -59,8 +59,7 @@ export const MyPlanTab = () => {
           {subscriptionIsActive ? (
             <>
               <Paragraph className="!text-xs !text-default-grey">
-                Sua assinatura será renovada em{" "}
-                {formatDateToDDMMYYYYHHMM(plan.nextDueDate)}.
+                Sua assinatura será renovada em {formatData(plan.nextDueDate)}.
               </Paragraph>
 
               <Button
@@ -75,7 +74,7 @@ export const MyPlanTab = () => {
             <>
               <Paragraph className="!text-xs !text-default-grey">
                 Sua assinatura foi cancelada. Você perderá acesso ao plano{" "}
-                {plan.value} em {formatDateToDDMMYYYYHHMM(plan.nextDueDate)}.
+                {plan.value} em {formatData(plan.nextDueDate)}.
                 <Paragraph className="!text-xs !text-default-grey">
                   Ao sua assinatura expirar, todos os membros perderão acesso.
                 </Paragraph>
