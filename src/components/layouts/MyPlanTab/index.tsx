@@ -22,16 +22,18 @@ export const MyPlanTab = () => {
   const [subscriptionIsActive, setSubscriptionIsActive] = useState(true);
   const [modalConfirmCancelPlanIsOpen, setModalConfirmCancelPlanIsOpen] =
     useState(false);
-  const [currentPlan, setCurrentPlan] = useState<currentPlanProps>();
+  const [currentPlan, setCurrentPlan] = useState({} as currentPlanProps);
+
   const { plan } = useCompany();
   const router = useRouter();
+
   useEffect(() => {
-    const foundPlan = PLANS_INFORMATIONS.find(
+    const planInformation = PLANS_INFORMATIONS.find(
       (currentPlan) => currentPlan.value === plan.value
     );
 
-    if (foundPlan) {
-      setCurrentPlan(foundPlan);
+    if (planInformation) {
+      setCurrentPlan(planInformation);
     }
   }, [plan]);
 
