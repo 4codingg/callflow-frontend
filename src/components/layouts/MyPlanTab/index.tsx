@@ -1,26 +1,42 @@
-import { useState } from "react";
+import "react-credit-cards/es/styles-compiled.css";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ArrowRight } from "phosphor-react";
-import { Button } from "@/components/Button";
-import { Card } from "@/components/Card";
-import { Line } from "@/components/Line";
-import { Paragraph } from "@/components/Paragraph";
+import { Button, Card, Line, Paragraph } from "@/components";
 import { INVOICES_MOCK } from "@/constants/invoices";
 import { TableInvoicesPayments } from "../Tables/TableInvoicesPayments";
 import { ModalConfirmCancelPlan } from "../Modals/ModalConfirmCancelPlan";
 import { useCompany } from "@/hooks/useCompany";
-import "react-credit-cards/es/styles-compiled.css";
 import { formatDateToDDMMYYYYHHMM } from "@/utils/formatDateToDDMMYYYYHHMM";
 import { IPlanSubscriptionValue } from "@/@types/Subscription";
+import { PLANS_INFORMATIONS } from "@/constants/plans";
+
+interface currentPlanProps {
+  value: string;
+  title: string;
+  description: string;
+}
 
 export const MyPlanTab = () => {
   const [subscriptionIsActive, setSubscriptionIsActive] = useState(true);
   const [modalConfirmCancelPlanIsOpen, setModalConfirmCancelPlanIsOpen] =
     useState(false);
+  const [currentPlan, setCurrentPlan] = useState({} as currentPlanProps);
+
   const router = useRouter();
   const { plan } = useCompany();
 
   const isFreePlan = plan.value === IPlanSubscriptionValue.Free
+
+  useEffect(() => {
+    const planInformation = PLANS_INFORMATIONS.find(
+      (currentPlan) => currentPlan.value === plan.value
+    );
+
+    if (planInformation) {
+      setCurrentPlan(planInformation);
+    }
+  }, [plan]);
 
   return (
     <>
@@ -28,9 +44,11 @@ export const MyPlanTab = () => {
         <Card>
           <Paragraph className="font-medium !text-base">Plano</Paragraph>
           <Line className="my-4" />
-          <Paragraph className="font-medium !text-base">Grátis</Paragraph>
+          <Paragraph className="font-medium !text-base">
+            {currentPlan?.title}
+          </Paragraph>
           <Paragraph className="!text-xs !text-default-grey">
-            Para estudantes, testers e amadores.
+            {currentPlan?.description}
           </Paragraph>
           <Button
             className="!w-[230px] h-[40px] font-normal !text-xs mt-4"

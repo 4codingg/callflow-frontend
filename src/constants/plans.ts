@@ -56,3 +56,21 @@ export const PLANS_ROWS = [
     },
   },
 ];
+
+export const PLANS_INFORMATIONS = [
+  {
+    value: "free",
+    title: "Grátis",
+    description: "Ideal para iniciantes e uso pessoal.",
+  },
+  {
+    value: "plus",
+    title: "Plus",
+    description: "Perfeito para usuários avançados e pequenas equipes.",
+  },
+  {
+    value: "premium",
+    title: "Premium",
+    description: "Solução completa para profissionais e empresas.",
+  },
+];
