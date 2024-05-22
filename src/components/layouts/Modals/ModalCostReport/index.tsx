@@ -1,3 +1,4 @@
+import { ICostReports } from "@/@types/MassCommunication";
 import { Button, ButtonVariant } from "@/components/Button";
 import { Line } from "@/components/Line";
 import { Modal } from "@/components/Modal";
@@ -9,11 +10,13 @@ import { Dispatch, SetStateAction } from "react";
 interface IModalModalCostReportProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
+  costReports: ICostReports
 }
 
-export const CostReports = ({
+export const ModalCostReports = ({
   setModalIsOpen,
   modalIsOpen,
+  costReports
 }: IModalModalCostReportProps) => {
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
@@ -35,24 +38,24 @@ export const CostReports = ({
           <Line direction="horizontal" className="mt-4 mb-8" />
           <section className="w-full h-16 bg-primary flex justify-between items-center text-white border-b border-white px-8">
             <Paragraph className="text-white font-semibold">
-              {MOCK_COST_REPORT.contacts.length} contatos
+              {costReports?.contacts?.length} contatos
             </Paragraph>
             <Paragraph className="text-white font-semibold w-[200px]">
-              R$ {MOCK_COST_REPORT.contacts.costByMessage} / mensagem
+              R$ {costReports?.contacts?.costByMessage} / mensagem
             </Paragraph>
             <Paragraph className="text-white font-semibold">
-              R$ {MOCK_COST_REPORT.contacts.totalCost}
+              R$ {costReports?.contacts?.totalCost}
             </Paragraph>
           </section>
           <section className="w-full h-16 bg-primary flex justify-between items-center text-white border-b border-white px-8">
             <Paragraph className="text-white font-semibold">
-              {MOCK_COST_REPORT.bonus.length} contatos
+              {costReports?.bonus?.length} contatos
             </Paragraph>
             <Paragraph className="text-white font-semibold w-[200px]">
               Bônus
             </Paragraph>
             <Paragraph className="text-white font-semibold">
-              R$ {MOCK_COST_REPORT.bonus.totalCost}
+              R$ {costReports?.bonus?.totalCost}
             </Paragraph>
           </section>
           <section className="w-full h-16 bg-primary flex justify-between items-center text-white px-8">
@@ -60,7 +63,7 @@ export const CostReports = ({
               Custo total
             </Paragraph>
             <Paragraph className="text-white font-semibold">
-              R$ {MOCK_COST_REPORT.total}
+              R$ {costReports?.total}
             </Paragraph>
           </section>
 

@@ -32,7 +32,10 @@ import {
   LABELS_MASS_COMMUNICATION,
 } from "@/constants/massCommunication";
 import { MassCommunicationModalMessage } from "./MassCommunicationModalMessage";
-import { CostReports } from "../Modals/ModalCostReport";
+import { ModalCostReports } from "../Modals/ModalCostReport";
+import { useGlobalLoading } from "@/hooks/useGlobalLoading";
+import { calculateCostMassCommunication } from "@/api/mass-communication/calculate-cost";
+import { ICostReports } from "@/@types/MassCommunication";
 
 export const MassCommunicationTemplate = ({
   type,
@@ -49,7 +52,9 @@ export const MassCommunicationTemplate = ({
       contacts: [],
       variables: [],
     });
+    const [costReports, setCostReports] = useState({} as ICostReports) 
 
+    const {setGlobalLoading} = useGlobalLoading()
   const queryClient = useQueryClient();
 
   const { data: contactsListsItems } = useQuery({
@@ -62,6 +67,10 @@ export const MassCommunicationTemplate = ({
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["company-detail"] });
     },
+  });
+
+  const { mutateAsync: calculateCostMassCommunicationFn } = useMutation({
+    mutationFn: calculateCostMassCommunication
   });
 
   const { getFieldProps, values, setFieldValue, isValid } = useFormik({
@@ -77,7 +86,6 @@ export const MassCommunicationTemplate = ({
   });
 
   const handleChangeContactsList = async (contactsListId: string) => {
-    console.log("==> ", contactsListId);
     setFieldValue("contactsListId", contactsListId);
 
     setIsLoading(true);
@@ -92,6 +100,7 @@ export const MassCommunicationTemplate = ({
       });
 
       setContactsListDetail({ ...response, contacts: formattedContacts });
+      await calculateCostReports(formattedContacts.length || 0)
     } catch (err) {
       console.log(err);
     } finally {
@@ -117,7 +126,7 @@ export const MassCommunicationTemplate = ({
     setModalMessageIsOpen(true);
   };
 
-  const handleConfirm = () => {
+  const handleConfirmSendMassCommunication = () => {
     if (isValid) {
       setModalConfirmMessageIsOpen(true);
     } else {
@@ -137,9 +146,26 @@ export const MassCommunicationTemplate = ({
       toast("success", LABELS_MASS_COMMUNICATION[type].success.sent);
       setModalConfirmMessageIsOpen(false);
     } catch (err) {
+      if(err.response?.data?.message) {
+        toast("error", err.response.data.message)
+        return 
+      }
+
       toast("error", "Algo deu errado.");
     }
   };
+
+  const calculateCostReports = async (contactsListLength: number) => {
+    setGlobalLoading(true)
+    try {
+      const costReportsResponse = await calculateCostMassCommunicationFn({ type, contactsListLength})
+      setCostReports(costReportsResponse);
+    } catch(err) {
+      toast("error", "Algo deu errado.")
+    } finally {
+      setGlobalLoading(false)
+    }
+  }
 
   const contactsListDropdownOptions =
     contactsListsItems?.map(({ name, id }) => {
@@ -158,7 +184,7 @@ export const MassCommunicationTemplate = ({
           <Button
             type="button"
             className=" !h-[48px] !w-[200px] rounded-2xl text-xs font-medium fixed bottom-16 right-16"
-            onClick={handleConfirm}
+            onClick={handleConfirmSendMassCommunication}
           >
             Enviar <Check size={18} color="#FFF" />
           </Button>
@@ -206,9 +232,9 @@ export const MassCommunicationTemplate = ({
                   <Label className="font-semibold text-sm">Custo</Label>
                   <div className="flex items-center gap-4">
                     <div className="bg-default-grey bg-opacity-30 rounded flex items-center justify-between gap-4 h-[40px] p-3 w-full">
-                      <Paragraph className="text-primary">R$ 30,00</Paragraph>
+                      <Paragraph className="text-primary">R$ {costReports.total}</Paragraph>
                       <Paragraph className="text-black text-xs text-opacity-70">
-                        (R$0,10 / contato)
+                        (R${costReports.contacts.costByMessage} / contato)
                       </Paragraph>
                     </div>
                   </div>
@@ -279,7 +305,8 @@ export const MassCommunicationTemplate = ({
         setSubject={(value) => setFieldValue("subject", value)}
         contactsListDetail={contactsListDetail}
       />
-      <CostReports
+      <ModalCostReports
+      costReports={costReports}
         modalIsOpen={modalCostReportIsOpen}
         setModalIsOpen={setModalCostReportIsOpen}
       />
