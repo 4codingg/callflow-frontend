@@ -9,12 +9,18 @@ import { INVOICES_MOCK } from "@/constants/invoices";
 import { TableInvoicesPayments } from "../Tables/TableInvoicesPayments";
 import { ModalConfirmCancelPlan } from "../Modals/ModalConfirmCancelPlan";
 import "react-credit-cards/es/styles-compiled.css";
+import { useCompany } from "@/hooks/useCompany";
+import { PLANS_INFORMATIONS } from "@/constants/plans";
 
 export const MyPlanTab = () => {
   const [subscriptionIsActive, setSubscriptionIsActive] = useState(true);
   const [modalConfirmCancelPlanIsOpen, setModalConfirmCancelPlanIsOpen] =
     useState(false);
+  const { plan } = useCompany();
   const router = useRouter();
+  const currentPlan = PLANS_INFORMATIONS.find(
+    (currentPlan) => currentPlan.value === plan.value
+  );
 
   return (
     <>
@@ -22,10 +28,20 @@ export const MyPlanTab = () => {
         <Card>
           <Paragraph className="font-medium !text-base">Plano</Paragraph>
           <Line className="my-4" />
-          <Paragraph className="font-medium !text-base">Grátis</Paragraph>
-          <Paragraph className="!text-xs !text-default-grey">
-            Para estudantes, testers e amadores.
-          </Paragraph>
+
+          {currentPlan ? (
+            <>
+              <Paragraph className="font-medium !text-base">
+                {currentPlan.title}
+              </Paragraph>
+              <Paragraph className="!text-xs !text-default-grey">
+                {currentPlan.description}
+              </Paragraph>
+            </>
+          ) : (
+            <Paragraph> Plano não selecionado</Paragraph>
+          )}
+
           <Button
             className="!w-[230px] h-[40px] font-normal !text-xs mt-4"
             rightIcon={<ArrowRight color="#FFF" size={20} />}
