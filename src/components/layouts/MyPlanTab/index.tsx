@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ArrowRight } from "phosphor-react";
 import { Button } from "@/components/Button";
@@ -12,15 +12,28 @@ import "react-credit-cards/es/styles-compiled.css";
 import { useCompany } from "@/hooks/useCompany";
 import { PLANS_INFORMATIONS } from "@/constants/plans";
 
+interface currentPlanProps {
+  value: string;
+  title: string;
+  description: string;
+}
+
 export const MyPlanTab = () => {
   const [subscriptionIsActive, setSubscriptionIsActive] = useState(true);
   const [modalConfirmCancelPlanIsOpen, setModalConfirmCancelPlanIsOpen] =
     useState(false);
+  const [currentPlan, setCurrentPlan] = useState<currentPlanProps>();
   const { plan } = useCompany();
   const router = useRouter();
-  const currentPlan = PLANS_INFORMATIONS.find(
-    (currentPlan) => currentPlan.value === plan.value
-  );
+  useEffect(() => {
+    const foundPlan = PLANS_INFORMATIONS.find(
+      (currentPlan) => currentPlan.value === plan.value
+    );
+
+    if (foundPlan) {
+      setCurrentPlan(foundPlan);
+    }
+  }, [plan]);
 
   return (
     <>
@@ -28,20 +41,12 @@ export const MyPlanTab = () => {
         <Card>
           <Paragraph className="font-medium !text-base">Plano</Paragraph>
           <Line className="my-4" />
-
-          {currentPlan ? (
-            <>
-              <Paragraph className="font-medium !text-base">
-                {currentPlan.title}
-              </Paragraph>
-              <Paragraph className="!text-xs !text-default-grey">
-                {currentPlan.description}
-              </Paragraph>
-            </>
-          ) : (
-            <Paragraph> Plano não selecionado</Paragraph>
-          )}
-
+          <Paragraph className="font-medium !text-base">
+            {currentPlan?.title}
+          </Paragraph>
+          <Paragraph className="!text-xs !text-default-grey">
+            {currentPlan?.description}
+          </Paragraph>
           <Button
             className="!w-[230px] h-[40px] font-normal !text-xs mt-4"
             rightIcon={<ArrowRight color="#FFF" size={20} />}
