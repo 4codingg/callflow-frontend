@@ -1,10 +1,16 @@
+import { createCharge } from "@/api/wallet/create-charge";
+import { payChargeWithCreditCard } from "@/api/wallet/pay-charge-with-credit-card";
 import { Button, ButtonVariant } from "@/components/Button";
 import { Line } from "@/components/Line";
 import { Modal } from "@/components/Modal";
 import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
 import { PreviewPaymentMethod } from "@/components/PrevieviewMethods";
+import { Spinner } from "@/components/Spinner";
 import { MOCK_ADD_BALANCE } from "@/constants/wallet";
 import { useCompany } from "@/hooks/useCompany";
+import { handleErrors } from "@/utils/handleErrors";
+import { toast } from "@/utils/toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { CheckCircle, X, XCircle } from "phosphor-react";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -19,16 +25,48 @@ export const ModalAddBalance = ({
   modalIsOpen,
 }: IModalAddBalance) => {
   const [value, setValue] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { paymentsMethods } = useCompany();
+  const queryClient = useQueryClient();
 
   const defaultPaymentMethod = paymentsMethods?.find(
     (item) => item.default === true
   );
 
-  function handleAddBalance(cost) {
-    console.log(cost);
-  }
+  const handleAddBalance = async (cost) => {
+    setIsLoading(true);
+    try {
+      const { charge } = await createChargeFn({
+        value: cost,
+        billingType: "CREDIT_CARD",
+      });
+
+      await payChargeWithCreditCardFn({
+        chargeId: charge,
+      });
+
+      setModalIsOpen(false);
+      toast("success", "Saldo reabastecido com sucesso.");
+      setValue(0);
+    } catch (err: any) {
+      handleErrors(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const { mutateAsync: createChargeFn } = useMutation({
+    mutationFn: createCharge,
+  });
+
+  const { mutateAsync: payChargeWithCreditCardFn } = useMutation({
+    mutationFn: payChargeWithCreditCard,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["company-detail"] });
+    },
+  });
+
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
       <Modal.Content className="min-w-[430px]">
@@ -81,6 +119,7 @@ export const ModalAddBalance = ({
               className="!bg-grey-secundary !text-purple-secundary !w-[213px] !h-[48px] font-medium"
               onClick={() => {
                 setModalIsOpen(false);
+                setValue(0);
               }}
             >
               Descartar Alterações
@@ -90,8 +129,9 @@ export const ModalAddBalance = ({
               type="submit"
               className="!w-[109px] !h-[48px] font-medium"
               onClick={() => handleAddBalance(value)}
+              disabled={isLoading}
             >
-              Salvar
+              {isLoading ? <Spinner /> : "Salvar"}
             </Button>
           </section>
         </div>
