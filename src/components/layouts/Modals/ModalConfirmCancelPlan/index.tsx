@@ -9,8 +9,7 @@ import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
 import {
-  IAssignSubscriptionBody,
-  cancelSubscription,
+  cancelSubscription
 } from "@/api/subscriptions/cancel-subscriptions";
 import { queryClient } from "@/services/react-query";
 import { useAuth } from "@/hooks/useAuth";
@@ -28,6 +27,8 @@ export const ModalConfirmCancelPlan = ({
   modalIsOpen,
   setSubscriptionIsActive,
 }: IModalConfirmCancelPlan) => {
+  const { isAuthenticated } = useAuth();
+
   const { mutateAsync: cancelSubscriptionFn } = useMutation({
     mutationFn: cancelSubscription,
     onSuccess() {
@@ -36,14 +37,13 @@ export const ModalConfirmCancelPlan = ({
       });
     },
   });
-  const handleActionCancelPlan = async (Plan: IAssignSubscriptionBody) => {
+
+  const handleActionCancelPlan = async () => {
     try {
-      await cancelSubscriptionFn({
-        ...Plan,
-      });
+      await cancelSubscriptionFn();
       toast(
         "success",
-        "O seu plano foi cancelado com sucesso. Sentiremos a sua falta! "
+        "O seu plano foi cancelado com sucesso. Sentiremos a sua falta!"
       );
       setModalIsOpen(false);
       setSubscriptionIsActive((prevState) => !prevState);
@@ -54,8 +54,6 @@ export const ModalConfirmCancelPlan = ({
       );
     }
   };
-  const { isAuthenticated } = useAuth();
-  const { plan } = useCompany();
 
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
@@ -103,7 +101,7 @@ export const ModalConfirmCancelPlan = ({
               leftIcon={<CheckCircle size={24} />}
               type="submit"
               className="!w-[109px] !h-[48px] font-medium !p-2"
-              onClick={() => handleActionCancelPlan({ type: plan.value })}
+              onClick={handleActionCancelPlan}
             >
               Confirmar
             </Button>

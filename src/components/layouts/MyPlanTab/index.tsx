@@ -8,9 +8,10 @@ import { Paragraph } from "@/components/Paragraph";
 import { INVOICES_MOCK } from "@/constants/invoices";
 import { TableInvoicesPayments } from "../Tables/TableInvoicesPayments";
 import { ModalConfirmCancelPlan } from "../Modals/ModalConfirmCancelPlan";
-import "react-credit-cards/es/styles-compiled.css";
 import { useCompany } from "@/hooks/useCompany";
-import { formatData } from "@/utils/formatDatetoDDMMYYYY";
+import "react-credit-cards/es/styles-compiled.css";
+import { formatDateToDDMMYYYYHHMM } from "@/utils/formatDateToDDMMYYYYHHMM";
+import { IPlanSubscriptionValue } from "@/@types/Subscription";
 
 export const MyPlanTab = () => {
   const [subscriptionIsActive, setSubscriptionIsActive] = useState(true);
@@ -18,6 +19,8 @@ export const MyPlanTab = () => {
     useState(false);
   const router = useRouter();
   const { plan } = useCompany();
+
+  const isFreePlan = plan.value === IPlanSubscriptionValue.Free
 
   return (
     <>
@@ -51,15 +54,18 @@ export const MyPlanTab = () => {
             <TableInvoicesPayments invoices={INVOICES_MOCK} />
           </div>
         </Card>
-        <Card>
+        {!isFreePlan && <Card>
           <Paragraph className="font-medium !text-base">
-            {subscriptionIsActive ? "Cancelar assinatura" : ""}
+            {subscriptionIsActive ? "Cancelar assinatura" : "Reativar assinatura"}
           </Paragraph>
           <Line className="my-4" />
           {subscriptionIsActive ? (
             <>
               <Paragraph className="!text-xs !text-default-grey">
-                Sua assinatura será renovada em {plan.nextDueDate}.
+              Sua assinatura será renovada em 21/06/2024. 
+              </Paragraph>
+              <Paragraph className="!text-xs !text-default-grey">
+              Para cancelar sua assinatura e evitar a renovação automática, por favor, siga as instruções abaixo.
               </Paragraph>
 
               <Button
@@ -74,7 +80,7 @@ export const MyPlanTab = () => {
             <>
               <Paragraph className="!text-xs !text-default-grey">
                 Sua assinatura foi cancelada. Você perderá acesso ao plano{" "}
-                {plan.value} em {plan.nextDueDate}.
+                {plan.value} em {formatDateToDDMMYYYYHHMM(plan?.nextDueDate, true)}.
                 <Paragraph className="!text-xs !text-default-grey">
                   Ao sua assinatura expirar, todos os membros perderão acesso.
                 </Paragraph>
@@ -83,11 +89,11 @@ export const MyPlanTab = () => {
                 className="!w-[230px] h-[40px] font-normal !text-xs mt-4"
                 rightIcon={<ArrowRight color="#FFF" size={20} />}
               >
-                Renovar assinatura
+                Reativar assinatura
               </Button>
             </>
           )}
-        </Card>
+        </Card>}
       </div>
       <ModalConfirmCancelPlan
         modalIsOpen={modalConfirmCancelPlanIsOpen}
