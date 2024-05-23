@@ -31,7 +31,7 @@ export function CompanyContextProvider({ children }: CompanyProviderProps) {
 
   const { data: paymentsMethods } = useQuery({
     queryKey: ["company-payment-methods"],
-    queryFn: () => getCompanyPaymentMethods(),
+    queryFn: getCompanyPaymentMethods,
   });
 
   const plan: ISubscription = companyDetail?.plan || ({} as ISubscription);
