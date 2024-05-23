@@ -8,14 +8,14 @@ export const confirmAction = (textConfirmation: string) => {
     showCancelButton: true,
     confirmButtonColor: "#00DEA3",
     cancelButtonColor: "#E85959",
-    confirmButtonText: "Sim, deletar."
+    confirmButtonText: "Sim, deletar.",
   }).then((result) => {
     if (result.isConfirmed) {
       Swal.fire({
         title: "Deletado!",
         text: textConfirmation,
-        icon: "success"
+        icon: "success",
       });
     }
   });
-}
+};
