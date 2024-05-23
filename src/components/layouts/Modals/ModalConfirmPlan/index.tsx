@@ -13,7 +13,7 @@ import { queryClient } from "@/services/react-query";
 import { toast } from "@/utils/toast";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
-import { ArrowRight, CheckCircle, X, XCircle } from "phosphor-react";
+import { ArrowRight, CheckCircle, Spinner, X, XCircle } from "phosphor-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface IModalConfirmPlan {
@@ -28,6 +28,7 @@ export const ModalConfirmPlan = ({
   planToConfirm,
 }: IModalConfirmPlan) => {
   const [paymentMethodId, setPaymentMethodId] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { paymentsMethods } = useCompany();
 
   const handleChangePaymentMethod = (id: string) => {
@@ -53,6 +54,7 @@ export const ModalConfirmPlan = ({
   });
 
   const handleAssignSubscription = async (body: IAssignSubscriptionBody) => {
+    setIsLoading(true);
     try {
       await assignSubscriptionFn({
         ...body,
@@ -64,6 +66,8 @@ export const ModalConfirmPlan = ({
         "error",
         "Ocorreu um erro ao realizar a assinatura. Tente novamente."
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -144,15 +148,17 @@ export const ModalConfirmPlan = ({
               >
                 Descartar Alterações
               </Button>
+
               <Button
                 leftIcon={<CheckCircle size={24} />}
                 type="submit"
+                disabled={isLoading}
                 className="!w-[109px] !h-[48px] font-medium"
                 onClick={() =>
                   handleAssignSubscription({ type: planToConfirm.value })
                 }
               >
-                Salvar
+                {isLoading ? <Spinner /> : "Salvar"}
               </Button>
             </section>
           )}
