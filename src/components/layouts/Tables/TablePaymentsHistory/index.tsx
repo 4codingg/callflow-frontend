@@ -1,17 +1,16 @@
-import { convertCamelCaseToWordsAndTranslate } from '@/utils/convertCamelCaseToWords';
-import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
-import SearchImage from '@/assets/search.svg';
-import HiperCardIcon from '@/assets/icons/hipercard-icon.svg';
-import MasterCardIcon from '@/assets/icons/mastercard-icon.svg';
-import EloIcon from '@/assets/icons/elo-icon.svg';
-import VisaIcon from '@/assets/icons/visa-icon.svg';
-import Image from 'next/image';
-import { Heading } from '@/components/Heading';
-import { ReactNode } from 'react';
-import { getActivitieLabel } from '@/utils/getActivitieLabel';
-import { clsx } from 'clsx';
-import { formatCurrency } from '@/utils/formatCurrency';
-import { getTypeLabel } from '@/utils/getTypeLabel';
+import { convertCamelCaseToWordsAndTranslate } from "@/utils/convertCamelCaseToWords";
+import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
+import SearchImage from "@/assets/search.svg";
+import HiperCardIcon from "@/assets/icons/hipercard-icon.svg";
+import MasterCardIcon from "@/assets/icons/mastercard-icon.svg";
+import EloIcon from "@/assets/icons/elo-icon.svg";
+import VisaIcon from "@/assets/icons/visa-icon.svg";
+import Image from "next/image";
+import { Heading } from "@/components/Heading";
+import { ReactNode } from "react";
+import { clsx } from "clsx";
+import { formatCurrency } from "@/utils/formatCurrency";
+import { getTypeLabel } from "@/utils/getTypeLabel";
 
 interface ITablePaymentsHistoryProps {
   history: any[];
@@ -28,7 +27,7 @@ export const TablePaymentsHistory = ({
   tableTitle,
   headerComponent,
 }: ITablePaymentsHistoryProps) => {
-  const titles = ['Data', 'Valor', 'Tipo de pagamento', 'Tipo', 'Lista'];
+  const titles = ["Data", "Valor", "Tipo de pagamento", "Tipo", "Lista"];
 
   const calculateWidthSize = () => {
     const widthSize = Number((100 / (titles.length + 1)).toFixed(0));
@@ -85,7 +84,7 @@ export const TablePaymentsHistory = ({
                       )}
                       {index === 2 && (
                         <Paragraph
-                          className={clsx('flex items-center gap-2 !text-xs')}
+                          className={clsx("flex items-center gap-2 !text-xs")}
                         >
                           {item.last4 ? (
                             <div className="flex items-center gap-2">
@@ -93,20 +92,20 @@ export const TablePaymentsHistory = ({
                               <Paragraph>**** **** **** {item.last4}</Paragraph>
                             </div>
                           ) : (
-                            'Saldo'
+                            "Saldo"
                           )}
                         </Paragraph>
                       )}
                       {index === 3 && (
                         <Paragraph
-                          className={clsx('flex items-center gap-2 !text-xs')}
+                          className={clsx("flex items-center gap-2 !text-xs")}
                         >
                           {getTypeLabel(item.type)}
                         </Paragraph>
                       )}
                       {index === 4 && (
                         <Paragraph className="!text-sm">
-                          {item.list ?? '-'}
+                          {item.list ?? "-"}
                         </Paragraph>
                       )}
                     </td>
@@ -135,12 +134,12 @@ export const TablePaymentsHistory = ({
 const getIconBrand = (brand: string) => {
   return (
     <>
-      {brand === 'visa' && <Image src={VisaIcon} alt="" width={26} />}
-      {brand === 'elo' && <Image src={EloIcon} alt="" width={26} />}
-      {brand === 'mastercard' && (
+      {brand === "visa" && <Image src={VisaIcon} alt="" width={26} />}
+      {brand === "elo" && <Image src={EloIcon} alt="" width={26} />}
+      {brand === "mastercard" && (
         <Image src={MasterCardIcon} alt="" width={26} />
       )}
-      {brand === 'hipercard' && <Image src={HiperCardIcon} alt="" width={26} />}
+      {brand === "hipercard" && <Image src={HiperCardIcon} alt="" width={26} />}
     </>
   );
 };

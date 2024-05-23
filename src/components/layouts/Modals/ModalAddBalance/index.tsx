@@ -1,20 +1,23 @@
 import { createCharge } from "@/api/wallet/create-charge";
 import { payChargeWithCreditCard } from "@/api/wallet/pay-charge-with-credit-card";
-import { Button, ButtonVariant } from "@/components/Button";
-import { Line } from "@/components/Line";
-import { Modal } from "@/components/Modal";
-import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { PreviewPaymentMethod } from "@/components/PrevieviewMethods";
-import { Spinner } from "@/components/Spinner";
+import {
+  Button,
+  ButtonVariant,
+  Line,
+  Modal,
+  Paragraph,
+  ParagraphSizeVariant,
+  Spinner,
+} from "@/components";
 import { MOCK_ADD_BALANCE } from "@/constants/wallet";
 import { useCompany } from "@/hooks/useCompany";
 import { handleErrors } from "@/utils/handleErrors";
 import { toast } from "@/utils/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 import { CheckCircle, X, XCircle } from "phosphor-react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { ModalAddPaymentMethod } from "../ModalAddPaymentMethod";
+import { PreviewPaymentMethod } from "@/components/PrevieviewMethods";
 
 interface IModalAddBalance {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
