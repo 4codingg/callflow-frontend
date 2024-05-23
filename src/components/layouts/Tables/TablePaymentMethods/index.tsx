@@ -68,7 +68,7 @@ export const TablePaymentMethods = ({
                     key={item.name}
                     className="w-full flex hover:bg-background px-8 py-4"
                   >
-                    {titles.map((title, index) => (
+                    {titles.map((_, index) => (
                       <td
                         key={`${item.name}-${index}`} // Chave única para cada célula
                         className={`flex `}

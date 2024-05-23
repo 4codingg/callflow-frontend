@@ -10,6 +10,8 @@ import Empty from "@/assets/empty-state.png";
 import { toast } from "@/utils/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateDefaultPaymentMethod } from "@/api/wallet/update-default-payment-method";
+import { deleteCardPaymentMethod } from "@/api/wallet/delete-payment-method";
+import { confirmActionToast } from "@/utils/confirmActionToast";
 
 export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
   const [pendingPaymentMethod, setPendingPaymentMethod] = useState("");
@@ -64,6 +66,34 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         paymentMethod: false,
       });
     }
+  };
+
+  const { mutateAsync: deleteCardPaymentMethodFn } = useMutation({
+    mutationFn: deleteCardPaymentMethod,
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["company-payment-methods"],
+      });
+    },
+  });
+
+  const handleDeletePaymentMethod = async (id: string) => {
+    const callback = async () => {
+      try {
+        await deleteCardPaymentMethodFn(id);
+      } catch (error) {
+        toast(
+          "error",
+          "Ocorreu um erro ao deletar seu método de pagamento. Tente novamente."
+        );
+      }
+    };
+
+    await confirmActionToast(
+      "Você realmente deseja remover o cartão?",
+      callback,
+      "Método de pagamento deletado com sucesso!"
+    );
   };
 
   const paymentMethodsIsEmpty = paymentsMethods?.length === 0;
@@ -145,7 +175,10 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
               icon={Empty}
             />
           ) : (
-            <TablePaymentMethods paymentMethods={paymentsMethods} />
+            <TablePaymentMethods
+              paymentMethods={paymentsMethods}
+              handleDeleteItem={handleDeletePaymentMethod}
+            />
           )}
         </div>
       </Card>

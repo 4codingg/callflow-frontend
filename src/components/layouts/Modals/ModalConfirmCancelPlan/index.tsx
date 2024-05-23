@@ -8,9 +8,7 @@ import { CheckCircle, X, XCircle } from "phosphor-react";
 import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
-import {
-  cancelSubscription
-} from "@/api/subscriptions/cancel-subscriptions";
+import { cancelSubscription } from "@/api/subscriptions/cancel-subscriptions";
 import { queryClient } from "@/services/react-query";
 import { useAuth } from "@/hooks/useAuth";
 import { useCompany } from "@/hooks/useCompany";
