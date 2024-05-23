@@ -170,7 +170,7 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
         <div className="mt-4">
           {paymentMethodsIsEmpty ? (
             <EmptyState
-              description="Ainda não temos  nenhuma forma de pagamento registrada"
+              description="A empresa ainda não possui nenhum método de pagamento registrado. Adicione um método de pagamento para começar a processar transações."
               title="Sem metódo de pagamento"
               icon={Empty}
             />
