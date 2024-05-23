@@ -37,6 +37,7 @@ import { useGlobalLoading } from "@/hooks/useGlobalLoading";
 import { calculateCostMassCommunication } from "@/api/mass-communication/calculate-cost";
 import { ICostReports } from "@/@types/MassCommunication";
 import { handleErrors } from "@/utils/handleErrors";
+import { useRouter } from "next/router";
 
 export const MassCommunicationTemplate = ({
   type,
@@ -54,6 +55,7 @@ export const MassCommunicationTemplate = ({
       variables: [],
     });
   const [costReports, setCostReports] = useState({} as ICostReports);
+  const router = useRouter();
 
   const { setGlobalLoading } = useGlobalLoading();
   const queryClient = useQueryClient();
@@ -235,7 +237,7 @@ export const MassCommunicationTemplate = ({
                         R$ {costReports.total}
                       </Paragraph>
                       <Paragraph className="text-black text-xs text-opacity-70">
-                        (R${costReports.contacts.costByMessage} / contato)
+                        (R${costReports?.contacts?.costByMessage} / contato)
                       </Paragraph>
                     </div>
                   </div>
@@ -257,8 +259,9 @@ export const MassCommunicationTemplate = ({
               <div className="flex w-full justify-center mt-16">
                 <EmptyState
                   description="Nenhuma lista foi selecionada, selecione para enviar suas mensagens"
-                  textButton="Selecionar Lista"
+                  textButton="Criar lista de contatos"
                   title="Nenhuma lista selecionada"
+                  actionButton={() => router.push("/contacts/create-list")}
                   icon={Empty}
                 />
               </div>

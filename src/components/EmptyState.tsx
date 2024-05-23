@@ -31,6 +31,7 @@ export const EmptyState = ({
           <Button
             className="font-light mt-6 w-[!149] px-2"
             leftIcon={<PlusCircle size={20} color="#FFF" />}
+            onClick={actionButton}
           >
             {textButton}
           </Button>
