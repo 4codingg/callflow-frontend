@@ -8,10 +8,14 @@ import EloIcon from "@/assets/icons/elo-icon.svg";
 import VisaIcon from "@/assets/icons/visa-icon.svg";
 import Image from "next/image";
 import { Heading } from "@/components/Heading";
+import { deleteCardPaymentMethod } from "@/api/wallet/delete-payment-method";
+import { useMutation } from "@tanstack/react-query";
+import { queryClient } from "@/services/react-query";
+import { toast } from "@/utils/toast";
 
 interface ITablePaymentMethodsProps {
   paymentMethods: any[];
-  handleDeleteItem?: (id: string) => void;
+  handleDeleteItem?: (id: string) => Promise<void>;
   emptyMessage?: string;
   tableTitle?: string;
 }
@@ -28,6 +32,25 @@ export const TablePaymentMethods = ({
     "Data de expiração",
     "Endereço de cobrança",
   ];
+
+  const { mutateAsync: deleteCardPaymentMethodFn } = useMutation({
+    mutationFn: deleteCardPaymentMethod,
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["company-payment-methods"],
+      });
+    },
+  });
+  const handleDeletePaymentMethod = async (id: string) => {
+    try {
+      await deleteCardPaymentMethodFn(id);
+    } catch (error) {
+      toast(
+        "error",
+        "Ocorreu um erro deletar o metodo de pagamento. Tente novamente."
+      );
+    }
+  };
 
   const calculateWidthSize = () => {
     const widthSize = Number((100 / (titles.length + 1)).toFixed(0));
@@ -70,7 +93,7 @@ export const TablePaymentMethods = ({
                   >
                     {titles.map((title, index) => (
                       <td
-                        key={`${item.name}-${index}`} // Chave única para cada célula
+                        key={`${item.name}-${index}`}
                         className={`flex `}
                         style={{ width: calculateWidthSize() }}
                       >
@@ -90,7 +113,7 @@ export const TablePaymentMethods = ({
                       style={{ width: calculateWidthSize() }}
                     >
                       <button
-                        onClick={() => handleDeleteItem(item.id)}
+                        onClick={() => handleDeletePaymentMethod(item.id)}
                         className="bg-none border-none rounded-full hover:bg-primary hover:text-white p-1"
                       >
                         <Trash
