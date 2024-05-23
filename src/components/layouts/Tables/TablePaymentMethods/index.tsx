@@ -42,7 +42,7 @@ export const TablePaymentMethods = ({
       });
     },
   });
-  const handleTeste = async (id: string) => {
+  const handleDeletePaymentMethod = async (id: string) => {
     confirmActionToast("Você realmente deseja remover o cartão?", async () => {
       try {
         await deleteCardPaymentMethodFn(id);
@@ -115,7 +115,7 @@ export const TablePaymentMethods = ({
                       style={{ width: calculateWidthSize() }}
                     >
                       <button
-                        onClick={() => handleTeste(item.id)}
+                        onClick={() => handleDeletePaymentMethod(item.id)}
                         className="bg-none border-none rounded-full hover:bg-primary hover:text-white p-1"
                       >
                         <Trash
