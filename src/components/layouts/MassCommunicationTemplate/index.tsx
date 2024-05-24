@@ -196,13 +196,16 @@ export const MassCommunicationTemplate = ({
         />
         <div className="flex flex-col justify-between gap-4">
           <section className="flex flex-col mt-6 gap-8 w-full flex-1">
-            <Dropdown
-              options={contactsListDropdownOptions}
-              label="Lista de Contatos"
-              placeholder="Seleciona a lista de contatos"
-              onValueChange={handleChangeContactsList}
-              {...getFieldProps("contactsListId")}
-            />
+            {contactsListsItems.length > 0 ? (
+              <Dropdown
+                options={contactsListDropdownOptions}
+                label="Lista de Contatos"
+                placeholder="Seleciona a lista de contatos"
+                onValueChange={handleChangeContactsList}
+                {...getFieldProps("contactsListId")}
+              />
+            ) : null}
+
             {!contactsListDetailIsEmpty && (
               <>
                 <div className="flex flex-col gap-3 w-full">
@@ -259,10 +262,26 @@ export const MassCommunicationTemplate = ({
             {contactsListDetail?.contacts?.length == 0 ? (
               <div className="flex w-full justify-center mt-16">
                 <EmptyState
-                  description="Nenhuma lista foi selecionada, selecione para enviar suas mensagens"
-                  textButton="Criar lista de contatos"
-                  title="Nenhuma lista selecionada"
-                  actionButton={() => router.push("/contacts/create-list")}
+                  description={
+                    contactsListsItems.length > 0
+                      ? "Selecione uma lista para enviar suas mensagens"
+                      : `Clique em criar lista de contatos para prosseguir`
+                  }
+                  textButton={
+                    contactsListsItems.length == 0
+                      ? "Criar lista de contatos"
+                      : null
+                  }
+                  title={
+                    contactsListsItems.length > 0
+                      ? "Nenhuma lista selecionada"
+                      : "Nenhuma lista foi criada"
+                  }
+                  actionButton={
+                    contactsListsItems.length == 0
+                      ? () => router.push("/contacts/create-list")
+                      : null
+                  }
                   icon={Empty}
                 />
               </div>
