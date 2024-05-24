@@ -8,6 +8,7 @@ import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
 import { Line } from "@/components/Line";
 import { Modal } from "@/components/Modal";
 import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
+import { Spinner } from "@/components/Spinner";
 import { useCompany } from "@/hooks/useCompany";
 import { queryClient } from "@/services/react-query";
 import { toast } from "@/utils/toast";
@@ -28,6 +29,7 @@ export const ModalConfirmPlan = ({
   planToConfirm,
 }: IModalConfirmPlan) => {
   const [paymentMethodId, setPaymentMethodId] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { paymentsMethods } = useCompany();
 
   const handleChangePaymentMethod = (id: string) => {
@@ -53,6 +55,7 @@ export const ModalConfirmPlan = ({
   });
 
   const handleAssignSubscription = async (body: IAssignSubscriptionBody) => {
+    setIsLoading(true);
     try {
       await assignSubscriptionFn({
         ...body,
@@ -64,6 +67,8 @@ export const ModalConfirmPlan = ({
         "error",
         "Ocorreu um erro ao realizar a assinatura. Tente novamente."
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -144,15 +149,17 @@ export const ModalConfirmPlan = ({
               >
                 Descartar Alterações
               </Button>
+
               <Button
                 leftIcon={<CheckCircle size={24} />}
                 type="submit"
+                disabled={isLoading}
                 className="!w-[109px] !h-[48px] font-medium"
                 onClick={() =>
                   handleAssignSubscription({ type: planToConfirm.value })
                 }
               >
-                Salvar
+                {isLoading ? <Spinner /> : "Salvar"}
               </Button>
             </section>
           )}
