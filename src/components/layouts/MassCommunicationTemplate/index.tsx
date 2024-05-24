@@ -234,10 +234,11 @@ export const MassCommunicationTemplate = ({
                   <div className="flex items-center gap-4">
                     <div className="bg-default-grey bg-opacity-30 rounded flex items-center justify-between gap-4 h-[40px] p-3 w-full">
                       <Paragraph className="text-primary">
-                        R$ {costReports.total}
+                        R$ {costReports?.total}
                       </Paragraph>
                       <Paragraph className="text-black text-xs text-opacity-70">
-                        (R${costReports?.contacts?.costByMessage} / contato)
+                        (R${costReports?.contacts?.costByMessage || "0,00"} /
+                        contato)
                       </Paragraph>
                     </div>
                   </div>
