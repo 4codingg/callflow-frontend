@@ -8,12 +8,13 @@ import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
 import { Line } from "@/components/Line";
 import { Modal } from "@/components/Modal";
 import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
+import { Spinner } from "@/components/Spinner";
 import { useCompany } from "@/hooks/useCompany";
 import { queryClient } from "@/services/react-query";
 import { toast } from "@/utils/toast";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
-import { ArrowRight, CheckCircle, Spinner, X, XCircle } from "phosphor-react";
+import { ArrowRight, CheckCircle, X, XCircle } from "phosphor-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface IModalConfirmPlan {
