@@ -31,7 +31,7 @@ export const ModalConfirmVariables = ({
               size={ParagraphSizeVariant.Medium}
               className=" text-purple-secundary !font-medium "
             >
-              Confirmar variáveis.
+              Confirmar variáveis
             </Paragraph>
             <Modal.Close>
               <Button variant={ButtonVariant.iconOnly} className="!w-6 !h-6">
@@ -44,7 +44,7 @@ export const ModalConfirmVariables = ({
             Essa ação é irreversível.
           </Tipbox>
           <Paragraph className=" mt-8 font-poppins font-medium mb-4">
-            Variáveis.
+            Variáveis
           </Paragraph>
           <section className="flex gap-2">
             {variables.map((item, index) => (
