@@ -46,7 +46,7 @@ export const MassCommunicationTemplate = ({
   const [modalConfirmMessageIsOpen, setModalConfirmMessageIsOpen] =
     useState(false);
   const [modalCostReportIsOpen, setModalCostReportIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [contactsListDetail, setContactsListDetail] =
     useState<GetContactsListDetailResponse>({
       id: "",
@@ -136,6 +136,7 @@ export const MassCommunicationTemplate = ({
   };
 
   const handleSendMassCommunication = async () => {
+    setIsLoading(true);
     try {
       await sendMassCommunicationFn({
         destinationVariable: values.destinationVariable,
@@ -148,6 +149,8 @@ export const MassCommunicationTemplate = ({
       setModalConfirmMessageIsOpen(false);
     } catch (err) {
       handleErrors(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -297,6 +300,7 @@ export const MassCommunicationTemplate = ({
         message={values.message}
         handleSendMassCommunication={handleSendMassCommunication}
         destinationVariable={values.destinationVariable}
+        isLoading={isLoading}
       />
       <MassCommunicationModalMessage
         type={type}

@@ -6,6 +6,9 @@ import { ArrowRight, XCircle } from "phosphor-react";
 import { Dispatch, SetStateAction } from "react";
 import { Label } from "@/components/Label";
 import { GetContactsListDetailResponse } from "@/api/contactsList/get-contacts-list-detail";
+import paperPlaneAnimation from "@/assets/animations/paper-plane-animation.json";
+
+import dynamic from "next/dynamic";
 
 interface IModalConfirmMessageProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -14,6 +17,7 @@ interface IModalConfirmMessageProps {
   message: string;
   destinationVariable: string;
   handleSendMassCommunication: () => Promise<void>;
+  isLoading: boolean;
 }
 
 export const ModalConfirmMessage = ({
@@ -23,7 +27,12 @@ export const ModalConfirmMessage = ({
   handleSendMassCommunication,
   message,
   destinationVariable,
+  isLoading,
 }: IModalConfirmMessageProps) => {
+  const Lottie = dynamic(() => import("lottie-react"), {
+    ssr: false,
+  });
+
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
       <Modal.Content className="min-w-[700px]">
@@ -87,15 +96,25 @@ export const ModalConfirmMessage = ({
                 <Paragraph>{message}</Paragraph>
               </div>
             </div>
-            <section className="flex justify-end mt-[17px]">
-              <Button
-                type="button"
-                className="text-xs font-normal !w-[197px] h-[48px] "
-                onClick={handleSendMassCommunication}
-              >
-                Confirmar e Enviar <ArrowRight size={18} />
-              </Button>
-            </section>
+            {isLoading === true ? (
+              <div className=" flex justify-center items-start">
+                <Lottie
+                  animationData={paperPlaneAnimation}
+                  loop={true}
+                  style={{ width: 200, height: 200 }}
+                />
+              </div>
+            ) : (
+              <section className="flex justify-end mt-[17px]">
+                <Button
+                  type="button"
+                  className="text-xs font-normal !w-[197px] h-[48px] "
+                  onClick={handleSendMassCommunication}
+                >
+                  Confirmar e Enviar <ArrowRight size={18} />
+                </Button>
+              </section>
+            )}
           </form>
         </div>
       </Modal.Content>
