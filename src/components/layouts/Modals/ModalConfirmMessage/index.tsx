@@ -3,9 +3,13 @@ import { Line } from "@/components/Line";
 import { Modal } from "@/components/Modal";
 import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
 import { ArrowRight, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Label } from "@/components/Label";
 import { GetContactsListDetailResponse } from "@/api/contactsList/get-contacts-list-detail";
+import { ICostReports } from "@/@types/MassCommunication";
+import { toast } from "@/utils/toast";
+import { calculateCostMassCommunication } from "@/api/mass-communication/calculate-cost";
+import { useMutation } from "@tanstack/react-query";
 
 interface IModalConfirmMessageProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -24,6 +28,29 @@ export const ModalConfirmMessage = ({
   message,
   destinationVariable,
 }: IModalConfirmMessageProps) => {
+  const [costReports, setCostReports] = useState<ICostReports | null>(null);
+
+  const { mutateAsync: calculateCostMassCommunicationFn } = useMutation({
+    mutationFn: calculateCostMassCommunication,
+  });
+  const calculateCostReports = async (contactsListLength: number) => {
+    try {
+      const costReportsResponse = await calculateCostMassCommunicationFn({
+        type: "sms",
+        contactsListLength,
+      });
+      setCostReports(costReportsResponse);
+    } catch (err) {
+      toast("error", "Algo deu errado.");
+    }
+  };
+
+  useEffect(() => {
+    if (contactsListDetail?.contacts?.length) {
+      calculateCostReports(contactsListDetail.contacts.length);
+    }
+  }, [contactsListDetail?.contacts?.length]);
+
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
       <Modal.Content className="min-w-[700px]">
@@ -74,13 +101,19 @@ export const ModalConfirmMessage = ({
               <div className="flex flex-col w-full gap-3">
                 <Label className="font-semibold text-sm">Custo</Label>
                 <div className="bg-default-grey bg-opacity-30 rounded-sm flex items-center justify-between h-[40px] p-3 w-full">
-                  <Paragraph className="text-primary">R$ 30,00</Paragraph>
+                  <Paragraph className="text-primary">
+                    R$ {costReports?.total}
+                  </Paragraph>
                   <Paragraph className="text-black text-xs text-opacity-70">
-                    (R$0,10 / contato)
+                    R$
+                    {(
+                      costReports?.total / contactsListDetail?.contacts?.length
+                    ).toFixed(2)}
+                    / contato
                   </Paragraph>
                 </div>
               </div>
-            </section>
+            </section>{" "}
             <div className="flex flex-col gap-3">
               <Label className="font-semibold text-sm">Mensagem</Label>
               <div className="p-3 border rounded min-h-[100px] w-full text-sm">
