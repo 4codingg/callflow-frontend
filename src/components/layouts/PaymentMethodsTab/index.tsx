@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { ArrowRight, FloppyDisk, PlusCircle } from "phosphor-react";
-import { Button, Card, Line, Paragraph, Spinner } from "@/components";
-import { TablePaymentMethods } from "@/components/layouts/Tables/TablePaymentMethods";
+import {
+  Button,
+  Card,
+  Line,
+  Paragraph,
+  Spinner,
+  TableDefault,
+} from "@/components";
 import { DropdownPaymentMethods } from "@/components/DropdownPaymentMethods";
 import { ModalAddBalance } from "../Modals/ModalAddBalance";
 import { useCompany } from "@/hooks/useCompany";
@@ -175,9 +181,18 @@ export const PaymentMethodsTab = ({ setModalAddPaymentMethodIsOpen }) => {
               icon={Empty}
             />
           ) : (
-            <TablePaymentMethods
-              paymentMethods={paymentsMethods}
+            <TableDefault
+              showFields={[
+                "expiry",
+                "last4",
+                "nickname",
+                "cardNameholder",
+                "address",
+              ]}
+              content={paymentsMethods || []}
               handleDeleteItem={handleDeletePaymentMethod}
+              disableAccessItem
+              disableEditItem
             />
           )}
         </div>

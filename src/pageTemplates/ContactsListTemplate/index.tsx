@@ -4,12 +4,12 @@ import {
   Button,
   Paragraph,
   EmptyState,
+  TableDefault,
 } from "@/components";
 import { PlusCircle } from "phosphor-react";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { fetchAllContactsLists } from "@/api/contactsList/fetch-all-contacts-lists";
-import { TableContactsList } from "@/components/layouts/Tables/TableContactsList";
 import { deleteContactsList } from "@/api/contactsList/delete-contacts-list";
 import { queryClient } from "@/services/react-query";
 import Empty from "@/assets/empty-state.png";
@@ -69,7 +69,7 @@ export const ContactsListTemplate = () => {
               description="Adicione um contato ou faça upload de uma planilha"
             />
           ) : (
-            <TableContactsList
+            <TableDefault
               content={contactsListsItems || []}
               handleEditItem={(id) => router.push(`/contacts/${id}`)}
               handleDeleteItem={(id) => handleDeleteContactsList(id)}
