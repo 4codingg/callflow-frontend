@@ -4,8 +4,6 @@ import { EmptyState } from "@/components/EmptyState";
 import { Line } from "@/components/Line";
 import { Paragraph } from "@/components/Paragraph";
 import { TableDefault } from "../Tables/TableDefault";
-import { MOCK_PAYMENTS_HISTORY } from "@/constants/wallet";
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchHistoryTransactions } from "@/api/wallet/fetch-history-transactions";
 

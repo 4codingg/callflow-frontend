@@ -2,6 +2,7 @@ import { CreditCardBrand } from "@/components/CreditCardBrand";
 import { Labelbox } from "@/components/Labelbox";
 import { Paragraph } from "@/components/Paragraph";
 import { formatDateToDDMMYYYYHHMM } from "@/utils/formatDateToDDMMYYYYHHMM";
+import { formatNumberToStringBR } from "@/utils/formatNumberToStringBR";
 
 export const TableCellContent = ({ item, title }) => {
   if (title === "variables") {
@@ -34,6 +35,11 @@ export const TableCellContent = ({ item, title }) => {
 
   if (title === "createdAt" || title === "processedAt") {
     return formatDateToDDMMYYYYHHMM(item[title]);
+  }
+
+  if (title === "cost") {
+    const cost = "R$ " + formatNumberToStringBR(item[title]);
+    return cost;
   }
 
   if (title === "historyType") {

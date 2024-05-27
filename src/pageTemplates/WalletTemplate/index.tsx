@@ -1,20 +1,12 @@
-import {
-  EmptyState,
-  Heading,
-  LayoutWithSidebar,
-  Paragraph,
-} from "@/components";
+import { Heading, LayoutWithSidebar, Paragraph } from "@/components";
 import { useState } from "react";
 import { Tabs } from "@/components/Tabs";
-import { MOCK_PAYMENTS_HISTORY } from "@/constants/wallet";
 import { MyPlanTab } from "@/components/layouts/MyPlanTab";
-import { TablePaymentsHistory } from "@/components/layouts/Tables/TablePaymentsHistory";
 import { PaymentMethodsTab } from "@/components/layouts/PaymentMethodsTab";
-import "react-credit-cards/es/styles-compiled.css";
 import { ModalAddPaymentMethod } from "@/components/layouts/Modals/ModalAddPaymentMethod";
-import Empty from "@/assets/empty-state.png";
 import { ETabsWallet, TABS_WALLET } from "@/constants/tabs";
 import { PaymentsHistoryTab } from "@/components/layouts/PaymentsHistoryTab";
+import "react-credit-cards/es/styles-compiled.css";
 
 export const WalletTemplate = () => {
   const [modalAddPaymentMethodIsOpen, setModalAddPaymentMethodIsOpen] =
