@@ -23,8 +23,6 @@ export const ModalUploadCsv = ({
   setModalIsOpen,
   modalIsOpen,
   handleUploadAccepted,
-  setFile,
-  file,
 }: IModalUploadCsvProps) => {
   const [pendingResults, setPendingResults] = useState([]);
   const [files, setFiles] = useState([]);
