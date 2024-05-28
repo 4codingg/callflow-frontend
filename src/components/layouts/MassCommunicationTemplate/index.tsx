@@ -199,7 +199,7 @@ export const MassCommunicationTemplate = ({
         />
         <div className="flex flex-col justify-between gap-4">
           <section className="flex flex-col mt-6 gap-8 w-full flex-1">
-            {contactsListsItems.length > 0 ? (
+            {contactsListsItems?.length > 0 ? (
               <Dropdown
                 options={contactsListDropdownOptions}
                 label="Lista de Contatos"
@@ -266,22 +266,22 @@ export const MassCommunicationTemplate = ({
               <div className="flex w-full justify-center mt-16">
                 <EmptyState
                   description={
-                    contactsListsItems.length > 0
+                    contactsListsItems?.length > 0
                       ? "Selecione uma lista para enviar suas mensagens"
                       : `Clique em criar lista de contatos para prosseguir`
                   }
                   textButton={
-                    contactsListsItems.length == 0
+                    contactsListsItems?.length == 0
                       ? "Criar lista de contatos"
                       : null
                   }
                   title={
-                    contactsListsItems.length > 0
+                    contactsListsItems?.length > 0
                       ? "Nenhuma lista selecionada"
                       : "Nenhuma lista foi criada"
                   }
                   actionButton={
-                    contactsListsItems.length == 0
+                    contactsListsItems?.length == 0
                       ? () => router.push("/contacts/create-list")
                       : null
                   }
