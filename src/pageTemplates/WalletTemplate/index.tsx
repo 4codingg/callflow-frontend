@@ -1,19 +1,12 @@
-import {
-  EmptyState,
-  Heading,
-  LayoutWithSidebar,
-  Paragraph,
-} from "@/components";
+import { Heading, LayoutWithSidebar, Paragraph } from "@/components";
 import { useState } from "react";
 import { Tabs } from "@/components/Tabs";
-import { MOCK_PAYMENTS_HISTORY } from "@/constants/wallet";
 import { MyPlanTab } from "@/components/layouts/MyPlanTab";
-import { TablePaymentsHistory } from "@/components/layouts/Tables/TablePaymentsHistory";
 import { PaymentMethodsTab } from "@/components/layouts/PaymentMethodsTab";
-import "react-credit-cards/es/styles-compiled.css";
 import { ModalAddPaymentMethod } from "@/components/layouts/Modals/ModalAddPaymentMethod";
-import Empty from "@/assets/empty-state.png";
 import { ETabsWallet, TABS_WALLET } from "@/constants/tabs";
+import { PaymentsHistoryTab } from "@/components/layouts/PaymentsHistoryTab";
+import "react-credit-cards/es/styles-compiled.css";
 
 export const WalletTemplate = () => {
   const [modalAddPaymentMethodIsOpen, setModalAddPaymentMethodIsOpen] =
@@ -44,22 +37,7 @@ export const WalletTemplate = () => {
               />
             )}
             {tabActive === ETabsWallet.Plan && <MyPlanTab />}
-            {tabActive === ETabsWallet.PaymentHistory && (
-              <div className="mt-4">
-                {MOCK_PAYMENTS_HISTORY?.length == 0 ? (
-                  <EmptyState
-                    description="Ainda não temos hitórico de pagamentos"
-                    textButton="Adicionar forma de pagamento"
-                    title="Nenhum histórico"
-                    icon={Empty}
-                  />
-                ) : (
-                  <>
-                    <TablePaymentsHistory history={MOCK_PAYMENTS_HISTORY} />{" "}
-                  </>
-                )}
-              </div>
-            )}
+            {tabActive === ETabsWallet.PaymentHistory && <PaymentsHistoryTab />}
           </div>
         </div>
       </LayoutWithSidebar>

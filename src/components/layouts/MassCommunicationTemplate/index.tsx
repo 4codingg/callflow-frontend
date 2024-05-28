@@ -18,13 +18,10 @@ import { MassCommunicationHeader } from "./MassCommunicationHeader";
 import { MassCommunicationModalMessage } from "./MassCommunicationModalMessage";
 import { ModalCostReports } from "../Modals/ModalCostReport";
 import { useMassCommunication } from "@/hooks/useMassCommunication";
+import { useRouter } from "next/router";
 
 export const MassCommunicationTemplate = ({ type }) => {
-  const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState(false);
-  const [modalMessageIsOpen, setModalMessageIsOpen] = useState(false);
-  const [modalConfirmMessageIsOpen, setModalConfirmMessageIsOpen] =
-    useState(false);
-  const [modalCostReportIsOpen, setModalCostReportIsOpen] = useState(false);
+  const router = useRouter();
 
   const {
     formik,
@@ -34,6 +31,16 @@ export const MassCommunicationTemplate = ({ type }) => {
     handleChangeContactsList,
     handleChangeDestinationVariable,
     handleSendMassCommunication,
+    isLoading,
+    setModalConfirmMessageIsOpen,
+    setModalCostReportIsOpen,
+    setModalMessageIsOpen,
+    setModalStepByStepIsOpen,
+    modalConfirmMessageIsOpen,
+    modalCostReportIsOpen,
+    modalMessageIsOpen,
+    modalStepByStepIsOpen,
+    handleConfirmSendMassCommunication,
   } = useMassCommunication({ type });
 
   const { getFieldProps, values, isValid } = formik;
@@ -53,7 +60,7 @@ export const MassCommunicationTemplate = ({ type }) => {
           <Button
             type="button"
             className=" !h-[48px] !w-[200px] rounded-2xl text-xs font-medium fixed bottom-16 right-16"
-            onClick={() => setModalConfirmMessageIsOpen(true)}
+            onClick={handleConfirmSendMassCommunication}
           >
             Enviar <Check size={18} color="#FFF" />
           </Button>
@@ -64,13 +71,16 @@ export const MassCommunicationTemplate = ({ type }) => {
         />
         <div className="flex flex-col justify-between gap-4">
           <section className="flex flex-col mt-6 gap-8 w-full flex-1">
-            <Dropdown
-              options={contactsListDropdownOptions}
-              label="Lista de Contatos"
-              placeholder="Seleciona a lista de contatos"
-              onValueChange={handleChangeContactsList}
-              {...getFieldProps("contactsListId")}
-            />
+            {contactsListsItems?.length > 0 ? (
+              <Dropdown
+                options={contactsListDropdownOptions}
+                label="Lista de Contatos"
+                placeholder="Seleciona a lista de contatos"
+                onValueChange={handleChangeContactsList}
+                {...getFieldProps("contactsListId")}
+              />
+            ) : null}
+
             {!contactsListDetailIsEmpty && (
               <>
                 <div className="flex flex-col gap-3 w-full">
@@ -127,9 +137,26 @@ export const MassCommunicationTemplate = ({ type }) => {
             {contactsListDetail?.contacts?.length == 0 ? (
               <div className="flex w-full justify-center mt-16">
                 <EmptyState
-                  description="Nenhuma lista foi selecionada, selecione para enviar suas mensagens"
-                  textButton="Selecionar Lista"
-                  title="Nenhuma lista selecionada"
+                  description={
+                    contactsListsItems?.length > 0
+                      ? "Selecione uma lista para enviar suas mensagens"
+                      : `Clique em criar lista de contatos para prosseguir`
+                  }
+                  textButton={
+                    contactsListsItems?.length == 0
+                      ? "Criar lista de contatos"
+                      : null
+                  }
+                  title={
+                    contactsListsItems?.length > 0
+                      ? "Nenhuma lista selecionada"
+                      : "Nenhuma lista foi criada"
+                  }
+                  actionButton={
+                    contactsListsItems?.length == 0
+                      ? () => router.push("/contacts/create-list")
+                      : null
+                  }
                   icon={Empty}
                 />
               </div>
@@ -167,6 +194,7 @@ export const MassCommunicationTemplate = ({ type }) => {
         message={values.message}
         handleSendMassCommunication={handleSendMassCommunication}
         destinationVariable={values.destinationVariable}
+        isLoading={isLoading}
       />
       <MassCommunicationModalMessage
         type={type}

@@ -54,7 +54,7 @@ export const MembersTemplate = () => {
     <LayoutWithSidebar>
       <header className="flex items-center justify-between">
         <div className="flex flex-col">
-          <Heading>Members</Heading>
+          <Heading>Membros</Heading>
           <Paragraph className="!text-default-grey">
             Adicione membros para compor seu time.
           </Paragraph>

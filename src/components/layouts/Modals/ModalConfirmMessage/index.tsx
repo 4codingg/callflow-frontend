@@ -10,6 +10,9 @@ import { ICostReports } from "@/@types/MassCommunication";
 import { toast } from "@/utils/toast";
 import { calculateCostMassCommunication } from "@/api/mass-communication/calculate-cost";
 import { useMutation } from "@tanstack/react-query";
+import paperPlaneAnimation from "@/assets/animations/paper-plane-animation.json";
+
+import dynamic from "next/dynamic";
 
 interface IModalConfirmMessageProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -18,6 +21,7 @@ interface IModalConfirmMessageProps {
   message: string;
   destinationVariable: string;
   handleSendMassCommunication: () => Promise<void>;
+  isLoading: boolean;
 }
 
 export const ModalConfirmMessage = ({
@@ -27,6 +31,7 @@ export const ModalConfirmMessage = ({
   handleSendMassCommunication,
   message,
   destinationVariable,
+  isLoading,
 }: IModalConfirmMessageProps) => {
   const [costReports, setCostReports] = useState<ICostReports | null>(null);
 
@@ -50,6 +55,10 @@ export const ModalConfirmMessage = ({
       calculateCostReports(contactsListDetail.contacts.length);
     }
   }, [contactsListDetail?.contacts?.length]);
+
+  const Lottie = dynamic(() => import("lottie-react"), {
+    ssr: false,
+  });
 
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
@@ -120,15 +129,25 @@ export const ModalConfirmMessage = ({
                 <Paragraph>{message}</Paragraph>
               </div>
             </div>
-            <section className="flex justify-end mt-[17px]">
-              <Button
-                type="button"
-                className="text-xs font-normal !w-[197px] h-[48px] "
-                onClick={handleSendMassCommunication}
-              >
-                Confirmar e Enviar <ArrowRight size={18} />
-              </Button>
-            </section>
+            {isLoading === true ? (
+              <div className=" flex justify-center items-start">
+                <Lottie
+                  animationData={paperPlaneAnimation}
+                  loop={true}
+                  style={{ width: 200, height: 200 }}
+                />
+              </div>
+            ) : (
+              <section className="flex justify-end mt-[17px]">
+                <Button
+                  type="button"
+                  className="text-xs font-normal !w-[197px] h-[48px] "
+                  onClick={handleSendMassCommunication}
+                >
+                  Confirmar e Enviar <ArrowRight size={18} />
+                </Button>
+              </section>
+            )}
           </form>
         </div>
       </Modal.Content>

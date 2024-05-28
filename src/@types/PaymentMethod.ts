@@ -23,3 +23,15 @@ export interface ICreatePaymentMethodBody {
     phone?: string;
   };
 }
+
+export interface IPaymentHistory {
+  id: string;
+  companyId: string;
+  cost: number;
+  paymentMethod: string | null;
+  type: string;
+  createdAt: string;
+  updatedAt: string;
+  contactsListId: string;
+  creditCardMethodId: string | null;
+}

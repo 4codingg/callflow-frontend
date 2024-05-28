@@ -1,4 +1,5 @@
-import { CaretRight, PencilLine, Trash } from 'phosphor-react';
+import { TableCell } from "@/components/ui/table";
+import { CaretRight, PencilLine, Trash } from "phosphor-react";
 
 interface ITableButtonsProps {
   handleDeleteItem?: (id: string) => void;
@@ -8,13 +9,13 @@ interface ITableButtonsProps {
   disableDeleteItem?: boolean;
   disableEditItem?: boolean;
   item: any;
-  width;
+  width: any;
 }
 
 export const TableButtons = ({
-  handleAccessItem,
-  handleDeleteItem,
-  handleEditItem,
+  handleAccessItem = null,
+  handleDeleteItem = null,
+  handleEditItem = null,
   disableAccessItem,
   disableDeleteItem,
   disableEditItem,
@@ -22,7 +23,7 @@ export const TableButtons = ({
   width,
 }: ITableButtonsProps) => {
   return (
-    <td className={`flex  gap-2`} style={{ width }}>
+    <TableCell className={`flex  gap-2`} style={{ width }}>
       {!disableDeleteItem && (
         <button
           onClick={() => handleDeleteItem(item.id)}
@@ -47,6 +48,6 @@ export const TableButtons = ({
           <CaretRight size={20} className="text-primary hover:text-white" />
         </button>
       )}
-    </td>
+    </TableCell>
   );
 };

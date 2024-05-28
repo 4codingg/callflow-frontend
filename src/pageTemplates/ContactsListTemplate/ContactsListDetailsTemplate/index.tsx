@@ -18,6 +18,7 @@ import {
   PlusCircle,
   Trash,
   Upload,
+  Warning,
 } from "phosphor-react";
 import { useEffect, useState } from "react";
 import Empty from "@/assets/empty-state.png";
@@ -33,6 +34,7 @@ import { useGlobalLoading } from "@/hooks/useGlobalLoading";
 import { useCompany } from "@/hooks/useCompany";
 import { IPlanSubscriptionValue } from "@/@types/Subscription";
 import { formatResultsToFreePlanFormat } from "@/utils/formatResultsToFreePlanFormat";
+import { Tipbox } from "@/components/Tipbox";
 
 export const ContactsListDetailsTemplate = () => {
   const [modalAddItemContactListIsOpen, setModalAddItemContactListIsOpen] =
@@ -147,6 +149,9 @@ export const ContactsListDetailsTemplate = () => {
     }
   }, [contactsListDetail]);
 
+  const dataTableIsEmpty = results?.length === 0;
+  const existsPendingDocuments = pendingDocuments.length > 0;
+
   return (
     <>
       <LayoutWithSidebar>
@@ -211,7 +216,15 @@ export const ContactsListDetailsTemplate = () => {
             de um arquivo CSV.
           </Paragraph>
         </section>
-        {results?.length === 0 ? (
+        {existsPendingDocuments && (
+          <Tipbox
+            className="!py-2 !w-[500px] mt-4"
+            iconLeft={<Warning size={20} />}
+          >
+            Você tem dados pendentes, salve-os para não perdê-los.
+          </Tipbox>
+        )}
+        {dataTableIsEmpty ? (
           <div className="flex mt-6 items-center justify-center">
             <EmptyState
               icon={Empty}
@@ -231,7 +244,7 @@ export const ContactsListDetailsTemplate = () => {
             <Button
               className="mt-8 !w-[160px] mx-auto font-light flex"
               onClick={handleSave}
-              disabled={!pendingDocuments.length}
+              disabled={!existsPendingDocuments}
             >
               Salvar lista
               <CheckCircle size={22} color="#FFF" />

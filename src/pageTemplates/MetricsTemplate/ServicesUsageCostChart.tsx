@@ -1,6 +1,6 @@
-import { Button, Card, DropdownMenu, Line, Paragraph } from '@/components';
-import { CaretDown, Check } from 'phosphor-react';
-import { useState } from 'react';
+import { Button, Card, DropdownMenu, Line, Paragraph } from "@/components";
+import { CaretDown, Check } from "phosphor-react";
+import { useState } from "react";
 import {
   BarChart,
   Bar,
@@ -10,20 +10,21 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-} from 'recharts';
+} from "recharts";
+import { CustomTooltip } from "./CustomTooltip";
 
 const options = [
   {
-    label: 'SMS',
-    value: 'sms',
+    label: "SMS",
+    value: "sms",
   },
   {
-    label: 'E-mail',
-    value: 'email',
+    label: "E-mail",
+    value: "email",
   },
   {
-    label: 'Ligações',
-    value: 'calls',
+    label: "Ligações",
+    value: "calls",
   },
 ];
 
@@ -86,19 +87,28 @@ export const ServicesUsageCostChart = ({ label, data, dataKey, fillColor }) => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" axisLine={false} tickLine={false} />
+          <XAxis
+            dataKey="name"
+            axisLine={false}
+            tickLine={false}
+            tickFormatter={(value) => value}
+          />
           <YAxis
             stroke="#888"
             axisLine={false}
             tickLine={false}
             tickFormatter={(value: number) =>
-              value.toLocaleString('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
+              value.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
               })
             }
           />
-          <Tooltip />
+          <Tooltip
+            content={({ payload, label }) => (
+              <CustomTooltip payload={payload} label={label} />
+            )}
+          />
           <Bar
             label="SMSs"
             dataKey={dataKey}
