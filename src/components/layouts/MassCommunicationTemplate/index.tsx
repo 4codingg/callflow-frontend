@@ -14,165 +14,35 @@ import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
 import { ModalConfirmMessage } from "@/components/layouts/Modals/ModalConfirmMessage";
 import { ArrowRight, Check, CheckCircle } from "phosphor-react";
 import Empty from "@/assets/empty-state.png";
-import { useFormik } from "formik";
-import { toast } from "@/utils/toast";
-import { schemaSendCallsListMessage } from "@/schemas/callsList";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchAllContactsLists } from "@/api/contactsList/fetch-all-contacts-lists";
-import {
-  getContactsListDetail,
-  GetContactsListDetailResponse,
-} from "@/api/contactsList/get-contacts-list-detail";
-import { formatMessageToBackEnd } from "@/utils/formatMessageToBackEnd";
 import { MassCommunicationHeader } from "./MassCommunicationHeader";
-import {
-  EMassCommunication,
-  FUNCTION_MASS_COMMUNICATION,
-  IMassCommunicationTemplateProps,
-  LABELS_MASS_COMMUNICATION,
-} from "@/constants/massCommunication";
 import { MassCommunicationModalMessage } from "./MassCommunicationModalMessage";
 import { ModalCostReports } from "../Modals/ModalCostReport";
-import { useGlobalLoading } from "@/hooks/useGlobalLoading";
-import { calculateCostMassCommunication } from "@/api/mass-communication/calculate-cost";
-import { ICostReports } from "@/@types/MassCommunication";
-import { handleErrors } from "@/utils/handleErrors";
+import { useMassCommunication } from "@/hooks/useMassCommunication";
 
-export const MassCommunicationTemplate = ({
-  type,
-}: IMassCommunicationTemplateProps) => {
+export const MassCommunicationTemplate = ({ type }) => {
   const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState(false);
   const [modalMessageIsOpen, setModalMessageIsOpen] = useState(false);
   const [modalConfirmMessageIsOpen, setModalConfirmMessageIsOpen] =
     useState(false);
   const [modalCostReportIsOpen, setModalCostReportIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [contactsListDetail, setContactsListDetail] =
-    useState<GetContactsListDetailResponse>({
-      id: "",
-      contacts: [],
-      variables: [],
-    });
-  const [costReports, setCostReports] = useState({} as ICostReports);
 
-  const { setGlobalLoading } = useGlobalLoading();
-  const queryClient = useQueryClient();
+  const {
+    formik,
+    contactsListDetail,
+    contactsListsItems,
+    costReports,
+    handleChangeContactsList,
+    handleChangeDestinationVariable,
+    handleSendMassCommunication,
+  } = useMassCommunication({ type });
 
-  const { data: contactsListsItems } = useQuery({
-    queryKey: ["contacts-lists"],
-    queryFn: () => fetchAllContactsLists({ fetchNameOnly: true }),
-  });
-
-  const { mutateAsync: sendMassCommunicationFn } = useMutation({
-    mutationFn: FUNCTION_MASS_COMMUNICATION[type],
-    onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["company-detail"] });
-    },
-  });
-
-  const { mutateAsync: calculateCostMassCommunicationFn } = useMutation({
-    mutationFn: calculateCostMassCommunication,
-  });
-
-  const { getFieldProps, values, setFieldValue, isValid } = useFormik({
-    isInitialValid: false,
-    initialValues: {
-      contactsListId: "",
-      message: "",
-      destinationVariable: "",
-      ...(type === EMassCommunication.Email && { subject: "" }),
-    },
-    validationSchema: schemaSendCallsListMessage,
-    onSubmit: () => {},
-  });
-
-  const handleChangeContactsList = async (contactsListId: string) => {
-    setFieldValue("contactsListId", contactsListId);
-
-    setIsLoading(true);
-    try {
-      const response = await getContactsListDetail({ contactsListId });
-
-      const formattedContacts = response.contacts?.map((contact) => {
-        return {
-          ...contact.data,
-          id: contact.id,
-        };
-      });
-
-      setContactsListDetail({ ...response, contacts: formattedContacts });
-      await calculateCostReports(formattedContacts.length || 0);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleChangeDestinationVariable = (destination: string) => {
-    if (contactsListDetailIsEmpty) {
-      toast("error", "Selecione uma lista de contatos para prosseguir.");
-      return;
-    }
-
-    setFieldValue("destinationVariable", destination);
-  };
-
-  const handleOpenMessageModal = () => {
-    if (contactsListDetailIsEmpty) {
-      toast("error", "Selecione uma lista de contatos para prosseguir.");
-      return;
-    }
-
-    setModalMessageIsOpen(true);
-  };
-
-  const handleConfirmSendMassCommunication = () => {
-    if (isValid) {
-      setModalConfirmMessageIsOpen(true);
-    } else {
-      toast("error", "Preencha todas as informações!");
-    }
-  };
-
-  const handleSendMassCommunication = async () => {
-    try {
-      await sendMassCommunicationFn({
-        destinationVariable: values.destinationVariable,
-        contactsListId: contactsListDetail.id,
-        message: formatMessageToBackEnd(values.message),
-        ...(values.subject && { subject: values.subject }),
-      });
-
-      toast("success", LABELS_MASS_COMMUNICATION[type].success.sent);
-      setModalConfirmMessageIsOpen(false);
-    } catch (err) {
-      handleErrors(err);
-    }
-  };
-
-  const calculateCostReports = async (contactsListLength: number) => {
-    setGlobalLoading(true);
-    try {
-      const costReportsResponse = await calculateCostMassCommunicationFn({
-        type,
-        contactsListLength,
-      });
-      setCostReports(costReportsResponse);
-    } catch (err) {
-      toast("error", "Algo deu errado.");
-    } finally {
-      setGlobalLoading(false);
-    }
-  };
+  const { getFieldProps, values, isValid } = formik;
 
   const contactsListDropdownOptions =
-    contactsListsItems?.map(({ name, id }) => {
-      return {
-        label: name,
-        value: id,
-      };
-    }) || [];
+    contactsListsItems?.map(({ name, id }) => ({
+      label: name,
+      value: id,
+    })) || [];
 
   const contactsListDetailIsEmpty = !contactsListDetail?.variables?.length;
 
@@ -183,7 +53,7 @@ export const MassCommunicationTemplate = ({
           <Button
             type="button"
             className=" !h-[48px] !w-[200px] rounded-2xl text-xs font-medium fixed bottom-16 right-16"
-            onClick={handleConfirmSendMassCommunication}
+            onClick={() => setModalConfirmMessageIsOpen(true)}
           >
             Enviar <Check size={18} color="#FFF" />
           </Button>
@@ -207,7 +77,7 @@ export const MassCommunicationTemplate = ({
                   <Label className="font-semibold text-sm">Mensagem</Label>
                   <button
                     className="rounded flex items-center justify-between h-[40px] border p-3 w-full"
-                    onClick={handleOpenMessageModal}
+                    onClick={() => setModalMessageIsOpen(true)}
                     type="button"
                   >
                     <Paragraph className="text-primary text-ellipsis truncate overflow-hidden">
@@ -303,8 +173,8 @@ export const MassCommunicationTemplate = ({
         modalIsOpen={modalMessageIsOpen}
         setModalIsOpen={setModalMessageIsOpen}
         message={values.message}
-        setMessage={(value) => setFieldValue("message", value)}
-        setSubject={(value) => setFieldValue("subject", value)}
+        setMessage={(value) => formik.setFieldValue("message", value)}
+        setSubject={(value) => formik.setFieldValue("subject", value)}
         contactsListDetail={contactsListDetail}
       />
       <ModalCostReports
