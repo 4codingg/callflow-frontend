@@ -26,6 +26,8 @@ export const useMassCommunication = ({ type }) => {
     id: "",
     contacts: [],
     variables: [],
+    emailDestinationVariable: "",
+    phoneDestinationVariable: "",
   });
   const [costReports, setCostReports] = useState({} as ICostReports);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +39,10 @@ export const useMassCommunication = ({ type }) => {
     initialValues: {
       contactsListId: "",
       message: "",
-      destinationVariable: "",
+      destinationVariable:
+        type === EMassCommunication.Email
+          ? contactsListDetail.emailDestinationVariable
+          : contactsListDetail.phoneDestinationVariable,
       ...(type === EMassCommunication.Email && { subject: "" }),
     },
     validationSchema: schemaSendCallsListMessage,

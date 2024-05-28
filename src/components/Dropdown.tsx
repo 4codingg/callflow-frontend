@@ -33,6 +33,7 @@ interface DropdownProps {
   labelStyle?: string;
   isLoading?: boolean;
   defaultValue?: string;
+  labelDescription?: string;
 }
 
 export const Dropdown = ({
@@ -48,6 +49,7 @@ export const Dropdown = ({
   disabled = false,
   className,
   labelStyle,
+  labelDescription,
   isLoading = false,
 }: DropdownProps) => {
   const dropdownClassesVariant = {
@@ -57,6 +59,12 @@ export const Dropdown = ({
 
   return (
     <Label name={label} disabled={disabled} labelStyle={labelStyle}>
+      {labelDescription && (
+        <Paragraph className="text-xs text-default-grey">
+          {labelDescription}
+        </Paragraph>
+      )}
+
       <Select.Root
         defaultValue={defaultValue}
         onValueChange={onValueChange}

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Button,
   EmptyState,
@@ -19,6 +18,7 @@ import { MassCommunicationModalMessage } from "./MassCommunicationModalMessage";
 import { ModalCostReports } from "../Modals/ModalCostReport";
 import { useMassCommunication } from "@/hooks/useMassCommunication";
 import { useRouter } from "next/router";
+import { MassCommunicationDestinationVariable } from "./MassCommunicationDestinationVariable";
 
 export const MassCommunicationTemplate = ({ type }) => {
   const router = useRouter();
@@ -29,7 +29,6 @@ export const MassCommunicationTemplate = ({ type }) => {
     contactsListsItems,
     costReports,
     handleChangeContactsList,
-    handleChangeDestinationVariable,
     handleSendMassCommunication,
     isLoading,
     setModalConfirmMessageIsOpen,
@@ -100,12 +99,12 @@ export const MassCommunicationTemplate = ({ type }) => {
                     </div>
                   </button>
                 </div>
-                <Dropdown
-                  options={contactsListDetail?.variables}
-                  label="Variável de Destino"
-                  placeholder="Seleciona a variável de destino"
-                  onValueChange={handleChangeDestinationVariable}
-                  {...getFieldProps("destinationVariable")}
+                <MassCommunicationDestinationVariable
+                  destination={
+                    type === "email"
+                      ? contactsListDetail.emailDestinationVariable
+                      : contactsListDetail.phoneDestinationVariable
+                  }
                 />
                 <div className="flex flex-col w-full gap-3">
                   <Label className="font-semibold text-sm">Custo</Label>

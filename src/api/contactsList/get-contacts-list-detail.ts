@@ -16,7 +16,9 @@ export interface GetContactsListDetailResponse {
   updatedAt?: string,
   contacts: Contact[],
   variables: string[],
-  name?: string
+  name?: string,
+  phoneDestinationVariable: string,
+  emailDestinationVariable
 }
 
 export async function getContactsListDetail({

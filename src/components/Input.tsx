@@ -26,6 +26,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   labelStyle?: string;
   isLoading?: boolean;
   disableError?: boolean;
+  labelDescription?: string;
 }
 
 export const Input = ({
@@ -43,6 +44,7 @@ export const Input = ({
   labelStyle,
   isLoading = false,
   disableError,
+  labelDescription,
   ...props
 }: InputProps) => {
   const inputClassesVariant = {
@@ -70,6 +72,11 @@ export const Input = ({
       className="font-poppins font-semibold text-sm text-default-grey"
       labelStyle={clsx(labelStyle)}
     >
+      {labelDescription && (
+        <Paragraph className="text-xs text-default-grey">
+          {labelDescription}
+        </Paragraph>
+      )}
       <div
         className={clsx(
           "bg-white rounded p-3 flex items-center text-main-blue ",
