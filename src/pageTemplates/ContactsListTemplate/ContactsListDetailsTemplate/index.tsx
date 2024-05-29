@@ -35,6 +35,8 @@ import { useCompany } from "@/hooks/useCompany";
 import { IPlanSubscriptionValue } from "@/@types/Subscription";
 import { formatResultsToFreePlanFormat } from "@/utils/formatResultsToFreePlanFormat";
 import { Tipbox } from "@/components/Tipbox";
+import { CrumbsContactsListDetail } from "./CrumbsContactsListDetail";
+import { DropdownActions } from "./DropdownActions";
 
 export const ContactsListDetailsTemplate = () => {
   const [modalAddItemContactListIsOpen, setModalAddItemContactListIsOpen] =
@@ -53,6 +55,11 @@ export const ContactsListDetailsTemplate = () => {
 
   const { mutateAsync: updateContactsListFn } = useMutation({
     mutationFn: updateContactsList,
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["contacts-list-detail", contactsListDetail.id],
+      });
+    },
   });
 
   const { mutateAsync: deleteContactFn } = useMutation({
@@ -85,44 +92,26 @@ export const ContactsListDetailsTemplate = () => {
     }
   };
 
-  const actions = [
-    {
-      icon: <NotePencil color="#01DDA3" size={16} />,
-      color: "#01DDA3",
-      label: "Editar nome da Lista",
-      action: () => setModalEditNameContactsListIsOpen(true),
-    },
-    {
-      icon: <Trash color="#3F3F3F" size={16} />,
-      color: "#3F3F3F",
-      label: "Deletar Lista",
-    },
-  ];
-
   const handleSave = async () => {
     try {
-      await updateContactsListFn({
+      const { invalidateContacts } = await updateContactsListFn({
         contactsListId: contactsListId,
         contacts: pendingDocuments,
       });
 
-      toast("success", "Lista salva com sucesso!");
+      console.log("==> ", invalidateContacts);
+
       setPendingDocuments([]);
+
+      if (!!invalidateContacts.length) {
+        toast("warning", "Alguns contatos não puderam ser salvos.");
+        return;
+      }
+
+      toast("success", "Lista salva com sucesso!");
     } catch (err) {
       toast("error", "Algo deu errado.");
     }
-  };
-
-  const getCrumbs = (contactsListDetailName: string) => {
-    return [
-      {
-        label: "Lista de Contatos",
-        path: "/contacts",
-      },
-      {
-        label: contactsListDetailName || "",
-      },
-    ];
   };
 
   const handleDeleteContactItem = async (contactId: string) => {
@@ -155,7 +144,9 @@ export const ContactsListDetailsTemplate = () => {
   return (
     <>
       <LayoutWithSidebar>
-        <Breadcrumb crumbs={getCrumbs(contactsListDetail?.name)} />
+        <CrumbsContactsListDetail
+          contactsListDetailName={contactsListDetail?.name || ""}
+        />
         <section className="flex justify-between">
           <section className="flex gap-[11px] mt-4">
             <Button
@@ -187,23 +178,11 @@ export const ContactsListDetailsTemplate = () => {
               </Button>
             </DropdownMenu.Trigger>
             <DropdownMenu.Content className="bg-white p-4 flex flex-col gap-4 mt-1">
-              {actions.map((action, index) => {
-                const isLastItem = actions.length === index + 1;
-                return (
-                  <>
-                    <button
-                      onClick={action.action}
-                      className="flex gap-2  items-center"
-                    >
-                      {action.icon}
-                      <Paragraph style={{ color: action.color }}>
-                        {action.label}
-                      </Paragraph>
-                    </button>
-                    {!isLastItem && <Line direction="horizontal" />}
-                  </>
-                );
-              })}
+              <DropdownActions
+                setModalEditNameContactsListIsOpen={
+                  setModalEditNameContactsListIsOpen
+                }
+              />
             </DropdownMenu.Content>
           </DropdownMenu.Root>
         </section>
