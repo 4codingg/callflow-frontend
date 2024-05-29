@@ -1,9 +1,7 @@
 import {
   DropdownMenu,
   LayoutWithSidebar,
-  Line,
   Paragraph,
-  Breadcrumb,
   Button,
   EmptyState,
 } from "@/components";
@@ -14,9 +12,7 @@ import {
   CaretUp,
   CheckCircle,
   DotsThreeOutlineVertical,
-  NotePencil,
   PlusCircle,
-  Trash,
   Upload,
   Warning,
 } from "phosphor-react";
