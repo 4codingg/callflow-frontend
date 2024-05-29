@@ -55,7 +55,7 @@ export const MassCommunicationTemplate = ({ type }) => {
   return (
     <>
       <LayoutWithSidebar hiddenInput={true}>
-        {isValid && values.message && values.destinationVariable && (
+        {isValid && values.message && (
           <Button
             type="button"
             className=" !h-[48px] !w-[200px] rounded-2xl text-xs font-medium fixed bottom-16 right-16"
@@ -192,8 +192,13 @@ export const MassCommunicationTemplate = ({ type }) => {
         contactsListDetail={contactsListDetail}
         message={values.message}
         handleSendMassCommunication={handleSendMassCommunication}
-        destinationVariable={values.destinationVariable}
+        destinationVariable={
+          type === "email"
+            ? contactsListDetail.emailDestinationVariable
+            : contactsListDetail.phoneDestinationVariable
+        }
         isLoading={isLoading}
+        costReports={costReports}
       />
       <MassCommunicationModalMessage
         type={type}

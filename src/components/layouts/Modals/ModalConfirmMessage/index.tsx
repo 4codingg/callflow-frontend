@@ -22,6 +22,7 @@ interface IModalConfirmMessageProps {
   destinationVariable: string;
   handleSendMassCommunication: () => Promise<void>;
   isLoading: boolean;
+  costReports: ICostReports;
 }
 
 export const ModalConfirmMessage = ({
@@ -32,30 +33,8 @@ export const ModalConfirmMessage = ({
   message,
   destinationVariable,
   isLoading,
+  costReports,
 }: IModalConfirmMessageProps) => {
-  const [costReports, setCostReports] = useState<ICostReports | null>(null);
-
-  const { mutateAsync: calculateCostMassCommunicationFn } = useMutation({
-    mutationFn: calculateCostMassCommunication,
-  });
-  const calculateCostReports = async (contactsListLength: number) => {
-    try {
-      const costReportsResponse = await calculateCostMassCommunicationFn({
-        type: "sms",
-        contactsListLength,
-      });
-      setCostReports(costReportsResponse);
-    } catch (err) {
-      toast("error", "Algo deu errado.");
-    }
-  };
-
-  useEffect(() => {
-    if (contactsListDetail?.contacts?.length) {
-      calculateCostReports(contactsListDetail.contacts.length);
-    }
-  }, [contactsListDetail?.contacts?.length]);
-
   const Lottie = dynamic(() => import("lottie-react"), {
     ssr: false,
   });
