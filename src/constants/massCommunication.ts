@@ -6,6 +6,7 @@ export enum EMassCommunication {
   SMS = "sms",
   Call = "call",
   Email = "email",
+  Contact = "contact",
 }
 
 export interface IMassCommunicationTemplateProps {
@@ -43,6 +44,16 @@ export const LABELS_MASS_COMMUNICATION = {
       sent: "E-mails em massa enviados com sucesso!",
     },
   },
+  contact: {
+    header: {
+      title: "Atualizar lista de contatos",
+      description:
+        "Selecione a lista de contatos, a mensagem a ser enviada e dispare sua lista em massa.",
+    },
+    success: {
+      sent: "Lista de contatos atualizada com sucesso!",
+    },
+  },
 };
 
 export const FUNCTION_MASS_COMMUNICATION = {
@@ -54,13 +65,13 @@ export const FUNCTION_MASS_COMMUNICATION = {
 export const MOCK_COST_REPORT = {
   contacts: {
     length: 50,
-    costByMessage: 1.00,
-    totalCost: 50
+    costByMessage: 1.0,
+    totalCost: 50,
   },
   bonus: {
     length: 20,
-    costByMessage: 1.00,
-    totalCost: 20
+    costByMessage: 1.0,
+    totalCost: 20,
   },
-  total: 30.00
+  total: 30.0,
 };

@@ -51,7 +51,7 @@ export const MassCommunicationTemplate = ({ type }) => {
     })) || [];
 
   const contactsListDetailIsEmpty = !contactsListDetail?.variables?.length;
-
+  console.log(type);
   return (
     <>
       <LayoutWithSidebar hiddenInput={true}>

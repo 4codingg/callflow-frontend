@@ -10,7 +10,6 @@ import {
 import { ArrowRight, Warning } from "phosphor-react";
 import { useState } from "react";
 import { Tipbox } from "@/components/Tipbox";
-import { useAuth } from "@/hooks/useAuth";
 import { IPlanSubscriptionValue } from "@/@types/Subscription";
 import { Input } from "@/components/Input";
 import { useRouter } from "next/router";
@@ -59,16 +58,21 @@ export const CreateContactListTemplate = () => {
     }
 
     setIsLoading(true);
-    const { id } = await createContactsListFn({
-      name: values.name,
-      variables: values.variables,
-      emailDestinationVariable: values.emailDestinationVariable,
-      phoneDestinationVariable: values.phoneDestinationVariable,
-    });
+    try {
+      const { id } = await createContactsListFn({
+        name: values.name,
+        variables: values.variables,
+        emailDestinationVariable: values.emailDestinationVariable,
+        phoneDestinationVariable: values.phoneDestinationVariable,
+      });
 
-    toast("success", "Lista criada com sucesso!");
-    router.push(`/contacts/${id}`);
-    setIsLoading(false);
+      toast("success", "Lista criada com sucesso!");
+      router.push(`/contacts/${id}`);
+    } catch (error) {
+      toast("error", "Erro ao criar a lista de contatos!");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
