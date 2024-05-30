@@ -18,7 +18,7 @@ import {
 } from "phosphor-react";
 import { useEffect, useState } from "react";
 import Empty from "@/assets/empty-state.png";
-import { ModalEditNameContactsList } from "@/components/layouts/Modals/ModalEditNameContactsList";
+import { ModalEditContactsList } from "@/components/layouts/Modals/ModalEditContactsList";
 import { updateContactsList } from "@/api/contactsList/update-contacts-list";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -237,12 +237,17 @@ export const ContactsListDetailsTemplate = () => {
         setModalIsOpen={setModalUploadCSVIsOpen}
         handleUploadAccepted={handleUploadAccepted}
       />
-      <ModalEditNameContactsList
+      <ModalEditContactsList
         modalIsOpen={modalEditNameContactsListIsOpen}
         setModalIsOpen={setModalEditNameContactsListIsOpen}
         item={{
           name: contactsListDetail?.name,
           id: contactsListId,
+          emailDestinationVariable:
+            contactsListDetail?.phoneDestinationVariable,
+          phoneDestinationVariable:
+            contactsListDetail?.phoneDestinationVariable,
+          variables: contactsListDetail?.variables,
         }}
       />
     </>
