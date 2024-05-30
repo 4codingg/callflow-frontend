@@ -4,12 +4,17 @@ export const activities = [
     label: "Finalizada",
   },
   {
+    value: "completed",
+    label: "Finalizada",
+  },
+  {
     value: "pending",
     label: "Pendente",
   },
 ];
 
 export const getActivitieLabel = (value: string) => {
+  console.log(value)
   const activitie = activities.find((a) => a.value === value);
   return activitie.label;
 };
