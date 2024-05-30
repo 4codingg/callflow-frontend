@@ -44,7 +44,7 @@ export const INSTRUCTIONS_CREATE_CONTACTS_LIST = [
   },
   {
     id: 2,
-    description: "Escreva as variavéis que serão utilizada na sua mensagem.",
+    description: "Escreva as variáveis que serão utilizadas na sua mensagem.",
   },
   {
     id: 3,

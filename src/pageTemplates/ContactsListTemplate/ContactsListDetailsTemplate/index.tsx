@@ -33,6 +33,8 @@ import { formatResultsToFreePlanFormat } from "@/utils/formatResultsToFreePlanFo
 import { Tipbox } from "@/components/Tipbox";
 import { CrumbsContactsListDetail } from "./CrumbsContactsListDetail";
 import { DropdownActions } from "./DropdownActions";
+import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
+import { EMassCommunication } from "@/constants/massCommunication";
 
 export const ContactsListDetailsTemplate = () => {
   const [modalAddItemContactListIsOpen, setModalAddItemContactListIsOpen] =
@@ -40,9 +42,9 @@ export const ContactsListDetailsTemplate = () => {
   const [modalUploadCSVIsOpen, setModalUploadCSVIsOpen] = useState(false);
   const [modalEditNameContactsListIsOpen, setModalEditNameContactsListIsOpen] =
     useState(false);
+  const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState();
   const [results, setResults] = useState([]);
   const [pendingDocuments, setPendingDocuments] = useState([]);
-
   const queryClient = useQueryClient();
   const router = useRouter();
   const { setGlobalLoading } = useGlobalLoading();
@@ -136,12 +138,16 @@ export const ContactsListDetailsTemplate = () => {
 
   const dataTableIsEmpty = results?.length === 0;
   const existsPendingDocuments = pendingDocuments.length > 0;
-
   return (
     <>
       <LayoutWithSidebar>
         <CrumbsContactsListDetail
           contactsListDetailName={contactsListDetail?.name || ""}
+        />
+        <ModalStepByStep
+          modalIsOpen={modalStepByStepIsOpen}
+          setModalIsOpen={setModalStepByStepIsOpen}
+          type={EMassCommunication.Call}
         />
         <section className="flex justify-between">
           <section className="flex gap-[11px] mt-4">
