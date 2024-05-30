@@ -91,12 +91,24 @@ export const CreateContactListTemplate = () => {
   };
 
   const handleDeleteVariable = (itemToDelete: string) => {
+    const translateVariable = (variable: string): string => {
+      switch (variable) {
+        case "name":
+          return "Nome";
+        case "email":
+          return "Email";
+        case "phone":
+          return "Telefone";
+        default:
+          return variable;
+      }
+    };
     if (
-      itemToDelete === "Nome" ||
-      itemToDelete === "Email" ||
-      itemToDelete === "Telefone"
+      itemToDelete === "name" ||
+      itemToDelete === "email" ||
+      itemToDelete === "phone"
     ) {
-      toast("error", `${itemToDelete} é uma variável fixa.`);
+      toast("error", `${translateVariable(itemToDelete)} é uma variável fixa.`);
       return;
     }
     const updatedVariables = values.variables.filter(
@@ -138,6 +150,7 @@ export const CreateContactListTemplate = () => {
               <Button
                 className="!w-56 font-medium !text-sm"
                 rightIcon={<ArrowRight color="#FFF" />}
+                onClick={() => router.push("/plans")}
               >
                 Fazer upgrade
               </Button>

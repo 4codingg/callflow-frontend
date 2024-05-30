@@ -1,17 +1,18 @@
-import { convertCamelCaseToWordsAndTranslate } from '@/utils/convertCamelCaseToWords';
-import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
-import SearchImage from '@/assets/search.svg';
-import HiperCardIcon from '@/assets/icons/hipercard-icon.svg';
-import MasterCardIcon from '@/assets/icons/mastercard-icon.svg';
-import EloIcon from '@/assets/icons/elo-icon.svg';
-import VisaIcon from '@/assets/icons/visa-icon.svg';
-import Image from 'next/image';
-import { Heading } from '@/components/Heading';
-import { ReactNode } from 'react';
-import { getActivitieLabel } from '@/utils/getActivitieLabel';
-import { clsx } from 'clsx';
-import { formatCurrency } from '@/utils/formatCurrency';
+import { convertCamelCaseToWordsAndTranslate } from "@/utils/convertCamelCaseToWords";
+import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
+import SearchImage from "@/assets/search.svg";
+import Image from "next/image";
+import { Heading } from "@/components/Heading";
+import { ReactNode } from "react";
+import { getActivitieLabel } from "@/utils/getActivitieLabel";
+import { clsx } from "clsx";
+import { formatCurrency } from "@/utils/formatCurrency";
 
+interface plaTransactions {
+  price: number;
+  processedAt: string;
+  status: string;
+}
 interface ITableInvoicesPaymentsProps {
   invoices: any[];
   showIdColumn?: false;
@@ -27,7 +28,7 @@ export const TableInvoicesPayments = ({
   tableTitle,
   headerComponent,
 }: ITableInvoicesPaymentsProps) => {
-  const titles = ['Data', 'Valor', 'Status'];
+  const titles = ["Data", "Valor", "Status"];
 
   const calculateWidthSize = () => {
     const widthSize = Number((100 / (titles.length + 1)).toFixed(0));
@@ -83,15 +84,15 @@ export const TableInvoicesPayments = ({
                       )}
                       {index === 2 && (
                         <Paragraph
-                          className={clsx('flex items-center gap-2 !text-xs', {
-                            'text-green': item.status === 'paid',
-                            'text-primary': item.status === 'pending',
+                          className={clsx("flex items-center gap-2 !text-xs", {
+                            "text-green": item.status === "paid",
+                            "text-primary": item.status === "pending",
                           })}
                         >
                           <div
-                            className={clsx('w-1 h-1 rounded-full', {
-                              'bg-green': item.status === 'paid',
-                              'bg-primary': item.status === 'pending',
+                            className={clsx("w-1 h-1 rounded-full", {
+                              "bg-green": item.status === "paid",
+                              "bg-primary": item.status === "pending",
                             })}
                           />
                           {getActivitieLabel(item.status)}
