@@ -55,3 +55,23 @@ export const INSTRUCTIONS_CREATE_CONTACTS_LIST = [
     description: `Após confirmar as informações, você será direcionado para tela de adicionar contatos.`,
   },
 ];
+
+export const INSTRUCTIONS_ATT_CONTACT_LIST = [
+  {
+    id: 1,
+    description:
+      "Clique em Upload de Planilha para anexar sua planilha em csv ou xlsx",
+  },
+  {
+    id: 2,
+    description: "As colunas das planilhas precisam obedecer as suas variáveis",
+  },
+  {
+    id: 3,
+    description: "Escolha seu arquivo",
+  },
+  {
+    id: 4,
+    description: `Nunca esqueça de salvar suas alterações`,
+  },
+];

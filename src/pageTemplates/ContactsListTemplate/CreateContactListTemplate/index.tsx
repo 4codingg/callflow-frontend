@@ -60,6 +60,16 @@ export const CreateContactListTemplate = () => {
 
     setIsLoading(true);
     try {
+      console.log("Nome da lista:", values.name);
+      console.log("Variáveis da lista:", values.variables);
+      console.log(
+        "Variável de destino do email:",
+        values.emailDestinationVariable
+      );
+      console.log(
+        "Variável de destino do telefone:",
+        values.phoneDestinationVariable
+      );
       const { id } = await createContactsListFn({
         name: values.name,
         variables: values.variables,

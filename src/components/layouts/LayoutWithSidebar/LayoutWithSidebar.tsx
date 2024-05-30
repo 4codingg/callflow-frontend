@@ -38,7 +38,7 @@ export const LayoutWithSidebar = ({
         <div className="w-[84%] ml-[16%]">
           <header className="flex w-full justify-between items-center px-8 py-4 border-b border-muted shadow-sm">
             <div className="flex flex-col ">
-              <Heading>Hello {userDetail?.name.split(" ")[0]}</Heading>
+              <Heading>Hello {userDetail?.name?.split(" ")[0]}</Heading>
               <Paragraph>4.45 pm 19 Jan 2022</Paragraph>
             </div>
             {!hiddenInput && (

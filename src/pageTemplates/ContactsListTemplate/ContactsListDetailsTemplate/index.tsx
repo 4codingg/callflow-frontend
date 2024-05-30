@@ -18,6 +18,7 @@ import {
 } from "phosphor-react";
 import { useEffect, useState } from "react";
 import Empty from "@/assets/empty-state.png";
+import Information from "@/assets/icons/information-circle.svg";
 import { ModalEditNameContactsList } from "@/components/layouts/Modals/ModalEditNameContactsList";
 import { updateContactsList } from "@/api/contactsList/update-contacts-list";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -35,6 +36,7 @@ import { CrumbsContactsListDetail } from "./CrumbsContactsListDetail";
 import { DropdownActions } from "./DropdownActions";
 import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
 import { EMassCommunication } from "@/constants/massCommunication";
+import Image from "next/image";
 
 export const ContactsListDetailsTemplate = () => {
   const [modalAddItemContactListIsOpen, setModalAddItemContactListIsOpen] =
@@ -42,7 +44,7 @@ export const ContactsListDetailsTemplate = () => {
   const [modalUploadCSVIsOpen, setModalUploadCSVIsOpen] = useState(false);
   const [modalEditNameContactsListIsOpen, setModalEditNameContactsListIsOpen] =
     useState(false);
-  const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState();
+  const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState(false);
   const [results, setResults] = useState([]);
   const [pendingDocuments, setPendingDocuments] = useState([]);
   const queryClient = useQueryClient();
@@ -144,11 +146,15 @@ export const ContactsListDetailsTemplate = () => {
         <CrumbsContactsListDetail
           contactsListDetailName={contactsListDetail?.name || ""}
         />
-        <ModalStepByStep
-          modalIsOpen={modalStepByStepIsOpen}
-          setModalIsOpen={setModalStepByStepIsOpen}
-          type={EMassCommunication.Call}
-        />
+        <Button
+          onClick={() => setModalStepByStepIsOpen(true)}
+          className="!bg-light-primary !w-[185px] !h-[48px] mt-[24px] flex items-center gap-2 !rounded-full"
+        >
+          <Image src={Information} alt="circle-information" />
+          <Paragraph className=" text-xs text-purple-secundary !font-bold">
+            Passo a Passo
+          </Paragraph>
+        </Button>
         <section className="flex justify-between">
           <section className="flex gap-[11px] mt-4">
             <Button
@@ -250,6 +256,11 @@ export const ContactsListDetailsTemplate = () => {
           name: contactsListDetail?.name,
           id: contactsListId,
         }}
+      />
+      <ModalStepByStep
+        modalIsOpen={modalStepByStepIsOpen}
+        setModalIsOpen={setModalStepByStepIsOpen}
+        type={EMassCommunication.Contact}
       />
     </>
   );
