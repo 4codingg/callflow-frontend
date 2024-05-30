@@ -1,16 +1,17 @@
-import { convertCamelCaseToWordsAndTranslate } from '@/utils/convertCamelCaseToWords';
-import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
-import SearchImage from '@/assets/search.svg';
-import HiperCardIcon from '@/assets/icons/hipercard-icon.svg';
-import MasterCardIcon from '@/assets/icons/mastercard-icon.svg';
-import EloIcon from '@/assets/icons/elo-icon.svg';
-import VisaIcon from '@/assets/icons/visa-icon.svg';
-import Image from 'next/image';
-import { Heading } from '@/components/Heading';
-import { ReactNode } from 'react';
-import { getActivitieLabel } from '@/utils/getActivitieLabel';
-import { clsx } from 'clsx';
-import { formatCurrency } from '@/utils/formatCurrency';
+import { convertCamelCaseToWordsAndTranslate } from "@/utils/convertCamelCaseToWords";
+import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
+import SearchImage from "@/assets/search.svg";
+import HiperCardIcon from "@/assets/icons/hipercard-icon.svg";
+import MasterCardIcon from "@/assets/icons/mastercard-icon.svg";
+import EloIcon from "@/assets/icons/elo-icon.svg";
+import VisaIcon from "@/assets/icons/visa-icon.svg";
+import Image from "next/image";
+import { Heading } from "@/components/Heading";
+import { ReactNode } from "react";
+import { getActivitieLabel } from "@/utils/getActivitieLabel";
+import { clsx } from "clsx";
+import { formatCurrency } from "@/utils/formatCurrency";
+import { formatDateToDDMMYYYYHHMM } from "@/utils/formatDateToDDMMYYYYHHMM";
 
 interface ITableInvoicesPaymentsProps {
   invoices: any[];
@@ -27,7 +28,7 @@ export const TableInvoicesPayments = ({
   tableTitle,
   headerComponent,
 }: ITableInvoicesPaymentsProps) => {
-  const titles = ['Data', 'Valor', 'Status'];
+  const titles = ["Data", "Valor", "Status"];
 
   const calculateWidthSize = () => {
     const widthSize = Number((100 / (titles.length + 1)).toFixed(0));
@@ -63,7 +64,7 @@ export const TableInvoicesPayments = ({
               </tr>
             </thead>
             <tbody className={`flex flex-col gap-4 mt-4 w-full`}>
-              {invoices.map((item) => (
+              {invoices?.map((item) => (
                 <tr
                   key={item.name}
                   className="w-full flex hover:bg-background  px-4 py-4"
@@ -74,7 +75,9 @@ export const TableInvoicesPayments = ({
                       style={{ width: calculateWidthSize() }}
                     >
                       {index === 0 && (
-                        <Paragraph className="!text-sm">{item.date}</Paragraph>
+                        <Paragraph className="!text-sm">
+                          {formatDateToDDMMYYYYHHMM(item.processedAt)}
+                        </Paragraph>
                       )}
                       {index === 1 && (
                         <Paragraph className="!text-sm">
@@ -83,15 +86,15 @@ export const TableInvoicesPayments = ({
                       )}
                       {index === 2 && (
                         <Paragraph
-                          className={clsx('flex items-center gap-2 !text-xs', {
-                            'text-green': item.status === 'paid',
-                            'text-primary': item.status === 'pending',
+                          className={clsx("flex items-center gap-2 !text-xs", {
+                            "text-green": item.status === "CONFIRMED",
+                            "text-primary": item.status === "pending",
                           })}
                         >
                           <div
-                            className={clsx('w-1 h-1 rounded-full', {
-                              'bg-green': item.status === 'paid',
-                              'bg-primary': item.status === 'pending',
+                            className={clsx("w-1 h-1 rounded-full", {
+                              "bg-green": item.status === "CONFIRMED",
+                              "bg-primary": item.status === "pending",
                             })}
                           />
                           {getActivitieLabel(item.status)}
