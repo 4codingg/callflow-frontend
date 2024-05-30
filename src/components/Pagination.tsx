@@ -13,9 +13,9 @@ interface PaginationProps {
 }
 
 export function Pagination({
-  pageIndex,
+  pageIndex = 1,
   perPage,
-  totalCount,
+  totalCount = 0,
 }: PaginationProps) {
   const pages = Math.ceil(totalCount / perPage) || 1;
 

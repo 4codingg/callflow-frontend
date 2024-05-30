@@ -18,6 +18,8 @@ interface ITableProps {
   headerComponent?: ReactNode;
   checkBox?: boolean;
   showFields?: string[];
+  totalCount?: number;
+  pageIndex?: number;
 }
 
 export const TableDefault = ({
@@ -29,6 +31,8 @@ export const TableDefault = ({
   disableDeleteItem,
   disableEditItem,
   showFields = [],
+  totalCount,
+  pageIndex,
 }: ITableProps) => {
   const titles = content[0]
     ? Object.keys(content[0]).filter(
@@ -70,7 +74,11 @@ export const TableDefault = ({
               </Table>
             </div>
 
-            <Pagination pageIndex={0} perPage={10} totalCount={105} />
+            <Pagination
+              pageIndex={pageIndex}
+              perPage={20}
+              totalCount={totalCount}
+            />
           </div>
         </div>
       ) : (
