@@ -10,11 +10,7 @@ import { formatDateToDDMMYYYYHHMM } from "@/utils/formatDateToDDMMYYYYHHMM";
 import { IPlanSubscriptionValue } from "@/@types/Subscription";
 import { PLANS_INFORMATIONS } from "@/constants/plans";
 import Empty from "@/assets/empty-state.png";
-
-import {
-  IfetchBillingHistoryResponse,
-  fetchBillingHistory,
-} from "@/api/wallet/fetch-billing-history";
+import { fetchBillingHistory } from "@/api/wallet/fetch-billing-history";
 import { useQuery } from "@tanstack/react-query";
 
 interface currentPlanProps {
