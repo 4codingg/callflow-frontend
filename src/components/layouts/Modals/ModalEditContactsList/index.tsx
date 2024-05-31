@@ -13,7 +13,7 @@ import { useFormik } from "formik";
 import { CheckCircle, X, XCircle } from "phosphor-react";
 import { Dispatch, SetStateAction, useState } from "react";
 
-interface IModalEditNameContactsList {
+interface IModalEditContactsList {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
   item: {
@@ -29,7 +29,7 @@ export const ModalEditContactsList = ({
   setModalIsOpen,
   modalIsOpen,
   item,
-}: IModalEditNameContactsList) => {
+}: IModalEditContactsList) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { mutateAsync: updateContactsListFn } = useMutation({
@@ -47,7 +47,7 @@ export const ModalEditContactsList = ({
   });
 
   const updateContactsListCache = ({ name }) => {
-    const cache: IModalEditNameContactsList["item"] = queryClient.getQueryData([
+    const cache: IModalEditContactsList["item"] = queryClient.getQueryData([
       "contacts-list-detail",
     ]);
 
