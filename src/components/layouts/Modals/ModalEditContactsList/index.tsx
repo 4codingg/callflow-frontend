@@ -6,7 +6,6 @@ import { Line } from "@/components/Line";
 import { Modal } from "@/components/Modal";
 import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
 import { Spinner } from "@/components/Spinner";
-import { useCompany } from "@/hooks/useCompany";
 import { queryClient } from "@/services/react-query";
 import { toast } from "@/utils/toast";
 import { useMutation } from "@tanstack/react-query";
@@ -68,10 +67,12 @@ export const ModalEditContactsList = ({
       await updateContactsListFn({
         name: values.name,
         contactsListId: item.id,
+        phoneDestinationVariable: values.phoneDestinationVariable,
+        emailDestinationVariable: values.emailDestinationVariable,
       });
 
       setModalIsOpen(false);
-      toast("success", "Nome atualizado com sucesso.");
+      toast("success", "Dados atualizados com sucesso.");
     } catch (err) {
       console.log(err);
     } finally {
@@ -79,7 +80,7 @@ export const ModalEditContactsList = ({
     }
   };
 
-  const { getFieldProps, handleSubmit, values, setFieldValue } = useFormik({
+  const { getFieldProps, handleSubmit, setFieldValue } = useFormik({
     enableReinitialize: true,
     initialValues: {
       name: item?.name,
@@ -108,32 +109,32 @@ export const ModalEditContactsList = ({
             </Modal.Close>
           </header>
           <Line direction="horizontal" className="mt-3" />
-          <form className="mt-6 flex flex-col gap-4" onSubmit={handleSubmit}>
+          <form className="mt-6 flex flex-col" onSubmit={handleSubmit}>
             <Input
               className="!font-normal !text-black"
               label="Nome"
               {...getFieldProps("name")}
             />
-            <Dropdown
-              options={item.variables}
-              label="Variável de destino para SMS/Ligações"
-              placeholder=""
-              onValueChange={(value) =>
-                setFieldValue("phoneDestinationVariable", value)
-              }
-              {...getFieldProps("phoneDestinationVariable")}
-            />
-
-            <Dropdown
-              options={item.variables}
-              label="Variável de destino para E-mail"
-              placeholder=""
-              onValueChange={(value) =>
-                setFieldValue("emailDestinationVariable", value)
-              }
-              {...getFieldProps("emailDestinationVariable")}
-            />
-
+            <div className=" mt-4">
+              <Dropdown
+                options={item.variables}
+                label="Variável de destino para SMS/Ligações"
+                onValueChange={(value) =>
+                  setFieldValue("phoneDestinationVariable", value)
+                }
+                {...getFieldProps("phoneDestinationVariable")}
+              />
+            </div>
+            <div className="mt-4">
+              <Dropdown
+                options={item.variables}
+                label="Variável de destino para E-mail"
+                onValueChange={(value) =>
+                  setFieldValue("emailDestinationVariable", value)
+                }
+                {...getFieldProps("emailDestinationVariable")}
+              />
+            </div>
             <section className="flex justify-end items-center gap-4 mt-[16px]">
               <Button
                 leftIcon={<X size={24} />}

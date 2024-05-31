@@ -244,7 +244,7 @@ export const ContactsListDetailsTemplate = () => {
           name: contactsListDetail?.name,
           id: contactsListId,
           emailDestinationVariable:
-            contactsListDetail?.phoneDestinationVariable,
+            contactsListDetail?.emailDestinationVariable,
           phoneDestinationVariable:
             contactsListDetail?.phoneDestinationVariable,
           variables: contactsListDetail?.variables,
