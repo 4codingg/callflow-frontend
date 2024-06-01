@@ -12,49 +12,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { CustomTooltip } from "./CustomTooltip";
-
-const data = [
-  {
-    name: "Junho 2023",
-    cost: 135,
-  },
-  {
-    name: "Julho 2023",
-    cost: 222,
-  },
-  {
-    name: "Agosto 2023",
-    cost: 300,
-  },
-  {
-    name: "Setembro 2023",
-    cost: 200,
-  },
-  {
-    name: "Outubro 2023",
-    cost: 278,
-  },
-  {
-    name: "Novembro 2023",
-    cost: 189,
-  },
-  {
-    name: "Dezembro 2023",
-    cost: 239,
-  },
-  {
-    name: "Janeiro 2024",
-    cost: 297,
-  },
-  {
-    name: "Fevereiro 2024",
-    cost: 294,
-  },
-  {
-    name: "Março 2024",
-    cost: 222,
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { getCostPerService } from "@/api/metrics/get-metrics";
+import { toast } from "@/utils/toast";
 
 const options = [
   {
@@ -72,10 +32,19 @@ const options = [
 ];
 
 export const ServicesUsageCostChart = ({}) => {
-  const [serviceActive, setServiceActive] = useState(options[0].value);
+  const [serviceActive, setServiceActive] = useState("");
+  const { data: getCostPerServiceFn, refetch } = useQuery({
+    queryKey: ["metrics", serviceActive],
+    queryFn: () => getCostPerService(serviceActive),
+  });
 
   const handleChange = (value: string) => {
     setServiceActive(value);
+    try {
+      refetch();
+    } catch (err: any) {
+      toast("error", "Erro ao buscar suas métricas");
+    }
   };
 
   return (
@@ -96,7 +65,7 @@ export const ServicesUsageCostChart = ({}) => {
                 <Paragraph className="text-xs text-default-grey">
                   Serviço:
                 </Paragraph>
-                SMS
+                {serviceActive}
               </Button>
             </DropdownMenu.Trigger>
             <DropdownMenu.Content className="bg-white p-2 flex flex-col mt-1 min-w-[200px] border border-muted shadow-md rounded-lg">
@@ -124,14 +93,14 @@ export const ServicesUsageCostChart = ({}) => {
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           height={300}
-          data={data}
+          data={getCostPerServiceFn}
           style={{
             fontSize: 12,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
-            dataKey="name"
+            dataKey="month"
             axisLine={false}
             tickLine={false}
             tickFormatter={(value) => value}
@@ -153,8 +122,8 @@ export const ServicesUsageCostChart = ({}) => {
             )}
           />
           <Bar
-            label="SMSs"
-            dataKey={"cost"}
+            label={serviceActive}
+            dataKey={"totalCost"}
             fill="#783EFD"
             activeBar={<Rectangle fill={"#783EFD"} />}
           />
