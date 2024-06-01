@@ -5,10 +5,6 @@ interface CostServiceProps {
   month: string;
 }
 
-export interface typeCostServiceProps {
-  type: "sms" | "email" | "call";
-}
-
 export const getCostPerService = async (type: string) => {
   const response = await api.get("/metrics", {
     params: {
