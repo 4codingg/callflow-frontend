@@ -32,7 +32,8 @@ const options = [
 ];
 
 export const ServicesUsageCostChart = ({}) => {
-  const [serviceActive, setServiceActive] = useState("");
+  const [serviceActive, setServiceActive] = useState("sms");
+
   const { data: getCostPerServiceFn, refetch } = useQuery({
     queryKey: ["metrics", serviceActive],
     queryFn: () => getCostPerService(serviceActive),
