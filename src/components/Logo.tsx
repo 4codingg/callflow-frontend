@@ -1,6 +1,6 @@
-import clsx from "clsx";
-import { PhoneIncoming } from "phosphor-react";
-import { Paragraph } from "./Paragraph";
+import Image from "next/image";
+import LogoImage from "@/assets/logo.svg"
+import LogoImageWithBackground from "@/assets/logo-with-background.png"
 
 export enum LogoVariant {
   Dark = "dark",
@@ -12,34 +12,14 @@ interface ILogoProps {
 }
 
 export const Logo = ({ variant }: ILogoProps) => {
-  const logoColorVariant = {
-    [LogoVariant.Dark]: "#000",
-    [LogoVariant.Light]: "#FFF",
+  const logoVariant = {
+    [LogoVariant.Dark]: LogoImage,
+    [LogoVariant.Light]: LogoImageWithBackground,
   };
 
   return (
     <div className="flex gap-3 items-center">
-      <PhoneIncoming
-        size={20}
-        color={logoColorVariant[variant]}
-        weight="bold"
-      />
-      <Paragraph
-        className={clsx("!text-[${logoColorVariant[variant]}]", {
-          "text-white": variant === LogoVariant.Light,
-          "text-black": variant === LogoVariant.Dark,
-        })}
-      >
-        |
-      </Paragraph>
-      <span
-        className={clsx("text-base font-normal ", {
-          "text-white": variant === LogoVariant.Light,
-          "text-black": variant === LogoVariant.Dark,
-        })}
-      >
-        call.flow
-      </span>
+      <Image src={logoVariant[variant]} alt="" width={100} height={50} className="object-cover !h-[40px]" />
     </div>
   );
 };
