@@ -114,8 +114,9 @@ export const ModalEditContactsList = ({
               className="!font-normal !text-black"
               label="Nome"
               {...getFieldProps("name")}
+              disableError={true}
             />
-            <div className=" mt-4">
+            <div className="mt-4">
               <Dropdown
                 options={item.variables}
                 label="Variável de destino para SMS/Ligações"

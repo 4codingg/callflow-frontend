@@ -7,6 +7,7 @@ import { ArrowRight, XCircle } from "phosphor-react";
 import { Dispatch, SetStateAction } from "react";
 import Rocket from "@/assets/icons/rocket-launch.svg";
 import {
+  INSTRUCTIONS_ATT_CONTACT_LIST,
   INSTRUCTIONS_CREATE_CONTACTS_LIST,
   INSTRUCTIONS_EMAIL,
   INSTRUCTIONS_SMS,
@@ -23,12 +24,14 @@ const instructions = {
   sms: INSTRUCTIONS_SMS,
   email: INSTRUCTIONS_EMAIL,
   call: INSTRUCTIONS_CREATE_CONTACTS_LIST,
+  contact: INSTRUCTIONS_ATT_CONTACT_LIST,
 };
 
 const titles = {
   sms: "Siga as instruções para enviar mensagens em massa.",
   email: "Siga as instruções para enviar E-mail em massa.",
   call: "Siga as instruções para enviar ligações em massa.",
+  contact: "Siga as instruções para atualizar sua lista de contatos",
 };
 
 export const ModalStepByStep = ({

@@ -1,19 +1,20 @@
 export const activities = [
   {
-    value: 'completed',
-    label: 'Finalizada'
+    value: "CONFIRMED",
+    label: "Finalizada",
   },
   {
-    value: 'pending',
-    label: 'Pendente'
+    value: "completed",
+    label: "Finalizada",
   },
   {
-    value: 'paid',
-    label: 'Paga'
+    value: "pending",
+    label: "Pendente",
   },
-]
+];
 
 export const getActivitieLabel = (value: string) => {
-  const activitie = activities.find((a) => a.value === value)
-  return activitie.label
-}
+  console.log(value)
+  const activitie = activities.find((a) => a.value === value);
+  return activitie.label;
+};

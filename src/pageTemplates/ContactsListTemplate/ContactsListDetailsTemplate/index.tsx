@@ -19,6 +19,7 @@ import {
 import { useEffect, useState } from "react";
 import Empty from "@/assets/empty-state.png";
 import { ModalEditContactsList } from "@/components/layouts/Modals/ModalEditContactsList";
+import Information from "@/assets/icons/information-circle.svg";
 import { updateContactsList } from "@/api/contactsList/update-contacts-list";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -33,6 +34,9 @@ import { formatResultsToFreePlanFormat } from "@/utils/formatResultsToFreePlanFo
 import { Tipbox } from "@/components/Tipbox";
 import { CrumbsContactsListDetail } from "./CrumbsContactsListDetail";
 import { DropdownActions } from "./DropdownActions";
+import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
+import { EMassCommunication } from "@/constants/massCommunication";
+import Image from "next/image";
 
 export const ContactsListDetailsTemplate = () => {
   const [modalAddItemContactListIsOpen, setModalAddItemContactListIsOpen] =
@@ -40,9 +44,9 @@ export const ContactsListDetailsTemplate = () => {
   const [modalUploadCSVIsOpen, setModalUploadCSVIsOpen] = useState(false);
   const [modalEditNameContactsListIsOpen, setModalEditNameContactsListIsOpen] =
     useState(false);
+  const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState(false);
   const [results, setResults] = useState([]);
   const [pendingDocuments, setPendingDocuments] = useState([]);
-
   const queryClient = useQueryClient();
   const router = useRouter();
   const { setGlobalLoading } = useGlobalLoading();
@@ -136,13 +140,21 @@ export const ContactsListDetailsTemplate = () => {
 
   const dataTableIsEmpty = results?.length === 0;
   const existsPendingDocuments = pendingDocuments.length > 0;
-
   return (
     <>
       <LayoutWithSidebar>
         <CrumbsContactsListDetail
           contactsListDetailName={contactsListDetail?.name || ""}
         />
+        <Button
+          onClick={() => setModalStepByStepIsOpen(true)}
+          className="!bg-light-primary !w-[185px] !h-[48px] mt-[24px] flex items-center gap-2 !rounded-full"
+        >
+          <Image src={Information} alt="circle-information" />
+          <Paragraph className=" text-xs text-purple-secundary !font-bold">
+            Passo a Passo
+          </Paragraph>
+        </Button>
         <section className="flex justify-between">
           <section className="flex gap-[11px] mt-4">
             <Button
@@ -249,6 +261,11 @@ export const ContactsListDetailsTemplate = () => {
             contactsListDetail?.phoneDestinationVariable,
           variables: contactsListDetail?.variables,
         }}
+      />
+      <ModalStepByStep
+        modalIsOpen={modalStepByStepIsOpen}
+        setModalIsOpen={setModalStepByStepIsOpen}
+        type={EMassCommunication.Contact}
       />
     </>
   );

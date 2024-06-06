@@ -12,6 +12,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { CustomTooltip } from "./CustomTooltip";
+import { useQuery } from "@tanstack/react-query";
+import { getCostPerService } from "@/api/metrics/get-metrics";
+import { toast } from "@/utils/toast";
 
 const options = [
   {
@@ -28,11 +31,21 @@ const options = [
   },
 ];
 
-export const ServicesUsageCostChart = ({ label, data, dataKey, fillColor }) => {
-  const [serviceActive, setServiceActive] = useState(options[0].value);
+export const ServicesUsageCostChart = ({}) => {
+  const [serviceActive, setServiceActive] = useState("sms");
+
+  const { data: getCostPerServiceFn, refetch } = useQuery({
+    queryKey: ["metrics", serviceActive],
+    queryFn: () => getCostPerService(serviceActive),
+  });
 
   const handleChange = (value: string) => {
     setServiceActive(value);
+    try {
+      refetch();
+    } catch (err: any) {
+      toast("error", "Erro ao buscar suas métricas");
+    }
   };
 
   return (
@@ -53,7 +66,7 @@ export const ServicesUsageCostChart = ({ label, data, dataKey, fillColor }) => {
                 <Paragraph className="text-xs text-default-grey">
                   Serviço:
                 </Paragraph>
-                SMS
+                {serviceActive}
               </Button>
             </DropdownMenu.Trigger>
             <DropdownMenu.Content className="bg-white p-2 flex flex-col mt-1 min-w-[200px] border border-muted shadow-md rounded-lg">
@@ -81,14 +94,14 @@ export const ServicesUsageCostChart = ({ label, data, dataKey, fillColor }) => {
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           height={300}
-          data={data}
+          data={getCostPerServiceFn}
           style={{
             fontSize: 12,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
-            dataKey="name"
+            dataKey="month"
             axisLine={false}
             tickLine={false}
             tickFormatter={(value) => value}
@@ -110,10 +123,10 @@ export const ServicesUsageCostChart = ({ label, data, dataKey, fillColor }) => {
             )}
           />
           <Bar
-            label="SMSs"
-            dataKey={dataKey}
+            label={serviceActive}
+            dataKey={"totalCost"}
             fill="#783EFD"
-            activeBar={<Rectangle fill={fillColor} />}
+            activeBar={<Rectangle fill={"#783EFD"} />}
           />
         </BarChart>
       </ResponsiveContainer>

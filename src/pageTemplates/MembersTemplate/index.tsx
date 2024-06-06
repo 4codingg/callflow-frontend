@@ -21,7 +21,7 @@ export const MembersTemplate = () => {
   const queryClient = useQueryClient();
   const { setGlobalLoading } = useGlobalLoading();
 
-  const { data: membersList, isPending } = useQuery({
+  const { data: dataMembersList, isPending } = useQuery({
     queryKey: ["company-members"],
     queryFn: () => fetchCompanyMembers(),
   });
@@ -70,7 +70,7 @@ export const MembersTemplate = () => {
       <div className="mt-4 flex flex-col items-center justify-center">
         {isPending ? (
           <Spinner className="mt-8 border-l-primary border-t-primary" />
-        ) : !membersList?.length ? (
+        ) : !dataMembersList?.members?.length ? (
           <EmptyState
             icon={Empty}
             title="A lista de membros vazia"
@@ -78,10 +78,12 @@ export const MembersTemplate = () => {
           />
         ) : (
           <TableDefault
-            content={membersList || []}
+            content={dataMembersList.members || []}
             handleEditItem={handleEditItem}
             handleDeleteItem={handleDeleteMember}
             disableAccessItem
+            totalCount={dataMembersList.totalItems}
+            pageIndex={dataMembersList.page - 1}
           />
         )}
       </div>
