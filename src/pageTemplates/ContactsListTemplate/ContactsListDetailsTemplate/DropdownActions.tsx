@@ -6,7 +6,7 @@ export const DropdownActions = ({ setModalEditNameContactsListIsOpen }) => {
     {
       icon: <NotePencil color="#01DDA3" size={16} />,
       color: "#01DDA3",
-      label: "Editar nome da Lista",
+      label: "Editar dados da Lista",
       action: () => setModalEditNameContactsListIsOpen(true),
     },
     {

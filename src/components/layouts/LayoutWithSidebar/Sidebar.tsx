@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Line } from "@/components/Line";
 import { Logo } from "@/components/Logo";
-import { Button } from "@chakra-ui/react";
 import { SignOut } from "phosphor-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Paragraph } from "@/components/Paragraph";

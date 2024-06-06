@@ -76,10 +76,6 @@ export const Dropdown = ({
             "p-3 text-sm font-poppins text-neutral-darkest disabled:text-dark-grey h-[40px] mt-3 disabled:bg-neutral-light-grey font w-full flex justify-between items-center rounded data-[placeholder]:text-neutral-darkest",
             dropdownClassesVariant[variant],
             selectStyle,
-            {
-              // "border-negative-dark": !!error,
-              // "border-neutral-grey": !error,
-            },
             className
           )}
           aria-label={label}
@@ -93,7 +89,7 @@ export const Dropdown = ({
           <Select.Content
             position="popper"
             side="bottom"
-            className="bg-white p-2 flex flex-row border border-neutral-grey rounded z-20 min-w-[200px] max-h-[300px]"
+            className="bg-white p-2 flex flex-row border border-neutral-grey rounded min-w-[200px] max-h-[300px] !z-[1000001]"
           >
             <Select.Viewport
               className="text-neutral-darkest font-poppins"
@@ -101,7 +97,7 @@ export const Dropdown = ({
             >
               <Select.Group>
                 {isLoading && (
-                  <div className="flex flex-1 justify-between items-center">
+                  <div className="flex flex-1 justify-between items-center ">
                     <Spinner />
                   </div>
                 )}
