@@ -265,7 +265,7 @@ export const ContactsListDetailsTemplate = () => {
       <ModalStepByStep
         modalIsOpen={modalStepByStepIsOpen}
         setModalIsOpen={setModalStepByStepIsOpen}
-        type={EMassCommunication.Contact}
+        type="update-contact"
       />
     </>
   );

@@ -5,20 +5,22 @@ import {
   LayoutWithSidebar,
   Paragraph,
   TableDefault,
-  Label,
   Line,
   Card,
 } from "@/components";
 import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
 import { ModalConfirmMessage } from "@/components/layouts/Modals/ModalConfirmMessage";
-import { ArrowRight, Check, CheckCircle } from "phosphor-react";
+import { Check } from "phosphor-react";
 import Empty from "@/assets/empty-state.png";
+import { ModalCostReports } from "../Modals/ModalCostReport";
+import { useRouter } from "next/router";
+import { useMassCommunication } from "@/hooks/useMassCommunication";
 import { MassCommunicationHeader } from "./MassCommunicationHeader";
 import { MassCommunicationModalMessage } from "./MassCommunicationModalMessage";
-import { ModalCostReports } from "../Modals/ModalCostReport";
-import { useMassCommunication } from "@/hooks/useMassCommunication";
-import { useRouter } from "next/router";
 import { MassCommunicationDestinationVariable } from "./MassCommunicationDestinationVariable";
+import { MassCommunicationScheduleSection } from "./MassCommunicationScheduleSection";
+import { MassCommunicationCost } from "./MassCommunicationCost";
+import { MassCommunicationInputMessage } from "./MassCommunicationInputMessage";
 
 export const MassCommunicationTemplate = ({ type }) => {
   const router = useRouter();
@@ -42,7 +44,7 @@ export const MassCommunicationTemplate = ({ type }) => {
     handleConfirmSendMassCommunication,
   } = useMassCommunication({ type });
 
-  const { getFieldProps, values, isValid } = formik;
+  const { getFieldProps, values, isValid, setFieldValue } = formik;
 
   const contactsListDropdownOptions =
     contactsListsItems?.map(({ name, id }) => ({
@@ -51,7 +53,7 @@ export const MassCommunicationTemplate = ({ type }) => {
     })) || [];
 
   const contactsListDetailIsEmpty = !contactsListDetail?.variables?.length;
-  console.log(type);
+
   return (
     <>
       <LayoutWithSidebar hiddenInput={true}>
@@ -82,23 +84,10 @@ export const MassCommunicationTemplate = ({ type }) => {
 
             {!contactsListDetailIsEmpty && (
               <>
-                <div className="flex flex-col gap-3 w-full">
-                  <Label className="font-semibold text-sm">Mensagem</Label>
-                  <button
-                    className="rounded flex items-center justify-between h-[40px] border p-3 w-full"
-                    onClick={() => setModalMessageIsOpen(true)}
-                    type="button"
-                  >
-                    <Paragraph className="text-primary text-ellipsis truncate overflow-hidden">
-                      {values.message
-                        ? values.message
-                        : "Personalize sua mensagem"}
-                    </Paragraph>
-                    <div className="min-w-[16px]">
-                      {values.message && <CheckCircle color="#00DEA3" />}
-                    </div>
-                  </button>
-                </div>
+                <MassCommunicationInputMessage
+                  message={values.message}
+                  setModalMessageIsOpen={setModalMessageIsOpen}
+                />
                 <MassCommunicationDestinationVariable
                   destination={
                     type === "email"
@@ -106,29 +95,14 @@ export const MassCommunicationTemplate = ({ type }) => {
                       : contactsListDetail.phoneDestinationVariable
                   }
                 />
-                <div className="flex flex-col w-full gap-3">
-                  <Label className="font-semibold text-sm">Custo</Label>
-                  <div className="flex items-center gap-4">
-                    <div className="bg-default-grey bg-opacity-30 rounded flex items-center justify-between gap-4 h-[40px] p-3 w-full">
-                      <Paragraph className="text-primary">
-                        R$ {costReports?.total}
-                      </Paragraph>
-                      <Paragraph className="text-black text-xs text-opacity-70">
-                        (R${costReports?.contacts?.costByMessage || "0,00"} /
-                        contato)
-                      </Paragraph>
-                    </div>
-                  </div>
-                  <button
-                    className="flex items-center gap-4"
-                    onClick={() => setModalCostReportIsOpen(true)}
-                  >
-                    <Paragraph className="text-primary">
-                      Checar relatório de custo
-                    </Paragraph>
-                    <ArrowRight color="#783EFD" weight="bold" />
-                  </button>
-                </div>
+                <MassCommunicationCost
+                  costReports={costReports}
+                  setModalCostReportIsOpen={setModalCostReportIsOpen}
+                />
+                <MassCommunicationScheduleSection
+                  reproduceAt={values.reproduceAt}
+                  setReproduceAt={(e) => setFieldValue("reproduceAt", e)}
+                />
               </>
             )}
           </section>

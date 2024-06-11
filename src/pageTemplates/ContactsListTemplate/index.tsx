@@ -73,6 +73,7 @@ export const ContactsListTemplate = () => {
               content={contactsListsItems || []}
               handleEditItem={(id) => router.push(`/contacts/${id}`)}
               handleDeleteItem={(id) => handleDeleteContactsList(id)}
+              disableAccessItem
             />
           )}
         </div>

@@ -24,6 +24,7 @@ import Image from "next/image";
 import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
 import { EMassCommunication } from "@/constants/massCommunication";
 import { useCompany } from "@/hooks/useCompany";
+import { DestinationVariablesSection } from "./DestinationVariablesSection";
 
 const crumbs = [
   {
@@ -196,30 +197,11 @@ export const CreateContactListTemplate = () => {
               />
             ))}
           </div>
-          <div className="mt-4">
-            <Dropdown
-              labelDescription="Se existir, selecione a variável que você pensa em utilizar como destino para envios de SMS/Ligações."
-              options={values.variables}
-              label="Variável de destino para SMS/Ligações"
-              placeholder=""
-              onValueChange={(value) =>
-                setFieldValue("phoneDestinationVariable", value)
-              }
-              {...getFieldProps("phoneDestinationVariable")}
-            />
-          </div>
-          <div className="mt-4">
-            <Dropdown
-              labelDescription="Se existir, selecione a variável que você pensa em utilizar como destino para envios de E-mails."
-              options={values.variables}
-              label="Variável de destino para E-mail"
-              placeholder=""
-              onValueChange={(value) =>
-                setFieldValue("emailDestinationVariable", value)
-              }
-              {...getFieldProps("emailDestinationVariable")}
-            />
-          </div>
+          <DestinationVariablesSection
+            values={values}
+            setFieldValue={setFieldValue}
+            getFieldProps={getFieldProps}
+          />
           <Button
             onClick={handleConfirmCreateContactsList}
             className=" mt-12 m-auto !w-48 font-poppins font-medium text-sm gap-2"
@@ -232,7 +214,7 @@ export const CreateContactListTemplate = () => {
       <ModalStepByStep
         modalIsOpen={modalStepByStepIsOpen}
         setModalIsOpen={setModalStepByStepIsOpen}
-        type={EMassCommunication.Call}
+        type="create-contact"
       />
       <ModalConfirmVariables
         modalIsOpen={modalConfirmVariablesIsOpen}

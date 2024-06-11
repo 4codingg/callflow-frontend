@@ -7,31 +7,33 @@ import { ArrowRight, XCircle } from "phosphor-react";
 import { Dispatch, SetStateAction } from "react";
 import Rocket from "@/assets/icons/rocket-launch.svg";
 import {
-  INSTRUCTIONS_ATT_CONTACT_LIST,
+  INSTRUCTIONS_UPDATE_CONTACTS_LIST,
   INSTRUCTIONS_CREATE_CONTACTS_LIST,
   INSTRUCTIONS_EMAIL,
   INSTRUCTIONS_SMS,
+  INSTRUCTIONS_CALL,
 } from "@/constants/instructions";
-import { EMassCommunication } from "@/constants/massCommunication";
 
 interface IModalStepByStepProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
-  type: EMassCommunication;
+  type: "sms" | "email" | "call" | "create-contact" | "update-contact";
 }
 
 const instructions = {
   sms: INSTRUCTIONS_SMS,
   email: INSTRUCTIONS_EMAIL,
-  call: INSTRUCTIONS_CREATE_CONTACTS_LIST,
-  contact: INSTRUCTIONS_ATT_CONTACT_LIST,
+  call: INSTRUCTIONS_CALL,
+  "create-contact": INSTRUCTIONS_CREATE_CONTACTS_LIST,
+  "update-contact": INSTRUCTIONS_UPDATE_CONTACTS_LIST,
 };
 
 const titles = {
-  sms: "Siga as instruções para enviar mensagens em massa.",
-  email: "Siga as instruções para enviar E-mail em massa.",
-  call: "Siga as instruções para enviar ligações em massa.",
-  contact: "Siga as instruções para atualizar sua lista de contatos",
+  sms: "Siga as instruções para enviar mensagens em massa",
+  email: "Siga as instruções para enviar E-mail em massa",
+  call: "Siga as instruções para enviar ligações em massa",
+  "create-contact": "Siga as instruções para criar sua lista de contatos",
+  "update-contact": "Siga as instruções para atualizar sua lista de contatos",
 };
 
 export const ModalStepByStep = ({
@@ -70,6 +72,9 @@ export const ModalStepByStep = ({
                     </Paragraph>
                     <Paragraph className="font-normal">
                       {instruction.description}
+                    </Paragraph>
+                    <Paragraph className="text-default-grey !text-xs">
+                      {instruction["sub-description"]}
                     </Paragraph>
                   </section>
                 </div>

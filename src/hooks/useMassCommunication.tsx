@@ -44,6 +44,7 @@ export const useMassCommunication = ({ type }) => {
           ? contactsListDetail.emailDestinationVariable
           : contactsListDetail.phoneDestinationVariable,
       ...(type === EMassCommunication.Email && { subject: "" }),
+      reproduceAt: "",
     },
     enableReinitialize: true,
     validationSchema: schemaSendCallsListMessage,

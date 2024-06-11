@@ -3,12 +3,12 @@ import Head from "next/head";
 import { Sidebar } from "./Sidebar";
 import { Heading } from "../../Heading";
 import { Paragraph } from "../../Paragraph";
-import { Input } from "../../Input";
-import { MagnifyingGlass } from "phosphor-react";
 import Image from "next/image";
 import MenProfile from "@/assets/men-profile.png";
 import { useAuth } from "@/hooks/useAuth";
 import { useCompany } from "@/hooks/useCompany";
+import { formatDateToDDMMYYYYHHMM } from "@/utils/formatDateToDDMMYYYYHHMM";
+import { Notifications } from "./Notifications";
 
 type Props = {
   children?: ReactNode;
@@ -38,18 +38,13 @@ export const LayoutWithSidebar = ({
         <div className="w-[84%] ml-[16%]">
           <header className="flex w-full justify-between items-center px-8 py-4 border-b border-muted shadow-sm">
             <div className="flex flex-col ">
-              <Heading>Hello {userDetail?.name?.split(" ")[0]}</Heading>
-              <Paragraph>4.45 pm 19 Jan 2022</Paragraph>
+              <Heading>Olá {userDetail?.name?.split(" ")[0]}</Heading>
+              <Paragraph>
+                Seja bem vindo(a) ao{" "}
+                <span className="text-primary">call.flow</span>.
+              </Paragraph>
             </div>
-            {!hiddenInput && (
-              <div className="flex-1 mx-12">
-                <Input
-                  iconLeft={<MagnifyingGlass color="#000" />}
-                  placeholder="Procure por algo"
-                />
-              </div>
-            )}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-6">
               <div className="flex flex-col gap-1 items-end justify-end text-end">
                 <Paragraph className="text-base">
                   {companyDetail?.name}
@@ -58,6 +53,7 @@ export const LayoutWithSidebar = ({
                   {userDetail?.name}
                 </Paragraph>
               </div>
+              <Notifications />
               <Image src={MenProfile} alt="" />
             </div>
           </header>
