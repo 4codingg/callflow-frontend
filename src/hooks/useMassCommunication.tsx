@@ -15,6 +15,7 @@ import {
 import { fetchAllContactsLists } from "@/api/contactsList/fetch-all-contacts-lists";
 import { ICostReports } from "@/@types/MassCommunication";
 import { useGlobalLoading } from "./useGlobalLoading";
+import { sendScherduleMass } from "@/api/mass-communication/send-schedule";
 
 export const useMassCommunication = ({ type }) => {
   const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState(false);
@@ -68,6 +69,11 @@ export const useMassCommunication = ({ type }) => {
   const { mutateAsync: calculateCostMassCommunicationFn } = useMutation({
     mutationFn: calculateCostMassCommunication,
   });
+  
+  const {mutateAsync: sendScherduleMassFn} = useMutation({
+    mutationFn: sendScherduleMass
+  })
+  
 
   const handleChangeContactsList = async (contactsListId: string) => {
     setFieldValue("contactsListId", contactsListId);
@@ -136,13 +142,24 @@ export const useMassCommunication = ({ type }) => {
   const handleSendMassCommunication = async () => {
     setIsLoading(true);
     try {
-      await sendMassCommunicationFn({
-        destinationVariable: values.destinationVariable,
-        contactsListId: contactsListDetail.id,
-        message: formatMessageToBackEnd(values.message),
-        ...(values.subject && { subject: values.subject }),
-      } as any);
-
+      if (values.reproduceAt) {
+        await sendScherduleMassFn({
+          destinationVariable: values.destinationVariable,
+          contactsListId: contactsListDetail.id,
+          message: formatMessageToBackEnd(values.message),
+          ...(values.subject && { subject: values.subject }),
+          type: type,
+          reproduceAt: values.reproduceAt
+        });
+      } else {
+        await sendMassCommunicationFn({
+          destinationVariable: values.destinationVariable,
+          contactsListId: contactsListDetail.id,
+          message: formatMessageToBackEnd(values.message),
+          ...(values.subject && { subject: values.subject }),
+        } as any);
+      }
+  
       toast("success", LABELS_MASS_COMMUNICATION[type].success.sent);
       setModalConfirmMessageIsOpen(false);
     } catch (err) {
@@ -151,6 +168,7 @@ export const useMassCommunication = ({ type }) => {
       setIsLoading(false);
     }
   };
+  
 
   const contactsListDetailIsEmpty = !contactsListDetail?.variables?.length;
 

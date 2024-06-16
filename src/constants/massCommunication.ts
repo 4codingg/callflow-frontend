@@ -1,5 +1,6 @@
 import { sendCallMass } from "@/api/mass-communication/send-call-mass";
 import { sendEmailMass } from "@/api/mass-communication/send-email-mass";
+import { sendScherduleMass } from "@/api/mass-communication/send-schedule";
 import { sendSMSMass } from "@/api/mass-communication/send-sms-mass";
 
 export enum EMassCommunication {

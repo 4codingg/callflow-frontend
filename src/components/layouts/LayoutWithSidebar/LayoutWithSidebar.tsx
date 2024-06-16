@@ -7,7 +7,6 @@ import Image from "next/image";
 import MenProfile from "@/assets/men-profile.png";
 import { useAuth } from "@/hooks/useAuth";
 import { useCompany } from "@/hooks/useCompany";
-import { formatDateToDDMMYYYYHHMM } from "@/utils/formatDateToDDMMYYYYHHMM";
 import { Notifications } from "./Notifications";
 
 type Props = {
