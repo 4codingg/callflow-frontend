@@ -37,7 +37,7 @@ export const AccordionCard = ({
             {/* <CheckCircle color="#00DEA3" size={24} className="ml-auto flex" /> */}
           </div>
         </AccordionTrigger>
-        <AccordionContent className="gap-4 flex flex-col">
+        <AccordionContent className="gap-4 flex flex-col px-4">
           {children}
         </AccordionContent>
       </AccordionItem>

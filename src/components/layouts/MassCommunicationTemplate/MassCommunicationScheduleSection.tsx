@@ -23,7 +23,7 @@ export const MassCommunicationScheduleSection = ({
           onValueChange={(e) => setReproduceAt(e)}
           label="Data"
         />
-        <Input
+        <Input 
           label="Horário"
           placeholder="Horário do disparo"
           iconRight={<Clock />}
