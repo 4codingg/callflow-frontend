@@ -50,6 +50,10 @@ export const CreateContactListTemplate = () => {
   });
 
   const handleConfirmCreateContactsList = async () => {
+    if (values.name.trim() === "") {
+      toast("error", "O nome da lista não pode estar vazio.");
+      return;
+    }
     if (
       plan.value !== IPlanSubscriptionValue.Free &&
       !modalConfirmVariablesIsOpen
@@ -222,6 +226,7 @@ export const CreateContactListTemplate = () => {
         variables={values.variables}
         handleConfirmVariables={handleConfirmCreateContactsList}
         isLoading={isLoading || isPending}
+        
       />
     </>
   );

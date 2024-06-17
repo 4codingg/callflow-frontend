@@ -4,6 +4,7 @@ import { Modal } from '@/components/Modal';
 import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
 import { useCallsList } from '@/hooks/useCallsList';
 import { schemaCallItem } from '@/schemas/calls';
+import { formatPhone } from '@/utils/formatPhone';
 import { Formik } from 'formik';
 import { XCircle } from 'phosphor-react';
 import { Dispatch, SetStateAction } from 'react';
@@ -69,10 +70,11 @@ export const ModalAddItemCallsList = ({
                   />
                   <Input
                     label="Telefone"
-                    value={values.phone}
+                    value={formatPhone(values.phone)}
                     onChange={handleChange('phone')}
-                    onBlur={handleBlur('phone')}
+                    onBlur={handleBlur('phone')} 
                     error={errors.phone as string}
+                    
                   />
                   <Button type="button">Adicionar</Button>
                 </form>
