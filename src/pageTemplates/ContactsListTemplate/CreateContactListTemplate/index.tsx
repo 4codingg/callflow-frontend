@@ -1,12 +1,4 @@
-import {
-  LayoutWithSidebar,
-  Breadcrumb,
-  Button,
-  Paragraph,
-  Label,
-  Card,
-  Dropdown,
-} from "@/components";
+import { LayoutWithSidebar, Breadcrumb, Button, Paragraph } from "@/components";
 import { ArrowRight, Warning } from "phosphor-react";
 import { useState } from "react";
 import { Tipbox } from "@/components/Tipbox";
@@ -22,7 +14,6 @@ import { toast } from "@/utils/toast";
 import Information from "@/assets/icons/information-circle.svg";
 import Image from "next/image";
 import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
-import { EMassCommunication } from "@/constants/massCommunication";
 import { useCompany } from "@/hooks/useCompany";
 import { DestinationVariablesSection } from "./DestinationVariablesSection";
 
@@ -226,7 +217,6 @@ export const CreateContactListTemplate = () => {
         variables={values.variables}
         handleConfirmVariables={handleConfirmCreateContactsList}
         isLoading={isLoading || isPending}
-        
       />
     </>
   );
