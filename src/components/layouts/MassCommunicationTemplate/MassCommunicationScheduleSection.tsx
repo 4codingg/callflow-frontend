@@ -1,6 +1,8 @@
+import React, { useState } from 'react';
 import { Input } from "@/components";
 import { AccordionCard } from "@/components/AccordionCard";
 import { InputCalendar } from "@/components/InputCalendar";
+import { formatTimeHour } from "@/utils/formatTime";
 import { Clock } from "phosphor-react";
 
 interface IScheduleSectionProps {
@@ -12,6 +14,15 @@ export const MassCommunicationScheduleSection = ({
   reproduceAt,
   setReproduceAt,
 }: IScheduleSectionProps) => {
+  const [formattedTime, setFormattedTime] = useState('');
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    const formattedValue = formatTimeHour(inputValue);
+    setFormattedTime(formattedValue);
+   
+  };
+
   return (
     <div>
       <AccordionCard
@@ -27,6 +38,8 @@ export const MassCommunicationScheduleSection = ({
           label="Horário"
           placeholder="Horário do disparo"
           iconRight={<Clock />}
+          value={formattedTime} 
+          onChange={handleTimeChange} 
         />
       </AccordionCard>
     </div>
