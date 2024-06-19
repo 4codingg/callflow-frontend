@@ -23,6 +23,9 @@ export const LABELS_MASS_COMMUNICATION = {
     success: {
       sent: "SMSs em massa enviados com sucesso!",
     },
+    scheduled: {
+      sent: "SMSs em massa agendados com sucesso!",
+    }
   },
   call: {
     header: {
@@ -33,6 +36,9 @@ export const LABELS_MASS_COMMUNICATION = {
     success: {
       sent: "Ligações em massa enviadas com sucesso!",
     },
+    scheduled: {
+      sent: "Ligações em massa agendadas com sucesso!",
+    }
   },
   email: {
     header: {
@@ -43,6 +49,9 @@ export const LABELS_MASS_COMMUNICATION = {
     success: {
       sent: "E-mails em massa enviados com sucesso!",
     },
+    scheduled: {
+      sent: "E-mails em massa agendados com sucesso!",
+    }
   },
   contact: {
     header: {
