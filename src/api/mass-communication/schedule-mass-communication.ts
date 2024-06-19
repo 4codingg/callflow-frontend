@@ -1,6 +1,6 @@
 import api from "@/services/axios"
 
-export interface CreateScheduleBody {
+export interface ScheduleCommunicationBody {
   message: string,
   destinationVariable: string,
   contactsListId: string,
@@ -9,14 +9,14 @@ export interface CreateScheduleBody {
   reproduceAt: string
 }
 
-export async function sendScherduleMass({
+export async function scheduleMassCommunication({
   message,
   destinationVariable,
   contactsListId,
-  subject, 
-  type, 
+  subject,
+  type,
   reproduceAt
-}: CreateScheduleBody) {
+}: ScheduleCommunicationBody) {
   const response = await api.post('/schedule', {
     message,
     destinationVariable,
@@ -24,7 +24,6 @@ export async function sendScherduleMass({
     subject,
     type,
     reproduceAt
-   
   })
   return response.data;
 }

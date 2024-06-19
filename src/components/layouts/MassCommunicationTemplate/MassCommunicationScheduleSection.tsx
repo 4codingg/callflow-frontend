@@ -1,43 +1,47 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components";
 import { AccordionCard } from "@/components/AccordionCard";
 import { InputCalendar } from "@/components/InputCalendar";
+import { formatTimeHour } from "@/utils/formatTime";
 import { Clock } from "phosphor-react";
-import { formatDateToDDMMYYYYHHMM } from '@/utils/formatDateToDDMMYYYYHHMM';
 
 interface IScheduleSectionProps {
-  reproduceAt: string | null; 
-  setReproduceAt: (value: string | null) => void; 
+  setReproduceAt: (value: string | null) => void;
 }
 
 export const MassCommunicationScheduleSection = ({
-  reproduceAt,
   setReproduceAt,
 }: IScheduleSectionProps) => {
-  const [timeHours, setTimeHours] = useState('');
-  const [timeDate, setTimeDate] = useState('');
-
-  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTimeHours(e.target.value);
-    if (timeDate) {
-      combineDateTime(timeDate, e.target.value);
-    }
-  };
+  const [timeDate, setTimeDate] = useState("");
+  const [timeHours, setTimeHours] = useState("");
 
   const handleDateChange = (e: string) => {
     setTimeDate(e);
-    if (timeHours) {
-      combineDateTime(e, timeHours);
+  };
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    const formattedValue = formatTimeHour(inputValue);
+    setTimeHours(formattedValue);
+  };
+
+  useEffect(() => {
+    if (timeDate && timeHours) {
+      combineDateTime();
+    }
+  }, [timeDate, timeHours]);
+
+  const combineDateTime = () => {
+    try {
+      const [day, month, year] = timeDate.split("/").map(Number);
+      const [hours, minutes] = timeHours.split(":").map(Number);
+      const date = new Date(year, month - 1, day, hours, minutes);
+      setReproduceAt(date.toISOString());
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  const combineDateTime = (date: string, time: string) => {
-    const combinedDateTime = `${date} ${time}`;
-    const dateObject = formatDateToDDMMYYYYHHMM(combinedDateTime);
-    setReproduceAt(dateObject);
-  };
-
-  console.log(reproduceAt)
   return (
     <div>
       <AccordionCard
@@ -50,11 +54,11 @@ export const MassCommunicationScheduleSection = ({
           label="Data"
         />
         <Input
-          value={timeHours}
-          onChange={handleTimeChange}
           label="Horário"
           placeholder="Horário do disparo"
           iconRight={<Clock />}
+          value={timeHours}
+          onChange={handleTimeChange}
         />
       </AccordionCard>
     </div>

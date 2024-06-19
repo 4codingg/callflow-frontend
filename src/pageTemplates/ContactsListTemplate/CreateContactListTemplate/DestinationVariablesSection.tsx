@@ -25,6 +25,7 @@ export const DestinationVariablesSection = ({
             <Dropdown
               labelDescription="Se existir, selecione a variável que você pensa em utilizar como destino para envios de SMS/Ligações."
               options={values.variables}
+              placeholder="Escolha a variável de destino para SMS/Ligações"
               label="Variável de destino para SMS/Ligações"
               onValueChange={(value) =>
                 setFieldValue("phoneDestinationVariable", value)
@@ -36,6 +37,7 @@ export const DestinationVariablesSection = ({
             <Dropdown
               labelDescription="Se existir, selecione a variável que você pensa em utilizar como destino para envios de E-mails."
               options={values.variables}
+              placeholder="Escolha a variável de destino para Email"
               label="Variável de destino para E-mail"
               onValueChange={(value) =>
                 setFieldValue("emailDestinationVariable", value)

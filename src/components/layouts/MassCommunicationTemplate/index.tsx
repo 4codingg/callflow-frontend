@@ -100,7 +100,6 @@ export const MassCommunicationTemplate = ({ type }) => {
                   setModalCostReportIsOpen={setModalCostReportIsOpen}
                 />
                 <MassCommunicationScheduleSection
-                  reproduceAt={values.reproduceAt}
                   setReproduceAt={(e) => setFieldValue("reproduceAt", e)}
                 />
               </>

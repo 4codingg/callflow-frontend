@@ -8,9 +8,6 @@ export function formatCvc(cvc: string) {
 }
 
 export const formatCardNumber = (v: any) => {
-  console.log(v)
-  console.log(v.length)
-
   if (!v) {
     return "";
   }
@@ -18,8 +15,6 @@ export const formatCardNumber = (v: any) => {
   if (v.length >= 19) {
     return v;
   }
-
-  console.log("RAte")
 
   v = v.replace(/\D/g, "");
   try {

@@ -99,8 +99,6 @@ export const ContactsListDetailsTemplate = () => {
         contacts: pendingDocuments,
       });
 
-      console.log("==> ", invalidateContacts);
-
       setPendingDocuments([]);
 
       if (!!invalidateContacts.length) {

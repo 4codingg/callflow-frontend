@@ -14,7 +14,6 @@ export const activities = [
 ];
 
 export const getActivitieLabel = (value: string) => {
-  console.log(value)
   const activitie = activities.find((a) => a.value === value);
   return activitie.label;
 };
