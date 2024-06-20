@@ -1,10 +1,11 @@
-import { Calendar as CalendarIcon } from "phosphor-react";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Calendar } from "./ui/calendar";
-import { Label } from "./Label";
-import { clsx } from "clsx";
-import { Paragraph } from "./Paragraph";
-import { formatDateToDDMMYYYYHHMM } from "@/utils/formatDateToDDMMYYYYHHMM";
+import { Calendar as CalendarIcon } from 'phosphor-react';
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { Calendar } from './ui/calendar';
+import { Label } from './Label';
+import { clsx } from 'clsx';
+import { Paragraph } from './Paragraph';
+import { formatDateToDDMMYYYYHHMM } from '@/utils/formatDateToDDMMYYYYHHMM';
+import { subDays } from 'date-fns';
 
 interface IInputCalendarProps {
   error?: string;
@@ -28,15 +29,15 @@ export const InputCalendar = ({
         <PopoverTrigger asChild>
           <button
             className={clsx(
-              "border outline-none focus-within:outline-primary text-black bg-white rounded p-3 flex items-center text-main-blue",
+              'border outline-none focus-within:outline-primary text-black bg-white rounded p-3 flex items-center text-main-blue',
               {
-                "outline outline-negative-dark": error,
-                "outline-neutral-grey": !error,
-                "mt-3": !!label,
+                'outline outline-negative-dark': error,
+                'outline-neutral-grey': !error,
+                'mt-3': !!label,
               }
             )}
           >
-            <Paragraph>{value ? value : "Selecionar uma data"}</Paragraph>
+            <Paragraph>{value ? value : 'Selecionar uma data'}</Paragraph>
             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
           </button>
         </PopoverTrigger>
@@ -45,7 +46,7 @@ export const InputCalendar = ({
             mode="single"
             onSelect={(e) => onValueChange(formatDateToDDMMYYYYHHMM(e, true))}
             disabled={(date) =>
-              date < new Date() || date < new Date("1900-01-01")
+              date < subDays(new Date(), 1) || date < new Date('1900-01-01')
             }
           />
         </PopoverContent>

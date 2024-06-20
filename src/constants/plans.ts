@@ -1,26 +1,26 @@
 export const PLANS_ROWS = [
   {
-    label: "Limite de SMSs bônus",
+    label: "Bônus de SMS (Acumulativo)",
     values: {
-      free: "20u",
-      plus: "50u",
-      premium: "100u",
+      free: "0u",
+      plus: "55u",
+      premium: "120u"
     },
   },
   {
-    label: "Limite de Ligações bônus",
+    label: "Bônus de Ligações (Acumulativo)",
     values: {
-      free: "15u",
+      free: "0u",
       plus: "40u",
-      premium: "80u",
+      premium: "90u",
     },
   },
   {
-    label: "Limite de Ligações bônus",
+    label: "Bônus de E-mails (Não Acumulativo)",
     values: {
-      free: "50u",
-      plus: "300u",
-      premium: "1000u",
+      free: "100u",
+      plus: "1000u",
+      premium: "5000u",
     },
   },
   {

@@ -1,29 +1,29 @@
-import { LayoutWithSidebar, Breadcrumb, Button, Paragraph } from "@/components";
-import { ArrowRight, Warning } from "phosphor-react";
-import { useState } from "react";
-import { Tipbox } from "@/components/Tipbox";
-import { IPlanSubscriptionValue } from "@/@types/Subscription";
-import { Input } from "@/components/Input";
-import { useRouter } from "next/router";
-import { ModalConfirmVariables } from "@/components/layouts/Modals/ModalConfirmVariables";
-import { useMutation } from "@tanstack/react-query";
-import { createContactsList } from "@/api/contactsList/create-contacts-list";
-import { useFormik } from "formik";
-import { Labelbox } from "@/components/Labelbox";
-import { toast } from "@/utils/toast";
-import Information from "@/assets/icons/information-circle.svg";
-import Image from "next/image";
-import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
-import { useCompany } from "@/hooks/useCompany";
-import { DestinationVariablesSection } from "./DestinationVariablesSection";
+import { LayoutWithSidebar, Breadcrumb, Button, Paragraph } from '@/components';
+import { ArrowRight, Warning } from 'phosphor-react';
+import { useState } from 'react';
+import { Tipbox } from '@/components/Tipbox';
+import { IPlanSubscriptionValue } from '@/@types/Subscription';
+import { Input } from '@/components/Input';
+import { useRouter } from 'next/router';
+import { ModalConfirmVariables } from '@/components/layouts/Modals/ModalConfirmVariables';
+import { useMutation } from '@tanstack/react-query';
+import { createContactsList } from '@/api/contactsList/create-contacts-list';
+import { useFormik } from 'formik';
+import { Labelbox } from '@/components/Labelbox';
+import { toast } from '@/utils/toast';
+import Information from '@/assets/icons/information-circle.svg';
+import Image from 'next/image';
+import { ModalStepByStep } from '@/components/layouts/Modals/ModalStepByStep';
+import { useCompany } from '@/hooks/useCompany';
+import { DestinationVariablesSection } from './DestinationVariablesSection';
 
 const crumbs = [
   {
-    label: "Lista de Contatos",
-    path: "/contacts",
+    label: 'Lista de Contatos',
+    path: '/contacts',
   },
   {
-    label: "Criar lista de contatos",
+    label: 'Criar lista de contatos',
   },
 ];
 
@@ -41,8 +41,8 @@ export const CreateContactListTemplate = () => {
   });
 
   const handleConfirmCreateContactsList = async () => {
-    if (values.name.trim() === "") {
-      toast("error", "O nome da lista não pode estar vazio.");
+    if (values.name.trim() === '') {
+      toast('error', 'O nome da lista não pode estar vazio.');
       return;
     }
     if (
@@ -62,64 +62,64 @@ export const CreateContactListTemplate = () => {
         phoneDestinationVariable: values.phoneDestinationVariable,
       });
 
-      toast("success", "Lista criada com sucesso!");
+      toast('success', 'Lista criada com sucesso!');
       router.push(`/contacts/${id}`);
     } catch (error) {
-      toast("error", "Erro ao criar a lista de contatos!");
+      toast('error', 'Erro ao criar a lista de contatos!');
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      if (values.inputVariableValue.trim() === "") {
-        toast("error", "Não é permitido adicionar uma variavél vazia.");
+    if (event.key === 'Enter') {
+      if (values.inputVariableValue.trim() === '') {
+        toast('error', 'Não é permitido adicionar uma variavél vazia.');
         return;
       }
       if (values.variables.includes(values.inputVariableValue.toLowerCase())) {
-        toast("error", "Essa variável já existe.");
+        toast('error', 'Essa variável já existe.');
         return;
       }
-      setFieldValue("variables", [
+      setFieldValue('variables', [
         ...values.variables,
         values.inputVariableValue.toLowerCase(),
       ]);
 
-      setFieldValue("inputVariableValue", "");
+      setFieldValue('inputVariableValue', '');
     }
   };
 
   const handleDeleteVariable = (itemToDelete: string) => {
     const translateVariable = (variable: string): string => {
       switch (variable) {
-        case "name":
-          return "Nome";
-        case "email":
-          return "Email";
-        case "phone":
-          return "Telefone";
+        case 'name':
+          return 'Nome';
+        case 'email':
+          return 'Email';
+        case 'phone':
+          return 'Telefone';
         default:
           return variable;
       }
     };
     if (
-      itemToDelete === "name" ||
-      itemToDelete === "email" ||
-      itemToDelete === "phone"
+      itemToDelete === 'name' ||
+      itemToDelete === 'email' ||
+      itemToDelete === 'phone'
     ) {
-      toast("error", `${translateVariable(itemToDelete)} é uma variável fixa.`);
+      toast('error', `${translateVariable(itemToDelete)} é uma variável fixa.`);
       return;
     }
     const updatedVariables = values.variables.filter(
       (item) => item !== itemToDelete
     );
-    setFieldValue("variables", updatedVariables);
+    setFieldValue('variables', updatedVariables);
   };
 
   const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event) {
-      setFieldValue("inputVariableValue", event.target.value);
+      setFieldValue('inputVariableValue', event.target.value);
     }
   };
 
@@ -127,14 +127,14 @@ export const CreateContactListTemplate = () => {
     isInitialValid: false,
     enableReinitialize: true,
     initialValues: {
-      name: "",
-      inputVariableValue: "",
+      name: '',
+      inputVariableValue: '',
       variables:
         plan.value === IPlanSubscriptionValue.Free
-          ? ["name", "email", "phone"]
+          ? ['name', 'email', 'phone']
           : [],
-      emailDestinationVariable: "",
-      phoneDestinationVariable: "",
+      emailDestinationVariable: '',
+      phoneDestinationVariable: '',
     },
     onSubmit: handleConfirmCreateContactsList,
   });
@@ -173,9 +173,10 @@ export const CreateContactListTemplate = () => {
           <Input
             label="Nome da lista"
             placeholder="Dê um nome pra sua lista"
-            {...getFieldProps("name")}
+            {...getFieldProps('name')}
           />
           <Input
+            labelDescription="O nome da variável precisa ser igual ao título da coluna que está na sua planilha (caso você pretenda utilizar planilhas para o upload dos contatos)."
             label="Variáveis"
             placeholder="Acione as variáveis da sua lista"
             onChange={handleChangeInput}
