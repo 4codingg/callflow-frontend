@@ -1,3 +1,4 @@
+import { Tipbox } from './Tipbox';
 import { ButtonVariant } from '@/components/Button';
 import { ButtonSizeVariant } from '@/components/Button';
 import { TextArea } from '@/components/TextArea';
@@ -48,6 +49,7 @@ export {
   DotSteps,
   Dropdown,
   DropdownMenu,
+  Tipbox,
   EmptyState,
   InputRadioGroup,
   Logo,

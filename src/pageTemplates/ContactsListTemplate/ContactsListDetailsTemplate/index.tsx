@@ -4,9 +4,8 @@ import {
   Paragraph,
   Button,
   EmptyState,
+  Tipbox,
 } from '@/components';
-import { ModalAddItemContactList } from '@/components/layouts/Modals/ModalAddItemContact';
-import { ModalUploadCsv } from '@/components/layouts/Modals/ModalUploadCsv';
 import {
   CaretUp,
   CheckCircle,
@@ -16,15 +15,18 @@ import {
   Warning,
 } from 'phosphor-react';
 import Empty from '@/assets/empty-state.png';
-import { ModalEditContactsList } from '@/components/layouts/Modals/ModalEditContactsList';
 import Information from '@/assets/icons/information-circle.svg';
-import { TableContacts } from '@/components/layouts/Tables/TableContacts';
-import { Tipbox } from '@/components/Tipbox';
+import { TableContacts } from '@layouts/Tables/TableContacts';
 import { CrumbsContactsListDetail } from './CrumbsContactsListDetail';
 import { DropdownActions } from './DropdownActions';
-import { ModalStepByStep } from '@/components/layouts/Modals/ModalStepByStep';
 import Image from 'next/image';
 import { useContactsList } from '@/hooks/useContactsListDetail';
+import {
+  ModalStepByStep,
+  ModalEditContactsList,
+  ModalUploadCsv,
+  ModalAddItemContactList,
+} from '@modals/index';
 
 export const ContactsListDetailsTemplate = () => {
   const {
