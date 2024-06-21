@@ -4,10 +4,9 @@ import {
   Paragraph,
   Button,
   EmptyState,
-} from "@/components";
-import { ModalAddItemContactList } from "@/components/layouts/Modals/ModalAddItemContact";
-import { ModalUploadCsv } from "@/components/layouts/Modals/ModalUploadCsv";
-import { formatCsvToJson } from "@/utils/formatCsvToJson";
+} from '@/components';
+import { ModalAddItemContactList } from '@/components/layouts/Modals/ModalAddItemContact';
+import { ModalUploadCsv } from '@/components/layouts/Modals/ModalUploadCsv';
 import {
   CaretUp,
   CheckCircle,
@@ -15,134 +14,39 @@ import {
   PlusCircle,
   Upload,
   Warning,
-} from "phosphor-react";
-import { useEffect, useState } from "react";
-import Empty from "@/assets/empty-state.png";
-import { ModalEditContactsList } from "@/components/layouts/Modals/ModalEditContactsList";
-import Information from "@/assets/icons/information-circle.svg";
-import { updateContactsList } from "@/api/contactsList/update-contacts-list";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/router";
-import { getContactsListDetail } from "@/api/contactsList/get-contacts-list-detail";
-import { TableContacts } from "@/components/layouts/Tables/TableContacts";
-import { toast } from "@/utils/toast";
-import { deleteContact } from "@/api/contactsList/delete-contact-item";
-import { useGlobalLoading } from "@/hooks/useGlobalLoading";
-import { useCompany } from "@/hooks/useCompany";
-import { IPlanSubscriptionValue } from "@/@types/Subscription";
-import { formatResultsToFreePlanFormat } from "@/utils/formatResultsToFreePlanFormat";
-import { Tipbox } from "@/components/Tipbox";
-import { CrumbsContactsListDetail } from "./CrumbsContactsListDetail";
-import { DropdownActions } from "./DropdownActions";
-import { ModalStepByStep } from "@/components/layouts/Modals/ModalStepByStep";
-import { EMassCommunication } from "@/constants/massCommunication";
-import Image from "next/image";
+} from 'phosphor-react';
+import Empty from '@/assets/empty-state.png';
+import { ModalEditContactsList } from '@/components/layouts/Modals/ModalEditContactsList';
+import Information from '@/assets/icons/information-circle.svg';
+import { TableContacts } from '@/components/layouts/Tables/TableContacts';
+import { Tipbox } from '@/components/Tipbox';
+import { CrumbsContactsListDetail } from './CrumbsContactsListDetail';
+import { DropdownActions } from './DropdownActions';
+import { ModalStepByStep } from '@/components/layouts/Modals/ModalStepByStep';
+import Image from 'next/image';
+import { useContactsList } from '@/hooks/useContactsListDetail';
 
 export const ContactsListDetailsTemplate = () => {
-  const [modalAddItemContactListIsOpen, setModalAddItemContactListIsOpen] =
-    useState(false);
-  const [modalUploadCSVIsOpen, setModalUploadCSVIsOpen] = useState(false);
-  const [modalEditNameContactsListIsOpen, setModalEditNameContactsListIsOpen] =
-    useState(false);
-  const [modalStepByStepIsOpen, setModalStepByStepIsOpen] = useState(false);
-  const [results, setResults] = useState([]);
-  const [pendingDocuments, setPendingDocuments] = useState([]);
-  const queryClient = useQueryClient();
-  const router = useRouter();
-  const { setGlobalLoading } = useGlobalLoading();
-  const { plan } = useCompany();
-  const contactsListId = router.query.id as string;
+  const {
+    contactsListDetail,
+    results,
+    dataTableIsEmpty,
+    existsPendingDocuments,
+    setModalAddItemContactListIsOpen,
+    setModalUploadCSVIsOpen,
+    setModalEditContactsListIsOpen,
+    setModalStepByStepIsOpen,
+    modalStepByStepIsOpen,
+    handleSave,
+    handleDeleteContactItem,
+    pendingDocuments,
+  } = useContactsList();
 
-  const { mutateAsync: updateContactsListFn } = useMutation({
-    mutationFn: updateContactsList,
-    onSuccess() {
-      queryClient.invalidateQueries({
-        queryKey: ["contacts-list-detail", contactsListDetail.id],
-      });
-    },
-  });
-
-  const { mutateAsync: deleteContactFn } = useMutation({
-    mutationFn: deleteContact,
-    onSuccess() {
-      queryClient.invalidateQueries({
-        queryKey: ["contacts-list-detail", contactsListDetail.id],
-      });
-    },
-  });
-
-  const { data: contactsListDetail } = useQuery({
-    queryKey: ["contacts-list-detail", contactsListId],
-    queryFn: () => getContactsListDetail({ contactsListId }),
-  });
-
-  const handleUploadAccepted = (resultsFromCsv: any[]) => {
-    for (const res of resultsFromCsv) {
-      let resultsFormatted = formatCsvToJson(res.data);
-
-      if (plan.value === IPlanSubscriptionValue.Free) {
-        resultsFormatted = formatResultsToFreePlanFormat(resultsFormatted);
-      }
-
-      setPendingDocuments((prevResults) => [
-        ...prevResults,
-        ...resultsFormatted,
-      ]);
-      setResults((prevResults) => [...prevResults, ...resultsFormatted]);
-    }
-  };
-
-  const handleSave = async () => {
-    try {
-      const { invalidateContacts } = await updateContactsListFn({
-        contactsListId: contactsListId,
-        contacts: pendingDocuments,
-      });
-
-      setPendingDocuments([]);
-
-      if (!!invalidateContacts.length) {
-        toast("warning", "Alguns contatos não puderam ser salvos.");
-        return;
-      }
-
-      toast("success", "Lista salva com sucesso!");
-    } catch (err) {
-      toast("error", "Algo deu errado.");
-    }
-  };
-
-  const handleDeleteContactItem = async (contactId: string) => {
-    setGlobalLoading(true);
-    try {
-      await deleteContactFn({ contactId });
-      toast("success", "Contato deletado com sucesso.");
-    } catch (err) {
-      toast("error", "Algo deu errado.");
-    } finally {
-      setGlobalLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (contactsListDetail) {
-      const arr = contactsListDetail.contacts?.map((contact) => {
-        return {
-          ...contact.data,
-          id: contact.id,
-        };
-      });
-      setResults(arr || []);
-    }
-  }, [contactsListDetail]);
-
-  const dataTableIsEmpty = results?.length === 0;
-  const existsPendingDocuments = pendingDocuments.length > 0;
   return (
     <>
       <LayoutWithSidebar>
         <CrumbsContactsListDetail
-          contactsListDetailName={contactsListDetail?.name || ""}
+          contactsListDetailName={contactsListDetail?.name || ''}
         />
         <Button
           onClick={() => setModalStepByStepIsOpen(true)}
@@ -185,9 +89,7 @@ export const ContactsListDetailsTemplate = () => {
             </DropdownMenu.Trigger>
             <DropdownMenu.Content className="bg-white p-4 flex flex-col gap-4 mt-1">
               <DropdownActions
-                setModalEditNameContactsListIsOpen={
-                  setModalEditNameContactsListIsOpen
-                }
+                setModalEditContactsListIsOpen={setModalEditContactsListIsOpen}
               />
             </DropdownMenu.Content>
           </DropdownMenu.Root>
@@ -237,29 +139,9 @@ export const ContactsListDetailsTemplate = () => {
           </>
         )}
       </LayoutWithSidebar>
-      <ModalAddItemContactList
-        modalIsOpen={modalAddItemContactListIsOpen}
-        setModalIsOpen={setModalAddItemContactListIsOpen}
-        contactsListDetail={contactsListDetail}
-      />
-      <ModalUploadCsv
-        modalIsOpen={modalUploadCSVIsOpen}
-        setModalIsOpen={setModalUploadCSVIsOpen}
-        handleUploadAccepted={handleUploadAccepted}
-      />
-      <ModalEditContactsList
-        modalIsOpen={modalEditNameContactsListIsOpen}
-        setModalIsOpen={setModalEditNameContactsListIsOpen}
-        item={{
-          name: contactsListDetail?.name,
-          id: contactsListId,
-          emailDestinationVariable:
-            contactsListDetail?.emailDestinationVariable,
-          phoneDestinationVariable:
-            contactsListDetail?.phoneDestinationVariable,
-          variables: contactsListDetail?.variables,
-        }}
-      />
+      <ModalAddItemContactList />
+      <ModalUploadCsv />
+      <ModalEditContactsList />
       <ModalStepByStep
         modalIsOpen={modalStepByStepIsOpen}
         setModalIsOpen={setModalStepByStepIsOpen}

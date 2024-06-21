@@ -1,21 +1,20 @@
-import { updateContactsList } from "@/api/contactsList/update-contacts-list";
-import { Button, ButtonVariant } from "@/components/Button";
-import { Dropdown } from "@/components/Dropdown";
-import { Input } from "@/components/Input";
-import { Line } from "@/components/Line";
-import { Modal } from "@/components/Modal";
-import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { Spinner } from "@/components/Spinner";
-import { queryClient } from "@/services/react-query";
-import { toast } from "@/utils/toast";
-import { useMutation } from "@tanstack/react-query";
-import { useFormik } from "formik";
-import { CheckCircle, X, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { updateContactsList } from '@/api/contactsList/update-contacts-list';
+import { Button, ButtonVariant } from '@/components/Button';
+import { Dropdown } from '@/components/Dropdown';
+import { Input } from '@/components/Input';
+import { Line } from '@/components/Line';
+import { Modal } from '@/components/Modal';
+import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
+import { Spinner } from '@/components/Spinner';
+import { useContactsList } from '@/hooks/useContactsListDetail';
+import { queryClient } from '@/services/react-query';
+import { toast } from '@/utils/toast';
+import { useMutation } from '@tanstack/react-query';
+import { useFormik } from 'formik';
+import { CheckCircle, X, XCircle } from 'phosphor-react';
+import { useState } from 'react';
 
 interface IModalEditContactsList {
-  setModalIsOpen: Dispatch<SetStateAction<boolean>>;
-  modalIsOpen: boolean;
   item: {
     name: string;
     id: string;
@@ -25,12 +24,14 @@ interface IModalEditContactsList {
   };
 }
 
-export const ModalEditContactsList = ({
-  setModalIsOpen,
-  modalIsOpen,
-  item,
-}: IModalEditContactsList) => {
+export const ModalEditContactsList = () => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const {
+    modalEditContactsListIsOpen,
+    setModalEditContactsListIsOpen,
+    contactsListDetail,
+  } = useContactsList();
 
   const { mutateAsync: updateContactsListFn } = useMutation({
     mutationFn: updateContactsList,
@@ -47,15 +48,18 @@ export const ModalEditContactsList = ({
   });
 
   const updateContactsListCache = ({ name }) => {
-    const cache: IModalEditContactsList["item"] = queryClient.getQueryData([
-      "contacts-list-detail",
+    const cache: IModalEditContactsList['item'] = queryClient.getQueryData([
+      'contacts-list-detail',
     ]);
 
     if (cache) {
-      queryClient.setQueryData(["contacts-list-detail", item?.id], {
-        ...cache,
-        name,
-      });
+      queryClient.setQueryData(
+        ['contacts-list-detail', contactsListDetail?.id],
+        {
+          ...cache,
+          name,
+        }
+      );
     }
 
     return { cache };
@@ -66,13 +70,13 @@ export const ModalEditContactsList = ({
     try {
       await updateContactsListFn({
         name: values.name,
-        contactsListId: item.id,
+        contactsListId: contactsListDetail?.id,
         phoneDestinationVariable: values.phoneDestinationVariable,
         emailDestinationVariable: values.emailDestinationVariable,
       });
 
-      setModalIsOpen(false);
-      toast("success", "Dados atualizados com sucesso.");
+      setModalEditContactsListIsOpen(false);
+      toast('success', 'Dados atualizados com sucesso.');
     } catch (err) {
       console.log(err);
     } finally {
@@ -83,16 +87,19 @@ export const ModalEditContactsList = ({
   const { getFieldProps, handleSubmit, setFieldValue } = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: item?.name,
-      phoneDestinationVariable: item?.phoneDestinationVariable,
-      emailDestinationVariable: item?.emailDestinationVariable,
-      variables: item?.variables,
+      name: contactsListDetail?.name,
+      phoneDestinationVariable: contactsListDetail?.phoneDestinationVariable,
+      emailDestinationVariable: contactsListDetail?.emailDestinationVariable,
+      variables: contactsListDetail?.variables,
     },
     onSubmit: handleSave,
   });
 
   return (
-    <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
+    <Modal.Root
+      isOpen={modalEditContactsListIsOpen}
+      setIsOpen={setModalEditContactsListIsOpen}
+    >
       <Modal.Content className="min-w-[400px]">
         <div className="bg-white py-4 ">
           <header className="flex justify-between items-center w-full flex-1">
@@ -113,27 +120,27 @@ export const ModalEditContactsList = ({
             <Input
               className="!font-normal !text-black"
               label="Nome"
-              {...getFieldProps("name")}
+              {...getFieldProps('name')}
               disableError={true}
             />
             <div className="mt-4">
               <Dropdown
-                options={item.variables}
+                options={contactsListDetail?.variables}
                 label="Variável de destino para SMS/Ligações"
                 onValueChange={(value) =>
-                  setFieldValue("phoneDestinationVariable", value)
+                  setFieldValue('phoneDestinationVariable', value)
                 }
-                {...getFieldProps("phoneDestinationVariable")}
+                {...getFieldProps('phoneDestinationVariable')}
               />
             </div>
             <div className="mt-4">
               <Dropdown
-                options={item.variables}
+                options={contactsListDetail?.variables}
                 label="Variável de destino para E-mail"
                 onValueChange={(value) =>
-                  setFieldValue("emailDestinationVariable", value)
+                  setFieldValue('emailDestinationVariable', value)
                 }
-                {...getFieldProps("emailDestinationVariable")}
+                {...getFieldProps('emailDestinationVariable')}
               />
             </div>
             <section className="flex justify-end items-center gap-4 mt-[16px]">
@@ -141,7 +148,7 @@ export const ModalEditContactsList = ({
                 leftIcon={<X size={24} />}
                 type="button"
                 className="!bg-grey-secundary !text-purple-secundary !w-2/6 !h-[48px] font-medium"
-                onClick={() => setModalIsOpen(false)}
+                onClick={() => setModalEditContactsListIsOpen(false)}
               >
                 Cancelar
               </Button>
@@ -151,7 +158,7 @@ export const ModalEditContactsList = ({
                 className="!w-[109px] !h-[48px] font-medium"
                 disabled={isLoading}
               >
-                {isLoading ? <Spinner /> : "Salvar"}
+                {isLoading ? <Spinner /> : 'Salvar'}
               </Button>
             </section>
           </form>

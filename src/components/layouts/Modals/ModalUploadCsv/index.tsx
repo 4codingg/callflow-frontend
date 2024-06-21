@@ -1,44 +1,36 @@
-import { Button, ButtonSizeVariant, ButtonVariant } from '@/components/Button';
+import { Button, ButtonVariant } from '@/components/Button';
 import { Line } from '@/components/Line';
 import { Modal } from '@/components/Modal';
 import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
 import { toast } from '@/utils/toast';
-import { Check, CheckCircle, FileCsv, Trash, X, XCircle } from 'phosphor-react';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { formatFileSize, useCSVReader } from 'react-papaparse';
+import { CheckCircle, FileCsv, Trash, X, XCircle } from 'phosphor-react';
+import { useState } from 'react';
+import { useCSVReader } from 'react-papaparse';
 import Image from 'next/image';
 import CloudImage from '@/assets/icons/cloud-add.svg';
 import TickeCircle from '@/assets/icons/tick-circle.svg';
+import { useContactsList } from '@/hooks/useContactsListDetail';
 
-interface IModalUploadCsvProps {
-  setModalIsOpen: Dispatch<SetStateAction<boolean>>;
-  modalIsOpen: boolean;
-  handleUploadAccepted?: any;
-  setFile?: any;
-  file?: any;
-}
-
-export const ModalUploadCsv = ({
-  setModalIsOpen,
-  modalIsOpen,
-  handleUploadAccepted,
-  setFile,
-  file,
-}: IModalUploadCsvProps) => {
+export const ModalUploadCsv = () => {
   const [pendingResults, setPendingResults] = useState([]);
   const [files, setFiles] = useState([]);
 
+  const {
+    handleUploadAccepted,
+    setModalUploadCSVIsOpen,
+    modalUploadCSVIsOpen,
+  } = useContactsList();
   const { CSVReader } = useCSVReader();
 
   function handleDescarteResults() {
     setPendingResults([]);
     setFiles([]);
-    setModalIsOpen(false);
+    setModalUploadCSVIsOpen(false);
   }
 
   function handleSalvedResults() {
     handleUploadAccepted(pendingResults);
-    setModalIsOpen(false);
+    setModalUploadCSVIsOpen(false);
     toast('success', 'Upload realizado com sucesso');
     setFiles([]);
     setPendingResults([]);
@@ -49,7 +41,10 @@ export const ModalUploadCsv = ({
     setFiles(files.filter((file) => file.name !== fileName));
   }
   return (
-    <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
+    <Modal.Root
+      isOpen={modalUploadCSVIsOpen}
+      setIsOpen={setModalUploadCSVIsOpen}
+    >
       <Modal.Content className="w-[430px]">
         <div className="bg-white py-4 ">
           <header className="flex justify-between items-center w-full flex-1">

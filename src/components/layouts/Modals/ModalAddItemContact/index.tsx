@@ -1,23 +1,18 @@
-import { GetContactsListDetailResponse } from "@/api/contactsList/get-contacts-list-detail";
-import { updateContactsList } from "@/api/contactsList/update-contacts-list";
-import { Button, ButtonVariant } from "@/components/Button";
-import { Input } from "@/components/Input";
-import { Line } from "@/components/Line";
-import { Modal } from "@/components/Modal";
-import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { convertCamelCaseToWordsAndTranslate } from "@/utils/convertCamelCaseToWords";
-import { toast } from "@/utils/toast";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CheckCircle, X, XCircle } from "phosphor-react";
-import { useFormik } from "formik";
-import { Dispatch, SetStateAction, useState } from "react";
-import { Spinner } from "@/components/Spinner";
-
-interface IModalAddItemContactList {
-  setModalIsOpen: Dispatch<SetStateAction<boolean>>;
-  modalIsOpen: boolean;
-  contactsListDetail: GetContactsListDetailResponse;
-}
+import { GetContactsListDetailResponse } from '@/api/contactsList/get-contacts-list-detail';
+import { updateContactsList } from '@/api/contactsList/update-contacts-list';
+import { Button, ButtonVariant } from '@/components/Button';
+import { Input } from '@/components/Input';
+import { Line } from '@/components/Line';
+import { Modal } from '@/components/Modal';
+import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
+import { convertCamelCaseToWordsAndTranslate } from '@/utils/convertCamelCaseToWords';
+import { toast } from '@/utils/toast';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { CheckCircle, X, XCircle } from 'phosphor-react';
+import { useFormik } from 'formik';
+import { useState } from 'react';
+import { Spinner } from '@/components/Spinner';
+import { useContactsList } from '@/hooks/useContactsListDetail';
 
 interface IAddContacts {
   name: string;
@@ -26,19 +21,21 @@ interface IAddContacts {
   id: string | number;
 }
 
-export const ModalAddItemContactList = ({
-  setModalIsOpen,
-  modalIsOpen,
-  contactsListDetail,
-}: IModalAddItemContactList) => {
+export const ModalAddItemContactList = () => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const {
+    modalAddItemContactListIsOpen,
+    setModalAddItemContactListIsOpen,
+    contactsListDetail,
+  } = useContactsList();
   const queryClient = useQueryClient();
 
   const { mutateAsync: updateContactsListFn } = useMutation({
     mutationFn: updateContactsList,
     onSuccess() {
       queryClient.invalidateQueries({
-        queryKey: ["contacts-list-detail", contactsListDetail.id],
+        queryKey: ['contacts-list-detail', contactsListDetail.id],
       });
     },
   });
@@ -51,9 +48,9 @@ export const ModalAddItemContactList = ({
         contacts: [values],
       });
       resetForm();
-      toast("success", "Contato adicionado com sucesso.");
+      toast('success', 'Contato adicionado com sucesso.');
     } catch (err) {
-      toast("error", "Algo deu errado.");
+      toast('error', 'Algo deu errado.');
     } finally {
       setIsLoading(false);
     }
@@ -62,7 +59,7 @@ export const ModalAddItemContactList = ({
   const getInitialValues = () => {
     const initialValues = {};
     contactsListDetail?.variables?.map((variable) => {
-      initialValues[variable] = "";
+      initialValues[variable] = '';
     });
     return initialValues;
   };
@@ -74,7 +71,10 @@ export const ModalAddItemContactList = ({
   });
 
   return (
-    <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
+    <Modal.Root
+      isOpen={modalAddItemContactListIsOpen}
+      setIsOpen={setModalAddItemContactListIsOpen}
+    >
       <Modal.Content className="min-w-[400px]">
         <div className="bg-white py-4 ">
           <header className="flex justify-between items-center w-full flex-1">
@@ -111,7 +111,7 @@ export const ModalAddItemContactList = ({
                 className="!bg-grey-secundary !text-purple-secundary !w-[213px] !h-[48px] font-medium"
                 onClick={() => {
                   resetForm();
-                  setModalIsOpen(false);
+                  setModalAddItemContactListIsOpen(false);
                 }}
               >
                 Descartar alterações
@@ -122,7 +122,7 @@ export const ModalAddItemContactList = ({
                 type="submit"
                 className="!w-[109px] !h-[48px] font-medium"
               >
-                {isLoading ? <Spinner /> : "Salvar"}
+                {isLoading ? <Spinner /> : 'Salvar'}
               </Button>
             </section>
           </form>

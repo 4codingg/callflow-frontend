@@ -45,6 +45,7 @@ export const CreateContactListTemplate = () => {
       toast('error', 'O nome da lista não pode estar vazio.');
       return;
     }
+
     if (
       plan.value !== IPlanSubscriptionValue.Free &&
       !modalConfirmVariablesIsOpen
@@ -71,16 +72,20 @@ export const CreateContactListTemplate = () => {
     }
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDownVariable = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     if (event.key === 'Enter') {
       if (values.inputVariableValue.trim() === '') {
         toast('error', 'Não é permitido adicionar uma variavél vazia.');
         return;
       }
+
       if (values.variables.includes(values.inputVariableValue.toLowerCase())) {
         toast('error', 'Essa variável já existe.');
         return;
       }
+
       setFieldValue('variables', [
         ...values.variables,
         values.inputVariableValue.toLowerCase(),
@@ -92,25 +97,20 @@ export const CreateContactListTemplate = () => {
 
   const handleDeleteVariable = (itemToDelete: string) => {
     const translateVariable = (variable: string): string => {
-      switch (variable) {
-        case 'name':
-          return 'Nome';
-        case 'email':
-          return 'Email';
-        case 'phone':
-          return 'Telefone';
-        default:
-          return variable;
-      }
+      const variableTranslations: Record<string, string> = {
+        name: 'Nome',
+        email: 'Email',
+        phone: 'Telefone',
+      };
+
+      return variableTranslations[variable] || variable;
     };
-    if (
-      itemToDelete === 'name' ||
-      itemToDelete === 'email' ||
-      itemToDelete === 'phone'
-    ) {
+
+    if (['name', 'email', 'phone'].includes(itemToDelete)) {
       toast('error', `${translateVariable(itemToDelete)} é uma variável fixa.`);
       return;
     }
+
     const updatedVariables = values.variables.filter(
       (item) => item !== itemToDelete
     );
@@ -118,9 +118,7 @@ export const CreateContactListTemplate = () => {
   };
 
   const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event) {
-      setFieldValue('inputVariableValue', event.target.value);
-    }
+    setFieldValue('inputVariableValue', event.target.value);
   };
 
   const { values, setFieldValue, getFieldProps } = useFormik({
@@ -180,7 +178,7 @@ export const CreateContactListTemplate = () => {
             label="Variáveis"
             placeholder="Acione as variáveis da sua lista"
             onChange={handleChangeInput}
-            onKeyDown={handleKeyDown}
+            onKeyDown={handleKeyDownVariable}
             value={values.inputVariableValue}
             disabled={plan.value === IPlanSubscriptionValue.Free}
           />
