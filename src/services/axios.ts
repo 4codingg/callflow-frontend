@@ -1,8 +1,7 @@
 import axios from "axios";
 
-// TODO: remove authorization headers when implement auth flow
 const api = axios.create({
-  baseURL: "http://localhost:3333",
+  baseURL: "http://ec2-18-231-2-213.sa-east-1.compute.amazonaws.com:3333",
   validateStatus: (status) => status >= 200 && status <= 299
 });
 

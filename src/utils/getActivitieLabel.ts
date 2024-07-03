@@ -1,7 +1,7 @@
 export const activities = [
   {
-    value: "CONFIRMED",
-    label: "Finalizada",
+    value: "failed",
+    label: "Falha",
   },
   {
     value: "completed",

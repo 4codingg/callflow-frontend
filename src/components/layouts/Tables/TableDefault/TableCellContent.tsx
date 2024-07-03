@@ -1,11 +1,12 @@
-import { CreditCardBrand } from "@/components/CreditCardBrand";
-import { Labelbox } from "@/components/Labelbox";
-import { Paragraph } from "@/components/Paragraph";
-import { formatDateToDDMMYYYYHHMM } from "@/utils/formatDateToDDMMYYYYHHMM";
-import { formatNumberToStringBR } from "@/utils/formatNumberToStringBR";
+import { CreditCardBrand } from '@/components/CreditCardBrand';
+import { Labelbox } from '@/components/Labelbox';
+import { Paragraph } from '@/components/Paragraph';
+import { Status } from '@/components/Status';
+import { formatDateToDDMMYYYYHHMM } from '@/utils/formatDateToDDMMYYYYHHMM';
+import { formatNumberToStringBR } from '@/utils/formatNumberToStringBR';
 
 export const TableCellContent = ({ item, title }) => {
-  if (title === "variables") {
+  if (title === 'variables') {
     return (
       <div className="flex gap-1 flex-wrap">
         {item[title].map((variable, index) => {
@@ -22,7 +23,7 @@ export const TableCellContent = ({ item, title }) => {
     );
   }
 
-  if (title === "last4") {
+  if (title === 'last4') {
     return item.last4 ? (
       <div className="flex items-center gap-2">
         <CreditCardBrand brand={item.brand} />
@@ -33,30 +34,34 @@ export const TableCellContent = ({ item, title }) => {
     );
   }
 
-  if (title === "createdAt" || title === "processedAt") {
+  if (title === 'createdAt' || title === 'processedAt') {
     return formatDateToDDMMYYYYHHMM(item[title]);
   }
 
-  if (title === "cost") {
-    const cost = "R$ " + formatNumberToStringBR(item[title]);
+  if (title === 'cost') {
+    const cost = 'R$ ' + formatNumberToStringBR(item[title]);
     return cost;
   }
 
-  if (title === "historyType") {
-    if (item[title] === "sms") {
-      return "Envio de SMS em massa";
+  if (title === 'historyType') {
+    if (item[title] === 'sms') {
+      return 'Envio de SMS em massa';
     }
-    if (item[title] === "email") {
-      return "Envio de E-mail em massa";
+    if (item[title] === 'email') {
+      return 'Envio de E-mail em massa';
     }
-    if (item[title] === "call") {
-      return "Envio de Ligações em massa";
+    if (item[title] === 'call') {
+      return 'Envio de Ligações em massa';
     }
-    if (item[title] === "balance") {
-      return "Reabastecimento de Saldo";
+    if (item[title] === 'balance') {
+      return 'Reabastecimento de Saldo';
     }
 
     return item[title];
+  }
+
+  if (title === 'status') {
+    return <Status value={item[title]} />;
   }
 
   return item[title];

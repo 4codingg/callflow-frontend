@@ -1,22 +1,21 @@
-import { ICostReports } from "@/@types/MassCommunication";
-import { Button, ButtonVariant } from "@/components/Button";
-import { Line } from "@/components/Line";
-import { Modal } from "@/components/Modal";
-import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { MOCK_COST_REPORT } from "@/constants/massCommunication";
-import { ArrowRight, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction } from "react";
+import { ICostReports } from '@/@types/MassCommunication';
+import { Button, ButtonVariant } from '@/components/Button';
+import { Line } from '@/components/Line';
+import { Modal } from '@/components/Modal';
+import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
+import { ArrowRight, XCircle } from 'phosphor-react';
+import { Dispatch, SetStateAction } from 'react';
 
 interface IModalModalCostReportProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
-  costReports: ICostReports
+  costReports: ICostReports;
 }
 
 export const ModalCostReports = ({
   setModalIsOpen,
   modalIsOpen,
-  costReports
+  costReports,
 }: IModalModalCostReportProps) => {
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>

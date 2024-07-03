@@ -1,10 +1,10 @@
-import { Card, EmptyState, Paragraph } from "@/components";
-import { ACTIVITIES_VALUES } from "@/constants/recentActivies";
-import { useCompany } from "@/hooks/useCompany";
-import { formatDateToDDMMYYYYHHMM } from "@/utils/formatDateToDDMMYYYYHHMM";
-import { getActivitieLabel } from "@/utils/getActivitieLabel";
-import clsx from "clsx";
-import Empty from "@/assets/empty-state.png";
+import { Card, EmptyState, Paragraph } from '@/components';
+import { ACTIVITIES_VALUES } from '@/constants/recentActivies';
+import { useCompany } from '@/hooks/useCompany';
+import { formatDateToDDMMYYYYHHMM } from '@/utils/formatDateToDDMMYYYYHHMM';
+import clsx from 'clsx';
+import Empty from '@/assets/empty-state.png';
+import { Status } from '@/components/Status';
 
 export const RecentActivitiesTemplate = () => {
   const { companyDetail } = useCompany();
@@ -25,11 +25,11 @@ export const RecentActivitiesTemplate = () => {
             >
               <div
                 className={clsx(
-                  "flex items-center justify-center p-3 rounded mr-12",
+                  'flex items-center justify-center p-3 rounded mr-12',
                   {
-                    "bg-green": record.type === "call",
-                    "bg-primary": record.type === "sms",
-                    "bg-orange": record.type === "email",
+                    'bg-green': record.type === 'call',
+                    'bg-primary': record.type === 'sms',
+                    'bg-orange': record.type === 'email',
                   }
                 )}
               >
@@ -47,24 +47,7 @@ export const RecentActivitiesTemplate = () => {
               <Paragraph className="w-[15%] text-left !font-normal">
                 -R$ {record.cost}
               </Paragraph>
-              <div
-                className={clsx("w-[15%] text-right flex items-center gap-2")}
-              >
-                <div
-                  className={clsx("w-2 h-2 rounded-full", {
-                    "bg-green": record.status === "completed",
-                    "bg-primary": record.status === "pending",
-                  })}
-                />
-                <Paragraph
-                  className={clsx({
-                    "!text-green": record.status === "completed",
-                    "!text-primary": record.status === "pending",
-                  })}
-                >
-                  {getActivitieLabel(record.status)}
-                </Paragraph>
-              </div>
+              <Status value={record.status} />
             </div>
           ))}
         </div>
