@@ -1,7 +1,9 @@
 import { Line, Paragraph } from '@/components';
+
 import { NotePencil, Trash } from 'phosphor-react';
 
 export const DropdownActions = ({ setModalEditContactsListIsOpen }) => {
+
   const actions = [
     {
       icon: <NotePencil color="#01DDA3" size={16} />,
@@ -13,6 +15,7 @@ export const DropdownActions = ({ setModalEditContactsListIsOpen }) => {
       icon: <Trash color="#3F3F3F" size={16} />,
       color: '#3F3F3F',
       label: 'Deletar Lista',
+      action: () => alert('colocar função de deletar aqui')
     },
   ];
 
