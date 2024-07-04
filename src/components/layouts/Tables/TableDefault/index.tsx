@@ -7,7 +7,7 @@ import { Pagination } from "@/components/Pagination";
 
 interface ITableProps {
   content: any[];
-  showIdColumn?: false;
+  showIdColumn?: boolean;
   handleDeleteItem?: (id: string) => void;
   handleEditItem?: (id: string) => void;
   handleAccessItem?: (id: string) => void;
@@ -36,10 +36,10 @@ export const TableDefault = ({
 }: ITableProps) => {
   const titles = content[0]
     ? Object.keys(content[0]).filter(
-        (item) =>
-          item !== "id" &&
-          (showFields.length === 0 || showFields.includes(item))
-      )
+      (item) =>
+        item !== "id" &&
+        (showFields.length === 0 || showFields.includes(item))
+    )
     : [];
 
   const calculateWidthSize = () => {
