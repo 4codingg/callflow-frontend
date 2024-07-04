@@ -44,7 +44,7 @@ export const ContactsListTemplate = () => {
       <LayoutWithSidebar>
         <div className="flex justify-between">
           <section className="flex gap-10 items-center">
-            <Heading>Lista de Contatos</Heading>
+            <Heading>Lista de Contatos </Heading>
             <Paragraph className=" text-gray-500">
               {contactsListsItems?.length || 0} listas
             </Paragraph>

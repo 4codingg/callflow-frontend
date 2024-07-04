@@ -45,6 +45,14 @@ export const CreateContactListTemplate = () => {
       toast('error', 'O nome da lista não pode estar vazio.');
       return;
     }
+    if (values.emailDestinationVariable.trim() === '') {
+      toast('error', 'A variavel de destino "E-mail" não pode está vazia');
+      return
+    }
+    if (values.phoneDestinationVariable.trim() === '') {
+      toast('error', 'A variavel de destino "Telefone" não pode está vazia');
+      return
+    }
 
     if (
       plan.value !== IPlanSubscriptionValue.Free &&
