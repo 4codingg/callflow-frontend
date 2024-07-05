@@ -29,6 +29,11 @@ export const ModalUploadCsv = () => {
   }
 
   function handleSalvedResults() {
+    const filteredResults = pendingResults.map(fileResult => ({
+      ...fileResult,
+      data: fileResult.data.filter(row => row.some(cell => cell !== '' && cell !== null && cell !== undefined))
+    }));
+    handleUploadAccepted(filteredResults);
     handleUploadAccepted(pendingResults);
     setModalUploadCSVIsOpen(false);
     toast('success', 'Upload realizado com sucesso');
