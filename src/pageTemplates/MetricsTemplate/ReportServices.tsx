@@ -2,6 +2,9 @@ import { Card, EmptyState, Line, Paragraph, TableDefault } from "@/components";
 import Empty from "@/assets/empty-state.png"
 import { useRouter } from "next/router";
 
+import { getReportsList } from "@/api/reports/get-reports";
+import { useQuery } from "@tanstack/react-query";
+
 interface ReportProps {
   id: string;
   reproduceAt: string;
@@ -79,6 +82,11 @@ export const ReportServices = () => {
   function handleAccessReport(id: string) {
     router.push(`metrics/reports/${id}`)
   }
+
+  const { data: reportsList } = useQuery({
+    queryKey: ['reports'],
+    queryFn: getReportsList
+  });
   return (
     <Card>
       <header>
@@ -89,9 +97,9 @@ export const ReportServices = () => {
         </Paragraph>
       </header>
       <Line className="my-4" />
-      {dataReportServiceList.length > 0 ? (
+      {reportsList && reportsList.length > 0 ? (
         <TableDefault
-          content={dataReportServiceList || []}
+          content={reportsList || []}
           disableEditItem
           disableDeleteItem
           handleAccessItem={handleAccessReport}
