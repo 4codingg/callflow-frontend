@@ -1,3 +1,4 @@
+import { IMassCommunicationResponse } from "@/@types/MassCommunication";
 import api from "@/services/axios"
 
 export interface SendCallMassBody {
@@ -16,5 +17,5 @@ export async function sendCallMass({
     destinationVariable,
     contactsListId
   })
-  return response.data;
+  return response.data as IMassCommunicationResponse;
 }

@@ -8,7 +8,7 @@ export const ReportServices = () => {
   const router = useRouter();
 
   function handleAccessReport(id: string) {
-    router.push(`metrics/reports/${id}`);
+    router.push(`/metrics/reports/${id}`);
   }
 
   const { data: reportsList } = useQuery({

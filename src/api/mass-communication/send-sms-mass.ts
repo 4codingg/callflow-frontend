@@ -1,3 +1,4 @@
+import { IMassCommunicationResponse } from "@/@types/MassCommunication";
 import api from "@/services/axios"
 
 export interface CreateContactsListBody {
@@ -5,6 +6,7 @@ export interface CreateContactsListBody {
   destinationVariable: string,
   contactsListId: string
 }
+
 
 export async function sendSMSMass({
   message,
@@ -16,5 +18,5 @@ export async function sendSMSMass({
     destinationVariable,
     contactsListId
   })
-  return response.data;
+  return response.data as IMassCommunicationResponse;
 }

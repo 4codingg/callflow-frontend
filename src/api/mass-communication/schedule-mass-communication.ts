@@ -1,3 +1,4 @@
+import { IMassCommunicationResponse } from "@/@types/MassCommunication";
 import api from "@/services/axios"
 
 export interface ScheduleCommunicationBody {
@@ -25,5 +26,5 @@ export async function scheduleMassCommunication({
     type,
     reproduceAt
   })
-  return response.data;
+  return response.data as IMassCommunicationResponse;
 }

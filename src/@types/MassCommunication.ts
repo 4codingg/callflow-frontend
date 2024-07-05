@@ -15,3 +15,8 @@ export interface ICostReports {
   contacts: ContactData;
   total: number;
 }
+
+export interface IMassCommunicationResponse {
+  message: string,
+  reportId: string
+}
