@@ -1,11 +1,12 @@
 import { ContactReportItem } from '@/@types/Report';
-import { Card, Line, Paragraph, TableDefault } from '@/components';
+import { Card, Line, Paragraph, Spinner, TableDefault } from '@/components';
 
 interface IContactsReportProps {
   data: ContactReportItem[];
+  isLoading: boolean
 }
 
-export const ContactsReport = ({ data }: IContactsReportProps) => {
+export const ContactsReport = ({ data, isLoading }: IContactsReportProps) => {
   return (
     <Card className="flex flex-col mt-6">
       <header>
@@ -15,8 +16,12 @@ export const ContactsReport = ({ data }: IContactsReportProps) => {
         </Paragraph>
       </header>
       <Line className="my-4" />
-      <div>
-        <TableDefault content={data} />
+      <div className="flex w-full items-center justify-center">
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <TableDefault content={data || []} disableAccessItem disableDeleteItem disableEditItem />
+        )}
       </div>
     </Card>
   );

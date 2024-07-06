@@ -2,44 +2,24 @@ import { LayoutWithSidebar } from '@/components';
 import { CrumbsReportDetail } from './CrumbsReportDetail';
 import { CostReport } from './CostReport';
 import { ContactsReport } from './ContactsReport';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
-import { fetchReportsDetail } from '@/api/reports/fecth-reports-detail';
-import { CONTACTS_REPORT_MOCK } from '@/constants/reports';
-
-
+import { getReportsDetail } from '@/api/reports/get-reports-detail';
 
 export const ReportDetailTemplate = () => {
-  const [reportDetail, setReportDetail] = useState<any>([]);
-  const [loading, setLoading] = useState(false)
   const router = useRouter();
   const { id } = router.query;
 
-  const { data: reportsListDetail } = useQuery({
+  const { data: reportDetail, isLoading } = useQuery({
     queryKey: ['reports-detail'],
-    queryFn: () => fetchReportsDetail(id),
+    queryFn: () => getReportsDetail(id as string),
   });
-
-  useEffect(() => {
-    if (reportsListDetail) {
-      setLoading(true);
-      try {
-        setReportDetail(reportsListDetail?.data?.contactItems);
-      } catch (error) {
-        console.error("Error: ", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-  }, [reportsListDetail]);
-  console.log(reportsListDetail)
 
   return (
     <LayoutWithSidebar>
-      <CrumbsReportDetail reportName="#999123cca1" />
+      <CrumbsReportDetail reportName={reportDetail?.data?.id} />
       <CostReport />
-      <ContactsReport data={reportDetail} />
+      <ContactsReport isLoading={isLoading} data={reportDetail?.data?.contactItems} />
     </LayoutWithSidebar>
   );
 };

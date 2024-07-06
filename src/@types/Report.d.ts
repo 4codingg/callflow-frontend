@@ -2,7 +2,6 @@ import { ICostReports } from "./MassCommunication";
 
 export interface ContactReportItem {
   id: string,
-  contactId: string,
   destination: string,
   message: string,
   status: "completed" | "failed" | "pending"

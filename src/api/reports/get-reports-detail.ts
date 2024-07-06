@@ -1,6 +1,6 @@
 import api from "@/services/axios";
 
-interface IFetchReportsDetailResponse {
+interface IGetReportsDetailResponse {
   data: {
     id: string;
     cost: {
@@ -21,13 +21,13 @@ interface IFetchReportsDetailResponse {
       id: string;
       destination: string;
       message: string;
-      status: string;
+      status: "completed" | "pending" | "failed";
     }[];
   };
 }
 
 
-export const fetchReportsDetail = async (id: any) => {
+export const getReportsDetail = async (id: string) => {
   const response = await api.get(`/reports/${id}`);
-  return response.data as IFetchReportsDetailResponse;
+  return response.data as IGetReportsDetailResponse;
 };
