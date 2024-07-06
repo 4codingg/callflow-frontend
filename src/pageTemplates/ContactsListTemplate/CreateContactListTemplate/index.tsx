@@ -62,6 +62,7 @@ export const CreateContactListTemplate = () => {
         emailDestinationVariable: values.emailDestinationVariable,
         phoneDestinationVariable: values.phoneDestinationVariable,
       });
+      console.log(values)
 
       toast('success', 'Lista criada com sucesso!');
       router.push(`/contacts/${id}`);

@@ -95,6 +95,7 @@ export const ModalEditContactsList = () => {
     onSubmit: handleSave,
   });
 
+
   return (
     <Modal.Root
       isOpen={modalEditContactsListIsOpen}
