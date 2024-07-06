@@ -40,7 +40,7 @@ export const useMassCommunication = ({ type }) => {
 
   const formik = useFormik({
     initialValues: {
-      contactsListId: '',
+      contactsListId: contactsListDetail?.id,
       message: '',
       destinationVariable:
         type === EMassCommunication.Email
@@ -49,6 +49,7 @@ export const useMassCommunication = ({ type }) => {
       ...(type === EMassCommunication.Email && { subject: '' }),
       reproduceAt: '',
     },
+    enableReinitialize: true,
     validationSchema: schemaSendCallsListMessage,
     onSubmit: () => {},
   });
