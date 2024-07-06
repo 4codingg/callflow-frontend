@@ -48,6 +48,7 @@ export const ModalAddItemContactList = () => {
         contacts: [values],
       });
       resetForm();
+      setModalAddItemContactListIsOpen(false)
       toast('success', 'Contato adicionado com sucesso.');
     } catch (err) {
       toast('error', 'Algo deu errado.');
