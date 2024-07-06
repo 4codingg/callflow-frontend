@@ -27,7 +27,10 @@ export const LoginTemplate = () => {
         toast("error", "Usuário/senha incorretos.");
         return;
       }
-
+      if (err.response.data.message === "Sua empresa não foi ativada. Contate o suporte.") {
+        toast("error", "Sua empresa não foi ativada. Contate o suporte.");
+        return;
+      }
       toast(
         "error",
         "Ocorreu um erro durante a autenticação. Por favor, tente novamente."
