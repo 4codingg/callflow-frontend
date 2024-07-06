@@ -1,4 +1,4 @@
-import { Heading, Input, Line, Logo, Paragraph } from "@/components";
+import { Heading, Input, Line, Logo, Paragraph, Spinner } from "@/components";
 import { Button } from "@/components/Button";
 import { LogoVariant } from "@/components/Logo";
 import { useAuth } from "@/hooks/useAuth";
@@ -13,8 +13,7 @@ import { FcGoogle } from "react-icons/fc";
 
 export const LoginTemplate = () => {
   const [showPassword, setShowPassword] = useState(false);
-
-  const { handleSignIn } = useAuth();
+  const { handleSignIn, authenticationIsPending } = useAuth();
   const router = useRouter();
 
   const handleAuth = async (values: { email: string; password: string }) => {
@@ -115,8 +114,9 @@ export const LoginTemplate = () => {
               )
             }
           />
+
           <Button className="!rounded-md !font-poppins !font-medium mt-2">
-            Logar
+            {authenticationIsPending ? (<Spinner />) : ("Logar")}
           </Button>
           <div className="flex justify-center items-center gap-2 mt-3">
             <Line direction="horizontal" className=" text-default-grey" />

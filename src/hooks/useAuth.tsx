@@ -23,6 +23,7 @@ export interface AuthProviderProps {
 export interface AuthContextDataProps {
   isAuthenticated: boolean;
   userDetail: User;
+  authenticationIsPending: boolean
   handleSignIn: (email: string, password: string) => Promise<void>;
   handleSignOut: () => void;
 }
@@ -34,6 +35,7 @@ const AuthContext = createContext<AuthContextDataProps>(
 export function AuthContextProvider({ children }: AuthProviderProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const queryClient = useQueryClient();
+
 
   const { setGlobalLoading } = useGlobaLoading();
   const router = useRouter();
@@ -47,7 +49,7 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
     queryFn: getProfile,
   });
 
-  const { mutateAsync: authenticateFn } = useMutation({
+  const { mutateAsync: authenticateFn, isPending: authenticationIsPending } = useMutation({
     mutationFn: authenticate,
   });
 
@@ -114,6 +116,7 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
         userDetail,
         handleSignIn,
         handleSignOut,
+        authenticationIsPending
       }}
     >
       {children}
