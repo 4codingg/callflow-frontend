@@ -3,7 +3,7 @@ import { Line } from "@/components/Line";
 import { Modal } from "@/components/Modal";
 import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
 import { CheckCircle, X, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { Input } from "@/components/Input";
 
@@ -74,6 +74,21 @@ export const ModalEmail = ({
               onEditorChange={(e) => setMessage(e)}
               value={message}
               initialValue="<p>Sua mensagem aqui.</p>"
+              init={{
+                height: 500,
+                menubar: false,
+                plugins: [
+                  'advlist autolink lists link charmap print preview anchor',
+                  'searchreplace visualblocks code fullscreen',
+                  'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar: 'undo redo | formatselect | bold italic backcolor | ' +
+                         'alignleft aligncenter alignright alignjustify | ' +
+                         'bullist numlist outdent indent | removeformat | help',
+                menu: {
+                  insert: { title: 'Insert', items: 'link media template hr' },
+                }
+              }}
             />
           </section>
           <section className="flex justify-end mt-4 gap-4">

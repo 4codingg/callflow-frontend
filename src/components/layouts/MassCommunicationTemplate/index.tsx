@@ -61,6 +61,7 @@ export const MassCommunicationTemplate = ({ type }) => {
                 label="Lista de Contatos"
                 placeholder="Seleciona a lista de contatos"
                 onValueChange={handleChangeContactsList}
+                value={values.contactsListId}
                 {...getFieldProps('contactsListId')}
               />
             ) : null}
