@@ -1,25 +1,35 @@
 import { Heading, Input, Line, Logo, Paragraph } from "@/components";
 import { Button } from "@/components/Button";
 import { LogoVariant } from "@/components/Logo";
+import { ESignupStep } from "@/constants/signup";
 import { useAuth } from "@/hooks/useAuth";
+import { useCompany } from "@/hooks/useCompany";
 import { toast } from "@/utils/toast";
 import { validationSchema } from "@/validation/login";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Envelope, Eye, EyeClosed } from "phosphor-react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 
-export const LoginTemplate = () => {
+interface ILoginTemplateProps {
+  setActiveStep: Dispatch<SetStateAction<ESignupStep>>
+}
+export const LoginTemplate = ({ setActiveStep }: ILoginTemplateProps) => {
   const [showPassword, setShowPassword] = useState(false);
-
+  const { companyDetail } = useCompany()
   const { handleSignIn } = useAuth();
   const router = useRouter();
+
 
   const handleAuth = async (values: { email: string; password: string }) => {
     try {
       await handleSignIn(values.email, values.password);
+      if (companyDetail.active == false) {
+        setActiveStep(ESignupStep.Confirmation)
+        return;
+      }
       router.push("/dashboard");
       toast("success", "Bem vindo de volta!");
     } catch (err) {
