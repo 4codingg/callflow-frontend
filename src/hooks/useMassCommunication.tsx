@@ -49,7 +49,6 @@ export const useMassCommunication = ({ type }) => {
       ...(type === EMassCommunication.Email && { subject: '' }),
       reproduceAt: '',
     },
-    enableReinitialize: true,
     validationSchema: schemaSendCallsListMessage,
     onSubmit: () => {},
   });
@@ -119,15 +118,6 @@ export const useMassCommunication = ({ type }) => {
     }
 
     setFieldValue('destinationVariable', destination);
-  };
-
-  const handleOpenMessageModal = () => {
-    if (contactsListDetailIsEmpty) {
-      toast('error', 'Selecione uma lista de contatos para prosseguir.');
-      return;
-    }
-
-    setModalMessageIsOpen(true);
   };
 
   const handleConfirmSendMassCommunication = () => {
