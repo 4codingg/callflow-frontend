@@ -18,8 +18,11 @@ export const ReportDetailTemplate = () => {
   return (
     <LayoutWithSidebar>
       <CrumbsReportDetail reportName={reportDetail?.data?.id} />
-      <CostReport />
-      <ContactsReport isLoading={isLoading} data={reportDetail?.data?.contactItems} />
+      <CostReport costReports={reportDetail?.data?.cost} />
+      <ContactsReport
+        isLoading={isLoading}
+        data={reportDetail?.data?.contactItems}
+      />
     </LayoutWithSidebar>
   );
 };

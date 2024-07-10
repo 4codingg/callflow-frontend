@@ -3,8 +3,8 @@ import {
   CaretDoubleRight,
   CaretLeft,
   CaretDoubleLeft,
-} from "phosphor-react";
-import { Button } from "./Button";
+} from 'phosphor-react';
+import { Button } from './Button';
 
 interface PaginationProps {
   pageIndex: number;
@@ -25,7 +25,7 @@ export function Pagination({
         Total de {totalCount} item(s)
       </span>
 
-      <div className="flex items-center gap-6 lg:gap-8">
+      {/* <div className="flex items-center gap-6 lg:gap-8">
         <div className="text-sm font-medium">
           Página {pageIndex + 1} de {pages}
         </div>
@@ -47,7 +47,7 @@ export function Pagination({
             <span className="sr-only">Última página</span>
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

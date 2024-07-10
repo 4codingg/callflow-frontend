@@ -1,9 +1,8 @@
 import { Button, ButtonVariant } from '@/components/Button';
-import { Input } from '@/components/Input';
 import { Modal } from '@/components/Modal';
 import { Paragraph } from '@/components/Paragraph';
 import { TextArea } from '@/components/TextArea';
-import { convertCamelCaseToWords } from '@/utils/convertCamelCaseToWords';
+import { convertCamelCaseToWordsAndTranslate } from '@/utils/convertCamelCaseToWords';
 import { CheckCircle, XCircle } from 'phosphor-react';
 import { Dispatch, SetStateAction } from 'react';
 
@@ -29,9 +28,12 @@ export const ModalPlayCallsList = ({
               </Paragraph>
               <div className="flex items-center gap-2 flex-wrap mt-2">
                 {variables.map((variable) => (
-                  <div className="bg-primary px-2 py-1 rounded-full">
+                  <div
+                    key={variable}
+                    className="bg-primary px-2 py-1 rounded-full"
+                  >
                     <Paragraph className="text-white !text-xs font-medium">
-                      {convertCamelCaseToWords(variable)}
+                      {convertCamelCaseToWordsAndTranslate(variable)}
                     </Paragraph>
                   </div>
                 ))}

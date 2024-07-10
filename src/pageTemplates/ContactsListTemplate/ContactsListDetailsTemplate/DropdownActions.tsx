@@ -1,7 +1,10 @@
 import { Line, Paragraph } from '@/components';
 import { NotePencil, Trash } from 'phosphor-react';
 
-export const DropdownActions = ({ setModalEditContactsListIsOpen }) => {
+export const DropdownActions = ({
+  setModalEditContactsListIsOpen,
+  handleDeleteContactsList,
+}) => {
   const actions = [
     {
       icon: <NotePencil color="#01DDA3" size={16} />,
@@ -13,6 +16,7 @@ export const DropdownActions = ({ setModalEditContactsListIsOpen }) => {
       icon: <Trash color="#3F3F3F" size={16} />,
       color: '#3F3F3F',
       label: 'Deletar Lista',
+      action: handleDeleteContactsList,
     },
   ];
 
@@ -23,8 +27,9 @@ export const DropdownActions = ({ setModalEditContactsListIsOpen }) => {
         return (
           <>
             <button
+              key={index}
               onClick={action.action}
-              className="flex gap-2  items-center"
+              className="flex gap-2 items-center cursor-pointer"
             >
               {action.icon}
               <Paragraph style={{ color: action.color }}>

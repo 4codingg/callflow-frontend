@@ -42,6 +42,7 @@ export const ContactsListDetailsTemplate = () => {
     handleSave,
     handleDeleteContactItem,
     pendingDocuments,
+    handleDeleteContactsList,
   } = useContactsList();
 
   return (
@@ -78,7 +79,7 @@ export const ContactsListDetailsTemplate = () => {
           </section>
 
           <DropdownMenu.Root>
-            <DropdownMenu.Trigger className="flex ml-auto !w-[150px] ">
+            <DropdownMenu.Trigger className="flex ml-auto !w-[150px] !cursor-pointer">
               <Button
                 className="!bg-[#D9D9D9] !text-[#3F3F3F]"
                 leftIcon={
@@ -89,8 +90,9 @@ export const ContactsListDetailsTemplate = () => {
                 Ações
               </Button>
             </DropdownMenu.Trigger>
-            <DropdownMenu.Content className="bg-white p-4 flex flex-col gap-4 mt-1">
+            <DropdownMenu.Content className="bg-white p-4 flex flex-col gap-4 mt-1 !cursor-pointer">
               <DropdownActions
+                handleDeleteContactsList={handleDeleteContactsList}
                 setModalEditContactsListIsOpen={setModalEditContactsListIsOpen}
               />
             </DropdownMenu.Content>

@@ -6,9 +6,9 @@ import {
   Paragraph,
   ParagraphSizeVariant,
   TextArea,
-} from "@/components";
-import { CheckCircle, X, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction, useState } from "react";
+} from '@/components';
+import { CheckCircle, X, XCircle } from 'phosphor-react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 interface IModalCallsProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -31,7 +31,7 @@ export const ModalCalls = ({
     let formattedText = message;
     variables.forEach((variable) => {
       variable = variable.trim();
-      const regex = new RegExp(`{${variable}}`, "g");
+      const regex = new RegExp(`{${variable}}`, 'g');
 
       formattedText = formattedText.replace(
         regex,
@@ -64,7 +64,10 @@ export const ModalCalls = ({
               <Paragraph>Variáveis disponíveis: </Paragraph>
               <div className="flex items-center gap-2">
                 {variables.map((item) => (
-                  <div className="flex gap-2 items-center rounded-full bg-primary p-2">
+                  <div
+                    key={item}
+                    className="flex gap-2 items-center rounded-full bg-primary p-2"
+                  >
                     <Paragraph className="!text-xs !text-white font-bold">
                       {item}
                     </Paragraph>
@@ -94,7 +97,7 @@ export const ModalCalls = ({
               className="!bg-grey-secundary !text-purple-secundary !w-[190px] text-xs font-normal"
               onClick={() => {
                 setModalIsOpen(false);
-                setMessage("");
+                setMessage('');
               }}
             >
               Descartar Alterações

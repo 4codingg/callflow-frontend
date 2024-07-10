@@ -1,4 +1,3 @@
-import { ISubscription, IPlanSubscriptionValue } from "@/@types/Subscription";
 import User from "@/@types/User";
 import { authenticate } from "@/api/auth/authenticate";
 import { getProfile } from "@/api/auth/get-profile";

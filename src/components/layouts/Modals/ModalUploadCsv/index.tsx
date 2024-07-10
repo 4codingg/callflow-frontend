@@ -29,9 +29,11 @@ export const ModalUploadCsv = () => {
   }
 
   function handleSalvedResults() {
-    const filteredResults = pendingResults.map(fileResult => ({
+    const filteredResults = pendingResults.map((fileResult) => ({
       ...fileResult,
-      data: fileResult.data.filter(row => row.some(cell => cell !== '' && cell !== null && cell !== undefined))
+      data: fileResult.data.filter((row) =>
+        row.some((cell) => cell !== '' && cell !== null && cell !== undefined)
+      ),
     }));
     handleUploadAccepted(filteredResults);
     setModalUploadCSVIsOpen(false);
@@ -106,8 +108,11 @@ export const ModalUploadCsv = () => {
             }}
           </CSVReader>
           <div className="w-full flex flex-col items-center  gap-4 mt-6">
-            {files.map((file) => (
-              <div className="flex gap-4 w-full bg-light-grey px-4 py-3 rounded-3xl items-center relative">
+            {files.map((file, index) => (
+              <div
+                key={index}
+                className="flex gap-4 w-full bg-light-grey px-4 py-3 rounded-3xl items-center relative"
+              >
                 <FileCsv size={40} />
                 <div className="flex flex-col gap-3 ">
                   <Paragraph className="!text-xs">{file.name}</Paragraph>

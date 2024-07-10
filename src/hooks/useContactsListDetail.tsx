@@ -15,6 +15,7 @@ import {
   updateContactsList,
   deleteContact,
   getContactsListDetail,
+  deleteContactsList,
 } from '@/api/contactsList';
 import { IPlanSubscriptionValue } from '@/@types/Subscription';
 import { formatResultsToFreePlanFormat, formatCsvToJson } from '@/utils';
@@ -43,6 +44,7 @@ export interface ContactsListContextDataProps {
   dataTableIsEmpty: boolean;
   existsPendingDocuments: boolean;
   pendingDocuments: any[];
+  handleDeleteContactsList: () => Promise<void>;
 }
 
 const ContactsListContext = createContext<ContactsListContextDataProps>(
@@ -73,6 +75,10 @@ export const ContactsListContextProvider = ({
   const { data: contactsListDetail } = useQuery({
     queryKey: ['contacts-list-detail', contactsListId],
     queryFn: () => getContactsListDetail({ contactsListId }),
+  });
+
+  const { mutateAsync: deleteContactsListFn } = useMutation({
+    mutationFn: deleteContactsList,
   });
 
   const { mutateAsync: updateContactsListFn } = useMutation({
@@ -147,6 +153,18 @@ export const ContactsListContextProvider = ({
     }
   }, [contactsListDetail]);
 
+  const handleDeleteContactsList = async () => {
+    console.log('say hello');
+    setGlobalLoading(true);
+    try {
+      await deleteContactsListFn({ contactsListId: contactsListId });
+      router.push('/contacts');
+    } catch (err) {
+      toast('error', 'Algo deu errado.');
+    }
+    setGlobalLoading(false);
+  };
+
   useEffect(() => {
     handleFormatResults();
   }, [handleFormatResults]);
@@ -170,6 +188,7 @@ export const ContactsListContextProvider = ({
         dataTableIsEmpty,
         existsPendingDocuments,
         pendingDocuments,
+        handleDeleteContactsList,
       }}
     >
       {children}

@@ -1,6 +1,6 @@
-import { Button, Card, DropdownMenu, Line, Paragraph } from "@/components";
-import { CaretDown, Check } from "phosphor-react";
-import { useState } from "react";
+import { Button, Card, DropdownMenu, Line, Paragraph } from '@/components';
+import { CaretDown, Check } from 'phosphor-react';
+import { useState } from 'react';
 import {
   BarChart,
   Bar,
@@ -10,32 +10,32 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-} from "recharts";
-import { CustomTooltip } from "./CustomTooltip";
-import { useQuery } from "@tanstack/react-query";
-import { getCostPerService } from "@/api/metrics/get-metrics";
-import { toast } from "@/utils/toast";
+} from 'recharts';
+import { CustomTooltip } from './CustomTooltip';
+import { useQuery } from '@tanstack/react-query';
+import { getCostPerService } from '@/api/metrics/get-metrics';
+import { toast } from '@/utils/toast';
 
 const options = [
   {
-    label: "SMS",
-    value: "sms",
+    label: 'SMS',
+    value: 'sms',
   },
   {
-    label: "E-mail",
-    value: "email",
+    label: 'E-mail',
+    value: 'email',
   },
   {
-    label: "Ligações",
-    value: "calls",
+    label: 'Ligações',
+    value: 'calls',
   },
 ];
 
 export const ServicesUsageCostChart = ({}) => {
-  const [serviceActive, setServiceActive] = useState("sms");
+  const [serviceActive, setServiceActive] = useState('sms');
 
   const { data: getCostPerServiceFn, refetch } = useQuery({
-    queryKey: ["metrics", serviceActive],
+    queryKey: ['metrics', serviceActive],
     queryFn: () => getCostPerService(serviceActive),
   });
 
@@ -44,7 +44,7 @@ export const ServicesUsageCostChart = ({}) => {
     try {
       refetch();
     } catch (err: any) {
-      toast("error", "Erro ao buscar suas métricas");
+      toast('error', 'Erro ao buscar suas métricas');
     }
   };
 
@@ -76,6 +76,7 @@ export const ServicesUsageCostChart = ({}) => {
                 return (
                   <>
                     <button
+                      key={index}
                       onClick={() => handleChange(action.value)}
                       className={`flex gap-2 items-center justify-between p-2 rounded-md hover:bg-light-grey`}
                     >
@@ -111,9 +112,9 @@ export const ServicesUsageCostChart = ({}) => {
             axisLine={false}
             tickLine={false}
             tickFormatter={(value: number) =>
-              value.toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL",
+              value.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
               })
             }
           />
@@ -124,9 +125,9 @@ export const ServicesUsageCostChart = ({}) => {
           />
           <Bar
             label={serviceActive}
-            dataKey={"totalCost"}
+            dataKey={'totalCost'}
             fill="#783EFD"
-            activeBar={<Rectangle fill={"#783EFD"} />}
+            activeBar={<Rectangle fill={'#783EFD'} />}
           />
         </BarChart>
       </ResponsiveContainer>

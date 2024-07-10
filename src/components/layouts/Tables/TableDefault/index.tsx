@@ -1,9 +1,9 @@
-import { ReactNode } from "react";
-import { EmptyState } from "@/components";
-import { Table, TableBody } from "@/components/ui/table";
-import { TableHeader } from "./TableHeader";
-import { TableRow } from "./TableRow";
-import { Pagination } from "@/components/Pagination";
+import { ReactNode } from 'react';
+import { EmptyState } from '@/components';
+import { Table, TableBody } from '@/components/ui/table';
+import { TableHeader } from './TableHeader';
+import { TableRow } from './TableRow';
+import { Pagination } from '@/components/Pagination';
 
 interface ITableProps {
   content: any[];
@@ -31,15 +31,15 @@ export const TableDefault = ({
   disableDeleteItem,
   disableEditItem,
   showFields = [],
-  totalCount,
+
   pageIndex,
 }: ITableProps) => {
   const titles = content[0]
     ? Object.keys(content[0]).filter(
-      (item) =>
-        item !== "id" &&
-        (showFields.length === 0 || showFields.includes(item))
-    )
+        (item) =>
+          item !== 'id' &&
+          (showFields.length === 0 || showFields.includes(item))
+      )
     : [];
 
   const calculateWidthSize = () => {
@@ -56,9 +56,10 @@ export const TableDefault = ({
               <Table>
                 <TableHeader titles={titles} width={calculateWidthSize()} />
                 <TableBody>
-                  {content.map((item) => {
+                  {content.map((item, index) => {
                     return (
                       <TableRow
+                        key={index}
                         item={item}
                         titles={titles}
                         handleAccessItem={handleAccessItem}
@@ -77,7 +78,7 @@ export const TableDefault = ({
             <Pagination
               pageIndex={pageIndex}
               perPage={20}
-              totalCount={totalCount}
+              totalCount={content?.length || 0}
             />
           </div>
         </div>

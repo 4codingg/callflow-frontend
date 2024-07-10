@@ -48,7 +48,7 @@ export const ModalAddItemContactList = () => {
         contacts: [values],
       });
       resetForm();
-      setModalAddItemContactListIsOpen(false)
+      setModalAddItemContactListIsOpen(false);
       toast('success', 'Contato adicionado com sucesso.');
     } catch (err) {
       toast('error', 'Algo deu errado.');
@@ -96,6 +96,7 @@ export const ModalAddItemContactList = () => {
             {contactsListDetail?.variables?.map((variable) => {
               return (
                 <Input
+                  key={variable}
                   label={convertCamelCaseToWordsAndTranslate(variable)}
                   placeholder={`Digite o valor para ${convertCamelCaseToWordsAndTranslate(
                     variable

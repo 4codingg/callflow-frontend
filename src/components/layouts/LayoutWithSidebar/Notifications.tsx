@@ -1,27 +1,27 @@
-import { Button } from "@/components/Button";
-import { Paragraph } from "@/components/Paragraph";
-import { Popover, PopoverContent } from "@/components/ui/popover";
-import { PopoverTrigger } from "@radix-ui/react-popover";
-import clsx from "clsx";
-import { Bell } from "phosphor-react";
+import { Button } from '@/components/Button';
+import { Paragraph } from '@/components/Paragraph';
+import { Popover, PopoverContent } from '@/components/ui/popover';
+import { PopoverTrigger } from '@radix-ui/react-popover';
+import clsx from 'clsx';
+import { Bell } from 'phosphor-react';
 
 const MOCK_NOTIFICATIONS = [
   {
-    type: "sms-schedulling",
+    type: 'sms-schedulling',
     description:
-      "O agendamento de SMS #44671 foi disparado com sucesso no dia 14/05/2024 16:34:31.",
+      'O agendamento de SMS #44671 foi disparado com sucesso no dia 14/05/2024 16:34:31.',
     readedAt: null,
   },
   {
-    type: "email-schedulling",
+    type: 'email-schedulling',
     description:
-      "O agendamento de SMS #44671 foi disparado com sucesso no dia 14/05/2024 16:34:31.",
+      'O agendamento de SMS #44671 foi disparado com sucesso no dia 14/05/2024 16:34:31.',
     readedAt: null,
   },
   {
-    type: "email-schedulling",
+    type: 'email-schedulling',
     description:
-      "O agendamento de SMS #44671 foi disparado com sucesso no dia 14/05/2024 16:34:31.",
+      'O agendamento de SMS #44671 foi disparado com sucesso no dia 14/05/2024 16:34:31.',
     readedAt: new Date(),
   },
 ];
@@ -29,7 +29,7 @@ const MOCK_NOTIFICATIONS = [
 export const Notifications = () => {
   return (
     <Popover>
-      <PopoverTrigger>
+      <PopoverTrigger asChild>
         <Button className="bg-transparent !w-10 !h-10 rounded-md hover:border-0 hover:bg-slate-200 transition-all duration-300">
           <Bell color="#000" size={20} />
         </Button>
@@ -42,13 +42,14 @@ export const Notifications = () => {
             </div>
             <Paragraph className="!font-bold my-2 ">Notificações</Paragraph>
           </div>
-          {MOCK_NOTIFICATIONS.map((notification) => {
+          {MOCK_NOTIFICATIONS.map((notification, index) => {
             const wasRead = notification.readedAt !== null;
 
             return (
               <div
+                key={index}
                 className={clsx(
-                  "flex items-center border-b border-b-muted py-2 px-4 gap-4"
+                  'flex items-center border-b border-b-muted py-2 px-4 gap-4'
                 )}
               >
                 <div className="w-4">
@@ -76,12 +77,12 @@ export const Notifications = () => {
 const getTitle = (type: string) => {
   const titles = [
     {
-      type: "email-schedulling",
-      value: "Agendamento de E-mail",
+      type: 'email-schedulling',
+      value: 'Agendamento de E-mail',
     },
     {
-      type: "sms-schedulling",
-      value: "Agendamento de SMS",
+      type: 'sms-schedulling',
+      value: 'Agendamento de SMS',
     },
   ];
 

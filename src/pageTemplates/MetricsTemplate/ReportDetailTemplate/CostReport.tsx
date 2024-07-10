@@ -1,24 +1,11 @@
 import { ICostReports } from '@/@types/MassCommunication';
 import { Card, Line, Paragraph } from '@/components';
-const costReports = {
-  contacts: {
-    length: 30,
-    costByMessage: 0.03,
-    totalCost: 0.3,
-  },
-  bonus: {
-    length: 30,
-    costByMessage: 0.03,
-    totalCost: 0.3,
-  },
-  total: 33,
-};
 
 interface ICostReportProps {
-  // costReports: ICostReports
+  costReports: ICostReports;
 }
 
-export const CostReport = ({}: ICostReportProps) => {
+export const CostReport = ({ costReports }: ICostReportProps) => {
   return (
     <Card className="flex flex-col mt-6">
       <header>

@@ -1,11 +1,11 @@
-import { Button, ButtonVariant } from "@/components/Button";
-import { Line } from "@/components/Line";
-import { Modal } from "@/components/Modal";
-import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { CheckCircle, X, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction, useRef } from "react";
-import { Editor } from "@tinymce/tinymce-react";
-import { Input } from "@/components/Input";
+import { Button, ButtonVariant } from '@/components/Button';
+import { Line } from '@/components/Line';
+import { Modal } from '@/components/Modal';
+import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
+import { CheckCircle, X, XCircle } from 'phosphor-react';
+import { Dispatch, SetStateAction, useRef } from 'react';
+import { Editor } from '@tinymce/tinymce-react';
+import { Input } from '@/components/Input';
 
 interface IModalEmailProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -24,7 +24,22 @@ export const ModalEmail = ({
   message,
   setMessage,
   setSubject,
+  exampleItem,
 }: IModalEmailProps) => {
+  const formatText = () => {
+    let formattedText = message;
+    variables.forEach((variable) => {
+      variable = variable.trim();
+      const regex = new RegExp(`{${variable}}`, 'g');
+
+      formattedText = formattedText.replace(
+        regex,
+        `<span style="color: #783EFD; font-weight: 600;">${exampleItem[variable]}</span>`
+      );
+    });
+    return { __html: formattedText };
+  };
+
   const editorRef = useRef(null);
 
   return (
@@ -33,7 +48,7 @@ export const ModalEmail = ({
       isOpen={modalIsOpen}
       setIsOpen={setModalIsOpen}
     >
-      <Modal.Content className="min-w-[600px]">
+      <Modal.Content className="min-w-[80%]">
         <div className="bg-white py-4 ">
           <header className="flex justify-between items-center w-full flex-1">
             <Paragraph
@@ -54,7 +69,10 @@ export const ModalEmail = ({
               <Paragraph>Variáveis disponíveis: </Paragraph>
               <div className="flex items-center gap-2">
                 {variables.map((item) => (
-                  <div className="flex gap-2 items-center rounded-full bg-primary p-2">
+                  <div
+                    key={item}
+                    className="flex gap-2 items-center rounded-full bg-primary p-2"
+                  >
                     <Paragraph className="!text-xs !text-white font-bold">
                       {item}
                     </Paragraph>
@@ -66,30 +84,40 @@ export const ModalEmail = ({
               label="Título do E-mail"
               onChange={(e) => setSubject(e.target.value)}
             />
-            <Editor
-              apiKey="w56ccsq6o6q0fwmb6kj5a5b01cwsb2uqa0vvjcgendqerk4h"
-              onInit={(_, editor) => {
-                editorRef.current = editor;
-              }}
-              onEditorChange={(e) => setMessage(e)}
-              value={message}
-              initialValue="<p>Sua mensagem aqui.</p>"
-              init={{
-                height: 500,
-                menubar: false,
-                plugins: [
-                  'advlist autolink lists link charmap print preview anchor',
-                  'searchreplace visualblocks code fullscreen',
-                  'insertdatetime media table paste code help wordcount'
-                ],
-                toolbar: 'undo redo | formatselect | bold italic backcolor | ' +
-                         'alignleft aligncenter alignright alignjustify | ' +
-                         'bullist numlist outdent indent | removeformat | help',
-                menu: {
-                  insert: { title: 'Insert', items: 'link media template hr' },
-                }
-              }}
-            />
+            <div className="mt-6 flex gap-4">
+              <div className="w-full">
+                <Editor
+                  apiKey="w56ccsq6o6q0fwmb6kj5a5b01cwsb2uqa0vvjcgendqerk4h"
+                  onInit={(_, editor) => {
+                    editorRef.current = editor;
+                  }}
+                  onEditorChange={(e) => setMessage(e)}
+                  value={message}
+                  init={{
+                    // height: 500,
+                    plugins: [
+                      'advlist autolink lists link charmap print preview anchor',
+                      'searchreplace visualblocks code fullscreen',
+                      'insertdatetime media table paste code help wordcount',
+                    ],
+                    toolbar:
+                      'undo redo | formatselect | bold italic backcolor | ' +
+                      'alignleft aligncenter alignright alignjustify | ' +
+                      'bullist numlist outdent indent | removeformat | help',
+                    menu: {
+                      insert: {
+                        title: 'Insert',
+                        items: 'link media template hr',
+                      },
+                    },
+                  }}
+                />
+              </div>
+              <div
+                className="p-3  border rounded min-h-[100px] w-full text-sm"
+                dangerouslySetInnerHTML={formatText()}
+              />
+            </div>
           </section>
           <section className="flex justify-end mt-4 gap-4">
             <Button
@@ -98,7 +126,7 @@ export const ModalEmail = ({
               className="!bg-grey-secundary !text-purple-secundary !w-[190px] text-xs font-normal"
               onClick={() => {
                 setModalIsOpen(false);
-                setMessage("");
+                setMessage('');
               }}
             >
               Descartar Alterações

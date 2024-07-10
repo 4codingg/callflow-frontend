@@ -58,9 +58,9 @@ export const ModalAddItemFromContacts = ({
             className="mt-6 flex flex-col gap-4 min-w-[600px] max-h-[80vh]"
             onSubmit={handleSave}
           >
-            {contacts.map((contact) => {
+            {contacts.map((contact, index) => {
               return (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2" key={index}>
                   <Checkbox
                     size={30}
                     onClick={() => handleSelectContact(contact)}

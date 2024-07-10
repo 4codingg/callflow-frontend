@@ -1,13 +1,12 @@
-import React, { ReactNode } from "react";
-import Head from "next/head";
-import { Sidebar } from "./Sidebar";
-import { Heading } from "../../Heading";
-import { Paragraph } from "../../Paragraph";
-import Image from "next/image";
-import MenProfile from "@/assets/men-profile.png";
-import { useAuth } from "@/hooks/useAuth";
-import { useCompany } from "@/hooks/useCompany";
-import { Notifications } from "./Notifications";
+import React, { ReactNode } from 'react';
+import Head from 'next/head';
+import { Sidebar } from './Sidebar';
+import { Heading } from '../../Heading';
+import { Paragraph } from '../../Paragraph';
+import Image from 'next/image';
+import MenProfile from '@/assets/men-profile.png';
+import { useAuth } from '@/hooks/useAuth';
+import { useCompany } from '@/hooks/useCompany';
 
 type Props = {
   children?: ReactNode;
@@ -17,7 +16,7 @@ type Props = {
 
 export const LayoutWithSidebar = ({
   children,
-  title = "✆ | callflow",
+  title = '✆ | callflow',
   hiddenInput,
 }: Props) => {
   const { userDetail } = useAuth();
@@ -37,9 +36,9 @@ export const LayoutWithSidebar = ({
         <div className="w-[84%] ml-[16%]">
           <header className="flex w-full justify-between items-center px-8 py-4 border-b border-muted shadow-sm">
             <div className="flex flex-col ">
-              <Heading>Olá {userDetail?.name?.split(" ")[0]}</Heading>
+              <Heading>Olá {userDetail?.name?.split(' ')[0]}</Heading>
               <Paragraph>
-                Seja bem vindo(a) ao{" "}
+                Seja bem vindo(a) ao{' '}
                 <span className="text-primary">call.flow</span>.
               </Paragraph>
             </div>
@@ -52,7 +51,7 @@ export const LayoutWithSidebar = ({
                   {userDetail?.name}
                 </Paragraph>
               </div>
-              <Notifications />
+              {/* <Notifications /> */}
               <Image src={MenProfile} alt="" />
             </div>
           </header>

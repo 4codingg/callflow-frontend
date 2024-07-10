@@ -1,5 +1,5 @@
-import { createCharge } from "@/api/wallet/create-charge";
-import { payChargeWithCreditCard } from "@/api/wallet/pay-charge-with-credit-card";
+import { createCharge } from '@/api/wallet/create-charge';
+import { payChargeWithCreditCard } from '@/api/wallet/pay-charge-with-credit-card';
 import {
   Button,
   ButtonVariant,
@@ -8,16 +8,16 @@ import {
   Paragraph,
   ParagraphSizeVariant,
   Spinner,
-} from "@/components";
-import { MOCK_ADD_BALANCE } from "@/constants/wallet";
-import { useCompany } from "@/hooks/useCompany";
-import { handleErrors } from "@/utils/handleErrors";
-import { toast } from "@/utils/toast";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CheckCircle, X, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction, useState } from "react";
-import { ModalAddPaymentMethod } from "../ModalAddPaymentMethod";
-import { PreviewPaymentMethod } from "@/components/PrevieviewMethods";
+} from '@/components';
+import { MOCK_ADD_BALANCE } from '@/constants/wallet';
+import { useCompany } from '@/hooks/useCompany';
+import { handleErrors } from '@/utils/handleErrors';
+import { toast } from '@/utils/toast';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { CheckCircle, X, XCircle } from 'phosphor-react';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { ModalAddPaymentMethod } from '../ModalAddPaymentMethod';
+import { PreviewPaymentMethod } from '@/components/PrevieviewMethods';
 
 interface IModalAddBalance {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -44,7 +44,7 @@ export const ModalAddBalance = ({
     try {
       const { charge } = await createChargeFn({
         value: cost,
-        billingType: "CREDIT_CARD",
+        billingType: 'CREDIT_CARD',
       });
 
       await payChargeWithCreditCardFn({
@@ -52,7 +52,7 @@ export const ModalAddBalance = ({
       });
 
       setModalIsOpen(false);
-      toast("success", "Saldo reabastecido com sucesso.");
+      toast('success', 'Saldo reabastecido com sucesso.');
       setValue(0);
     } catch (err: any) {
       handleErrors(err);
@@ -68,7 +68,7 @@ export const ModalAddBalance = ({
   const { mutateAsync: payChargeWithCreditCardFn } = useMutation({
     mutationFn: payChargeWithCreditCard,
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["company-detail"] });
+      queryClient.invalidateQueries({ queryKey: ['company-detail'] });
     },
   });
 
@@ -124,6 +124,7 @@ export const ModalAddBalance = ({
                     {MOCK_ADD_BALANCE.map((item) => {
                       return (
                         <Button
+                          key={item}
                           className=" rounded-sm !text-primary bg-white border-2"
                           onClick={() => setValue(value + item)}
                         >
@@ -161,7 +162,7 @@ export const ModalAddBalance = ({
                     onClick={() => handleAddBalance(value)}
                     disabled={isLoading}
                   >
-                    {isLoading ? <Spinner /> : "Salvar"}
+                    {isLoading ? <Spinner /> : 'Salvar'}
                   </Button>
                 </section>
               </>

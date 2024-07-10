@@ -1,10 +1,10 @@
-import { Button, ButtonVariant } from "@/components/Button";
-import { Line } from "@/components/Line";
-import { Modal } from "@/components/Modal";
-import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { CheckCircle, X, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction } from "react";
-import { TextArea } from "@/components/TextArea";
+import { Button, ButtonVariant } from '@/components/Button';
+import { Line } from '@/components/Line';
+import { Modal } from '@/components/Modal';
+import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
+import { CheckCircle, X, XCircle } from 'phosphor-react';
+import { Dispatch, SetStateAction } from 'react';
+import { TextArea } from '@/components/TextArea';
 
 interface IModalMessageProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -27,7 +27,7 @@ export const ModalMessage = ({
     let formattedText = message;
     variables.forEach((variable) => {
       variable = variable.trim();
-      const regex = new RegExp(`{${variable}}`, "g");
+      const regex = new RegExp(`{${variable}}`, 'g');
 
       formattedText = formattedText.replace(
         regex,
@@ -60,7 +60,10 @@ export const ModalMessage = ({
               <Paragraph>Variáveis disponíveis: </Paragraph>
               <div className="flex items-center gap-2">
                 {variables.map((item) => (
-                  <div className="flex gap-2 items-center rounded-full bg-primary p-2">
+                  <div
+                    key={item}
+                    className="flex gap-2 items-center rounded-full bg-primary p-2"
+                  >
                     <Paragraph className="!text-xs !text-white font-bold">
                       {item}
                     </Paragraph>
@@ -90,7 +93,7 @@ export const ModalMessage = ({
               className="!bg-grey-secundary !text-purple-secundary !w-[190px] text-xs font-normal"
               onClick={() => {
                 setModalIsOpen(false);
-                setMessage("");
+                setMessage('');
               }}
             >
               Descartar Alterações
