@@ -6,7 +6,10 @@ interface IContactsReportProps {
   isLoading: boolean
 }
 
+
 export const ContactsReport = ({ data, isLoading }: IContactsReportProps) => {
+
+  console.log(data)
   return (
     <Card className="flex flex-col mt-6">
       <header>
