@@ -1,14 +1,6 @@
 import { TRANSLATION } from "@/constants/translate";
 
 export const convertCamelCaseToWordsAndTranslate = (camelCaseString) => {
-
-  if (camelCaseString === "destination") {
-    return "Destino";
-  }
-  if (camelCaseString === "message") {
-    return "Mensagem";
-  }
-
   const translation = TRANSLATION[camelCaseString] ?? camelCaseString;
 
   const wordsWithSpaces = translation.replace(/([A-Z])/g, " $1");
