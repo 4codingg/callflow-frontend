@@ -1,10 +1,12 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 
-const Editor = lazy(() =>
-  import('@tinymce/tinymce-react').then((module) => ({
-    default: module.Editor,
-  }))
-);
+const LazyEditor = lazy(() => {
+  return new Promise((resolve) => {
+    import('@tinymce/tinymce-react').then((module) => {
+      resolve({ default: module.Editor as never });
+    });
+  });
+});
 
 export const EditorWrapper = ({ setMessage, message }) => {
   const editorRef = useRef(null);
@@ -20,7 +22,7 @@ export const EditorWrapper = ({ setMessage, message }) => {
 
   return (
     <Suspense fallback={<div>Loading animation...</div>}>
-      <Editor
+      <LazyEditor
         apiKey="w56ccsq6o6q0fwmb6kj5a5b01cwsb2uqa0vvjcgendqerk4h"
         onInit={(_, editor) => {
           editorRef.current = editor;
