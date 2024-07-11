@@ -1,7 +1,14 @@
 // pages/_app.tsx
+import { AuthContextProvider } from '@/hooks/useAuth';
 import '@/styles/global.css';
-import Swal from 'sweetalert2';
 import Head from 'next/head';
+import { ChakraProvider } from '@chakra-ui/react';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from '@/services/react-query';
+import { CompanyContextProvider } from '@/hooks/useCompany';
+import { GlobalLoadingProvider } from '@/hooks/useGlobalLoading';
+import GlobalLoading from '@/components/GlobalLoading';
+import { ContactsListContextProvider } from '@/hooks/useContactsListDetail';
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -14,7 +21,20 @@ function MyApp({ Component, pageProps }) {
           rel="stylesheet"
         />
       </Head>
-      <Component {...pageProps} />
+      <GlobalLoadingProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthContextProvider>
+            <CompanyContextProvider>
+              <ContactsListContextProvider>
+                <ChakraProvider>
+                  <GlobalLoading />
+                  <Component {...pageProps} />
+                </ChakraProvider>
+              </ContactsListContextProvider>
+            </CompanyContextProvider>
+          </AuthContextProvider>
+        </QueryClientProvider>
+      </GlobalLoadingProvider>
     </>
   );
 }

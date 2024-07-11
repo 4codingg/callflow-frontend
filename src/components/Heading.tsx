@@ -19,7 +19,7 @@ export enum HeadingSizeVariant {
 }
 
 export enum HeadingVariant {
-  DarkPrimary = 'dark-primary',
+  DarkPrimary = 'black',
   Primary = 'primary',
   Secondary = 'secondary',
   Tertiary = 'tertiary',
@@ -52,7 +52,7 @@ export const Heading = ({
   };
 
   const headingClassesVariant = {
-    [HeadingVariant.DarkPrimary]: 'text-dark-primary',
+    [HeadingVariant.DarkPrimary]: 'text-black',
     [HeadingVariant.Primary]: 'text-primary',
     [HeadingVariant.Secondary]: 'text-main-blue',
     [HeadingVariant.Tertiary]: 'text-white',

@@ -9,9 +9,13 @@ interface ILineProps {
 export const Line = ({ direction = 'horizontal', className }: ILineProps) => {
   return (
     <div
-      className={clsx(' h-[2px] w-full bg-background', className, {
-        '!h-full !w-[2px]': direction === 'vertical',
-      })}
+      className={clsx(
+        ' h-[1px] w-full shadow-md border border-muted',
+        className,
+        {
+          '!h-full !w-[2px]': direction === 'vertical',
+        }
+      )}
     ></div>
   );
 };

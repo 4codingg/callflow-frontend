@@ -1,53 +1,77 @@
 import {
   ChartBar,
   Chat,
+  Cube,
   Envelope,
   PhoneIncoming,
+  UserCircle,
   Users,
   UsersThree,
-} from 'phosphor-react';
+  Wallet,
+} from "phosphor-react";
 
 export const TABS_SIDEBAR = [
   {
-    title: 'Dashboard',
-    route: '/dashboard',
+    title: "Dashboard",
+    route: "/dashboard",
     icon: (isActive) => (
-      <ChartBar size={20} color={isActive ? '#783EFD' : '#000'} />
+      <ChartBar size={20} color={isActive ? "#783EFD" : "#000"} />
     ),
   },
   {
-    title: 'Ligações',
-    route: '/calls',
+    title: "Ligações",
+    route: "/calls",
     icon: (isActive) => (
-      <PhoneIncoming size={20} color={isActive ? '#783EFD' : '#000'} />
+      <PhoneIncoming size={20} color={isActive ? "#783EFD" : "#000"} />
     ),
   },
   {
-    title: 'Mensagens',
-    route: '/messages',
+    title: "Mensagens",
+    route: "/messages",
     icon: (isActive) => (
-      <Chat size={20} color={isActive ? '#783EFD' : '#000'} />
+      <Chat size={20} color={isActive ? "#783EFD" : "#000"} />
     ),
   },
   {
-    title: 'Emails',
-    route: '/emails',
+    title: "Emails",
+    route: "/emails",
     icon: (isActive) => (
-      <Envelope size={20} color={isActive ? '#783EFD' : '#000'} />
+      <Envelope size={20} color={isActive ? "#783EFD" : "#000"} />
     ),
   },
   {
-    title: 'Membros',
-    route: '/members',
+    title: "Membros",
+    route: "/members",
     icon: (isActive) => (
-      <UsersThree size={20} color={isActive ? '#783EFD' : '#000'} />
+      <UsersThree size={20} color={isActive ? "#783EFD" : "#000"} />
     ),
   },
   {
-    title: 'Contatos',
-    route: '/contacts',
+    title: "Contatos",
+    route: "/contacts",
     icon: (isActive) => (
-      <Users size={20} color={isActive ? '#783EFD' : '#000'} />
+      <Users size={20} color={isActive ? "#783EFD" : "#000"} />
+    ),
+  },
+  {
+    title: "Carteira",
+    route: "/wallet",
+    icon: (isActive) => (
+      <Wallet size={20} color={isActive ? "#783EFD" : "#000"} />
+    ),
+  },
+  {
+    title: "Métricas",
+    route: "/metrics",
+    icon: (isActive) => (
+      <Cube size={20} color={isActive ? "#783EFD" : "#000"} />
+    ),
+  },
+  {
+    title: "Conta",
+    route: "/account",
+    icon: (isActive) => (
+      <UserCircle size={20} color={isActive ? "#783EFD" : "#000"} />
     ),
   },
 ];

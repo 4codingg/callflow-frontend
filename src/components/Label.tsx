@@ -20,17 +20,13 @@ export const Label = ({
 }: LabelProps) => {
   return (
     <label
-      className={clsx('flex flex-col gap-4 w-full', className)}
+      className={clsx('flex flex-col w-full', className)}
       htmlFor={name}
       {...props}
     >
       {name && (
-        <div className="flex items-center justify-between">
-          <Paragraph
-            size={ParagraphSizeVariant.Large}
-            disabled={disabled}
-            className={labelStyle}
-          >
+        <div className="flex items-center justify-between font-semibold text-default-grey">
+          <Paragraph disabled={disabled} className={labelStyle}>
             {name}
           </Paragraph>
 

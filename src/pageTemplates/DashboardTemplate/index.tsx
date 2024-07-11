@@ -1,129 +1,88 @@
 import {
-  Heading,
   LayoutWithSidebar,
   Paragraph,
-  ParagraphSizeVariant,
   Card,
-  Input,
-} from '@/components';
-import clsx from 'clsx';
-import { MagnifyingGlass, Plus } from 'phosphor-react';
-import Image from 'next/image';
-import { MOCK_ACTIVITIES, SERVICES } from '@/constants';
-import MenProfile from '@/assets/men-profile.png';
-import CardCredit from '@/assets/card-credit.jpg';
+  Button,
+  Spinner,
+} from "@/components";
+import { SERVICES } from "@/constants";
+import { RecentActivitiesTemplate } from "./RecentActivitiesTemplate";
+import { BalanceCardTemplate } from "./BalanceCardTemplate";
+import { MembersCardTemplate } from "./MembersCardTemplate";
+import { Tipbox } from "@/components/Tipbox";
+import { ArrowRight, Warning } from "phosphor-react";
+import { IPlanSubscriptionValue } from "@/@types/Subscription";
+import { useCompany } from "@/hooks/useCompany";
+import { useRouter } from "next/router";
 
 export const DashboardTemplate = () => {
+  const { companyDetail, plan } = useCompany();
+  const router = useRouter();
+
   return (
     <LayoutWithSidebar>
-      <div>
-        <div className="flex flex-col w-full gap-4">
-          <div className="flex gap-4">
-            {SERVICES.map((service) => {
-              return (
-                <Card className="max-w-[300px] flex flex-col gap-2">
-                  <header className="flex items-center justify-between">
-                    <div
-                      className={clsx(
-                        'flex items-center justify-center p-3 rounded mr-12',
-                        {
-                          'bg-green': service.value === 'calls',
-                          'bg-primary': service.value === 'sms',
-                        }
-                      )}
-                    >
-                      {service.icon}
-                    </div>
-                    <Paragraph
-                      className="font-medium"
-                      size={ParagraphSizeVariant.Large}
-                    >
-                      R$ {service.cost}
-                    </Paragraph>
-                  </header>
-                  <Paragraph className="uppercase mt-2 flex font-light">
-                    {service.title}
-                  </Paragraph>
-
-                  <Paragraph
-                    className="font-medium"
-                    size={ParagraphSizeVariant.ExtraLarge}
-                  >
-                    R$ {service.cost * 10000}
-                  </Paragraph>
-                </Card>
-              );
-            })}
-          </div>
-          <Card className="flex flex-col flex-1">
-            <header className="flex justify-between items-center">
-              <Paragraph size={ParagraphSizeVariant.ExtraLarge}>
-                Atividades recentes
-              </Paragraph>
-            </header>
-            <div className="flex flex-col gap-4 mt-4">
-              {MOCK_ACTIVITIES.map((activitie) => (
-                <div
-                  key={activitie.title}
-                  className="flex justify-between items-center hover:bg-neutral cursor-pointer p-1 rounded"
+      {companyDetail ? (
+        <>
+          {plan.value === IPlanSubscriptionValue.Free && (
+            <Tipbox
+              iconLeft={<Warning size={20} />}
+              buttonRight={
+                <Button
+                  className="!w-56 font-medium !text-sm"
+                  rightIcon={<ArrowRight color="#FFF" />}
+                  onClick={() => router.push("/plans")}
                 >
-                  <div
-                    className={clsx(
-                      'flex items-center justify-center p-3 rounded mr-12',
-                      {
-                        'bg-green': activitie.title === 'Ligações',
-                        'bg-primary': activitie.title === 'SMSs',
-                      }
-                    )}
-                  >
-                    {activitie.icon}
-                  </div>
-                  <Paragraph className="w-[25%] text-left">
-                    {activitie.title}
-                  </Paragraph>
-                  <Paragraph className="w-[30%] text-left">
-                    {activitie.time}
-                  </Paragraph>
-                  <Paragraph className="w-[20%] text-left">
-                    -R$ {activitie.cost}
-                  </Paragraph>
-                  <Paragraph
-                    className={clsx('w-[10%] text-right', {
-                      'text-green': activitie.status === 'completed',
-                      'text-primary': activitie.status === 'pending',
-                    })}
-                  >
-                    {activitie.status}
-                  </Paragraph>
-                </div>
-              ))}
+                  Fazer upgrade
+                </Button>
+              }
+            >
+              Você está usando o plano gratuito. Com planos melhores, você terá
+              acesso a uma variedade de funcionalidades exclusivas que vão
+              aprimorar sua experiência.
+            </Tipbox>
+          )}
+          <div className="flex w-full gap-4 mt-4">
+            <div className="flex flex-col gap-4 w-[70%]">
+              <div className="flex items-center gap-4">
+                {SERVICES.map((service) => {
+                  const dataService = companyDetail?.usage[service.value];
+
+                  return (
+                    <Card
+                      className="flex-1 flex flex-col gap-2"
+                      key={service.value}
+                    >
+                      <div className="flex items-center justify-between">
+                        <Paragraph className="text-base font-semibold">
+                          {service.title} (mês)
+                        </Paragraph>
+
+                        {service.icon}
+                      </div>
+                      <Paragraph className="!text-xl !font-bold">
+                        {dataService?.used}
+                      </Paragraph>
+                      <Paragraph className="!text-xs !text-default-grey">
+                        Seu limite gratuito{" "}
+                        <span className="text-black">
+                          {dataService?.freeLimit}
+                        </span>
+                      </Paragraph>
+                    </Card>
+                  );
+                })}
+              </div>
+              <RecentActivitiesTemplate />
             </div>
-          </Card>
-          <Card className="flex flex-col max-w-[300px] ml-auto">
-            <header className="flex justify-between items-center">
-              <Paragraph size={ParagraphSizeVariant.ExtraLarge}>
-                Seu saldo
-              </Paragraph>
-              <button className="flex items-center justify-center bg-primary rounded p-2 shadow-primary">
-                <Plus color="#FFF" />
-              </button>
-            </header>
-            <div className="flex items-center mt-4">
-              <Paragraph
-                className="text-primary mr-2 font-medium"
-                size={ParagraphSizeVariant.ExtraLarge}
-              >
-                R$
-              </Paragraph>
-              <Paragraph>Reais</Paragraph>
+            <div className="flex flex-col items-center w-[30%] gap-4">
+              <BalanceCardTemplate />
+              <MembersCardTemplate />
             </div>
-            <Paragraph className="text-primary !text-2xl font-bold">
-              19.203,11
-            </Paragraph>
-            <Image src={CardCredit} alt="" className="mt-4 mx-auto flex" />
-          </Card>
-        </div>
-      </div>
+          </div>
+        </>
+      ) : (
+        <Spinner />
+      )}
     </LayoutWithSidebar>
   );
 };
