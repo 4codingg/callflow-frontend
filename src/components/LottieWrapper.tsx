@@ -1,9 +1,12 @@
-import dynamic from 'next/dynamic';
-import { CSSProperties } from 'react';
+import React, {
+  CSSProperties,
+  useEffect,
+  useState,
+  lazy,
+  Suspense,
+} from 'react';
 
-const Lottie = dynamic(() => import('lottie-react'), {
-  ssr: false,
-});
+const Lottie = lazy(() => import('lottie-react'));
 
 interface LottieWrapperProps {
   animationData: any;
@@ -16,11 +19,21 @@ const LottieWrapper: React.FC<LottieWrapperProps> = ({
   loop = true,
   style,
 }) => {
-  if (typeof window === 'undefined') {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
     return null;
   }
 
-  return <Lottie animationData={animationData} loop={loop} style={style} />;
+  return (
+    <Suspense fallback={<div>Loading animation...</div>}>
+      <Lottie animationData={animationData} loop={loop} style={style} />
+    </Suspense>
+  );
 };
 
 export default LottieWrapper;
