@@ -99,7 +99,7 @@ export const ModalConfirmMessage = ({
                 <Paragraph>{message}</Paragraph>
               </div>
             </div>
-            {isLoading === true ? (
+            {isLoading ? (
               <div className=" flex justify-center items-start">
                 <LottieWrapper
                   animationData={paperPlaneAnimation}
