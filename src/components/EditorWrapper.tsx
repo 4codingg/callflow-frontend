@@ -1,5 +1,10 @@
-import { Editor } from '@tinymce/tinymce-react';
-import { Suspense, useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+
+const Editor = lazy(() =>
+  import('@tinymce/tinymce-react').then((module) => ({
+    default: module.Editor,
+  }))
+);
 
 export const EditorWrapper = ({ setMessage, message }) => {
   const editorRef = useRef(null);
@@ -23,7 +28,6 @@ export const EditorWrapper = ({ setMessage, message }) => {
         onEditorChange={(e) => setMessage(e)}
         value={message}
         init={{
-          // height: 500,
           plugins: [
             'advlist autolink lists link charmap print preview anchor',
             'searchreplace visualblocks code fullscreen',
