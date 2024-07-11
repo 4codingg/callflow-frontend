@@ -10,6 +10,10 @@ import { ICostReports } from '@/@types/MassCommunication';
 import paperPlaneAnimation from '@/assets/animations/paper-plane-animation.json';
 import dynamic from 'next/dynamic';
 
+const Lottie = dynamic(() => import('lottie-react'), {
+  ssr: false,
+});
+
 interface IModalConfirmMessageProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
@@ -31,10 +35,6 @@ export const ModalConfirmMessage = ({
   isLoading,
   costReports,
 }: IModalConfirmMessageProps) => {
-  const Lottie = dynamic(() => import('lottie-react'), {
-    ssr: false,
-  });
-
   return (
     <Modal.Root isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
       <Modal.Content className="min-w-[700px]">
