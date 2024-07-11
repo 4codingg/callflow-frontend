@@ -8,13 +8,7 @@ import { Label } from '@/components/Label';
 import { GetContactsListDetailResponse } from '@/api/contactsList/get-contacts-list-detail';
 import { ICostReports } from '@/@types/MassCommunication';
 import paperPlaneAnimation from '@/assets/animations/paper-plane-animation.json';
-import dynamic from 'next/dynamic';
-import { LottieComponentProps } from 'lottie-react';
-
-const Lottie = dynamic(() => import('lottie-react'), {
-  ssr: false,
-}) as React.ComponentType<LottieComponentProps>;
-
+import LottieWrapper from '@/components/LottieWrapper';
 interface IModalConfirmMessageProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   modalIsOpen: boolean;
@@ -107,7 +101,7 @@ export const ModalConfirmMessage = ({
             </div>
             {isLoading === true ? (
               <div className=" flex justify-center items-start">
-                <Lottie
+                <LottieWrapper
                   animationData={paperPlaneAnimation}
                   loop={true}
                   style={{ width: 200, height: 200 }}
