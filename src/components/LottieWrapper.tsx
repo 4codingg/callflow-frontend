@@ -16,6 +16,10 @@ const LottieWrapper: React.FC<LottieWrapperProps> = ({
   loop = true,
   style,
 }) => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
   return <Lottie animationData={animationData} loop={loop} style={style} />;
 };
 
