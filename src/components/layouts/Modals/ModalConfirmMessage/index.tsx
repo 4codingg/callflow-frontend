@@ -1,18 +1,14 @@
-import { Button, ButtonVariant } from "@/components/Button";
-import { Line } from "@/components/Line";
-import { Modal } from "@/components/Modal";
-import { Paragraph, ParagraphSizeVariant } from "@/components/Paragraph";
-import { ArrowRight, XCircle } from "phosphor-react";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Label } from "@/components/Label";
-import { GetContactsListDetailResponse } from "@/api/contactsList/get-contacts-list-detail";
-import { ICostReports } from "@/@types/MassCommunication";
-import { toast } from "@/utils/toast";
-import { calculateCostMassCommunication } from "@/api/mass-communication/calculate-cost";
-import { useMutation } from "@tanstack/react-query";
-import paperPlaneAnimation from "@/assets/animations/paper-plane-animation.json";
-
-import dynamic from "next/dynamic";
+import { Button, ButtonVariant } from '@/components/Button';
+import { Line } from '@/components/Line';
+import { Modal } from '@/components/Modal';
+import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
+import { ArrowRight, XCircle } from 'phosphor-react';
+import { Dispatch, SetStateAction } from 'react';
+import { Label } from '@/components/Label';
+import { GetContactsListDetailResponse } from '@/api/contactsList/get-contacts-list-detail';
+import { ICostReports } from '@/@types/MassCommunication';
+import paperPlaneAnimation from '@/assets/animations/paper-plane-animation.json';
+import dynamic from 'next/dynamic';
 
 interface IModalConfirmMessageProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -35,7 +31,7 @@ export const ModalConfirmMessage = ({
   isLoading,
   costReports,
 }: IModalConfirmMessageProps) => {
-  const Lottie = dynamic(() => import("lottie-react"), {
+  const Lottie = dynamic(() => import('lottie-react'), {
     ssr: false,
   });
 
@@ -101,7 +97,7 @@ export const ModalConfirmMessage = ({
                   </Paragraph>
                 </div>
               </div>
-            </section>{" "}
+            </section>{' '}
             <div className="flex flex-col gap-3">
               <Label className="font-semibold text-sm">Mensagem</Label>
               <div className="p-3 border rounded min-h-[100px] w-full text-sm">
