@@ -1,5 +1,5 @@
-import { TableCell, TableRow as TR } from "@/components/ui/table";
-import { FloppyDisk, Trash } from "phosphor-react";
+import { TableCell, TableRow as TR } from '@/components/ui/table';
+import { FloppyDisk, Trash } from 'phosphor-react';
 
 interface ITableRowProps {
   item: any;
@@ -36,14 +36,17 @@ export const TableRow = ({
             <FloppyDisk color="#FFF" />
           </div>
         ) : (
-          <td className={`flex  gap-2`} style={{ width: calculateWidthSize() }}>
+          <div
+            className={`flex  gap-2`}
+            style={{ width: calculateWidthSize() }}
+          >
             <button
               onClick={() => handleDeleteItem(item.id)}
               className="bg-none border-none rounded-full hover:bg-primary hover:text-white p-1"
             >
               <Trash size={20} className="text-primary hover:text-white" />
             </button>
-          </td>
+          </div>
         )}
       </TableCell>
     </TR>

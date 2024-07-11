@@ -1,7 +1,7 @@
-import { Table, TableBody } from "@/components/ui/table";
-import { Pagination } from "@/components/Pagination";
-import { TableHeader } from "../TableDefault/TableHeader";
-import { TableRow } from "./TableRow";
+import { Table, TableBody } from '@/components/ui/table';
+import { Pagination } from '@/components/Pagination';
+import { TableHeader } from '../TableDefault/TableHeader';
+import { TableRow } from './TableRow';
 
 interface ITableProps {
   content: any[];
@@ -17,7 +17,7 @@ export const TableContacts = ({
   handleDeleteItem,
 }: ITableProps) => {
   const titles = content[0]
-    ? Object.keys(content[0]).filter((item) => item != "id")
+    ? Object.keys(content[0]).filter((item) => item != 'id')
     : [];
 
   const calculateWidthSize = () => {
@@ -34,7 +34,7 @@ export const TableContacts = ({
               <Table>
                 <TableHeader titles={titles} width={calculateWidthSize()} />
                 <TableBody>
-                  {content.map((item) => {
+                  {content.map((item, index) => {
                     const isPending = Boolean(
                       pendingDocuments.find((pD) => pD.id === item.id)
                     );
@@ -42,7 +42,7 @@ export const TableContacts = ({
                     return (
                       <TableRow
                         isPending={isPending}
-                        key={item.id}
+                        key={index}
                         handleDeleteItem={() => handleDeleteItem(item.id)}
                         titles={titles}
                         item={item}

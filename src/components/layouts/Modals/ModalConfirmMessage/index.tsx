@@ -9,10 +9,11 @@ import { GetContactsListDetailResponse } from '@/api/contactsList/get-contacts-l
 import { ICostReports } from '@/@types/MassCommunication';
 import paperPlaneAnimation from '@/assets/animations/paper-plane-animation.json';
 import dynamic from 'next/dynamic';
+import { LottieComponentProps } from 'lottie-react';
 
 const Lottie = dynamic(() => import('lottie-react'), {
   ssr: false,
-});
+}) as React.ComponentType<LottieComponentProps>;
 
 interface IModalConfirmMessageProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
