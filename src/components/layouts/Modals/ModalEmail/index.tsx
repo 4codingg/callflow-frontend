@@ -3,9 +3,9 @@ import { Line } from '@/components/Line';
 import { Modal } from '@/components/Modal';
 import { Paragraph, ParagraphSizeVariant } from '@/components/Paragraph';
 import { CheckCircle, X, XCircle } from 'phosphor-react';
-import { Dispatch, SetStateAction, useRef } from 'react';
-import { Editor } from '@tinymce/tinymce-react';
+import { Dispatch, SetStateAction } from 'react';
 import { Input } from '@/components/Input';
+import { EditorWrapper } from '@/components/EditorWrapper';
 
 interface IModalEmailProps {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -39,8 +39,6 @@ export const ModalEmail = ({
     });
     return { __html: formattedText };
   };
-
-  const editorRef = useRef(null);
 
   return (
     <Modal.Root
@@ -86,32 +84,7 @@ export const ModalEmail = ({
             />
             <div className="mt-6 flex gap-4">
               <div className="w-full">
-                <Editor
-                  apiKey="w56ccsq6o6q0fwmb6kj5a5b01cwsb2uqa0vvjcgendqerk4h"
-                  onInit={(_, editor) => {
-                    editorRef.current = editor;
-                  }}
-                  onEditorChange={(e) => setMessage(e)}
-                  value={message}
-                  init={{
-                    // height: 500,
-                    plugins: [
-                      'advlist autolink lists link charmap print preview anchor',
-                      'searchreplace visualblocks code fullscreen',
-                      'insertdatetime media table paste code help wordcount',
-                    ],
-                    toolbar:
-                      'undo redo | formatselect | bold italic backcolor | ' +
-                      'alignleft aligncenter alignright alignjustify | ' +
-                      'bullist numlist outdent indent | removeformat | help',
-                    menu: {
-                      insert: {
-                        title: 'Insert',
-                        items: 'link media template hr',
-                      },
-                    },
-                  }}
-                />
+                <EditorWrapper setMessage={setMessage} message={message} />
               </div>
               <div
                 className="p-3  border rounded min-h-[100px] w-full text-sm"
