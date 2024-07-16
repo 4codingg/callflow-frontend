@@ -15,6 +15,7 @@ export const ReportDetailTemplate = () => {
     queryFn: () => getReportsDetail(id as string),
   });
 
+
   return (
     <LayoutWithSidebar>
       <CrumbsReportDetail reportName={reportDetail?.data?.id} />
@@ -22,6 +23,8 @@ export const ReportDetailTemplate = () => {
       <ContactsReport
         isLoading={isLoading}
         data={reportDetail?.data?.contactItems}
+        reproducedAt={reportDetail?.data?.reproducedAt}
+
       />
     </LayoutWithSidebar>
   );

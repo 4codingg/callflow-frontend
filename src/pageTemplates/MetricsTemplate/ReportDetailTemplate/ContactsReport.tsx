@@ -1,12 +1,17 @@
 import { ContactReportItem } from '@/@types/Report';
 import { Card, Line, Paragraph, Spinner, TableDefault } from '@/components';
+import { formatDateToDDMMYYYYHHMM } from '@/utils/formatDateToDDMMYYYYHHMM';
 
 interface IContactsReportProps {
   data: ContactReportItem[];
-  isLoading: boolean
+  isLoading: boolean;
+  reproducedAt?: string
 }
 
-export const ContactsReport = ({ data, isLoading }: IContactsReportProps) => {
+export const ContactsReport = ({ data, isLoading, reproducedAt }: IContactsReportProps) => {
+
+  const reproducedAtFormated = formatDateToDDMMYYYYHHMM(String(reproducedAt))
+
   return (
     <Card className="flex flex-col mt-6">
       <header>
@@ -20,7 +25,7 @@ export const ContactsReport = ({ data, isLoading }: IContactsReportProps) => {
         {isLoading ? (
           <Spinner />
         ) : (
-          <TableDefault content={data || []} disableAccessItem disableDeleteItem disableEditItem />
+          <TableDefault content={data || []} disableAccessItem disableDeleteItem disableEditItem reproducedAt={reproducedAtFormated} />
         )}
       </div>
     </Card>

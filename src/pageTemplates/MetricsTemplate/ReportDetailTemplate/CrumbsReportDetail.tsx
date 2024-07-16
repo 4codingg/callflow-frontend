@@ -4,7 +4,7 @@ export const CrumbsReportDetail = ({ reportName }) => {
   const getCrumbs = (reportName: string) => {
     return [
       {
-        label: 'Métricas',
+        label: 'Relatórios',
         path: '/metrics',
       },
       {

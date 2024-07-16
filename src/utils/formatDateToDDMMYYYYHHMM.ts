@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 
 export function formatDateToDDMMYYYYHHMM(date, removeHours?: boolean) {
-  if(typeof date  === "string") {
+  if (typeof date === "string") {
     date = new Date(date)
   }
 
