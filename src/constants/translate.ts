@@ -15,5 +15,7 @@ export const TRANSLATION = {
   contactsListName: "Nome da lista",
   historyType: "Tipo",
   cost: "Custo",
-  processedAt: "Processado em"
+  processedAt: "Processado em",
+  message: "Mensagem",
+  destination: "Destino"
 };

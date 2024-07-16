@@ -3,7 +3,7 @@ import { Card, Line, Paragraph, Spinner, TableDefault } from '@/components';
 
 interface IContactsReportProps {
   data: ContactReportItem[];
-  isLoading: boolean
+  isLoading: boolean;
 }
 
 export const ContactsReport = ({ data, isLoading }: IContactsReportProps) => {
@@ -20,7 +20,12 @@ export const ContactsReport = ({ data, isLoading }: IContactsReportProps) => {
         {isLoading ? (
           <Spinner />
         ) : (
-          <TableDefault content={data || []} disableAccessItem disableDeleteItem disableEditItem />
+          <TableDefault
+            content={data || []}
+            disableAccessItem
+            disableDeleteItem
+            disableEditItem
+          />
         )}
       </div>
     </Card>

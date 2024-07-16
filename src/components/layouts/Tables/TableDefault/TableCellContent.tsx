@@ -1,5 +1,6 @@
 import { CreditCardBrand } from '@/components/CreditCardBrand';
 import { Labelbox } from '@/components/Labelbox';
+import { MessageCell } from '@/components/MessageCell';
 import { Paragraph } from '@/components/Paragraph';
 import { Status } from '@/components/Status';
 import { formatDateToDDMMYYYYHHMM } from '@/utils/formatDateToDDMMYYYYHHMM';
@@ -62,6 +63,10 @@ export const TableCellContent = ({ item, title }) => {
 
   if (title === 'status') {
     return <Status value={item[title]} />;
+  }
+
+  if (title === 'message') {
+    return <MessageCell item={item[title]} />;
   }
 
   return item[title];
