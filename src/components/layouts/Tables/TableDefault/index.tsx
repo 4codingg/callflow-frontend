@@ -1,11 +1,10 @@
-import { ReactNode } from 'react';
-import { EmptyState, Paragraph } from '@/components';
-import { Table, TableBody } from '@/components/ui/table';
-import { TableHeader } from './TableHeader';
-import { TableRow } from './TableRow';
-import { Pagination } from '@/components/Pagination';
-import LottieWrapper from '@/components/LottieWrapper';
-import paperPlaneAnimation from '@/assets/animations/paper-plane-animation.json';
+import { ReactNode } from "react";
+import { EmptyState, Paragraph } from "@/components";
+import { Table, TableBody } from "@/components/ui/table";
+import { TableHeader } from "./TableHeader";
+import { TableRow } from "./TableRow";
+import { Pagination } from "@/components/Pagination";
+import Empty from "@/assets/empty-state.png";
 
 interface ITableProps {
   content: any[];
@@ -22,7 +21,6 @@ interface ITableProps {
   showFields?: string[];
   totalCount?: number;
   pageIndex?: number;
-  reproducedAt?: string;
 }
 
 export const TableDefault = ({
@@ -34,24 +32,20 @@ export const TableDefault = ({
   disableDeleteItem,
   disableEditItem,
   showFields = [],
-  reproducedAt,
-
   pageIndex,
 }: ITableProps) => {
   const titles = content[0]
     ? Object.keys(content[0]).filter(
-      (item) =>
-        item !== 'id' &&
-        (showFields.length === 0 || showFields.includes(item))
-    )
+        (item) =>
+          item !== "id" &&
+          (showFields.length === 0 || showFields.includes(item))
+      )
     : [];
 
   const calculateWidthSize = () => {
     const widthSize = Number((100 / (titles.length + 1)).toFixed(0));
     return `${widthSize}%`;
   };
-
-
 
   return (
     <>
@@ -89,13 +83,11 @@ export const TableDefault = ({
           </div>
         </div>
       ) : (
-        <div> <Paragraph className='mt-5'> Data e horário de envio:  <span className=' font-bold'>{reproducedAt}</span> </Paragraph> <div className=" flex justify-center items-start">
-          <LottieWrapper
-            animationData={paperPlaneAnimation}
-            loop={true}
-            style={{ width: 200, height: 200 }}
-          />
-        </div></div>
+        <EmptyState
+          description="Existem relatórios pendentes"
+          title="Sem histórico de relatórios"
+          icon={Empty}
+        />
       )}
     </>
   );

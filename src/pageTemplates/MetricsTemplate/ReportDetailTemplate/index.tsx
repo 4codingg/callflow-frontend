@@ -1,20 +1,22 @@
-import { LayoutWithSidebar } from '@/components';
-import { CrumbsReportDetail } from './CrumbsReportDetail';
-import { CostReport } from './CostReport';
-import { ContactsReport } from './ContactsReport';
-import { useRouter } from 'next/router';
-import { useQuery } from '@tanstack/react-query';
-import { getReportsDetail } from '@/api/reports/get-reports-detail';
+import { LayoutWithSidebar } from "@/components";
+import { CrumbsReportDetail } from "./CrumbsReportDetail";
+import { CostReport } from "./CostReport";
+import { ContactsReport } from "./ContactsReport";
+import { useRouter } from "next/router";
+import { useQuery } from "@tanstack/react-query";
+import { getReportsDetail } from "@/api/reports/get-reports-detail";
+import { ReproducedAt } from "./ReproducedAt";
 
 export const ReportDetailTemplate = () => {
   const router = useRouter();
   const { id } = router.query;
 
   const { data: reportDetail, isLoading } = useQuery({
-    queryKey: ['reports-detail'],
+    queryKey: ["reports-detail"],
     queryFn: () => getReportsDetail(id as string),
   });
 
+  const reproducedAt = reportDetail?.data?.reproducedAt;
 
   return (
     <LayoutWithSidebar>
@@ -23,9 +25,8 @@ export const ReportDetailTemplate = () => {
       <ContactsReport
         isLoading={isLoading}
         data={reportDetail?.data?.contactItems}
-        reproducedAt={reportDetail?.data?.reproducedAt}
-
       />
+      <ReproducedAt reproducedAt={reproducedAt} />
     </LayoutWithSidebar>
   );
 };

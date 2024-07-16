@@ -10,7 +10,7 @@ interface IContactsReportProps {
 
 export const ContactsReport = ({ data, isLoading, reproducedAt }: IContactsReportProps) => {
 
-  const reproducedAtFormated = formatDateToDDMMYYYYHHMM(String(reproducedAt))
+  // const reproducedAtFormated = formatDateToDDMMYYYYHHMM(String(reproducedAt))
 
   return (
     <Card className="flex flex-col mt-6">
@@ -25,7 +25,7 @@ export const ContactsReport = ({ data, isLoading, reproducedAt }: IContactsRepor
         {isLoading ? (
           <Spinner />
         ) : (
-          <TableDefault content={data || []} disableAccessItem disableDeleteItem disableEditItem reproducedAt={reproducedAtFormated} />
+          <TableDefault content={data || []} disableAccessItem disableDeleteItem disableEditItem reproducedAt={reproducedAt} />
         )}
       </div>
     </Card>
