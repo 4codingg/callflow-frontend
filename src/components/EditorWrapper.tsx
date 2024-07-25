@@ -23,7 +23,7 @@ export const EditorWrapper = ({ setMessage, message }) => {
   return (
     <Suspense fallback={<div>Loading animation...</div>}>
       <LazyEditor
-        apiKey="w56ccsq6o6q0fwmb6kj5a5b01cwsb2uqa0vvjcgendqerk4h"
+        apiKey="2m8xwd7g5t9fx51sq7rtgevm4oqplfy3z4rc5wt9f0efmft2"
         onInit={(_, editor) => {
           editorRef.current = editor;
         }}
