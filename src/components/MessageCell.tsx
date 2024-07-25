@@ -1,10 +1,10 @@
 import { Modal } from '@/components/Modal';
-import { Paragraph, ParagraphSizeVariant } from '../Paragraph';
+import { Paragraph, ParagraphSizeVariant } from './Paragraph';
 import { XCircle } from 'phosphor-react';
 import { useState } from 'react';
-import { TextArea } from '../TextArea';
-import { Line } from '../Line';
-import { Button } from '../Button';
+import { TextArea } from './TextArea';
+import { Line } from './Line';
+import { Button } from './Button';
 
 interface IModalMessageCell {
   item: string;
@@ -38,7 +38,10 @@ export function MessageCell({ item }: IModalMessageCell) {
               </header>
               <Line direction="horizontal" className="mt-3" />
               <div className="w-full mt-7">
-                <TextArea value={item} />
+                <div
+                  className="p-3  border rounded min-h-[100px] w-full text-sm"
+                  dangerouslySetInnerHTML={{ __html: item }}
+                />
               </div>
             </div>
           </Modal.Content>

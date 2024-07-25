@@ -1,15 +1,15 @@
-import { Heading, Input, Line, Logo, Paragraph, Spinner } from "@/components";
-import { Button } from "@/components/Button";
-import { LogoVariant } from "@/components/Logo";
-import { useAuth } from "@/hooks/useAuth";
-import { toast } from "@/utils/toast";
-import { validationSchema } from "@/validation/login";
-import { useFormik } from "formik";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { Envelope, Eye, EyeClosed } from "phosphor-react";
-import { useState } from "react";
-import { FcGoogle } from "react-icons/fc";
+import { Heading, Input, Line, Logo, Paragraph, Spinner } from '@/components';
+import { Button } from '@/components/Button';
+import { LogoVariant } from '@/components/Logo';
+import { useAuth } from '@/hooks/useAuth';
+import { toast } from '@/utils/toast';
+import { validationSchema } from '@/validation/login';
+import { useFormik } from 'formik';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { Envelope, Eye, EyeClosed } from 'phosphor-react';
+import { useState } from 'react';
+import { FcGoogle } from 'react-icons/fc';
 
 export const LoginTemplate = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,20 +19,23 @@ export const LoginTemplate = () => {
   const handleAuth = async (values: { email: string; password: string }) => {
     try {
       await handleSignIn(values.email, values.password);
-      router.push("/dashboard");
-      toast("success", "Bem vindo de volta!");
+      router.push('/dashboard');
+      toast('success', 'Bem vindo de volta!');
     } catch (err) {
-      if (err.response.data.error === "Usuário/senha incorretos.") {
-        toast("error", "Usuário/senha incorretos.");
+      if (err.response.data.error === 'Usuário/senha incorretos.') {
+        toast('error', 'Usuário/senha incorretos.');
         return;
       }
-      if (err.response.data.message === "Sua empresa não foi ativada. Contate o suporte.") {
-        toast("error", "Sua empresa não foi ativada. Contate o suporte.");
+      if (
+        err.response.data.message ===
+        'Sua empresa não foi ativada. Contate o suporte.'
+      ) {
+        toast('error', 'Sua empresa não foi ativada. Contate o suporte.');
         return;
       }
       toast(
-        "error",
-        "Ocorreu um erro durante a autenticação. Por favor, tente novamente."
+        'error',
+        'Ocorreu um erro durante a autenticação. Por favor, tente novamente.'
       );
     }
   };
@@ -41,8 +44,8 @@ export const LoginTemplate = () => {
     validateOnChange: false,
     validateOnBlur: true,
     initialValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
     validationSchema: validationSchema,
     onSubmit: (values) =>
@@ -64,7 +67,7 @@ export const LoginTemplate = () => {
       </div>
       <div className="flex flex-col items-center justify-center w-[50%] px-20 relative">
         <Link
-          href={"/signup"}
+          href={'/signup'}
           className="absolute top-9 right-9 !font-semibold !text-sm"
         >
           Cadastre-se
@@ -80,16 +83,16 @@ export const LoginTemplate = () => {
             label="E-mail"
             className=" !font-semibold px-4 py-[10px]"
             error={formik.errors?.email as string}
-            {...formik.getFieldProps("email")}
+            {...formik.getFieldProps('email')}
             iconRight={<Envelope size={16} />}
           />
           <Input
             placeholder="Digite sua senha"
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             label="Senha"
             labelStyle="!text-sm !font-medium"
             className=" mt-[12px] px-4 py-[10px]"
-            onChange={formik.handleChange("password")}
+            onChange={formik.handleChange('password')}
             value={formik.values.password}
             error={formik.errors?.password as string}
             iconRight={
@@ -116,9 +119,9 @@ export const LoginTemplate = () => {
           />
 
           <Button className="!rounded-md !font-poppins !font-medium mt-2">
-            {authenticationIsPending ? (<Spinner />) : ("Logar")}
+            {authenticationIsPending ? <Spinner /> : 'Logar'}
           </Button>
-          <div className="flex justify-center items-center gap-2 mt-3">
+          {/* <div className="flex justify-center items-center gap-2 mt-3">
             <Line direction="horizontal" className=" text-default-grey" />
             <Paragraph>ou</Paragraph>
             <Line direction="horizontal" className=" text-default-grey" />
@@ -128,13 +131,13 @@ export const LoginTemplate = () => {
             leftIcon={<FcGoogle size={20} />}
           >
             Logar com o Google
-          </Button>
-          <Link
+          </Button> */}
+          {/* <Link
             href="/reset-password"
             className="w-full flex justify-end mb-8 text-primary font-medium text-xs mt-4"
           >
             Esqueceu a senha?
-          </Link>
+          </Link> */}
         </form>
       </div>
     </div>

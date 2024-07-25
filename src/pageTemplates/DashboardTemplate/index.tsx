@@ -4,16 +4,16 @@ import {
   Card,
   Button,
   Spinner,
-} from "@/components";
-import { SERVICES } from "@/constants";
-import { RecentActivitiesTemplate } from "./RecentActivitiesTemplate";
-import { BalanceCardTemplate } from "./BalanceCardTemplate";
-import { MembersCardTemplate } from "./MembersCardTemplate";
-import { Tipbox } from "@/components/Tipbox";
-import { ArrowRight, Warning } from "phosphor-react";
-import { IPlanSubscriptionValue } from "@/@types/Subscription";
-import { useCompany } from "@/hooks/useCompany";
-import { useRouter } from "next/router";
+} from '@/components';
+import { SERVICES } from '@/constants';
+import { RecentActivitiesTemplate } from './RecentActivitiesTemplate';
+import { BalanceCardTemplate } from './BalanceCardTemplate';
+import { MembersCardTemplate } from './MembersCardTemplate';
+import { Tipbox } from '@/components/Tipbox';
+import { ArrowRight, Warning } from 'phosphor-react';
+import { IPlanSubscriptionValue } from '@/@types/Subscription';
+import { useCompany } from '@/hooks/useCompany';
+import { useRouter } from 'next/router';
 
 export const DashboardTemplate = () => {
   const { companyDetail, plan } = useCompany();
@@ -30,7 +30,7 @@ export const DashboardTemplate = () => {
                 <Button
                   className="!w-56 font-medium !text-sm"
                   rightIcon={<ArrowRight color="#FFF" />}
-                  onClick={() => router.push("/plans")}
+                  onClick={() => router.push('/plans')}
                 >
                   Fazer upgrade
                 </Button>
@@ -63,7 +63,7 @@ export const DashboardTemplate = () => {
                         {dataService?.used}
                       </Paragraph>
                       <Paragraph className="!text-xs !text-default-grey">
-                        Seu limite gratuito{" "}
+                        Seu limite gratuito{' '}
                         <span className="text-black">
                           {dataService?.freeLimit}
                         </span>
@@ -81,7 +81,9 @@ export const DashboardTemplate = () => {
           </div>
         </>
       ) : (
-        <Spinner />
+        <div className="w-full mx-auto flex items-center justify-center">
+          <Spinner />
+        </div>
       )}
     </LayoutWithSidebar>
   );
